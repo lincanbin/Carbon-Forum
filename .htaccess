@@ -1,5 +1,5 @@
 # errordoc
-ErrorDocument 404 /94cb.com/404.php
+ErrorDocument 404 /404.php
 
 <IfModule mod_rewrite.c>
 	#强制重定向到带www的顶级域名
@@ -11,7 +11,7 @@ ErrorDocument 404 /94cb.com/404.php
 	RewriteCond %{REQUEST_METHOD} ^TRACE
 	RewriteRule .* - [F]
 
-	RewriteBase /94cb.com
+	RewriteBase /
 	RewriteRule ^dashboard$ dashboard.php [L]
 	RewriteRule ^json/(get_tags|tag_autocomplete|check_username)$ json.php?action=$1 [L]
 	RewriteRule ^login$ login.php [L]
