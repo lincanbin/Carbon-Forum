@@ -1,4 +1,10 @@
 #Dict
 /includes/dict/base_dic_full.dic
 /includes/dict/readme.txt
-
+#Debug Files
+/includes/PHPAnalysis.dict_build.php
+/includes/PHPAnalysis.demo.php
+/includes/PDO.Example.php
+#Duplicate Files
+/static/editor/ueditor.all.js
+/static/editor/ueditor.parse.js
