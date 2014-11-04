@@ -19,13 +19,18 @@ Install
 ------------
 
 1. Open config.php
+
 ```php
 define('DBHost', '127.0.0.1');
 define('DBName', 'carbon');
 define('DBUser', 'root');
 define('DBPassword', '');
 ```
+
 Replace the constant value with the value that you actually use. 
+
 2. Import the database.sql
+
 3. Open the Forum, and register. 
+
 The first registered users will become administrators. 
