@@ -35,7 +35,7 @@ switch ($_GET['action']) {
 			}
 			$TagsLists1 = $DB->column("SELECT Name FROM ".$Prefix."tags Where Name IN (?)",$SQLParameters);
 			$TagsLists2 = $DB->column("SELECT Title FROM ".$Prefix."dict Where Title IN (?) Group By Title",$SQLParameters);
-			$TagsLists2 = array();
+			//$TagsLists2 = array();
 			$TagsLists = array_merge($TagsLists1,array_diff($TagsLists2, $TagsLists1));
 			if($TagsLists){
 				$tags['status'] = 1;
