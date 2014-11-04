@@ -11,6 +11,7 @@ http://www.94cb.com/
 Requirements
 ------------
 * PHP version 5.3.6 or higher.
+* The [PDO_MYSQL](http://php.net/manual/en/ref.pdo-mysql.php) PHP Package.
 * MySQL version 5.0 or higher.
 * The [mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html) Apache module.
 
