@@ -137,12 +137,11 @@ function Auth($MinRoleRequire, $AuthorizedUserID=0, $StatusRequire=false)
 	$error = '';
 	if ($CurUserRole < $MinRoleRequire)
 	{
-		if($StatusRequire==true && $CurUserInfo['UserAccountStatus'] == 0){
-			$error = '您的账号正在审核或者封禁中，请联系管理员确认！';
-		}else{
-			$RolesDict = array('游客','注册会员','VIP会员','版主','超级版主','管理员');
-			$error = '此页面仅 '.$RolesDict[$MinRoleRequire].' 可见，您的权限不足。';
-		}
+		$RolesDict = array('游客','注册会员','VIP会员','版主','超级版主','管理员');
+		$error = '此页面仅 '.$RolesDict[$MinRoleRequire].' 可见，您的权限不足。';
+	}
+	if($CurUserID && $StatusRequire==true && $CurUserInfo['UserAccountStatus'] == 0){
+		$error = '您的账号正在审核或者封禁中，请联系管理员确认！';
 	}
 	if($AuthorizedUserID && $CurUserID && $CurUserID == $AuthorizedUserID)
 	{
