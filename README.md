@@ -3,10 +3,10 @@ Carbon-Forum
 
 A high performance open source forum software. 
 
-Demo
+Demo/Official Website
 ------------
 
-http://www.94cb.com/
+* ###[Project's official website: www.94cb.com](http://www.94cb.com/)
 
 Requirements
 ------------
@@ -20,17 +20,14 @@ Install
 
 1. Open config.php
 
-```php
-define('DBHost', '127.0.0.1');
-define('DBName', 'carbon');
-define('DBUser', 'root');
-define('DBPassword', '');
-```
-
-Replace the constant value with the value that you actually use. 
-
+ ```php
+ define('DBHost', '127.0.0.1');
+ define('DBName', 'carbon');
+ define('DBUser', 'root');
+ define('DBPassword', '');
+ ```
+ 
+ Replace the constant value with the value that you actually use. 
 2. Import the database.sql
 
-3. Open the Forum, and register. 
-
-The first registered users will become administrators. 
+3. Open the Forum, and register. The first registered users will become administrators. 
