@@ -13,12 +13,12 @@ if($Page==1)
 	<div class="topic-title-main float-left">
 		<h1><?php  echo $topic['Topic']; ?></h1>
 		<div class="topic-title-date">
-		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserID']; ?>"><?php echo $topic['UserName']; ?></a>
+		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
  at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo ($topic['Views']+1); ?>点击
  • 收藏 • 编辑
 		</div>
 	</div>
-	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserID']; ?>">
+	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>">
 <?php echo GetAvatar($topic['UserID'], $topic['UserName'], 'large'); ?>
 
 	</a></div>
@@ -75,7 +75,7 @@ foreach($PostsArray as $key => $post)
 	<div class="commont-item">
 		<a name="Post<?php echo $post['ID'];?>"></a>
 		<div class="commont-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserID']; ?>">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
 			<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
 
 	</a>
@@ -86,7 +86,7 @@ foreach($PostsArray as $key => $post)
 			</div>
 			
 			<div class="commont-data-date">
-				<div class="float-left"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserID']; ?>"><?php echo $post['UserName'];?></a>
+				<div class="float-left"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a>
 			 &nbsp;&nbsp;&nbsp;<?php if($CurUserRole>=4){ ?> • &nbsp;&nbsp;&nbsp;<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" style="float:right;">删除</a><?php } ?>
 
 				</div>

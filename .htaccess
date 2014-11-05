@@ -24,9 +24,9 @@ ErrorDocument 404 /404.php
 	RewriteRule ^settings$ settings.php [L]
 	RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L]
 	RewriteRule ^tag/([a-zA-Z0-9\x80-\xff\-_.]{1,32})(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [L]
-	RewriteRule ^u/([0-9]+)?$ user.php?userid=$1 [L]
+	RewriteRule ^u/([a-zA-Z0-9\x80-\xff\-_.]{4,20})?$ user.php?username=$1 [L]
 	RewriteRule ^upload_controller$ upload_controller.php [L]
-	RewriteRule ^user/([a-zA-Z0-9\x80-\xff\-_.]{4,20})?$ user.php?username=$1 [L]
+
 </IfModule>
 
 # Image and Flash content Caching for One Month

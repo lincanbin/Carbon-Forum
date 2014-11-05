@@ -275,7 +275,7 @@ CREATE TABLE `carbon_tags` (
   `DateCreated` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `TagName` (`Name`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for carbon_topics
@@ -309,7 +309,7 @@ CREATE TABLE `carbon_topics` (
   PRIMARY KEY (`ID`),
   KEY `UserTopics` (`UserName`) USING BTREE,
   KEY `LastTime` (`LastTime`,`IsDel`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2188 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for carbon_upload
@@ -374,7 +374,7 @@ CREATE TABLE `carbon_users` (
   `Birthday` date DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `UserName` (`UserName`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=365 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for carbon_vote

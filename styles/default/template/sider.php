@@ -27,7 +27,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tbody>
 					<tr>
-					<td width="48" valign="top" class="img-center"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserID; ?>">
+					<td width="48" valign="top" class="img-center"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>">
 						<?php echo GetAvatar($CurUserID, $CurUserName, 'middle'); ?>
 					</a></td>
 					<td width="10" valign="top"></td>

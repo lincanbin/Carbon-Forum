@@ -13,7 +13,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		?>
 			<div class="post-list">
 				<div class="item-avatar">
-					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserID'] ?>" target="_blank">
+					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank">
 						<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
 					</a>
 				</div>
@@ -31,7 +31,9 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							<?php
 							}
 						}
-						?></span>&nbsp;&nbsp;<span class="item-date float-right"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserID'] ?>" target="_blank"><?php echo $Topic['UserName']; ?></a>&nbsp;&nbsp;<?php echo FormatTime($Topic['LastTime']); ?>
+						?></span><span class="item-date float-right"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;<?php echo FormatTime($Topic['LastTime']); 
+							if($Topic['Replies']){
+						?>&nbsp;•&nbsp;最后回复来自&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a><?php } ?>
 					</span>
 				</div>
 							<?php if($Topic['Replies']){ ?>

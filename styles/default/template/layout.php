@@ -93,9 +93,9 @@ if($Config['MobileDomainName']){
 			echo $totaltime;
 			?> ms, <?php
 			echo $DB->querycount;
-			?> SQL Queries, Memory usage: <?php
+			?> SQL Queries<!--, Memory usage: <?php
 			echo FormatBytes(memory_get_usage(false));
-			?>
+			?>-->
 		</div>
 		<!-- footer end -->
 

@@ -31,7 +31,7 @@ if($Page == 0)
 }
 $TagIDArray = $DB->column('SELECT TopicID FROM '.$Prefix.'posttags force index(TagsIndex) Where TagID=:TagID ORDER BY TopicID DESC LIMIT '.($Page-1)*$Config['TopicsPerPage'].','.$Config['TopicsPerPage'],array('TagID'=>$TagInfo['ID']));
 
-$TopicsArray = $DB->query('SELECT * FROM '.$Prefix.'topics force index(PRI) Where ID in (?) and IsDel=0 ORDER BY LastTime DESC',$TagIDArray);
+$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM '.$Prefix.'topics force index(PRI) Where ID in (?) and IsDel=0 ORDER BY LastTime DESC',$TagIDArray);
 //var_dump($TopicsArray);
 $DB->CloseConnection();
 // 页面变量

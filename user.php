@@ -2,14 +2,14 @@
 require(dirname(__FILE__)."/common.php");
 
 $UserName = Request('Get', 'username');
-$UserID = intval(Request('Get', 'userid'));
+//$UserID = intval(Request('Get', 'userid'));
 $UserInfo = array();
-if($UserName)
-{
+/*if($UserName)
+{*/
 	$UserInfo = $DB->row('SELECT * FROM '.$Prefix.'users Where UserName=:UserName',array('UserName'=>$UserName));
-}else if($UserID){
+/*}else if($UserID){
 	$UserInfo = $DB->row('SELECT * FROM '.$Prefix.'users Where ID=:UserID',array('UserID'=>$UserID));
-}
+}*/
 if(!$UserInfo)
 {
 	AlertMsg('用户不存在','用户不存在',404);
