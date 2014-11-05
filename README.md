@@ -31,3 +31,8 @@ Install
 2. Import the __database.sql__
 
 3. Open the Forum, and register. The first registered users will become administrators. 
+
+License
+------------
+
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
