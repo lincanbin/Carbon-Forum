@@ -606,16 +606,6 @@ function dhtmlspecialchars($string, $flags = null) {
 	return $string;
 }
 
-
-
-
-$CurIP = CurIP();
-$FormHash = FormHash();
-// 限制不能打开.php的网址
-if(strpos($_SERVER["REQUEST_URI"], '.php')){
-	AlertMsg('404','404 NOT FOUND',404);
-}
-
 $UserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
 if ($UserAgent) {
 	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
@@ -643,6 +633,13 @@ if ($UserAgent) {
 	//exit('error: 400 no agent');
 	$IsSpider = '';
 	$IsMobie  = '';
+}
+
+$CurIP = CurIP();
+$FormHash = FormHash();
+// 限制不能打开.php的网址
+if(strpos($_SERVER["REQUEST_URI"], '.php')){
+	AlertMsg('404','404 NOT FOUND',404);
 }
 
 //设置基本环境变量
