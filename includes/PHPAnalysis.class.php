@@ -19,7 +19,7 @@ class PhpAnalysis
 {
 	
 	//hash算法选项
-	public $mask_value = 0xFFFF;
+	public $mask_value = 0x000F;//Default:0xFFFF
 	
 	//输入和输出的字符编码（只允许 utf-8、gbk/gb2312/gb18030、big5 三种类型）  
 	public $sourceCharSet = 'utf-8';
@@ -1055,7 +1055,7 @@ class PhpAnalysis
 		$target_file = ($target_file=='' ? $this->mainDicFile : $target_file);
 		$allk = array();
 		$fp = fopen($source_file, 'r');
-		while( $line = fgets($fp, 512) )
+		while( $line = fgets($fp, 64) )
 		{
 			if( $line[0]=='@' ) continue;
 			list($w, $r, $a) = explode(',', $line);
@@ -1083,12 +1083,13 @@ class PhpAnalysis
 			$dlen = strlen($dat);
 			$alldat .= $dat;
 		
-			$heade_rarr[ $k ][0] = $start_pos;
-			$heade_rarr[ $k ][1] = $dlen;
-			$heade_rarr[ $k ][2] = count( $v );
+			$heade_rarr[$k][0] = $start_pos;
+			$heade_rarr[$k][1] = $dlen;
+			$heade_rarr[$k][2] = count( $v );
 		
 			$start_pos += $dlen;
 		}
+		print_r($heade_rarr);
 		unset( $allk );
 		for($i=0; $i < $this->mask_value; $i++)
 		{
