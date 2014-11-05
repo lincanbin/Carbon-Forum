@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				if($NewTags)
 				{
 					foreach ($NewTags as $Name) {
-						$DB->query("INSERT INTO `".$Prefix."tags` (`ID`, `Name`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) VALUES (?,?,?,?,?,?,?,?)",array(null, htmlspecialchars(trim($Name)), 0, null, 1, 1, $TimeStamp, $TimeStamp));
+						$DB->query("INSERT INTO `".$Prefix."tags` (`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) VALUES (?,?,?,?,?,?,?,?,?)",array(null, htmlspecialchars(trim($Name)), 0, 0, null, 1, 1, $TimeStamp, $TimeStamp));
 						$TagsID[] = $DB->lastInsertId();
 					}
 					//更新全站统计数据
@@ -56,6 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					"IsVote" => 0, 
 					"Views" => 0, 
 					"Replies" => 0, 
+					"Favorites" => 0, 
 					"RatingSum" => 0, 
 					"TotalRatings" => 0, 
 					"LastViewedTime" => 0, 
@@ -65,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					"ListsTime" => $TimeStamp, 
 					"Log" => ""
 					);
-				$NewTopicResult = $DB->query("INSERT INTO `".$Prefix."topics`(`ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `PostTime`, `LastTime`, `IsGood`, `IsTop`, `IsLocked`, `IsDel`, `IsVote`, `Views`, `Replies`, `RatingSum`, `TotalRatings`, `LastViewedTime`, `PostsTableName`, `ThreadStyle`, `Lists`, `ListsTime`, `Log`) VALUES (:ID,:Topic,:Tags,:UserID,:UserName,:LastName,:PostTime,:LastTime,:IsGood,:IsTop,:IsLocked,:IsDel,:IsVote,:Views,:Replies,:RatingSum,:TotalRatings,:LastViewedTime,:PostsTableName,:ThreadStyle,:Lists,:ListsTime,:Log)",$TopicData);
+				$NewTopicResult = $DB->query("INSERT INTO `".$Prefix."topics`(`ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `PostTime`, `LastTime`, `IsGood`, `IsTop`, `IsLocked`, `IsDel`, `IsVote`, `Views`, `Replies`, `Favorites`, `RatingSum`, `TotalRatings`, `LastViewedTime`, `PostsTableName`, `ThreadStyle`, `Lists`, `ListsTime`, `Log`) VALUES (:ID,:Topic,:Tags,:UserID,:UserName,:LastName,:PostTime,:LastTime,:IsGood,:IsTop,:IsLocked,:IsDel,:IsVote,:Views,:Replies,:Favorites,:RatingSum,:TotalRatings,:LastViewedTime,:PostsTableName,:ThreadStyle,:Lists,:ListsTime,:Log)",$TopicData);
 
 				$TopicID = $DB->lastInsertId();
 				//往Posts表插入数据

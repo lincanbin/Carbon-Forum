@@ -1,6 +1,4 @@
 /*
-Navicat MySQL Data Transfer
-
 Source Server         : localhost
 Source Server Version : 50535
 Source Host           : 127.0.0.1:3306
@@ -10,7 +8,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50535
 File Encoding         : 65001
 
-Date: 2014-11-04 19:42:30
+Date: 2014-11-06 00:05:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -268,6 +266,7 @@ DROP TABLE IF EXISTS `carbon_tags`;
 CREATE TABLE `carbon_tags` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `Followers` int(10) unsigned DEFAULT '0',
   `Icon` tinyint(1) unsigned DEFAULT '0',
   `Description` mediumtext,
   `IsEnabled` int(1) unsigned DEFAULT '1',
@@ -276,7 +275,7 @@ CREATE TABLE `carbon_tags` (
   `DateCreated` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `TagName` (`Name`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for carbon_topics
@@ -298,6 +297,7 @@ CREATE TABLE `carbon_topics` (
   `IsVote` tinyint(1) unsigned DEFAULT '0',
   `Views` int(10) unsigned DEFAULT '0',
   `Replies` int(10) unsigned DEFAULT '0',
+  `Favorites` int(10) unsigned DEFAULT '0',
   `RatingSum` int(10) unsigned NOT NULL DEFAULT '0',
   `TotalRatings` int(10) unsigned NOT NULL DEFAULT '0',
   `LastViewedTime` int(10) unsigned NOT NULL,
@@ -309,7 +309,7 @@ CREATE TABLE `carbon_topics` (
   PRIMARY KEY (`ID`),
   KEY `UserTopics` (`UserName`) USING BTREE,
   KEY `LastTime` (`LastTime`,`IsDel`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2188 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for carbon_upload
@@ -355,6 +355,7 @@ CREATE TABLE `carbon_users` (
   `NewMessage` int(10) unsigned DEFAULT '0',
   `Topics` int(10) unsigned DEFAULT '0',
   `Replies` int(10) unsigned DEFAULT '0',
+  `Followers` int(10) unsigned DEFAULT '0',
   `DelTopic` int(10) unsigned DEFAULT '0',
   `GoodTopic` int(10) unsigned DEFAULT '0',
   `UserPhoto` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
@@ -373,7 +374,7 @@ CREATE TABLE `carbon_users` (
   `Birthday` date DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `UserName` (`UserName`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=365 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for carbon_vote
@@ -430,7 +431,7 @@ INSERT INTO `carbon_config` VALUES ('PostsPerPage', '20');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');
-INSERT INTO `carbon_config` VALUES ('Version', '3.1.6');
+INSERT INTO `carbon_config` VALUES ('Version', '3.2.0');
 INSERT INTO `carbon_config` VALUES ('WebsitePath', '');
 
 -- ----------------------------
