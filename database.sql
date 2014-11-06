@@ -410,6 +410,7 @@ INSERT INTO `carbon_config` VALUES ('AppDomainName', 'app.94cb.com');
 INSERT INTO `carbon_config` VALUES ('CacheAnnouncements', '');
 INSERT INTO `carbon_config` VALUES ('CacheHotTopics', '');
 INSERT INTO `carbon_config` VALUES ('CacheLinks', '');
+INSERT INTO `carbon_config` VALUES ('CacheOauth', '');
 INSERT INTO `carbon_config` VALUES ('CacheRolesDict', '');
 INSERT INTO `carbon_config` VALUES ('CacheTime', '');
 INSERT INTO `carbon_config` VALUES ('CookiePrefix', 'CarbonForum_');
