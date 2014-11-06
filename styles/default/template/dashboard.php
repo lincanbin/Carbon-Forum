@@ -66,9 +66,11 @@ $(document).ready(function(){
 						<td width="auto" align="left">
 							<select name="MaxTagsNum">
 								<option value="<?php echo $Config['MaxTagsNum']; ?>">不修改</option>
-								<option value="10">3</option>
-								<option value="20">5</option>
-								<option value="50">7</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
 							</select>个标签
 						</td>
 					</tr>
@@ -169,7 +171,7 @@ $(document).ready(function(){
 			</div>
 			<div>
 				<p class="red text-center"><?php echo $CacheMessage; ?></p>
-				<p class="grey text-center">更新缓存的操作可能需要较长时间，请耐心等待</p>
+				<p class="grey text-center">更新缓存的操作可能需要较长时间，请耐心等待<br />如果数据正确，则没有必要清理缓存</p>
 				<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard4">
 					<input type="hidden" name="Action" value="Cache" />
 					<div class="div-align"><input type="submit" value="更新全站缓存" name="submit" class="textbtn" /></div>

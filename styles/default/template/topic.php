@@ -14,8 +14,7 @@ if($Page==1)
 		<h1><?php  echo $topic['Topic']; ?></h1>
 		<div class="topic-title-date">
 		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
- at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo ($topic['Views']+1); ?>点击
- • 收藏 • 编辑
+ at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo $topic['Favorites']; ?>人收藏 • <?php echo ($topic['Views']+1); ?>人点击
 		</div>
 	</div>
 	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>">
@@ -55,8 +54,8 @@ if($CurUserRole>=4){
 </div>
 <!-- post main content end -->
 <?php
+	unset($PostsArray[0]);
 }
-unset($PostsArray[0]);
 if($topic['Replies']!=0)
 {
 ?>
@@ -68,10 +67,6 @@ if($topic['Replies']!=0)
 <?php
 foreach($PostsArray as $key => $post)
 {
-	if($Page!=1)
-		$PostFloor=($Page-1)*$Config['PostsPerPage']+$key-1;
-	else
-		$PostFloor=($Page-1)*$Config['PostsPerPage']+$key;
 ?>
 	<div class="commont-item">
 		<a name="Post<?php echo $post['ID'];?>"></a>
@@ -88,12 +83,12 @@ foreach($PostsArray as $key => $post)
 			
 			<div class="commont-data-date">
 				<div class="float-left"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a>
-			 &nbsp;&nbsp;&nbsp;<?php if($CurUserRole>=4){ ?> • &nbsp;&nbsp;&nbsp;<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" style="float:right;">删除</a><?php } ?>
+			 &nbsp;&nbsp;<?php if($CurUserRole>=4){ ?> • &nbsp;&nbsp;<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" style="float:right;">删除</a><?php } ?>
 
 				</div>
 				<div class="float-right">
 	&laquo; <a href="#reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);">回复</a>
-	<span class="commonet-count">#<?php echo $PostFloor; ?></span></div>
+	<span class="commonet-count">#<?php echo ($Page-1)*$Config['PostsPerPage']+$key;; ?></span></div>
 				<div class="c"></div>
 			</div>
 			<div class="c"></div>

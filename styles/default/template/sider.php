@@ -31,7 +31,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<?php echo GetAvatar($CurUserID, $CurUserName, 'middle'); ?>
 					</a></td>
 					<td width="10" valign="top"></td>
-					<td width="auto" align="left"><h2><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserID; ?>"><?php echo $CurUserName; ?></a></h2>
+					<td width="auto" align="left"><h2><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>"><?php echo $CurUserName; ?></a></h2>
 					</td>
 					</tr>
 				</tbody>

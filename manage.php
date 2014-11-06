@@ -137,7 +137,7 @@ switch ($Type)
 		//添加合适索引：TODO
 		$IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=:Type and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'Type'=>$Action, 'FavoriteID'=>$ID));//添加索引
 		switch ($Action) {
-			//1:Topic 2:Tag 3:User 4:Post
+			//1:Topic 2:Tag 3:User 4:Post 5:Blog
 			case 1:
 				$Title = $DB->single("SELECT Topic FROM ".$Prefix."topics Where ID=:FavoriteID",array('FavoriteID'=>$ID));
 				break;
@@ -150,6 +150,9 @@ switch ($Type)
 			case 4:
 				$Title = $DB->single("SELECT Subject FROM ".$Prefix."posts Where ID=:FavoriteID",array('FavoriteID'=>$ID));
 				break;
+			case 5:
+				$Title = $DB->single("SELECT Subject FROM ".$Prefix."blogs Where ID=:FavoriteID and ParentID=0",array('FavoriteID'=>$ID));
+				break;
 			default:
 				AlertMsg('Bad Request','Bad Request');
 				break;
@@ -159,6 +162,7 @@ switch ($Type)
 			if(!$IsFavorite){
 				$DB->query('INSERT INTO `'.$Prefix.'favorites`(`ID`, `UserID`, `Category`, `Title`, `Type`, `FavoriteID`, `DateCreated`, `Description`) VALUES (?,?,?,?,?,?,?,?)',array(null, $CurUserID, '', $Title, $Action, $ID, $TimeStamp, ''));
 				$Message = '收藏成功';
+				//$FavoriteID = $DB->lastInsertId();
 			}else{
 				$DB->query('DELETE FROM `'.$Prefix.'favorites` WHERE `UserID`=? and `Type`=? and `FavoriteID`=?',array($CurUserID, $Action, $ID));
 				$Message = '取消收藏成功';
