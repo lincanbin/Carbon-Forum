@@ -112,6 +112,7 @@ CREATE TABLE `carbon_favorites` (
   `DateCreated` int(10) unsigned NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`ID`),
+  UNIQUE KEY `IsFavorite` (`UserID`,`Type`,`FavoriteID`),
   KEY `UsersFavorites` (`UserID`,`Type`,`DateCreated`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

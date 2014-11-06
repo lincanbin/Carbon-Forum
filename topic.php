@@ -2,7 +2,7 @@
 require(dirname(__FILE__)."/common.php");
 
 $id = intval($_GET['id']);
-$Page = intval($_GET['page']);
+$Page = intval(Request('Get', 'page'));
 
 $topic = $DB->row("SELECT * FROM ".$Prefix."topics force index(PRI) Where ID=:id",array("id"=>$id));
 if(!$topic || ($topic['IsDel'] && $CurUserRole<3))
@@ -25,6 +25,7 @@ if(!$topic || ($topic['IsDel'] && $CurUserRole<3))
 	}
 	if($Page == 0) $Page = 1;
 	$PostsArray = $DB->query("SELECT * FROM ".$Prefix."posts force index(TopicID) Where TopicID=:id ORDER BY PostTime ASC LIMIT ".($Page-1)*$Config['PostsPerPage'].",".$Config['PostsPerPage'],array("id"=>$id));
+	$IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=1 and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'FavoriteID'=>$id));
 	$DB->query("UPDATE ".$Prefix."topics force index(PRI) SET Views = Views+1,LastViewedTime = :LastViewedTime Where ID=:id",array("LastViewedTime"=>$TimeStamp,"id"=>$id));
 	$DB->CloseConnection();
 	// 页面变量

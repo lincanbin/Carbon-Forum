@@ -7,7 +7,6 @@ $Style = 'API';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-Auth(4);
 $ID = intval(Request('POST','ID',0));
 $Type = intval(Request('POST','Type',0));//1:Topic,2:Post,3:User
 $Action = Request('POST','Action',false);
@@ -25,6 +24,7 @@ switch ($Type)
 		{
 			//将主题移动至回收站
 			case 'Delete':
+				Auth(4);
 				if($TopicInfo['IsDel']==0){
 					$DB->query("UPDATE ".$Prefix."topics SET IsDel = 1 Where ID=:ID",array("ID"=>$ID));
 					//更新全站统计数据
@@ -46,6 +46,7 @@ switch ($Type)
 				break;
 			//从回收站恢复主题
 			case 'Recover':
+				Auth(4);
 				if($TopicInfo['IsDel']==1){
 					$DB->query("UPDATE ".$Prefix."topics SET IsDel = 0 Where ID=:ID",array("ID"=>$ID));
 					//更新全站统计数据
@@ -67,6 +68,7 @@ switch ($Type)
 				break;
 			//永久删除主题（需要先将主题移动至回收站）
 			case 'PermanentlyDelete':
+				Auth(4);
 				if($TopicInfo['IsDel']==1){
 					$DB->query('DELETE FROM `'.$Prefix.'posttags` WHERE TopicID=?',array($ID));
 					$DB->query('DELETE FROM `'.$Prefix.'posts` WHERE TopicID=?',array($ID));
@@ -93,6 +95,7 @@ switch ($Type)
 		switch ($Action)
 		{
 			case 'Delete':
+				Auth(4);
 				$DB->query('DELETE FROM `'.$Prefix.'posts` WHERE ID=?',array($ID));
 				$DB->query('DELETE FROM `'.$Prefix.'notifications` WHERE PostID=?',array($ID));
 				//更新全站统计数据
@@ -117,6 +120,7 @@ switch ($Type)
 		switch ($Action)
 		{
 			case 'Delete':
+				Auth(4);
 				# code...
 				break;
 			
@@ -124,6 +128,48 @@ switch ($Type)
 				AlertMsg('Bad Request','Bad Request');
 				break;
 		}
+		break;
+//Follow or Favorite
+	case 4:
+		Auth(1);
+		$Action = intval($Action);
+		//检查主题/标签/用户/帖子是否存在
+		//添加合适索引：TODO
+		$IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=:Type and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'Type'=>$Action, 'FavoriteID'=>$ID));//添加索引
+		switch ($Action) {
+			//1:Topic 2:Tag 3:User 4:Post
+			case 1:
+				$Title = $DB->single("SELECT Topic FROM ".$Prefix."topics Where ID=:FavoriteID",array('FavoriteID'=>$ID));
+				break;
+			case 2:
+				$Title = $DB->single("SELECT Name FROM ".$Prefix."tags Where ID=:FavoriteID",array('FavoriteID'=>$ID));
+				break;
+			case 3:
+				$Title = $DB->single("SELECT UserName FROM ".$Prefix."users Where ID=:FavoriteID",array('FavoriteID'=>$ID));
+				break;
+			case 4:
+				$Title = $DB->single("SELECT Subject FROM ".$Prefix."posts Where ID=:FavoriteID",array('FavoriteID'=>$ID));
+				break;
+			default:
+				AlertMsg('Bad Request','Bad Request');
+				break;
+		}
+		if($Title)
+		{
+			if(!$IsFavorite){
+				$DB->query('INSERT INTO `'.$Prefix.'favorites`(`ID`, `UserID`, `Category`, `Title`, `Type`, `FavoriteID`, `DateCreated`, `Description`) VALUES (?,?,?,?,?,?,?,?)',array(null, $CurUserID, '', $Title, $Action, $ID, $TimeStamp, ''));
+				$Message = '收藏成功';
+			}else{
+				$DB->query('DELETE FROM `'.$Prefix.'favorites` WHERE `UserID`=? and `Type`=? and `FavoriteID`=?',array($CurUserID, $Action, $ID));
+				$Message = '取消收藏成功';
+			}
+
+		}else{
+			AlertMsg('404 Not Found','404 Not Found');
+		}
+		
+		
+		
 		break;
 //Error
 	default:

@@ -49,6 +49,7 @@ if($CurUserRole>=4){
 	}
 }
 ?>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?'取消收藏':'收藏'; ?></a>
 <div class="c"></div>
 </div>
 </div>

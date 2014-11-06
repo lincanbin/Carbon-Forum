@@ -1,7 +1,7 @@
 Carbon-Forum
 ============
 
-A high performance open source forum software. 
+A high performance open-source forum software written in PHP.
 
 Demo/Official Website
 ------------
