@@ -17,10 +17,27 @@ function loadScript(url, callback){
 	document.getElementsByTagName("head")[0].appendChild(script);
 }
 
+
+function ManageCallback(TargetTag)
+{
+	this.Success=function(Json){
+		if(Json.Status==1){
+			//alert(Json.Message);
+			TargetTag.innerText = Json.Message;
+			//window.location.reload();
+		}else{
+			TargetTag.innerText = Json.ErrorMessage;
+			//alert(Json.ErrorMessage);
+		}
+	}
+}
+
+
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 {
 	if(NeedToConfirm?confirm("确定执行该操作？"):true){
-		//TargetTag.innerText = "Loading";
+		TargetTag.innerText = "Loading";
+		var CallbackObj=new ManageCallback(TargetTag); 
 		$.ajax({
 			url:WebsitePath+"/manage",
 			data:{
@@ -31,23 +48,12 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 			cache: false,
 			dataType: "json",
 			type: "POST",
-			success: function(json)
-			{
-				ManageCallback(json);
-			}
+			success: CallbackObj.Success
 		});
 	}
 }
 
-function ManageCallback(Json)
-{
-	if(Json.Status==1){
-		alert(Json.Message);
-		window.location.reload();
-	}else{
-		alert(Json.ErrorMessage);
-	}
-}
+
 
 /*
  * JavaScript MD5 1.0.1
