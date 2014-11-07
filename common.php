@@ -103,15 +103,6 @@ function AlertMsg($PageTitle, $error, $status_code=200)
 }
 
 
-
-//将数组保存为文件缓存
-function Array2File($file, $array)
-{
-	$fp = fopen($file, "wb");
-	fwrite($fp, serialize($array));
-	fclose($fp);
-}
-
 //获取数组中的某一列
 function ArrayColumn($Input, $ColumnKey)
 {
@@ -211,19 +202,6 @@ function FormHash()
 }
 
 
-//将数组的文件缓存还原为数组
-function File2Array($file)
-{
-	if (!file_exists($file)) {
-		exitstr(" does no exist");
-	}
-	$handle   = fopen($file, "rb");
-	$contents = fread($handle, filesize($file));
-	fclose($handle);
-	return unserialize($contents);
-}
-
-
 //格式化文件大小
 function FormatBytes($size, $precision = 2)
 {
@@ -305,41 +283,6 @@ function IsEmail($email)
 function IsName($string)
 {
 	return boolval(!preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_.]{4,20}$/i', $string));
-}
-
-
-
-//关键字加亮
-function KeywordHighlight($content, $keyword)
-{
-	if ($keyword) {
-		$keyword_arr_temp = explode(" ", $keyword);
-		foreach ($keyword_arr_temp as $val) {
-			$keyword_arr[$val] = '<font color="red">' . $val . '</font>';
-		}
-		return strtr($content, $keyword_arr);
-	} else {
-		return $content;
-	}
-}
-
-
-//页面布局
-function Layout($PageTitle,$ContentFile,$PageMetaDesc,$PageMetaKeyword)
-{
-	//此处需要让此函数内所有变量为全局
-}
-
-
-//URL鉴权
-function UrlAuth($AuthUrl)
-{
-	global $CurUserInfo, $Config;
-	if (!$CurUserInfo)
-		$AuthUrl = 'JavaScript:alert(\'访问此功能需要登陆\');';
-	else
-		$AuthUrl = $Config['WebsitePath'].$AuthUrl;
-	return $AuthUrl;
 }
 
 
@@ -434,13 +377,6 @@ function Request($Type, $Key ,$DefaultValue='')
 }
 
 
-
-function SafeUrlEncode($String)
-{
-	return str_replace('%', '=', rawurlencode($String));
-}
-
-
 //批量设置Cookie
 function SetCookies($CookiesArray,$Expires=0)
 {
@@ -488,54 +424,6 @@ function UpdateConfig($NewConfig)
 	}
 	
 }
-//统计
-function WriteLogs(){
-	switch($UserAgent)
-	{
-		case 'mozilla/5.0 (compatible; baiduspider/2.0; +http://www.baidu.com/search/spider.html)':
-			$device='baiduspider';
-			break;
-		case 'mozilla/5.0 (compatible; googlebot/2.1; +http://www.google.com/bot.html)':
-			$device='googlebot';
-			break;
-		case 'mozilla/5.0 (linux;u;android 2.3.7;zh-cn;) applewebkit/533.1 (khtml,like gecko) version/4.0 mobile safari/533.1 (compatible; +http://www.baidu.com/search/spider.html)':
-			$device='baiduspider mobile';
-			break;
-		case 'sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)':
-			$device='sogouspider';
-			break;
-		case 'mozilla/5.0 (compatible; msie 7.0; windows nt 5.1; .net clr 1.1.4322) 360jk yunjiankong':
-			$device='360yunjiankong';
-			break;
-		case 'dnspod-monitor/2.0':
-			$device='dnspod-monitor';
-			break;
-		case 'mediapartners-google':
-			$device='google adsense';
-			break;
-		case 'mozilla/5.0 (compatible; ahrefsbot/5.0; +http://ahrefs.com/robot/)':
-			$device='ahref';
-			break;
-		case 'yisouspider':
-			$device='yisouspider';
-			break;
-		case 'mozilla/5.0 (compatible; mj12bot/v1.4.5; http://www.majestic12.co.uk/bot.php?+)':
-			$device='mj12bot';
-			break;
-		case 'mozilla/4.0 (compatible; msie 6.0; windows nt 5.1; sv1; jiankongbao monitor 1.1)':
-			$device='jiankongbao monitor';
-			break;
-		case 'mozilla/5.0 (compatible; easouspider; +http://www.easou.com/search/spider.html)':
-			$device='easouspider';
-			break;
-		case 'mozilla/5.0 (compatible; msie 9.0; windows nt 6.1; trident/5.0); 360spider(zh-CN)':
-			$device='360spider';
-			break;
-		default:
-			$device='User';
-			break;
-	}
-}
 
 
 //跨站脚本白名单过滤
@@ -578,7 +466,8 @@ function XssEscape($html) {
 		$html = str_replace($searchs, $replaces, $html);
 	return $html;
 }
- 
+
+
 function dhtmlspecialchars($string, $flags = null) {
 	if(is_array($string)) {
 		foreach($string as $key => $val) {
