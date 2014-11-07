@@ -12,7 +12,7 @@ switch ($Action) {
 		UpdateConfig(array(
 			'NumFiles' => $DB->single('SELECT count(ID) FROM '.$Prefix.'upload'),
 			'NumTopics' => $DB->single('SELECT count(*) FROM '.$Prefix.'topics WHERE IsDel=0'),
-			'NumPosts' => $DB->single('SELECT count(ID) FROM '.$Prefix.'posts')-$Config['NumTopics'],
+			'NumPosts' => $DB->single('SELECT sum(Replies) FROM '.$Prefix.'topics WHERE IsDel=0'),
 			'NumUsers' => $DB->single('SELECT count(ID) FROM '.$Prefix.'users'),
 			'NumTags' => $DB->single('SELECT count(ID) FROM '.$Prefix.'tags')
 			)
