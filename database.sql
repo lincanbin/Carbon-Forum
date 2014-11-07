@@ -414,6 +414,7 @@ INSERT INTO `carbon_config` VALUES ('CacheOauth', '');
 INSERT INTO `carbon_config` VALUES ('CacheRolesDict', '');
 INSERT INTO `carbon_config` VALUES ('CacheTime', '');
 INSERT INTO `carbon_config` VALUES ('CookiePrefix', 'CarbonForum_');
+INSERT INTO `carbon_config` (`ConfigName`, `ConfigValue`) VALUES ('DaysUsers', '0'), ('DaysPosts', '0'), ('DaysTopics', '0'), ('DaysDate', '2014-11-01');
 INSERT INTO `carbon_config` VALUES ('LoadJqueryUrl', '/static/js/jquery.js');
 INSERT INTO `carbon_config` VALUES ('MainDomainName', 'www.94cb.com');
 INSERT INTO `carbon_config` VALUES ('MaxPostChars', '60000');
