@@ -66,7 +66,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<div class="sider-box-content">
 						<ul>
 							<li>主题数量：<?php echo $Config['NumTopics']; ?></li>
-							<li>帖子数量：<?php echo $Config['NumPosts']; ?></li>
+							<li>回帖数量：<?php echo $Config['NumPosts']; ?></li>
 							<li>用户数量：<?php echo $Config['NumUsers']; ?></li>
 						</ul>
 					</div>
