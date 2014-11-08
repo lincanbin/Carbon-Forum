@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			if($_FILES['Avatar']['size'] && $_FILES['Avatar']['size'] < 1048576){
 				require(dirname(__FILE__)."/includes/ImageResize.class.php");
 				$UploadAvatar = new ImageResize('Avatar');
-				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/'.$CurUserID.'.png', 95);
+				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/'.$CurUserID.'.png', 80);
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/'.$CurUserID.'.png', 90);
 				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/'.$CurUserID.'.png', 90);
 				if($LUploadResult && $MUploadResult && $SUploadResult){

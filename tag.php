@@ -15,8 +15,13 @@ if($Page>$TotalPage){
 	exit;
 }
 if($Page == 0) $Page = 1;
+if($Page<=10)
 $TagIDArray = $DB->column('SELECT TopicID FROM '.$Prefix.'posttags force index(TagsIndex) Where TagID=:TagID ORDER BY TopicID DESC LIMIT '.($Page-1)*$Config['TopicsPerPage'].','.$Config['TopicsPerPage'],array('TagID'=>$TagInfo['ID']));
+else
+	$TagIDArray = $DB->column('SELECT TopicID FROM '.$Prefix.'posttags force index(TagsIndex) Where TagID=:TagID and TopicID<=(SELECT TopicID FROM '.$Prefix.'posttags force index(TagsIndex) Where TagID=:TagID2 ORDER BY TopicID DESC LIMIT '.($Page-1)*$Config['TopicsPerPage'].',1) ORDER BY TopicID DESC LIMIT '.$Config['TopicsPerPage'],array('TagID'=>$TagInfo['ID'],'TagID2'=>$TagInfo['ID']));
 $TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM '.$Prefix.'topics force index(PRI) Where ID in (?) and IsDel=0 ORDER BY LastTime DESC',$TagIDArray);
+if($CurUserID)
+	$IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=2 and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'FavoriteID'=>$TagInfo['ID']));
 $DB->CloseConnection();
 $PageTitle = $TagInfo['Name'];
 $PageTitle .= $Page>1?' Page'.$Page:'';

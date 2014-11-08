@@ -134,9 +134,9 @@ switch ($Type)
 		Auth(1);
 		$Action = intval($Action);
 		//检查主题/标签/用户/帖子是否存在
-		//添加合适索引：TODO
 		$IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=:Type and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'Type'=>$Action, 'FavoriteID'=>$ID));//添加索引
-		$SQLAction = $IsFavorite?'-1':'+1';
+		$MessageType=false;//false表示收藏，true表示关注
+		$SQLAction = intval($IsFavorite)?'-1':'+1';
 		switch ($Action) {
 			//1:Topic 2:Tag 3:User 4:Post 5:Blog
 			case 1://Topic
@@ -144,9 +144,11 @@ switch ($Type)
 				break;
 			case 2://Tag
 				$Title = $DB->single("SELECT Name FROM ".$Prefix."tags Where ID=:FavoriteID",array('FavoriteID'=>$ID));
+				$MessageType=true;
 				break;
 			case 3://User
 				$Title = $DB->single("SELECT UserName FROM ".$Prefix."users Where ID=:FavoriteID",array('FavoriteID'=>$ID));
+				$MessageType=true;
 				break;
 			case 4://Post
 				$Title = $DB->single("SELECT Subject FROM ".$Prefix."posts Where ID=:FavoriteID",array('FavoriteID'=>$ID));
@@ -161,38 +163,35 @@ switch ($Type)
 		if($Title)
 		{
 			if(!$IsFavorite){
-				if($DB->query('INSERT INTO `'.$Prefix.'favorites`(`ID`, `UserID`, `Category`, `Title`, `Type`, `FavoriteID`, `DateCreated`, `Description`) VALUES (?,?,?,?,?,?,?,?)',array(null, $CurUserID, '', $Title, $Action, $ID, $TimeStamp, '')))
-				{
-					switch ($Action) {
-						//1:Topic 2:Tag 3:User 4:Post 5:Blog
-						case 1://Topic
-							$DB->query('UPDATE '.$Prefix.'topics SET Favorites = Favorites'.$SQLAction.' Where ID=:FavoriteID',array('FavoriteID'=>$ID));
-							break;
-						case 2://Tag
-							$DB->query('UPDATE '.$Prefix.'tags SET Followers = Followers'.$SQLAction.' Where ID=:FavoriteID',array('FavoriteID'=>$ID));
-							break;
-						case 3://User
-							$DB->query('UPDATE '.$Prefix.'users SET Followers = Followers'.$SQLAction.' Where ID=:FavoriteID',array('FavoriteID'=>$ID));
-							break;
-						case 4://Post
-							break;
-						case 5://Blog
-							break;
-						default:
-							AlertMsg('Bad Request','Bad Request');
-							break;
-					}
-					$Message = '收藏成功';
-					//$FavoriteID = $DB->lastInsertId();
-				}else{
+				if(!$DB->query('INSERT INTO `'.$Prefix.'favorites`(`ID`, `UserID`, `Category`, `Title`, `Type`, `FavoriteID`, `DateCreated`, `Description`) VALUES (?,?,?,?,?,?,?,?)',array(null, $CurUserID, '', $Title, $Action, $ID, $TimeStamp, '')))
 					AlertMsg('Unknown Error','Unknown Error');
-				}
-				
 			}else{
 				$DB->query('DELETE FROM `'.$Prefix.'favorites` WHERE `UserID`=? and `Type`=? and `FavoriteID`=?',array($CurUserID, $Action, $ID));
-				$Message = '取消收藏成功';
 			}
-
+			switch ($Action) {
+				//1:Topic 2:Tag 3:User 4:Post 5:Blog
+				case 1://Topic
+					$DB->query('UPDATE '.$Prefix.'topics SET Favorites = Favorites'.$SQLAction.' Where ID=:FavoriteID',array('FavoriteID'=>$ID));
+					$DB->query('UPDATE `'.$Prefix.'users` SET NumFavTopics=NumFavTopics'.$SQLAction.' WHERE `ID`=?',array($CurUserID));
+					break;
+				case 2://Tag
+					$DB->query('UPDATE '.$Prefix.'tags SET Followers = Followers'.$SQLAction.' Where ID=:FavoriteID',array('FavoriteID'=>$ID));
+					$DB->query('UPDATE `'.$Prefix.'users` SET NumFavTags=NumFavTags'.$SQLAction.' WHERE `ID`=?',array($CurUserID));
+					break;
+				case 3://User
+					$DB->query('UPDATE '.$Prefix.'users SET Followers = Followers'.$SQLAction.' Where ID=:FavoriteID',array('FavoriteID'=>$ID));
+					$DB->query('UPDATE `'.$Prefix.'users` SET NumFavUsers=NumFavUsers'.$SQLAction.' WHERE `ID`=?',array($CurUserID));
+					break;
+				case 4://Post
+					break;
+				case 5://Blog
+					break;
+				default:
+					AlertMsg('Bad Request','Bad Request');
+					break;
+			}
+			$Message = $IsFavorite?($MessageType?'取消关注成功':'取消收藏成功'):($MessageType?'关注成功':'收藏成功');
+			//$FavoriteID = $DB->lastInsertId();
 		}else{
 			AlertMsg('404 Not Found','404 Not Found');
 		}

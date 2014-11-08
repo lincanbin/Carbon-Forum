@@ -1,4 +1,17 @@
 <?php
+/*
+ * Carbon-Forum v 3.2.0
+ * https://github.com/lincanbin/Carbon-Forum
+ *
+ * Copyright 2014, Lin Canbin
+ * http://www.94cb.com/
+ *
+ * Licensed under the Apache License, Version 2.0:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * A high performance open-source forum software written in PHP. 
+ */
+
 //逐渐替换为帕斯卡命名法
 //数据库从设计上避免使用Join多表联查
 
@@ -219,23 +232,23 @@ function FormatBytes($size, $precision = 2)
 
 
 // 格式化时间
-function FormatTime($db_time)
+function FormatTime($UnixTimeStamp)
 {
-	$diftime = time() - $db_time;
-	if ($diftime < 2592000) {
+	$Seconds = time() - $UnixTimeStamp;
+	if ($Seconds < 2592000) {
 		// 小于30天如下显示
-		if ($diftime >= 86400) {
-			return round($diftime / 86400, 0) . '&nbsp;天前';
-		} else if ($diftime >= 3600) {
-			return round($diftime / 3600, 0) . '&nbsp;小时前';
-		} else if ($diftime >= 180) {
-			return round($diftime / 60, 0) . '&nbsp;分钟前';
+		if ($Seconds >= 86400) {
+			return round($Seconds / 86400, 0) . '&nbsp;天前';
+		} else if ($Seconds >= 3600) {
+			return round($Seconds / 3600, 0) . '&nbsp;小时前';
+		} else if ($Seconds >= 180) {
+			return round($Seconds / 60, 0) . '&nbsp;分钟前';
 		} else {
-			return ($diftime + 1) . '&nbsp;秒钟前';
+			return ($Seconds + 1) . '&nbsp;秒钟前';
 		}
 	} else {
 		// 大于一月
-		return date("Y-m-d", $db_time);
+		return date("Y-m-d", $UnixTimeStamp);
 		//gmdate()可以返回格林威治标准时，date()则为当地时
 	}
 }
@@ -285,14 +298,25 @@ function IsName($string)
 	return boolval(!preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_.]{4,20}$/i', $string));
 }
 
+//只有上一页下一页的分页
+function PaginationSimplified($PageUrl,$PageCount,$IsLastPage)
+{
+	global $Config;
+	$PageUrl = $Config['WebsitePath'].$PageUrl;
+	if ($PageCount != 1)
+		echo '<a href="'.$PageUrl.($PageCount-1).'">&lsaquo;&lsaquo;上一页</a>';
+	echo '<span id=pagenum><span class="currentpage">第'.$PageCount.'页</span>';
+	if (!$IsLastPage)
+		echo '<a href="'.$PageUrl.($PageCount+1).'">下一页&rsaquo;&rsaquo;</a>';
+	echo '</span>';
+}
+
 
 //分页
 function Pagination($PageUrl,$PageCount,$TotalPage)
 {
 	if($TotalPage<=1)
-	{
 		return false;
-	}
 	global $Config;
 	$PageUrl = $Config['WebsitePath'].$PageUrl;
 	$PageLast=$PageCount-1;
@@ -300,18 +324,14 @@ function Pagination($PageUrl,$PageCount,$TotalPage)
 
 	echo '<span id=pagenum><span class="currentpage">'.$PageCount.'/'.$TotalPage.'</span>';
 	if ($PageCount != 1)
-	{
 		echo '<a href="'.$PageUrl.$PageLast.'">&lsaquo;&lsaquo;上一页</a>';
-	}
 	if (($PageCount-6) > 1)
-	{
 		echo '<a href="'.$PageUrl.'1" title="第1页(首页)">1</a>';
-	}
 	if (($PageCount-5) <= 1)
 	{
 		$PageiStart=1;
 	}
-	elseif ($PageCount >= ($TotalPage-5))
+	else if ($PageCount >= ($TotalPage-5))
 	{
 		$PageiStart=$TotalPage-9;
 	}else{
@@ -321,7 +341,7 @@ function Pagination($PageUrl,$PageCount,$TotalPage)
 	if ($PageCount+5 >= $TotalPage)
 	{
 		$PageiEnd=$TotalPage;
-	}elseif ($PageCount<=5 && $TotalPage>=10)
+	}else if ($PageCount<=5 && $TotalPage>=10)
 	{
 		$PageiEnd=10;
 	}else{
@@ -344,7 +364,7 @@ function Pagination($PageUrl,$PageCount,$TotalPage)
 	}
 	if ($PageCount != $TotalPage)
 	{
-	echo '<a href="'.$PageUrl.$PageNext.'">下一页&rsaquo;&rsaquo;</a>';
+		echo '<a href="'.$PageUrl.$PageNext.'">下一页&rsaquo;&rsaquo;</a>';
 	}
 	//echo '&nbsp;&nbsp;&nbsp;<input type="text" onkeydown="JavaScript:if((event.keyCode==13)&&(this.value!=\'\')){window.location=\''.$PageUrl.'\'+this.value;}" onkeyup="JavaScript:if(isNaN(this.value)){this.value=\'\';}" size=4 title="请输入要跳转到第几页,然后按下回车键">';
 	echo '</span>';

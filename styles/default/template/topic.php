@@ -73,8 +73,7 @@ foreach($PostsArray as $key => $post)
 		<div class="commont-avatar">
 			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
 			<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
-
-	</a>
+			</a>
 		</div>
 		<div class="commont-data">
 			<div class="commont-content">
@@ -82,8 +81,8 @@ foreach($PostsArray as $key => $post)
 			</div>
 			
 			<div class="commont-data-date">
-				<div class="float-left"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a>
-			 &nbsp;&nbsp;<?php if($CurUserRole>=4){ ?> • &nbsp;&nbsp;<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" style="float:right;">删除</a><?php } ?>
+				<div class="float-left"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a>&nbsp; • &nbsp;<?php echo FormatTime($post['PostTime']); ?>
+			 &nbsp;<?php if($CurUserRole>=4){ ?> • &nbsp;<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" style="float:right;">删除</a><?php } ?>
 
 				</div>
 				<div class="float-right">

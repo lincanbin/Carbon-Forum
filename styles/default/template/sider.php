@@ -21,21 +21,37 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 </div>
 <?php }else if($CurUserID){ ?>
 <div class="sider-box">
-	<div class="sider-box-title"><?php echo $CurUserName; ?><span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1">退出</a></span></div>
+	<div class="sider-box-title">用户面板<span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1">退出</a></span></div>
 	<div class="sider-box-content">
-		<div class="cell">
-			<table cellpadding="0" cellspacing="0" border="0" width="100%">
-				<tbody>
-					<tr>
-					<td width="48" valign="top" class="img-center"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>">
-						<?php echo GetAvatar($CurUserID, $CurUserName, 'middle'); ?>
-					</a></td>
-					<td width="10" valign="top"></td>
-					<td width="auto" align="left"><h2><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>"><?php echo $CurUserName; ?></a></h2>
-					</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="User-Pannel-Avatar">
+			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>">
+				<?php echo GetAvatar($CurUserID, $CurUserName, 'large'); ?>
+			</a>
+		</div>
+		<div class="User-Pannel">
+			<div class="User-Pannel-Name">
+				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>"><?php echo $CurUserName; ?></a>
+			</div>
+			<ul>
+				<li>
+					<a href="<?php echo $Config['WebsitePath']; ?>/favorites">
+						<strong><?php echo $CurUserInfo['NumFavTopics']; ?></strong>
+						<span>帖子收藏</span>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $Config['WebsitePath']; ?>/tags/following">
+						<strong><?php echo $CurUserInfo['NumFavTags']; ?></strong>
+						<span>关注话题</span>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo $Config['WebsitePath']; ?>/users/following">
+						<strong><?php echo $CurUserInfo['NumFavUsers']; ?></strong>
+						<span>关注用户</span>
+					</a>
+				</li>
+			</ul>
 		</div>
 		<div class="c"></div>
 	</div>

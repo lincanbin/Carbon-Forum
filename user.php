@@ -4,17 +4,12 @@ require(dirname(__FILE__)."/common.php");
 $UserName = Request('Get', 'username');
 //$UserID = intval(Request('Get', 'userid'));
 $UserInfo = array();
-/*if($UserName)
-{*/
-	$UserInfo = $DB->row('SELECT * FROM '.$Prefix.'users Where UserName=:UserName',array('UserName'=>$UserName));
-/*}else if($UserID){
-	$UserInfo = $DB->row('SELECT * FROM '.$Prefix.'users Where ID=:UserID',array('UserID'=>$UserID));
-}*/
+$UserInfo = $DB->row('SELECT * FROM '.$Prefix.'users Where UserName=:UserName',array('UserName'=>$UserName));
 if(!$UserInfo)
-{
 	AlertMsg('用户不存在','用户不存在',404);
-}
-$PostsArray = $DB->query('SELECT * FROM '.$Prefix.'posts Where UserName=:UserName ORDER BY PostTime DESC LIMIT 30',array('UserName'=>$UserInfo['UserName']));
+if($CurUserID)
+	$IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=3 and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'FavoriteID'=>$UserInfo['ID']));
+$PostsArray = $DB->query('SELECT * FROM '.$Prefix.'posts Where UserName=:UserName and IsDel=0 ORDER BY PostTime DESC LIMIT 30',array('UserName'=>$UserInfo['UserName']));
 $DB->CloseConnection();
 // 页面变量
 $PageTitle = $UserInfo['UserName'];

@@ -7,7 +7,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a href="<?php echo $Config['WebsitePath']; ?>/">
 			<?php echo $Config['SiteName']; ?>
 		</a>
-		&raquo; 话题 &raquo; <?php echo $TagInfo['Name']; ?>
+		&raquo; 我关注的话题
 	</div>
 	<div class="main-box home-box-list">
 		<?php
@@ -52,7 +52,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		}
 		?>
 		<div class="pagination">
-			<?php Pagination('/tag/'.$TagInfo['Name'].'/page/',$Page,$TotalPage); ?>
+			<?php PaginationSimplified('/tags/following/page/', $Page, empty($TopicsArray)); ?>
 			<div class="c"></div>
 		</div>
 	</div>
@@ -61,35 +61,15 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-sider start -->
 <div class="main-sider">
 	<div class="sider-box">
-		<div class="sider-box-title">话题：<?php echo $TagName; ?></div>
-		<div class="sider-box-content grey btn">
-			<ul>
-				<li><?php echo $TagInfo['Followers']; ?>人收藏</li>
-				<li><?php echo $TagInfo['TotalPosts']; ?>个主题</li>
-				<li>话题创建于<?php echo FormatTime($TagInfo['DateCreated']); ?></li>
-				<li>最后更新于<?php echo FormatTime($TagInfo['MostRecentPostTime']); ?></li>
-			</ul>
-			<p>
-				<?php
-				if($CurUserID){ ?>
-				<a href="###" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 4, 2, false, this);"><?php echo $IsFavorite?'取消关注本话题':'关注本话题'; ?></a>
-				<?php } ?>
-			</p>
-			<p><?php echo $TagInfo['Description']; ?></p>
+		<div class="sider-box-title">我关注的话题</div>
+		<div class="sider-box-content btn">
+			<?php foreach ($TagsFollowing as $Tag) {?>
+			<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag['Title']); ?>" target="_blank"><?php echo $Tag['Title']; ?></a>
+			<?php } ?>
 		</div>
 	</div>
 	<?php
 	include($TemplatePath.'sider.php');
 	?>
-	<div class="sider-box">
-		<div class="sider-box-title">站内统计</div>
-		<div class="sider-box-content">
-			<ul>
-				<li>主题数量：<?php echo $Config['NumTopics']; ?></li>
-				<li>回帖数量：<?php echo $Config['NumPosts']; ?></li>
-				<li>用户数量：<?php echo $Config['NumUsers']; ?></li>
-			</ul>
-		</div>
-	</div>
 </div>
 <!-- main-sider end -->

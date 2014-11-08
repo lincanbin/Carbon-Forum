@@ -18,7 +18,7 @@ $(document).ready(function(){
 */
 
 
-//标签自动补全
+//话题自动补全
 $(function () {
 	//'use strict';
 
@@ -58,7 +58,7 @@ function SubmitCheck()
 	//	UE.getEditor('editor').focus();
 	//	return false;
 	}else if(!$("#SelectTags").html()){
-		alert("标签不能为空！");
+		alert("话题不能为空！");
 		UE.getEditor('editor').focus();
 		return false;
 	}else{
@@ -78,7 +78,7 @@ function CheckTag(TagName,IsAdd)
 	$("input[name='Tag[]']").each(
 		function(index){
 			if(IsAdd && i>=MaxTagNum){
-				alert('最多只能插入'+MaxTagNum+'个标签！');
+				alert('最多只能插入'+MaxTagNum+'个话题！');
 				show=false;
 			}
 			if(TagName==$(this).val() || TagName==''){
@@ -92,7 +92,7 @@ function CheckTag(TagName,IsAdd)
 function GetTags()
 {
 	var CurrentContentHash = md5(document.NewForm.Title.value + UE.getEditor('editor').getContentTxt());
-	//取Title与Content 联合Hash值，与之前input的内容比较，不同则开始获取标签，随后保存进hidden input。
+	//取Title与Content 联合Hash值，与之前input的内容比较，不同则开始获取话题，随后保存进hidden input。
 	if(CurrentContentHash != document.NewForm.ContentHash.value ){
 		if(document.NewForm.Title.value.length || UE.getEditor('editor').getContentTxt().length){
 			$.ajax({
@@ -139,7 +139,7 @@ function AddTag(TagName,id)
 	if($("input[name='Tag[]']").length==MaxTagNum)
 	{
 		$("#AlternativeTag").attr("disabled",true);
-		$("#AlternativeTag").attr("placeholder","最多添加"+MaxTagNum+"个标签");
+		$("#AlternativeTag").attr("placeholder","最多添加"+MaxTagNum+"个话题");
 	}
 }
 
@@ -150,7 +150,7 @@ function TagRemove(TagName,id)
 	if($("input[name='Tag[]']").length<MaxTagNum)
 	{
 		$("#AlternativeTag").attr("disabled",false);
-		$("#AlternativeTag").attr("placeholder","添加标签"); 
+		$("#AlternativeTag").attr("placeholder","添加话题"); 
 	}
 	document.NewForm.AlternativeTag.focus();
 }

@@ -71,7 +71,7 @@ $(document).ready(function(){
 								<option value="3">3</option>
 								<option value="4">4</option>
 								<option value="5">5</option>
-							</select>个标签
+							</select>个话题
 						</td>
 					</tr>
 					<tr>

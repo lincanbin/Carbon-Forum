@@ -17,8 +17,6 @@ var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js"></script>
 <link href="<?php echo $Config['WebsitePath']; ?>/styles/default/theme/style.css" rel="stylesheet" type="text/css" />
-<link rel="shortcut icon" href="<?php echo $Config['WebsitePath']; ?>/favicon.ico" type="image/x-icon" />
-<link href="<?php echo $Config['WebsitePath']; ?>/feed" rel="alternate" title="<?php echo htmlspecialchars($Config['SiteName']); ?> - ATOM Feed" type="application/atom+xml"/>
 <?php
 if ($Config['PageHeadContent']) {
 	echo $Config['PageHeadContent'];

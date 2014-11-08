@@ -3,7 +3,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <!-- main-content start -->
 <script>
-var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的标签数量
+var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
 var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
 var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
 </script>
@@ -47,7 +47,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<p>
 				<div class="tags-list bth" style="width:624px;height:33px;" onclick="JavaScript:document.NewForm.AlternativeTag.focus();">
 					<span id="SelectTags" class="btn"></span>
-					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" style="	outline: 0;float:left;font-size:12px;padding:4px 8px;border:none;margin-bottom:6px;width: 20%;-webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0);box-shadow: inset 0 0 0 rgba(0,0,0,0);-webkit-transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;" onkeydown="JavaScript:if(event.keyCode == 13){AddTag(this.value,Math.round(new Date().getTime()/1000));}" onfocus="JavaScript:GetTags();" placeholder="添加标签" />
+					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" style="	outline: 0;float:left;font-size:12px;padding:4px 8px;border:none;margin-bottom:6px;width: 20%;-webkit-box-shadow: inset 0 0 0 rgba(0,0,0,0);box-shadow: inset 0 0 0 rgba(0,0,0,0);-webkit-transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;transition: border-color ease-in-out 0s, box-shadow ease-in-out 0s;" onkeydown="JavaScript:if(event.keyCode == 13){AddTag(this.value,Math.round(new Date().getTime()/1000));}" onfocus="JavaScript:GetTags();" placeholder="添加话题" />
 				</div>
 			</p>
 			<script TYPE="text/javascript">

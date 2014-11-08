@@ -803,17 +803,22 @@ img.avatar {
 .member-avatar {
 	float:left;
 	margin:10px;
-	width:256px;
-	height:256px;
+	width:128px;
+	height:128px;
+}
+.member-avatar img{
+	border-radius: 4px;
+	max-width:128px;
+	max-height:128px;
 }
 .member-detail {
 	float:left;
 	margin:10px;
 }
 .member-detail p {
-	color:#333;
-	font-size:12px;
-	line-height:16px;
+	color:#666;
+	font-size:15px;
+	line-height:20px;
 	margin-bottom:5px;
 }
 .user-list {
@@ -869,13 +874,53 @@ img.avatar {
 	margin-bottom:10px;
 	line-height:1.2em;
 }
-.sider-box-content ul li a {
-	color:#333;
+/* User Pannel*/
+.User-Pannel-Avatar{
+	width: 128px;
+	padding: 0 61px;
 }
-.sider-box-content ul li a:hover {
-	color:#36C;
+.User-Pannel-Avatar img{
+	max-width: 128px;
+	max-height: 128px;
+	border-radius: 4px;
 }
-
+.User-Pannel-Name{
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	padding: 8px 0;
+}
+.User-Pannel ul{
+	height: 42px !important;
+	overflow: hidden !important;
+	margin: 10px 0 0 0 !important;
+	list-style: none !important;
+	font-size: 18px !important;
+	display: block !important;
+	clear: both !important;
+}
+.User-Pannel li{
+	float: left;
+	width: 82px !important;
+	text-align: center;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-color: #d9d9d9;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.User-Pannel li strong{
+	color: #333 !important;
+	display: block !important;
+	font-weight: bold !important;
+	line-height: 18px !important;
+	width: 82px !important;
+	overflow: hidden !important;
+}
+.User-Pannel li span{
+	font-size: 12px !important;
+	color:#808080;
+}
 /* FORM end*/
 .tall {
 	height: 350px;
