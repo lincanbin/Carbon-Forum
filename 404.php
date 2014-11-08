@@ -1,17 +1,19 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
-
-$UrlPathArray = explode("/", str_replace($Config['WebsitePath'],'',$_SERVER['REQUEST_URI']));
-if($UrlPathArray[1] == "upload" && $UrlPathArray[2] == "avatar" && $UrlPathArray[3])
-{
-	$DefaultAvatar = fopen('upload/avatar/'.$UrlPathArray[3].'/default.png', "rb");
+if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $_SERVER['REQUEST_URI'], $AvatarSize))
+{	
+	header('Location: default.png');
+	/*
 	header("HTTP/1.0 200 OK");
 	header("Status: 200 OK");
+	$DefaultAvatar = fopen('upload/avatar/'.$AvatarSize[1].'/default.png', "rb");
 	header("Accept-Ranges: bytes");
 	header("Content-Type: image/png");
+	header('Expires: '.gmdate ("D, d M Y H:i:s",strtotime("+1 day"))." GMT");
+	//Fri, 07 Nov 2014 18:15:11 GMT
 	echo stream_get_contents($DefaultAvatar);
+	*/
+
 }else{
 	echo '404';
 }
-//var_dump($REQUEST_URI);
 ?>
