@@ -163,7 +163,7 @@ class DB
 			$message .= "\r\nRaw SQL : "  . $sql;
 		}
 			# Write into log
-			$this->log->write($message);
+			//$this->log->write($message);
 
 		return $exception;
 	}			
