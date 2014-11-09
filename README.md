@@ -18,17 +18,9 @@ Requirements
 Install
 ------------
 
-1. Open __config.php__
+1. Ensure that the entire directory writable.
 
- ```php
- define('DBHost', '127.0.0.1');
- define('DBName', 'carbon');
- define('DBUser', 'root');
- define('DBPassword', '');
- ```
- 
- Replace the constant value with the value that you actually use. 
-2. Import the __database.sql__
+2. Open http://www.yourdomain.com/install and install.
 
 3. Open the Forum, and register. The first registered users will become administrators. 
 

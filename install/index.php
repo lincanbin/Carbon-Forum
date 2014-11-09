@@ -43,6 +43,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 	//rewrite文件配置
 	$Message = '安装成功，安装完成后请马上删除install文件夹。<br /><a href="../register">点我马上注册管理员账号</a>';
+
+	//安全起见，修改为不可执行文件
+	if (file_exists('index.php')) {  
+		rename ("index.php", "index.txt");
+	}
 	
 }
 //从文件中逐条取SQL
@@ -100,6 +105,7 @@ function GetNextSQL() {
 						<td width="180" align="right"></td>
 						<td width="auto" align="left"><span class="red"><?php echo $Message; ?></span></td>
 					</tr>
+					<?php if(!$Message) {?>
 					<tr>
 						<td width="180" align="right">数据库地址</td>
 						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="127.0.0.1" /></td>
@@ -133,6 +139,7 @@ function GetNextSQL() {
 						<td width="180" align="right"></td>
 						<td width="auto" align="left"><input type="submit" value="安 装" name="submit" class="textbtn" /></td>
 					</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</form>
