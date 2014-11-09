@@ -33,19 +33,12 @@ class DB
 				$this->pdo = new PDO('mysql:dbname='.$this->DBName.';host='.$this->Host, $this->DBUser, $this->DBPassword, array(PDO::ATTR_PERSISTENT => true,
 											PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
 											));
-				
-				# We can now log any exceptions on Fatal error. 
 				$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				
-				# Disable emulation of prepared statements, use REAL prepared statements instead.
 				$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-				
-				# Connection succeeded, set the boolean to true.
 				$this->bConnected = true;
 			}
 			catch (PDOException $e) 
 			{
-				# Write into log
 				echo $this->ExceptionLog($e->getMessage());
 				die();
 			}
@@ -112,7 +105,6 @@ class DB
 			$query = trim($query);
 			$rawStatement = explode(" ", $query);
 			$this->Init($query,$params);
-			# Which SQL statement is used 
 			$statement = strtolower($rawStatement[0]);
 			if ($statement === 'select' || $statement === 'show') {
 				return $this->sQuery->fetchAll($fetchmode);
@@ -159,11 +151,9 @@ class DB
 		$exception .= "<br /> You can find the error back in the log.";
 
 		if(!empty($sql)) {
-			# Add the Raw SQL to the Log
 			$message .= "\r\nRaw SQL : "  . $sql;
 		}
-			# Write into log
-			//$this->log->write($message);
+			$this->log->write($message);
 
 		return $exception;
 	}			
