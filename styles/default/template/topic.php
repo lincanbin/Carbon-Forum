@@ -67,6 +67,7 @@ if($topic['Replies']!=0)
 <?php
 foreach($PostsArray as $key => $post)
 {
+	$PostFloor = ($Page-1)*$Config['PostsPerPage']+$key;
 ?>
 	<div class="commont-item">
 		<a name="Post<?php echo $post['ID'];?>"></a>
@@ -87,7 +88,7 @@ foreach($PostsArray as $key => $post)
 				</div>
 				<div class="float-right">
 	&laquo; <a href="#reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);">回复</a>
-	<span class="commonet-count">#<?php echo ($Page-1)*$Config['PostsPerPage']+$key;; ?></span></div>
+	<span class="commonet-count">#<?php echo $PostFloor; ?></span></div>
 				<div class="c"></div>
 			</div>
 			<div class="c"></div>
