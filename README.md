@@ -18,7 +18,7 @@ Requirements
 Install
 ------------
 
-1. Ensure that the entire directory writable.
+1. Ensure that the entire directory are writable.
 
 2. Open http://www.yourdomain.com/install and install.
 

@@ -1,456 +1,222 @@
 <?php
-//设置中国时区
-define('SAESPOT_VER', '20140817');
-$desktopurl = 'ourjnu.com';
-$mobileurl = 'm.ourjnu.com';
-$clienturl = 'client.ourjnu.com';
-date_default_timezone_set('PRC');
 /*
-不输出任何错误信息
-error_reporting(0);*/
+ * Carbon-Forum v 3.2.0
+ * https://github.com/lincanbin/Carbon-Forum
+ *
+ * Copyright 2014, Lin Canbin
+ * http://www.94cb.com/
+ *
+ * Licensed under the Apache License, Version 2.0:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * A high performance open-source forum software written in PHP. 
+ */
 
+//逐渐替换为帕斯卡命名法
+//数据库从设计上避免使用Join多表联查
 
-/*除了 E_NOTICE，报告其他所有错误*/
-error_reporting(E_ALL ^ E_NOTICE ^E_WARNING);
-
-/*
-输出所有错误信息
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-*/
-
-if (!defined('IN_SAESPOT'))
-	exit('error: 403 Access Denied');
-//常用数组区
-$campus          = array(
-	"2" => "校本部",
-	"3" => "珠海校区",
-	"4" => "华文学院",
-	"5" => "深圳校区",
-	"6" => "南校区"
-);
-$ec_category     = array();
-$ec_category[0]  = '全部课程';
-$ec_category[1]  = '体育竞技与休闲运动课程群';
-$ec_category[2]  = '生命科学类';
-$ec_category[3]  = '文史哲类';
-$ec_category[4]  = '艺术素养类';
-$ec_category[5]  = '经管法类';
-$ec_category[6]  = '其他类';
-$ec_category[7]  = '计算机高级课程群';
-$ec_category[8]  = '数学理工类';
-$ec_category[9]  = '高级英语课程群';
-$ec_category[10] = '中国语文课程群';
-$ec_category[11] = '人文社科类';
-$ec_category[12] = '公共选修课';
-$ec_category[13] = '自然科学类';
-$ec_category[14] = '跨学科类';
-
+//error_reporting(0);//不输出任何错误信息
+//error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
+error_reporting(E_ALL);//输出所有错误信息，调试用
+ini_set('display_errors', '1');//显示错误
+date_default_timezone_set('PRC');//设置中国时区
+//开始计时，初始化常量、常量
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
-$timestamp = time();
-$php_self  = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
-$url_path  = substr($php_self, 1, -4);
-include(dirname(__FILE__) . '/include/mysql.class.php');
-// 初始化从数据类，若要写、删除数据则需要定义主数据类
-$DBS = new DB_MySQL;
-$DBS->connect($servername, $dbport, $dbusername, $dbpassword, $dbname);
+$TimeStamp = time();
+require(dirname(__FILE__)."/config.php");
 
-// 去除转义字符
-function stripslashes_array(&$array)
+//初始化数据库操作类
+require(dirname(__FILE__)."/includes/PDO.class.php");
+$DB = new Db(DBHost, DBName, DBUser, DBPassword);
+//加载网站设置
+
+$Config=array();
+foreach($DB->query('SELECT ConfigName,ConfigValue FROM '.$Prefix.'config') as $ConfigArray)
 {
-	if (is_array($array)) {
-		foreach ($array as $k => $v) {
-			$array[$k] = stripslashes_array($v);
-		}
-	} else if (is_string($array)) {
-		$array = stripslashes($array);
-	}
-	return $array;
+	$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
 }
 
-@set_magic_quotes_runtime(0);
-// 判断 magic_quotes_gpc 状态
-if (@get_magic_quotes_gpc()) {
-	$_GET    = stripslashes_array($_GET);
-	$_POST   = stripslashes_array($_POST);
-	$_COOKIE = stripslashes_array($_COOKIE);
-}
+$PHPSelf  = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
+$UrlPath  = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'].'/', '', substr($PHPSelf, 0, -4)):substr($PHPSelf, 1, -4);
 
-// 获取当前用户
-$cur_user     = null;
-$cur_userinfo = null;
-$cur_uid      = $_COOKIE['cur_uid'];
-$cur_uname    = $_COOKIE['cur_uname'];
-$cur_ucode    = $_COOKIE['cur_ucode'];
-
-if ($cur_uname && $cur_uid && $cur_ucode) {
-	$u_key = 'u_' . $cur_uid;
-	
-	// 从数据库里读取
-	$db_user = $DBS->fetch_one_array("SELECT * FROM jnubbs_users WHERE id='" . $cur_uid . "' LIMIT 1");
-	if ($db_user['studentnumber']) {
-		$db_userinfo = $DBS->fetch_one_array("SELECT * FROM jnubbs_info i LEFT JOIN jnubbs_profession_code c on c.zyh=i.zyh and c.yxsh=i.yxsh WHERE studentnumber='" . $db_user['studentnumber'] . "' LIMIT 1");
-		if ($db_userinfo) {
-			$cur_userinfo = $db_userinfo;
-			unset($db_userinfo);
-		}
-	}
-	if ($db_user) {
-		$db_ucode = md5($db_user['id'] . $db_user['password'] . $db_user['regtime'] . $db_user['lastposttime'] . $db_user['lastreplytime']);
-		if ($cur_uname == $db_user['name'] && $cur_ucode == $db_ucode) {
-			//设置cookie
-			setcookie('cur_uid', $cur_uid, $timestamp + 86400 * 365, '/');
-			setcookie('cur_uname', $cur_uname, $timestamp + 86400 * 365, '/');
-			setcookie('cur_ucode', $cur_ucode, $timestamp + 86400 * 365, '/');
-			$cur_user = $db_user;
-			unset($db_user);
-		}
-	}
-	
-}
-
-include(dirname(__FILE__) . '/model.php');
-
-// 获得散列
-function formhash()
+// At某人并提醒他，使用时常在其前后加空格或回车，如 “@admin ”
+function AddingNotifications($Content, $TopicID, $PostID, $FilterUser='')
 {
-	global $cur_ucode, $options, $is_mobie, $is_client;
-	if (!$is_mobie || !$is_client)
-		return substr(md5($options['site_create'] . $cur_ucode . 'yoursecretwords'), 8, 8);
-	else
-		return 12345678;
-}
-
-$formhash = formhash();
-
-// 限制不能打开.php的网址
-//if(strpos($_SERVER["REQUEST_URI"], '.php')){
-//    alertmsg('404','404 NOT FOUND',1);
-//}
-
-// 只允许注册用户访问
-if ($options['authorized'] && (!$cur_user || $cur_user['flag'] < 5)) {
-	if (!in_array($url_path, array(
-		'login',
-		'logout',
-		'sigin',
-		'forgot',
-		'qqlogin',
-		'qqcallback',
-		'qqsetname',
-		'wblogin',
-		'wbcallback',
-		'wbsetname'
-	))) {
-		header('location: /login');
-		exit('authorized only');
+	/*
+	Type:
+	1:新回复
+	2:@ 到我的
+	*/
+	global $Prefix, $DB, $TimeStamp, $CurUserName;
+	//例外列表
+	$ExceptionUser = array($CurUserName);
+	if ($FilterUser != $CurUserName)
+	{
+		$ExceptionUser[] = $FilterUser;
+	}
+	// 正则跟用户注册、登录保持一致
+	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_.]{4,20})/', $Content, $out, PREG_PATTERN_ORDER);
+	$TemporaryUserList = array_unique($out[1]);//排重
+	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
+	if($TemporaryUserList)
+	{
+		$UserList = $DB->row('SELECT ID FROM `'.$Prefix.'users` WHERE `UserName` in (?)', $TemporaryUserList);
+		if($UserList && count($UserList) <= 20)
+		//最多@ 20人，防止骚扰
+		{
+			foreach ($UserList as $UserID) {
+				$DB->query('INSERT INTO `'.$Prefix.'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (null,?,?,?,?,?,?,?)',array($UserID, $CurUserName, 2, $TopicID, $PostID, $TimeStamp, 0));
+				$DB->query('UPDATE `'.$Prefix.'users` SET `NewMessage` = NewMessage+1 WHERE ID = :UserID',array('UserID' => $UserID));
+			}
+		}
 	}
 }
 
-//网站暂时关闭
-if ($options['close'] && (!$cur_user || $cur_user['flag'] < 99)) {
-	if (!in_array($url_path, array(
-		'login',
-		'forgot'
-	))) {
-		header('location: /login');
-		exit('site close');
+
+//提示信息
+function AlertMsg($PageTitle, $error, $status_code=200)
+{
+	global $UrlPath, $IsMobie, $IsApp, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode,$CurUserRole,$CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	$errors   = array();
+	if(!$IsApp){
+		switch($status_code)
+		{
+			case 404:
+				header("HTTP/1.1 404 Not Found");
+				header("Status: 404 Not Found");
+				break;
+			case 401:
+				header("HTTP/1.1 401 Unauthorized");
+				header("Status: 401 Unauthorized");
+				break;
+			case 403:
+				header("HTTP/1.1 403 Forbidden");
+				header("Status: 403 Forbidden");
+				break;
+			case 400:
+				header("HTTP/1.1 400 Bad Request");
+				header("Status: 400 Bad Request");
+				break;
+			case 500:
+				header("HTTP/1.1 500 Internal Server Error");
+				header("Status: 500 Internal Server Error");
+				break;
+			case 503:
+				header("HTTP/1.1 503 Service Unavailable");
+				header("Status: 503 Service Unavailable");
+				break;
+			default:
+				break;
+		}
 	}
+	$ContentFile = $TemplatePath.'alert.php';
+	include($TemplatePath.'layout.php');
+	exit;
+}
+
+
+//获取数组中的某一列
+function ArrayColumn($Input, $ColumnKey)
+{
+	if (version_compare(PHP_VERSION, '5.5.0') == 1) {
+		$Result = array();
+		if($Input)
+		{
+			foreach ($Input as $Value) {
+				$Result[] = $Value[$ColumnKey];
+			}
+		}
+		return $Result;
+	}else{
+		return array_column($Input, $ColumnKey);
+	}
+}
+
+
+//鉴权
+function Auth($MinRoleRequire, $AuthorizedUserID=0, $StatusRequire=false)
+{
+	global $CurUserRole, $CurUserID, $CurUserInfo;
+	$error = '';
+	if ($CurUserRole < $MinRoleRequire)
+	{
+		$RolesDict = array('游客','注册会员','VIP会员','版主','超级版主','管理员');
+		$error = '此页面仅 '.$RolesDict[$MinRoleRequire].' 可见，您的权限不足。';
+	}
+	if($CurUserID && $StatusRequire==true && $CurUserInfo['UserAccountStatus'] == 0){
+		$error = '您的账号正在审核或者封禁中，请联系管理员确认！';
+	}
+	if($AuthorizedUserID && $CurUserID && $CurUserID == $AuthorizedUserID)
+	{
+		$error = false;
+	}
+	if ($error) {
+		AlertMsg('错误信息', $error, 401);
+	}
+}
+
+
+//转换字符
+function CharCV($string)
+{
+	$string = htmlspecialchars(trim($string));
+	return $string;
+}
+
+
+// 过滤掉一些非法字符
+function CharsFilter($String)
+{
+	$String = str_replace("<", "", $String);
+	$String = str_replace(">", "", $String);
+	return trim($String);
 }
 
 
 // 获得IP地址
-if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
-	$onlineip = getenv('HTTP_CLIENT_IP');
-} elseif (getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
-	$onlineip = getenv('HTTP_X_FORWARDED_FOR');
-} elseif (getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
-	$onlineip = getenv('REMOTE_ADDR');
-} elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
-	$onlineip = $_SERVER['REMOTE_ADDR'];
-}
-$onlineip = addslashes($onlineip);
-//if(!$onlineip) exit('error: 400 no ip');
-
-$user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-if ($user_agent) {
-	$is_spider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $user_agent);
-	$is_mobie  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $user_agent);
-	// 设置模板前缀
-	if ($_SERVER['HTTP_HOST'] == $clienturl) {
-		$is_client = true;
-		$tpl       = 'client_';
-		header('Access-Control-Allow-Origin: *');
-	} else if ($_SERVER['HTTP_HOST'] == $mobileurl) {
-		$tpl    = 'ios_';
-	} else {
-		$tpl = '';
+function CurIP()
+{
+	$IP = false;
+	if(!empty($_SERVER["HTTP_CLIENT_IP"]))
+	{
+		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
 	}
-	$viewat = $_COOKIE['vtpl'];
-	if ($_SERVER['HTTP_HOST'] == $mobileurl && $is_mobie && $viewat != 'desktop') {
-		//如果是手机，则跳转到移动版，暂时关闭
-		//header('location: http://'.$mobileurl.$_SERVER['REQUEST_URI']);
+	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+	{
+		$IPs = explode (",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+		if ($IP)
+		{
+			array_unshift($IPs, $IP);
+			$IP = FALSE;
+		}
+		//支持使用CDN后获取IP，理论上令 $IP = $IPs[0]; 即可，安全起见遍历过滤一次
+		for ($i = 0; $i < count($IPs); $i++)
+		{
+			if (!preg_match("/^(10|172.16|172.17|172.18|172.19|172.20|172.21|172.22|172.23|172.24|172.25|172.26|172.27|172.28|172.29|172.30|172.31|192.168)/i", trim($IPs[$i])))
+			{
+				$IP = trim($IPs[$i]);
+				break;
+			}
+		}
 	}
-	//print_r($_SERVER);
-} else {
-	//exit('error: 400 no agent');
-	$is_spider = '';
-	$is_mobie  = '';
+	return ($IP ? $IP : $_SERVER['REMOTE_ADDR']);
 }
 
-//设置基本环境变量
-/*
-$cur_user
-$is_spider
-$is_mobie
-$options
-*/
-//提示信息
-function alertmsg($title, $msg, $is_404)
-{
-	global $DBS, $options, $cur_user, $cur_userinfo, $starttime, $keyword;
-	$errors   = array();
-	$errors[] = $msg;
-	if ($is_404) {
-		header("HTTP/1.0 404 Not Found");
-		header("Status: 404 Not Found");
-	}
-	$pagefile = dirname(__FILE__) . '/templates/default/' . $tpl . 'alert.php';
-	include(dirname(__FILE__) . '/templates/default/' . $tpl . 'layout.php');
-	exit;
-}
 
-//鉴权
-function auth($require_flag, $require_login, $require_verify)
+// 获得表单校验散列
+function FormHash()
 {
-	global $DBS, $options, $cur_user, $cur_userinfo, $starttime, $formhash;
-	$errors = array();
-	if ($require_flag == 1 && $cur_user['flag'] == 0 && $cur_user)
-		$errors[] = '您已被封禁，无法访问此页面，请联系管理员。';
-	if ($require_flag == 1 && $cur_user['flag'] == 1 && $cur_user)
-		$errors[] = '您的账号正在等待审核中，无法访问此页面，请联系管理员。';
-	if ($require_login == 1 && !$cur_user)
-		$errors[] = '访问此页面需要登陆，请您先登陆，如果没有账号请先注册。';
-	if ($require_verify == 1 && $cur_user && !$cur_userinfo)
-		$errors[] = '访问此页面需要绑定校园卡，请您先在下方完成绑定校园卡！';
-	if ($errors) {
-		// 页面变量
-		header("HTTP/1.0 401 Unauthorized");
-		header("Status: 401 Unauthorized");
-		$title    = '错误信息';
-		$pagefile = dirname(__FILE__) . '/templates/default/' . $tpl . 'alert.php';
-		include(dirname(__FILE__) . '/templates/default/' . $tpl . 'layout.php');
-		exit;
-	}
-}
-//URL鉴权
-function url_auth($auth_url)
-{
-	global $cur_user;
-	if (!$cur_user)
-		$auth_url = 'JavaScript:alert(\'访问此功能需要登陆\');';
+	global $Config, $SALT;
+	if(array_key_exists('UserCode', $_COOKIE))
+		return substr(md5($Config['SiteName'] . $_COOKIE['UserCode'] . $SALT), 8, 8);
 	else
-		$auth_url .= '" target="_blank';
-	return $auth_url;
-}
-// 一些常用的函数
-// 显示时间格式化
-function showtime($db_time)
-{
-	$diftime = time() - $db_time;
-	if ($diftime < 2592000) {
-		// 小于30天如下显示
-		if ($diftime >= 86400) {
-			return round($diftime / 86400, 1) . '天前';
-		} else if ($diftime >= 3600) {
-			return round($diftime / 3600, 1) . '小时前';
-		} else if ($diftime >= 60) {
-			return round($diftime / 60, 1) . '分钟前';
-		} else if($diftime < 0) {
-			return '刚刚';
-		} else {
-			return ($diftime + 1) . '秒钟前';
-		}
-	} else {
-		// 大于一年
-		return date("Y-m-d", $db_time);
-		//gmdate()可以返回格林威治标准时，date()则为当地时
-	}
+		return substr(md5($Config['SiteName'] . $SALT), 8, 8);
 }
 
-// 格式化帖子、回复内容
-function set_content($text, $spider = '0')
-{
-	global $options, $is_client;
-	// images
-	$img_re = '/(http[s]?:\/\/?(' . $options['safe_imgdomain'] . ').+\.(jpg|jpe|jpeg|gif|png))\w*/i'; //参数i，大小写不敏感
-	if (preg_match($img_re, $text)) {
-		if (!$spider) {
-			//$text = preg_replace($img_re, '<a href="\1" target="_blank" rel="nofollow"><img src="'.$options['base_url'].'/static/grey2.gif" data-original="\1" alt="" /></a>', $text);
-			$text = preg_replace($img_re, '<a href="\1" target="_blank" rel="nofollow"><img src="\1" alt="" /></a>', $text);
-			//$text = preg_replace($img_re, '<img src="\1" alt="" />', $text);
-		} else {
-			// 搜索引擎来这样显示 更利于SEO 参见 http://saepy.sinaapp.com/t/81
-			$text = preg_replace($img_re, '<img src="\1" alt="" />', $text);
-		}
-	}
-	// 腾讯微博图片
-	if (strpos($text, 'qpic.cn')) {
-		// http://t1.qpic.cn/mblogpic/4c7dfb4b2d3c665c4fa4/460
-		$qq_img_re = '/(http:\/\/t\d+\.qpic\.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+)\/\d+\w*/';
-		if (!$spider) {
-			$text = preg_replace($qq_img_re, '<img src="' . $options['base_url'] . '/static/grey2.gif" data-original="\1/460" alt="" />', $text);
-		} else {
-			$text = preg_replace($qq_img_re, '<img src="\1/460" alt="" />', $text);
-		}
-	}
-	
-	// 各大网站的视频地址格式经常变，能识别一些，不能识别了再改。
-	// youku
-	if (strpos($text, 'player.youku.com')) {
-		$text = preg_replace('/http:\/\/player\.youku\.com\/player\.php\/sid\/([a-zA-Z0-9\=]+)\/v\.swf/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-	}
-	
-	if (strpos($text, 'v.youku.com')) {
-		$text = preg_replace('/http:\/\/v\.youku\.com\/v_show\/id_([a-zA-Z0-9\=]+)(\/|\.html?)?/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-	}
-	// tudou
-	if (strpos($text, 'www.tudou.com')) {
-		if (strpos($text, 'programs/view')) {
-			$text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/v/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-		} else if (strpos($text, 'albumplay')) {
-			$text = preg_replace('/http:\/\/www\.tudou\.com\/albumplay\/([a-zA-Z0-9\=\_\-]+)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/a/\1/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-		} else if (strpos($text, "tudou.com/a/")) {
-			//播放器地址
-			$text = preg_replace('/(http:\/\/www\.tudou\.com\/a\/([a-zA-Z0-9\=]+)\/\&amp;resourceId\=([0-9\_]+)\&amp;iid\=([0-9\_]+)\/v\.swf)/', '<embed src="\\1" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-		} else {
-			$text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/l/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-		}
-	}
-	// qq
-	if (strpos($text, 'v.qq.com')) {
-		if (strpos($text, 'vid=')) {
-			$text = preg_replace('/http:\/\/v\.qq\.com\/(.+)vid=([a-zA-Z0-9]{8,})/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
-		} else {
-			$text = preg_replace('/http:\/\/v\.qq\.com\/(.+)\/([a-zA-Z0-9]{8,})\.(html?)/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
-		}
-	}
-	// gist
-	if (strpos($text, '://gist')) {
-		$text = preg_replace('/(https?:\/\/gist\.github\.com\/([a-zA-Z0-9-]+\/)?[\d]+)/', '<script src="\1.js"></script>', $text);
-	}
-	// mentions
-	if (strpos(' ' . $text, '@')) {
-		$text = preg_replace('/\B\@([a-zA-Z0-9\x80-\xff]{4,20})/', '@<a href="' . $options['base_url'] . '/member/\1">\1</a>', $text);
-	}
-	// url
-	if (strpos(' ' . $text, 'http')) {
-		$text = ' ' . $text;
-		if (!$is_client) {
-			$text = preg_replace('`([^"=\'>])((http|https|ftp)://[^\s<]+[^\s<\.)])`i', '$1<a href="$2" target="_blank" rel="nofollow">$2</a>', $text);
-		} else {
-			$text = preg_replace('`([^"=\'>])((http|https|ftp)://[^\s<]+[^\s<\.)])`i', '$1<a href="javascript:window.open(\'$2\', \'_system\');">$2</a>', $text);
-		}
-		$text = substr($text, 1);
-	}
-	
-	$text = str_replace("\r\n", '<br/>', $text);
-	
-	return $text;
-}
 
-// 匹配文本里呼叫某人，为了保险，使用时常在其前后加空格，如 @admin 吧
-function find_mentions($text, $filter_name = '')
-{
-	// 正则跟用户注册、登录保持一致
-	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff]{4,20})/', $text, $out, PREG_PATTERN_ORDER);
-	$new_arr = array_unique($out[1]);
-	if ($filter_name && in_array($filter_name, $new_arr)) {
-		foreach ($new_arr as $k => $v) {
-			if ($v == $filter_name) {
-				unset($new_arr[$k]);
-				break;
-			}
-		}
-	}
-	return $new_arr;
-}
-
-//转换字符
-function char_cv($string)
-{
-	$string = htmlspecialchars(addslashes($string));
-	return $string;
-}
-
-// 过滤掉一些非法字符
-function filter_chr($string)
-{
-	$string = str_replace('<', '', $string);
-	$string = str_replace('>', '', $string);
-	return $string;
-}
-
-//判断是否为邮件地址
-function isemail($email)
-{
-	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
-}
-
-//将数组保存为文件缓存
-function array2file($file, $array)
-{
-	$fp = fopen($file, "wb");
-	fwrite($fp, serialize($array));
-	fclose($fp);
-}
-
-//将数组的文件缓存还原为数组
-function file2array($file)
-{
-	if (!file_exists($file)) {
-		exitstr(" does no exist");
-	}
-	$handle   = fopen($file, "rb");
-	$contents = fread($handle, filesize($file));
-	fclose($handle);
-	return unserialize($contents);
-}
-//将公选课分类ID和分类名称互换
-function elective_course_category($elective_course_keyword)
-{
-	global $ec_category;
-	if ($elective_course_keyword == null) {
-		return 0;
-	} else if (is_numeric($elective_course_keyword)) {
-		return $ec_category[$elective_course_keyword];
-	} else {
-		foreach ($ec_category as $key => $val) {
-			if ($val == $elective_course_keyword) {
-				return $key;
-				break;
-			}
-		}
-	}
-}
-//获取头像使用的curl函数
-function curl_file_get_contents($url)
-{
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-	curl_setopt($ch, CURLOPT_USERAGENT, _USERAGENT_);
-	curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-	$data = curl_exec($ch);
-	curl_close($ch);
-	return $data;
-}
 //格式化文件大小
-function formatBytes($size, $precision = 2)
+function FormatBytes($size, $precision = 2)
 {
 	$units = array(
 		' B',
@@ -464,67 +230,351 @@ function formatBytes($size, $precision = 2)
 	return round($size, $precision) . $units[$i];
 }
 
-//关键字加亮
-function KeywordHighlight($content, $keyword)
+
+// 格式化时间
+function FormatTime($UnixTimeStamp)
 {
-	if ($keyword) {
-		$keyword_arr_temp = explode(" ", $keyword);
-		foreach ($keyword_arr_temp as $val) {
-			$keyword_arr[$val] = '<font color="red">' . $val . '</font>';
+	$Seconds = time() - $UnixTimeStamp;
+	if ($Seconds < 2592000) {
+		// 小于30天如下显示
+		if ($Seconds >= 86400) {
+			return round($Seconds / 86400, 0) . '&nbsp;天前';
+		} else if ($Seconds >= 3600) {
+			return round($Seconds / 3600, 0) . '&nbsp;小时前';
+		} else if ($Seconds >= 180) {
+			return round($Seconds / 60, 0) . '&nbsp;分钟前';
+		} else {
+			return ($Seconds + 1) . '&nbsp;秒钟前';
 		}
-		return strtr($content, $keyword_arr);
 	} else {
-		return $content;
+		// 大于一月
+		return date("Y-m-d", $UnixTimeStamp);
+		//gmdate()可以返回格林威治标准时，date()则为当地时
 	}
 }
 
 
-//统计
-Switch($user_agent)
+//获取头像
+function GetAvatar($UserID, $UserName, $Size='middle')
 {
-	case 'mozilla/5.0 (compatible; baiduspider/2.0; +http://www.baidu.com/search/spider.html)':
-		$device='baiduspider';
-		break;
-	case 'mozilla/5.0 (compatible; googlebot/2.1; +http://www.google.com/bot.html)':
-		$device='googlebot';
-		break;
-	case 'mozilla/5.0 (linux;u;android 2.3.7;zh-cn;) applewebkit/533.1 (khtml,like gecko) version/4.0 mobile safari/533.1 (compatible; +http://www.baidu.com/search/spider.html)':
-		$device='baiduspider mobile';
-		break;
-	case 'sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)':
-		$device='sogouspider';
-		break;
-	case 'mozilla/5.0 (compatible; msie 7.0; windows nt 5.1; .net clr 1.1.4322) 360jk yunjiankong':
-		$device='360yunjiankong';
-		break;
-	case 'dnspod-monitor/2.0':
-		$device='dnspod-monitor';
-		break;
-	case 'mediapartners-google':
-		$device='google adsense';
-		break;
-	case 'mozilla/5.0 (compatible; ahrefsbot/5.0; +http://ahrefs.com/robot/)':
-		$device='ahref';
-		break;
-	case 'yisouspider':
-		$device='yisouspider';
-		break;
-	case 'mozilla/5.0 (compatible; mj12bot/v1.4.5; http://www.majestic12.co.uk/bot.php?+)':
-		$device='mj12bot';
-		break;
-	case 'mozilla/4.0 (compatible; msie 6.0; windows nt 5.1; sv1; jiankongbao monitor 1.1)':
-		$device='jiankongbao monitor';
-		break;
-	case 'mozilla/5.0 (compatible; easouspider; +http://www.easou.com/search/spider.html)':
-		$device='easouspider';
-		break;
-	case 'mozilla/5.0 (compatible; msie 9.0; windows nt 6.1; trident/5.0); 360spider(zh-CN)':
-		$device='360spider';
-		break;
-	default:
-		$device='User';
-		break;
+	global $Config;
+	return '<img src="'.$Config['WebsitePath'].'/upload/avatar/'.$Size.'/'.$UserID.'.png" alt="'.$UserName.'"/>';
 }
 
-$DBS->query("INSERT INTO `jnubbs_logs`(`id`, `ip`, `url`, `referer`, `ua`, `spider`, `device`, `date`,`time`) VALUES (null,'".$onlineip."','http://".addslashes(trim($_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"]))."','".addslashes(trim($_SERVER["HTTP_REFERER"]))."','".addslashes(trim($user_agent))."','".addslashes(trim($is_spider))."','".addslashes(trim($device))."','".date('Y-m-d')."',".$timestamp.")");
+
+//获取Cookie
+function GetCookie($Key,$DefaultValue=false)
+{
+	global $Config;
+	if(array_key_exists($Config['CookiePrefix'].$Key, $_COOKIE))
+		return $_COOKIE[$Config['CookiePrefix'].$Key];
+	else
+		if($DefaultValue)
+		{
+			SetCookies(array($Key => $DefaultValue));
+			return $DefaultValue;
+		}else
+			return false;
+}
+
+
+//长整数intval，防止溢出
+function int($s)
+{
+	return($a=preg_replace('/[^\-\d]*(\-?\d*).*/','$1',$s))?$a:'0';
+}
+
+
+//判断是否为邮件地址
+function IsEmail($email)
+{
+	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
+}
+
+
+//判断是否为合法用户名
+function IsName($string)
+{
+	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_.]{4,20}$/i', $string);
+}
+
+//只有上一页下一页的分页
+function PaginationSimplified($PageUrl,$PageCount,$IsLastPage)
+{
+	global $Config;
+	$PageUrl = $Config['WebsitePath'].$PageUrl;
+	if ($PageCount != 1)
+		echo '<a href="'.$PageUrl.($PageCount-1).'">&lsaquo;&lsaquo;上一页</a>';
+	echo '<span id=pagenum><span class="currentpage">第'.$PageCount.'页</span>';
+	if (!$IsLastPage)
+		echo '<a href="'.$PageUrl.($PageCount+1).'">下一页&rsaquo;&rsaquo;</a>';
+	echo '</span>';
+}
+
+
+//分页
+function Pagination($PageUrl,$PageCount,$TotalPage)
+{
+	if($TotalPage<=1)
+		return false;
+	global $Config;
+	$PageUrl = $Config['WebsitePath'].$PageUrl;
+	$PageLast=$PageCount-1;
+	$PageNext=$PageCount+1;
+
+	echo '<span id=pagenum><span class="currentpage">'.$PageCount.'/'.$TotalPage.'</span>';
+	if ($PageCount != 1)
+		echo '<a href="'.$PageUrl.$PageLast.'">&lsaquo;&lsaquo;上一页</a>';
+	if (($PageCount-6) > 1)
+		echo '<a href="'.$PageUrl.'1" title="第1页(首页)">1</a>';
+	if (($PageCount-5) <= 1)
+	{
+		$PageiStart=1;
+	}
+	else if ($PageCount >= ($TotalPage-5))
+	{
+		$PageiStart=$TotalPage-9;
+	}else{
+		$PageiStart=$PageCount-5;
+	}
+
+	if ($PageCount+5 >= $TotalPage)
+	{
+		$PageiEnd=$TotalPage;
+	}else if ($PageCount<=5 && $TotalPage>=10)
+	{
+		$PageiEnd=10;
+	}else{
+		$PageiEnd=$PageCount+5;
+	}
+	for($Pagei=$PageiStart;$Pagei<=$PageiEnd;$Pagei++)
+	{
+		if ($PageCount==$Pagei)
+		{
+		echo '<span title="当前页" class="currentpage"><b>'.$Pagei.'</b></span>';
+		}
+		elseif ($Pagei > 0 && $Pagei <= $TotalPage)
+		{
+			echo '<a href="'.$PageUrl.$Pagei.'">'.$Pagei.'</a>';
+		}
+	}
+	if ($PageCount+5<$TotalPage)
+	{
+		echo '<a href="'.$PageUrl.$TotalPage.'" title="第 '.$TotalPage.' 页(尾页)">'.$TotalPage.'</a>';
+	}
+	if ($PageCount != $TotalPage)
+	{
+		echo '<a href="'.$PageUrl.$PageNext.'">下一页&rsaquo;&rsaquo;</a>';
+	}
+	//echo '&nbsp;&nbsp;&nbsp;<input type="text" onkeydown="JavaScript:if((event.keyCode==13)&&(this.value!=\'\')){window.location=\''.$PageUrl.'\'+this.value;}" onkeyup="JavaScript:if(isNaN(this.value)){this.value=\'\';}" size=4 title="请输入要跳转到第几页,然后按下回车键">';
+	echo '</span>';
+}
+
+
+//来源检查
+function ReferCheck($UserHash)
+{
+	if(empty($_SERVER['HTTP_REFERER']) || $UserHash != FormHash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST']))
+		return false;
+	else
+		return true;
+}
+
+//表单获取
+function Request($Type, $Key ,$DefaultValue='')
+{
+	switch ($Type) {
+		case 'Get':
+			return array_key_exists($Key, $_GET) ? trim($_GET[$Key]) : $DefaultValue;
+			break;
+		case 'Post':
+			return array_key_exists($Key, $_POST) ? trim($_POST[$Key]) : $DefaultValue;
+			break;
+		default:
+			return array_key_exists($Key, $_REQUEST ) ? trim($_REQUEST [$Key]) : $DefaultValue;
+			break;
+	}
+}
+
+
+//批量设置Cookie
+function SetCookies($CookiesArray,$Expires=0)
+{
+	global $Config;
+	foreach ($CookiesArray as $key => $value) {
+		if(!$Expires)
+			setcookie($Config['CookiePrefix'].$key, $value, 0, $Config['WebsitePath'].'/');
+		else
+			setcookie($Config['CookiePrefix'].$key, $value, time()+ 86400 * $Expires, $Config['WebsitePath'].'/');
+	}
+}
+
+
+//大小写不敏感的array_diff
+function TagsDiff($Arr1, $Arr2)
+{
+	global $Config;
+	$Arr2 = array_change_key_case(array_flip($Arr2), CASE_LOWER);//flip，排重，Key有Hash索引，速度更快
+	foreach ($Arr1 as $Key => $Item)
+	{
+		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || array_key_exists(strtolower(trim($Item)), $Arr2) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_. ]{1,'.$Config['MaxTagChars'].'}$/i', $Item))
+		{
+			unset($Arr1[$Key]); 
+		}else{
+			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key]));//XSS
+		}
+	}
+	return $Arr1; 
+}
+
+
+//修改系统设置
+function UpdateConfig($NewConfig)
+{
+	global $Prefix, $DB;
+	if($NewConfig)
+	{
+		foreach ($NewConfig as $Key => $Value)
+		{
+			$DB->query("UPDATE `".$Prefix."config` SET ConfigValue=? WHERE ConfigName=?", array($Value, $Key));
+		}
+		return true;
+	}else{
+		return false;
+	}
+	
+}
+
+
+//跨站脚本白名单过滤
+function XssEscape($html) {
+		preg_match_all("/\<([^\<]+)\>/is", $html, $ms);
+
+		$searchs[] = '<';
+		$replaces[] = '&lt;';
+		$searchs[] = '>';
+		$replaces[] = '&gt;';
+
+		if($ms[1]) {
+			$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre';
+			$ms[1] = array_unique($ms[1]);
+			foreach ($ms[1] as $value) {
+				$searchs[] = "&lt;".$value."&gt;";
+ 
+				$value = str_replace('&', '_uch_tmp_str_', $value);
+				$value = dhtmlspecialchars($value);
+				$value = str_replace('_uch_tmp_str_', '&', $value);
+ 
+				$value = str_replace(array('\\','/*'), array('.','/.'), $value);
+				$skipkeys = array('onabort','onactivate','onafterprint','onafterupdate','onbeforeactivate','onbeforecopy','onbeforecut','onbeforedeactivate',
+						'onbeforeeditfocus','onbeforepaste','onbeforeprint','onbeforeunload','onbeforeupdate','onblur','onbounce','oncellchange','onchange',
+						'onclick','oncontextmenu','oncontrolselect','oncopy','oncut','ondataavailable','ondatasetchanged','ondatasetcomplete','ondblclick',
+						'ondeactivate','ondrag','ondragend','ondragenter','ondragleave','ondragover','ondragstart','ondrop','onerror','onerrorupdate',
+						'onfilterchange','onfinish','onfocus','onfocusin','onfocusout','onhelp','onkeydown','onkeypress','onkeyup','onlayoutcomplete',
+						'onload','onlosecapture','onmousedown','onmouseenter','onmouseleave','onmousemove','onmouseout','onmouseover','onmouseup','onmousewheel',
+						'onmove','onmoveend','onmovestart','onpaste','onpropertychange','onreadystatechange','onreset','onresize','onresizeend','onresizestart',
+						'onrowenter','onrowexit','onrowsdelete','onrowsinserted','onscroll','onselect','onselectionchange','onselectstart','onstart','onstop',
+						'onsubmit','onunload','javascript','script','eval','behaviour','expression','style');//class
+				$skipstr = implode('|', $skipkeys);
+				$value = preg_replace(array("/($skipstr)/i"), '.', $value);
+				if(!preg_match("/^[\/|\s]?($allowtags)(\s+|$)/is", $value)) {
+					$value = '';
+				}
+				$replaces[] = empty($value)?'':"<".str_replace('&quot;', '"', $value).">";
+			}
+		}
+		$html = str_replace($searchs, $replaces, $html);
+	return $html;
+}
+
+
+function dhtmlspecialchars($string, $flags = null) {
+	if(is_array($string)) {
+		foreach($string as $key => $val) {
+			$string[$key] = dhtmlspecialchars($val, $flags);
+		}
+	} else {
+		if($flags === null) {
+			$string = str_replace(array('&', '"', '<', '>'), array('&amp;', '&quot;', '&lt;', '&gt;'), $string);
+			if(strpos($string, '&amp;#') !== false) {
+				$string = preg_replace('/&amp;((#(\d{3,5}|x[a-fA-F0-9]{4}));)/', '&\\1', $string);
+			}
+		} else {
+			if(PHP_VERSION < '5.4.0') {
+				$string = htmlspecialchars($string, $flags);
+			} else {
+				if(strtolower(CHARSET) == 'utf-8') {
+					$charset = 'UTF-8';
+				} else {
+					$charset = 'ISO-8859-1';
+				}
+				$string = htmlspecialchars($string, $flags, $charset);
+			}
+		}
+	}
+	return $string;
+}
+
+$UserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+if ($UserAgent) {
+	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
+	$IsMobie  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
+	$IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName']?true:false;
+	// 设置模板前缀
+	if ($IsApp) {
+		$TemplatePath = dirname(__FILE__) .'/styles/api/template/';
+		$Style = 'API';
+		header('Access-Control-Allow-Origin: *');
+		header('Content-Type: application/json');
+	} else if ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
+		$TemplatePath = dirname(__FILE__) .'/styles/mobile/template/';
+		$Style = 'Mobile';
+	} else {
+		$TemplatePath = dirname(__FILE__) .'/styles/default/template/';
+		$Style = 'Default';
+	}
+	$AutomaticSwitch = GetCookie('Style','Default');
+	if ($_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $IsMobie && $AutomaticSwitch != 'Default') {
+		//如果是手机，则跳转到移动版，暂时关闭
+		//header('location: http://'.$Config['MobileDomainName'].$_SERVER['REQUEST_URI']);
+	}
+} else {
+	//exit('error: 400 no agent');
+	$IsSpider = '';
+	$IsMobie  = '';
+}
+
+$CurIP = CurIP();
+$FormHash = FormHash();
+// 限制不能打开.php的网址
+if(strpos($_SERVER["REQUEST_URI"], '.php')){
+	AlertMsg('404','404 NOT FOUND',404);
+}
+
+//设置基本环境变量
+/*
+$IsSpider
+$IsMobie
+*/
+
+// 获取当前用户
+$CurUserInfo = null;//当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
+$CurUserRole = 0;
+$CurUserID      = GetCookie('UserID');
+$CurUserCode    = GetCookie('UserCode');
+
+if ($CurUserID && $CurUserCode) {
+	$TempUserInfo = $DB->row("SELECT * FROM ".$Prefix."users WHERE ID = :UserID", array("UserID"=>$CurUserID));
+	if($TempUserInfo && $CurUserCode == md5($TempUserInfo['Password'].$TempUserInfo['Salt'].$Style.$SALT))
+	{
+		$CurUserName = $TempUserInfo['UserName'];
+		$CurUserRole = $TempUserInfo['UserRoleID'];
+		$CurUserInfo = $TempUserInfo;
+	}else{
+		$CurUserID = 0;
+		$CurUserCode = '';
+		SetCookies(array('UserID' => '', 'UserCode' => ''), 1);
+	}
+	unset($TempUserInfo);
+}
 ?>

@@ -23,7 +23,7 @@ $(function () {
 	//'use strict';
 
 	// Initialize ajax autocomplete:
-	$('#AlternativeTag').autocomplete({
+	$("#AlternativeTag").autocomplete({
 		serviceUrl: WebsitePath+'/json/tag_autocomplete',
 		type: 'post',
 		/*lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
@@ -140,6 +140,27 @@ function AddTag(TagName,id)
 	{
 		$("#AlternativeTag").attr("disabled",true);
 		$("#AlternativeTag").attr("placeholder","最多添加"+MaxTagNum+"个话题");
+	}
+}
+
+//
+function TagKeydown(InputObj){
+	//alert(event.keyCode);
+	switch(event.keyCode)
+	{
+	case 13:
+		if(InputObj.value.length!=0){
+			AddTag(InputObj.value, Math.round(new Date().getTime()/1000));
+		}
+		break;
+	case 8:
+		if(InputObj.value.length==0){
+			var LastTag = $("#SelectTags").children().last();
+			TagRemove(LastTag.children().attr("value"), LastTag.attr("id").replace("Tag",""));
+		}
+		break;
+	default:
+		return true;
 	}
 }
 

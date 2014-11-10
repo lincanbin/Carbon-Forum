@@ -93,6 +93,7 @@ if($Config['MobileDomainName']){
 			?> SQL Queries<!--, Memory usage: <?php
 			echo FormatBytes(memory_get_usage(false));
 			?>-->
+			</p>
 		</div>
 		<!-- footer end -->
 
