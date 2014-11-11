@@ -1,4 +1,16 @@
 <?php
+/*
+ * PHP-Image-Resize-Class
+ * https://github.com/lincanbin/PHP-Image-Resize-Class/tree/master
+ *
+ * Copyright 2014, Lin Canbin
+ * http://www.94cb.com/
+ *
+ * Licensed under the Apache License, Version 2.0:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * A PHP class which can resize the image easily.
+ */
 class ImageResize
 {
 

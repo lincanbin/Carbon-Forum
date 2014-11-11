@@ -1,5 +1,5 @@
 # errordoc
-ErrorDocument 404 {{WebSitePath}}/404.php
+ErrorDocument 404 {{WebSitePath}}404.php
 
 <IfModule mod_rewrite.c>
 	#强制重定向到带www的顶级域名

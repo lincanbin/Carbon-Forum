@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//写入htaccess文件
 	$HtaccessPointer=fopen(dirname(__FILE__).'/htaccess.tpl','r');
 	$HtaccessBuffer=fread($HtaccessPointer, filesize(dirname(__FILE__).'/htaccess.tpl'));
-	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath,$HtaccessBuffer);
+	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath?$WebsitePath:"/",$HtaccessBuffer);
 	fclose($HtaccessPointer);
 	$Htaccess = fopen("../.htaccess","w+");       
 	fwrite($Htaccess, $HtaccessBuffer );
