@@ -24,7 +24,7 @@ ErrorDocument 404 {{WebSitePath}}404.php
 	RewriteRule ^reply$ reply.php [L]
 	RewriteRule ^settings$ settings.php [L]
 	RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L]
-	RewriteRule ^tag/([a-zA-Z0-9\x80-\xff\-_.]{1,32})(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [L]
+	RewriteRule ^tag/([a-zA-Z0-9\x80-\xff\-_+.]{1,32})(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [L]
 	RewriteRule ^tags/following(/page/([0-9]*))?$ favorite_tags.php?page=$2 [L]
 	RewriteRule ^u/([a-zA-Z0-9\x80-\xff\-_.]{4,20})?$ user.php?username=$1 [L]
 	RewriteRule ^users/following(/page/([0-9]*))?$ favorite_users.php?page=$2 [L]
