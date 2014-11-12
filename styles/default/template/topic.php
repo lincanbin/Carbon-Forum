@@ -133,34 +133,34 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 	<script>
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
 	</script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/lang/zh-cn/zh-cn.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js"></script>
-	<form action="<?php echo $Config['WebsitePath']; ?>/reply" method="post" name="reply" onsubmit="JavaScript:return SubmitCheck();">
-	<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
-	<input type="hidden" name="TopicID" value="<?php echo $id; ?>">
-	<p>
-		<script id="editor" type="text/plain" style="width:648px;height:160px;"></script>
-		<script type="text/javascript">
-			//实例化编辑器
-			window.UEDITOR_CONFIG['textarea'] = 'Content';
-			//window.UEDITOR_CONFIG['initialFrameHeight'] = 160;
-			window.UEDITOR_CONFIG['elementPathEnabled'] = false;
-			window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
-			UE.getEditor('editor',{onready:function(){
-				if(window.localStorage){
-					//从草稿中恢复
-					RecoverContents();
-				}
-			}});
-		</script>
-	</p>
-	<div class="float-left"><input type="submit" value=" 提 交 " name="submit" class="textbtn"></div>
-	<div class="c"></div> 
-	<p></p>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/lang/zh-cn/zh-cn.js?version=<?php echo $Config['Version']; ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>"></script>
+	<form name="reply">
+		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
+		<input type="hidden" name="TopicID" value="<?php echo $id; ?>">
+		<p>
+			<script id="editor" type="text/plain" style="width:648px;height:160px;"></script>
+			<script type="text/javascript">
+				//实例化编辑器
+				window.UEDITOR_CONFIG['textarea'] = 'Content';
+				//window.UEDITOR_CONFIG['initialFrameHeight'] = 160;
+				window.UEDITOR_CONFIG['elementPathEnabled'] = false;
+				window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
+				UE.getEditor('editor',{onready:function(){
+					if(window.localStorage){
+						//从草稿中恢复
+						RecoverContents();
+					}
+				}});
+			</script>
+		</p>
+		<div class="float-left"><input type="button" value=" 回 复 " class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
+		<div class="c"></div> 
+		<p></p>
 	</form>
 </div>
 <?php
@@ -174,7 +174,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 	<?php include($TemplatePath.'sider.php'); ?>
 </div>
 <!-- main-sider end -->
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>"> </script>
 <script type="text/javascript">
 uParse('.main-content',{
 	'rootPath': '<?php echo $Config['WebsitePath']; ?>/static/editor/',

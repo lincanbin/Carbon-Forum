@@ -1,6 +1,7 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
 
+SetStyle('api','API');
 Auth(1,0,true);
 
 $Error = '';
@@ -10,9 +11,9 @@ $Content = '';
 $Topic = $DB->row("SELECT * FROM ".$Prefix."topics Where ID=?",array($TopicID));
 if(!$Topic || ($Topic['IsDel'] && $CurUserRole<3))
 {
-	AlertMsg('帖子不存在','帖子不存在',404);
+	AlertMsg('帖子不存在','帖子不存在');
 }else if($Topic['IsLocked'] && $CurUserRole<3){
-	AlertMsg('此帖已被锁定','此帖已被锁定，禁止回复',401);
+	AlertMsg('此帖已被锁定','此帖已被锁定，禁止回复');
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -60,7 +61,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				}
 				//跳转到主题页
 				//计算页数，跳转到准确页数
-				header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
+				$TotalPage = ceil($Topic['Replies']+1/$Config['PostsPerPage']);
+				//header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
 			}
 		}else{
 			$Error = '内容长度不能超过'.$Config['MaxPostChars'].'个字节';
@@ -69,11 +71,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$Error = '内容不能为空';
 	}
 }
-AlertMsg($Error,$Error,200);
 $DB->CloseConnection();
-/*
+
 // 页面变量
 $PageTitle = '回复帖子';
 $ContentFile = $TemplatePath.'reply.php';
-include($TemplatePath.'layout.php');*/
+include($TemplatePath.'layout.php');
 ?>
