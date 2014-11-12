@@ -397,6 +397,20 @@ function Request($Type, $Key ,$DefaultValue='')
 }
 
 
+//设置工作模式为API模式(返回Json格式数据)
+//SetStyle('api','API');
+function SetStyle($PathName, $StyleName)
+{
+	global $IsApp, $TemplatePath, $Style;
+	if ($StyleName = 'API')
+		$IsApp = true;
+	$TemplatePath = dirname(__FILE__) .'/styles/'.$PathName.'/template/';
+	$Style = $StyleName;
+	header('Access-Control-Allow-Origin: *');
+	header('Content-Type: application/json');
+}
+
+
 //批量设置Cookie
 function SetCookies($CookiesArray,$Expires=0)
 {

@@ -6,6 +6,7 @@ function ReplyToTopic()
 		UE.getEditor('editor').focus();
 	}else{
 		$("#ReplyButton").val(" 回复中…… ");
+		UE.getEditor('editor').setDisabled('fullscreen');
 		$.ajax({
 			url: WebsitePath+'/reply',
 			data:{
@@ -14,7 +15,9 @@ function ReplyToTopic()
 				Content: UE.getEditor('editor').getContent()
 			},
 			type:'post',
+			cache:false,
 			dataType:'json',
+			async:false,//阻塞防止干扰
 			success:function(data){
 				if(data.Status==1){
 					$("#ReplyButton").val(" 回复成功 ");
@@ -25,15 +28,15 @@ function ReplyToTopic()
 					}
 				}else{
 					alert(data.ErrorMessage);
+					UE.getEditor('editor').setEnabled();
 				}
 			},
 			error:function(){
 				alert("回复失败，请再次提交");
+				UE.getEditor('editor').setEnabled();
 				$("#ReplyButton").val(" 再次提交 ");
 			}
 		});
-		
-		UE.getEditor('editor').setDisabled('fullscreen');
 	}
 	return false;
 }

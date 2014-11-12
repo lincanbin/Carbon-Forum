@@ -1,11 +1,7 @@
 <?php
 require(dirname(__FILE__)."/common.php");
 
-$IsApp = true;
-$TemplatePath = dirname(__FILE__) .'/styles/api/template/';
-$Style = 'API';
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+SetStyle('api','API');
 
 $ID = intval(Request('POST','ID',0));
 $Type = intval(Request('POST','Type',0));//1:Topic,2:Post,3:User
