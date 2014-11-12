@@ -899,6 +899,7 @@ img.avatar {
 	clear: both !important;
 }
 .User-Pannel li{
+	display: inline !important;
 	float: left;
 	width: 82px !important;
 	text-align: center;
@@ -907,6 +908,7 @@ img.avatar {
 	border-color: #d9d9d9;
 	margin: 0 !important;
 	padding: 0 !important;
+	clear: none !important
 }
 .User-Pannel li strong{
 	color: #333 !important;
