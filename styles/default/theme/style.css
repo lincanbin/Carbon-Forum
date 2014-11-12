@@ -556,7 +556,7 @@ img.avatar {
 	overflow-y: hidden!important;
 }
 .topic-content img {
-	display:block;
+	/*display:block;*/
 	margin-top:10px;
 	max-width:650px;
 }
@@ -767,7 +767,7 @@ img.avatar {
 	overflow-y: hidden!important;
 }
 .commont-content img {
-	display:block;
+	/*display:block;*/
 	margin-top:10px;
 	max-width:590px;
 }
@@ -861,7 +861,7 @@ img.avatar {
 	padding:0 10px 0 10px;
 }
 .sider-box-content ul {
-	list-style:none;
+	list-style:none !important;
 }
 .sider-box-content ul li {
 	color:#999;
@@ -870,6 +870,7 @@ img.avatar {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin-bottom:10px;
+	list-style:none !important;
 	line-height:1.2em;
 }
 /* User Pannel*/
