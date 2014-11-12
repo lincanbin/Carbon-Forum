@@ -9,8 +9,9 @@ $Content = '';
 $TagsArray = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+	SetStyle('api','API');
 	if(!ReferCheck($_POST['FormHash'])) {
-		AlertMsg('来源错误','来源错误(unknown referer)',403);
+		AlertMsg('来源错误','来源错误(unknown referer)');
 	}
 	$Title = Request('Post','Title');
 	$Content = Request('Post','Content');
@@ -108,7 +109,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					//添加提醒消息
 					AddingNotifications($Content, $TopicID, $PostID);
 					//跳转到主题页
-					header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
+					//header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
 				}
 
 			}else{

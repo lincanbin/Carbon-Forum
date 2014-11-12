@@ -1,7 +1,7 @@
 //提交前的检查
 function ReplyToTopic()
 {
-	if(!UE.getEditor('editor').getContentTxt().length){
+	if(!UE.getEditor('editor').getContent().length){
 		alert("内容不能为空！");
 		UE.getEditor('editor').focus();
 	}else{
@@ -38,7 +38,7 @@ function ReplyToTopic()
 			}
 		});
 	}
-	return false;
+	return true;
 }
 
 //回复某人
@@ -50,7 +50,7 @@ function Reply(UserName, PostFloor, PostID)
 
 if(window.localStorage){
 	var saveTimer= setInterval(function(){
-		if(UE.getEditor('editor').getContentTxt().length>=4){
+		if(UE.getEditor('editor').getContent().length>=10){
 			localStorage.setItem(Prefix+"PostContent", UE.getEditor('editor').getContent());
 		}
 	},1000); //每隔N秒保存一次

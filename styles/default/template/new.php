@@ -17,11 +17,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 <div class="main-content">
 	<div class="title"><a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $PageTitle; ?></div>
 		<div class="main-box">
-		<?php if($Error){ ?>
-		<p class="red fs12" style="margin-left:60px;">
-		› <?php echo $Error; ?> <br/></p>
-		<?php } ?>
-			<form action="?" method="post" name="NewForm" onkeydown="if(event.keyCode==13)return false;" onsubmit="JavaScript:return SubmitCheck();">
+			<form name="NewForm" onkeydown="if(event.keyCode==13)return false;">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<input type="hidden" name="ContentHash" value="" />
 			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" style="width:624px;" placeholder="标题" /></p>
@@ -50,20 +46,11 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onkeydown="JavaScript:TagKeydown(this);" onfocus="JavaScript:GetTags();" placeholder="添加话题(按Enter添加)" />
 				</div>
 			</p>
-			<script TYPE="text/javascript">
-			<?php
-				if($TagsArray){
-					foreach ($TagsArray as $key => $value) {
-						echo "AddTag(\"".$value."\", ".$TimeStamp.$key.");\n";
-					}
-				}
-				?>
-			</script>
 			<p>
 				<div id="TagsList" class="btn">
 				</div>
 			</p>
-			<p><div class="text-center"><input type="submit" value=" 发 表 " name="submit" class="textbtn" /></div><div class="c"></div></p>
+			<p><div class="text-center"><input type="button" value=" 发 表 " name="submit" class="textbtn" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></div><div class="c"></div></p>
 			</form>
 	</div>
 </div>
