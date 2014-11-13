@@ -119,7 +119,7 @@ function AlertMsg($PageTitle, $error, $status_code=200)
 //获取数组中的某一列
 function ArrayColumn($Input, $ColumnKey)
 {
-	if (version_compare(PHP_VERSION, '5.5.0') == 1) {
+	if (version_compare(PHP_VERSION, '5.5.0') < 0) {
 		$Result = array();
 		if($Input)
 		{
