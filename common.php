@@ -16,9 +16,9 @@
 //数据库从设计上避免使用Join多表联查
 
 //error_reporting(0);//不输出任何错误信息
-//error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
-error_reporting(E_ALL);//输出所有错误信息，调试用
-ini_set('display_errors', '1');//显示错误
+error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
+//error_reporting(E_ALL);//输出所有错误信息，调试用
+//ini_set('display_errors', '1');//显示错误
 date_default_timezone_set('PRC');//设置中国时区
 //开始计时，初始化常量、常量
 $mtime     = explode(' ', microtime());
@@ -77,7 +77,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser='')
 //提示信息
 function AlertMsg($PageTitle, $error, $status_code=200)
 {
-	global $UrlPath, $IsMobie, $IsApp, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode,$CurUserRole,$CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	global $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode,$CurUserRole,$CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors   = array();
 	if(!$IsApp){
 		switch($status_code)
