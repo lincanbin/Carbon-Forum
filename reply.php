@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				}
 				//跳转到主题页
 				//计算页数，跳转到准确页数
-				$TotalPage = ceil(($Topic['Replies']+1)/$Config['PostsPerPage']);
+				$TotalPage = ceil(($Topic['Replies']+2)/$Config['PostsPerPage']);
 				//header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
 			}
 		}else{

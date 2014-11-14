@@ -7,7 +7,7 @@ if(!$topic || ($topic['IsDel'] && $CurUserRole<3))
 {
 	AlertMsg('帖子不存在','帖子不存在',404);
 }
-$TotalPage = ceil($topic['Replies']/$Config['PostsPerPage']);
+$TotalPage = ceil(($topic['Replies']+1)/$Config['PostsPerPage']);
 if($Page<0 || $Page==1){
 	header('location: '.$Config['WebsitePath'].'/t/'.$id);
 	exit;
