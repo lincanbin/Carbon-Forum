@@ -43,7 +43,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<p>
 				<div class="tags-list bth" style="width:624px;height:33px;" onclick="JavaScript:document.NewForm.AlternativeTag.focus();">
 					<span id="SelectTags" class="btn"></span>
-					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onkeydown="JavaScript:TagKeydown(this);" onfocus="JavaScript:GetTags();" placeholder="添加话题(按Enter添加)" />
+					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onfocus="JavaScript:GetTags();" placeholder="添加话题(按Enter添加)" />
 				</div>
 			</p>
 			<p>
