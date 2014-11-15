@@ -3,7 +3,7 @@ include(dirname(__FILE__) . '/common.php');
 header("Content-Type: text/xml");
 $Action = Request('POST','action',false);
 $Page = intval($_GET['page']);
-$CurHost = 'http://' . $_SERVER['HTTP_HOST'];
+$CurHost = 'http://' . $_SERVER['HTTP_HOST'].$Config['WebsitePath'];
 $ItemPerSitemap  = 30000;
 ?><?xml version="1.0" encoding="UTF-8" ?>
 <?php

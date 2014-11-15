@@ -2,25 +2,25 @@
 include(dirname(__FILE__) . '/common.php');
 header("Content-Type: text/plain");
 ?>User-agent: *
-Disallow: /dashboard/
-Disallow: /favorites
-Disallow: /favorites/
-Disallow: /json/
-Disallow: /login
-Disallow: /manage
-Disallow: /new
-Disallow: /notifications
-Disallow: /register
-Disallow: /reply
-Disallow: /settings
-Disallow: /tags/following
-Disallow: /tags/following/
-Disallow: /users/following
-Disallow: /users/following/
-Disallow: /upload_controller
+Disallow: <?php echo $Config['WebsitePath']; ?>/dashboard/
+Disallow: <?php echo $Config['WebsitePath']; ?>/favorites
+Disallow: <?php echo $Config['WebsitePath']; ?>/favorites/
+Disallow: <?php echo $Config['WebsitePath']; ?>/json/
+Disallow: <?php echo $Config['WebsitePath']; ?>/login
+Disallow: <?php echo $Config['WebsitePath']; ?>/manage
+Disallow: <?php echo $Config['WebsitePath']; ?>/new
+Disallow: <?php echo $Config['WebsitePath']; ?>/notifications
+Disallow: <?php echo $Config['WebsitePath']; ?>/register
+Disallow: <?php echo $Config['WebsitePath']; ?>/reply
+Disallow: <?php echo $Config['WebsitePath']; ?>/settings
+Disallow: <?php echo $Config['WebsitePath']; ?>/tags/following
+Disallow: <?php echo $Config['WebsitePath']; ?>/tags/following/
+Disallow: <?php echo $Config['WebsitePath']; ?>/users/following
+Disallow: <?php echo $Config['WebsitePath']; ?>/users/following/
+Disallow: <?php echo $Config['WebsitePath']; ?>/upload_controller
 <?php
 //Crawl-delay: 1
-$CurHost = 'http://'.$_SERVER['HTTP_HOST'];
+$CurHost = 'http://'.$_SERVER['HTTP_HOST'].$Config['WebsitePath'];
 $ItemPerSitemap = 30000;
 //sitemap 索引
 echo 'Sitemap: ',$CurHost,"/sitemap-index.xml\n";
