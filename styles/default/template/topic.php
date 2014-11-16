@@ -36,16 +36,22 @@ if($topic['Tags']){
 }
 
 if($CurUserRole>=4){
+
 	if($topic['IsDel']==0){
-?>
+	?>
 <a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" style="float:right;">删除</a>
 <?php
-}else{
+	}else{
 ?>
 <a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" style="float:right;">恢复</a>
 <a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;">永久删除</a>
 <?php
 	}
+?>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?'解锁':'锁定'; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" style="float:right;">下沉</a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" style="float:right;">上浮</a>
+<?php
 }
 ?>
 <a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?'取消收藏':'收藏'; ?></a>

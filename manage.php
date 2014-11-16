@@ -57,7 +57,7 @@ switch ($Type)
 					{
 						$DB->query("UPDATE `".$Prefix."tags` SET TotalPosts=TotalPosts+1 WHERE `Name` in (?)",explode('|', $TopicInfo['Tags']));
 					}
-					$Message = '成功将主题从回收站取回';
+					$Message = '成功还原主题';
 				}else{
 					AlertMsg('Bad Request','恢复失败，请确认帖子在回收站');
 				}
@@ -70,12 +70,29 @@ switch ($Type)
 					$DB->query('DELETE FROM `'.$Prefix.'posts` WHERE TopicID=?',array($ID));
 					$DB->query('DELETE FROM `'.$Prefix.'topics` WHERE ID=?',array($ID));
 					$DB->query('DELETE FROM `'.$Prefix.'notifications` WHERE TopicID=?',array($ID));
-					$Message = '成功将主题永久删除';
+					$Message = '成功永久删除';
 				}else{
 					AlertMsg('Bad Request','请确认帖子在回收站');
 				}
 				break;
-
+			//主题下沉（LastTime-30*86400）
+			case 'Sink':
+				Auth(4);
+				$DB->query("UPDATE ".$Prefix."topics SET LastTime = LastTime-2592000 Where ID=:ID",array("ID"=>$ID));
+				$Message = '下沉成功';
+				break;
+			//主题上浮（LastTime+30*86400）
+			case 'Rise':
+				Auth(4);
+				$DB->query("UPDATE ".$Prefix."topics SET LastTime = LastTime+2592000 Where ID=:ID",array("ID"=>$ID));
+				$Message = '上浮成功';
+				break;
+			//主题锁定
+			case 'Lock':
+				Auth(4);
+				$DB->query("UPDATE ".$Prefix."topics SET IsLocked = :IsLocked Where ID=:ID",array("ID"=>$ID, "IsLocked"=>$TopicInfo['IsLocked']?0:1));
+				$Message = $TopicInfo['IsLocked']?'解锁成功':'成功锁定';
+				break;
 			default:
 				AlertMsg('Bad Request','Bad Request');
 				break;

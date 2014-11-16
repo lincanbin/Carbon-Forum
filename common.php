@@ -16,9 +16,9 @@
 //数据库从设计上避免使用Join多表联查
 
 //error_reporting(0);//不输出任何错误信息
-error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
-//error_reporting(E_ALL);//输出所有错误信息，调试用
-//ini_set('display_errors', '1');//显示错误
+//error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
+error_reporting(E_ALL);//输出所有错误信息，调试用
+ini_set('display_errors', '1');//显示错误
 date_default_timezone_set('PRC');//设置中国时区
 //开始计时，初始化常量、常量
 $mtime     = explode(' ', microtime());
@@ -241,8 +241,10 @@ function FormatTime($UnixTimeStamp)
 			return round($Seconds / 86400, 0) . '&nbsp;天前';
 		} else if ($Seconds >= 3600) {
 			return round($Seconds / 3600, 0) . '&nbsp;小时前';
-		} else if ($Seconds >= 180) {
+		} else if ($Seconds >= 60) {
 			return round($Seconds / 60, 0) . '&nbsp;分钟前';
+		} else if ($Seconds < 0) {
+			return '刚刚';
 		} else {
 			return ($Seconds + 1) . '&nbsp;秒钟前';
 		}
