@@ -48,10 +48,10 @@ if($Config['MobileDomainName']){
 				<!--a href="<?php echo $Config['WebsitePath']; ?>/explore"<?php echo $UrlPath=='explore'?' class="buttons-active"':''; ?>>发现</a-->
 				<?php if($CurUserID){ ?>
 				<a href="<?php echo $Config['WebsitePath']; ?>/new"<?php echo $UrlPath=='new'?' class="buttons-active"':''; ?>>发新帖</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/settings"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?> style="float:right;">设置</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications2"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> style="float:right;"><span style="position: relative;">消息<?php echo $CurUserInfo['NewMessage']?'<span style="color:#FFFFFF;position: absolute;left: 100%;margin-left: 1px;top: -6px;font-size: 10px;line-height: 1.4;background-color: #ff3b30;padding: 1px 5px;border-radius: 50%;">'.$CurUserInfo['NewMessage'].'</span>':'';?></span></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/settings"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?> style="float:right;"><span class="icon icon-action-settings"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications2"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> style="float:right;"><span style="position: relative;"><span class="icon icon-action-newmessages"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $CurUserInfo['NewMessage']?'<span style="color:#FFFFFF;position: absolute;left: 60%;margin-left: 1px;top: -8px;font-size: 10px;line-height: 1.4;background-color: #ff3b30;padding: 1px 5px !important;border-radius: 50%;">'.$CurUserInfo['NewMessage'].'</span>':'';?></span></a>
 				<?php if($CurUserRole==5){?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?> style="float:right;">系统设置</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?> style="float:right;"><span class="icon icon-action-dashboard"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				<?php }
 				} ?>
 				</div>
