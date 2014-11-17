@@ -8,13 +8,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	</div>
 <!-- User Infomation start -->
 <div class="main-box">
-<div class="member-avatar"><?php echo GetAvatar($UserInfo['ID'], $UserInfo['UserName'], 'large'); ?></div>
+<div class="member-avatar btn"><?php echo GetAvatar($UserInfo['ID'], $UserInfo['UserName'], 'large'); ?>
+<?php
+	if($CurUserID){ ?>
+	<p></p><p></p><p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);"><?php echo $IsFavorite?'取消关注':'关注他'; ?></a></p>
+	<?php } ?></div>
 <div class="member-detail">
 <p>会员：<strong><?php echo $UserInfo['UserName']; ?></strong> (第<?php echo $UserInfo['ID']; ?>号会员，<?php echo FormatTime($UserInfo['UserRegTime']); ?>加入)
-	<?php
-	if($CurUserID){ ?>
-	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);"><?php echo $IsFavorite?'取消关注':'关注他'; ?></a>
-	<?php } ?>
 </p>
 <p>主贴： <?php echo $UserInfo['Topics']; ?>  &nbsp;&nbsp;&nbsp; 回贴： <?php echo $UserInfo['Replies']; ?></p>
 <p>网站： <a href="<?php echo $UserInfo['UserHomepage']; ?>" target="_blank" rel="nofollow"><?php echo $UserInfo['UserHomepage']; ?></a></p>

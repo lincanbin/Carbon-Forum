@@ -102,6 +102,7 @@ input.textbtn {
 	border: none;
 	background-color: #D6D7D7;
 	-webkit-appearance: button;
+	transition:background-color 0.5s ease-in-out;
 	cursor: pointer;
 	display: inline-block;
 	margin-bottom: 0;
@@ -509,7 +510,7 @@ img.avatar {
 .item-content {
 	width:525px;
 	min-height:48px;
-	margin: 0 0 10px 10px;
+	margin: 0 0 7px 7px;
 	float:left;
 }
 .item-date {
@@ -547,26 +548,25 @@ img.avatar {
 }
 .item-content h2 {
 	font-size: 16px;
-	padding:0 0 5px 0;
+	padding:0 0 3px 0;
 	margin: 0;
 	min-height:28px;
 }
 .item-tags a {
 	display:inline;
-	padding:0 4px;
+	padding:1px 4px;
 	font-size:12px;
-	border:1px solid #C0BBB4;
 	float:left;
 	margin:0 2px;
-	color:#736751;
-	background-color:#F9F9F9;
+	color:#262626;
+	border: 1px solid #bfbfbf;
+	background-color:#fff;
 	white-space: nowrap;
+	transition:background-color 0.2s ease-in-out;
 }
 .item-tags a:hover {
-	border:1px solid #DAD6CB;
 	text-decoration:none;
-	color:#4F7500;
-	background-color:#F4FBE1;
+	background-color:#E5E5E5;
 }
 /* pagination */
 .pagination {
@@ -575,50 +575,32 @@ img.avatar {
 	text-align:center;
 }
 .pagination a {
-	font-size:12px;
+	font-size:14px;
 	line-height:1.5em;
-	padding:2px 5px 2px 5px;
+	padding:2px 6px;
 	margin:0 3px;
-	border:1px solid #DAD6CB;
-	background-color: #f5f5f5;
-	color: #736751;
+	color:#262626;
+	border: 1px solid #bfbfbf;
+	background-color:#fff;
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	font-weight: bold;
-	-moz-box-shadow: 0px 1px 2px rgba(66, 66, 77, 0.3);
 }
-.currentpage {
-	font-size:12px;
+.currentpage{
+	font-size:14px;
 	line-height:1.5em;
-	padding:2px 5px 2px 5px;
+	border: 1px solid #bfbfbf;
+	padding:2px 6px;
 	margin:0 3px;
-	border:1px solid #DAD6CB;
-	background-color: #F4FBE1;
-	color: #4F7500;
-	text-shadow: 0px 1px 1px #fff;
-	text-decoration: none;
-	font-weight: bold;
-	-moz-box-shadow: 0px 1px 2px rgba(66, 66, 77, 0.3);
 }
-.pagination a:hover {
-	background-color: #F4FBE1;
-	color: #4F7500;
+.pagination a:hover, .pagination a:active,.currentpage {
+	background-color: #E5E5E5;
 	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	text-decoration: none;
 	font-weight: bold;
 	cursor: pointer;
-	-moz-box-shadow: 0px 1px 2px rgba(66, 66, 77, 0.2);
-}
-.pagination a:active {
-	background-color: #e2e2e2;
-	color: #333;
-	text-shadow: 0px 1px 1px #fff;
-	text-decoration: none;
-	text-decoration: none;
-	font-weight: bold;
-	cursor: pointer;
-	-moz-box-shadow: 0px 1px 2px rgba(66, 66, 77, 0.2);
+	transition:background-color 0.2s ease-in-out;
 }
 .commont-item {
 	border-bottom: 1px solid #EFEFEF;
@@ -698,24 +680,27 @@ img.avatar {
 	display:inline;
 	padding:4px 8px;
 	font-size:12px;
-	border:1px solid #C0BBB4;
 	float:left;
 	margin:0 4px 6px 0;
-	color:#736751;
-	background-color:#F9F9F9;
+	color:#262626;
+	border: 1px solid #bfbfbf;
+	background-color:#fff;
 	white-space: nowrap;
+	transition:background-color 0.2s ease-in-out;
 }
 .btn a:hover {
-	border:1px solid #DAD6CB;
 	text-decoration:none;
-	color:#4F7500;
-	background-color:#F4FBE1;
+	background-color:#E5E5E5;
 }
 .member-avatar {
 	float:left;
 	margin:10px;
 	width:128px;
-	height:128px;
+	height:160px;
+}
+.member-avatar a{
+	margin:0 auto;
+	float: none;
 }
 .member-avatar img{
 	border-radius: 4px;
@@ -823,6 +808,9 @@ img.avatar {
 .User-Pannel li span{
 	font-size: 12px !important;
 	color:#808080;
+}
+.User-Pannel li strong:hover{
+	color: #33b5e5;
 }
 /* FORM end*/
 .tall {

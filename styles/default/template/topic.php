@@ -96,7 +96,7 @@ foreach($PostsArray as $key => $post)
 				<div class="c"></div>
 			<p><?php echo $post['Content']; ?></p>
 			</div>
-			
+			<?php if($CurUserID){ ?>
 			<div class="commont-button">
 				<div class="float-left">
 				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);">删除</a><?php } ?>
@@ -106,6 +106,7 @@ foreach($PostsArray as $key => $post)
 				</div>
 				<div class="c"></div>
 			</div>
+			<?php } ?>
 			<div class="c"></div>
 		</div>
 		<div class="c"></div>
