@@ -13,7 +13,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<p><label><input type="text" name="UserName" style="width:200px;" value="" placeholder="用户名" /></label></p>
 				<p><label><input type="password" name="Password" style="width:200px;" value="" placeholder="密码" /></label></p>
 				<p><label><input type="text" name="VerifyCode" style="width:100px;" value="" placeholder="验证码" /></label> <img src="<?php echo $Config['WebsitePath']; ?>/seccode.php" align="absmiddle" /></p>
-				<p><input type="submit" value=" 登  陆 " name="submit" class="textbtn" style="margin:0 85px;" /></p>
+				<p><input type="submit" value=" 登  陆 " name="submit" class="textbtn" style="margin:0 78px;" /></p>
 				<p class="fs14 text-center">还没来过？<a href="<?php echo $Config['WebsitePath']; ?>/register">现在注册</a></p>
 			</form>
 		</div>

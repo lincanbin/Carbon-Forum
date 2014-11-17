@@ -15,7 +15,6 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/jquery.autocomplete.min.js?version=<?php echo $Config['Version']; ?>"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/new.function.js?version=<?php echo $Config['Version']; ?>"></script>
 <div class="main-content">
-	<div class="title"><a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $PageTitle; ?></div>
 		<div class="main-box">
 			<form name="NewForm" onkeydown="if(event.keyCode==13)return false;">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />

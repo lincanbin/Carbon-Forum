@@ -27,14 +27,15 @@ if($Page==1)
 <p><?php echo $PostsArray[0]['Content']; ?></p>
 </div>
 <div class="topic-tags btn">
+<div class="w400">
 <?php
 if($topic['Tags']){
 	foreach (explode("|", $topic['Tags']) as $Tag) {
 ?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
 <?php
 	}
-}
-
+}?></div>
+<?php
 if($CurUserRole>=4){
 
 	if($topic['IsDel']==0){
@@ -84,17 +85,25 @@ foreach($PostsArray as $key => $post)
 		</div>
 		<div class="commont-data">
 			<div class="commont-content">
+				<div>
+					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a></div>
+					<span class="float-right grey fs12">
+						<?php echo FormatTime($post['PostTime']); ?>&nbsp;&nbsp;
+						<span class="commonet-count">#<?php echo $PostFloor; ?></span>
+						
+					</span>
+				</div>
+				<div class="c"></div>
 			<p><?php echo $post['Content']; ?></p>
 			</div>
 			
-			<div class="commont-data-date">
-				<div class="float-left"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a>&nbsp; • &nbsp;<?php echo FormatTime($post['PostTime']); ?>
-			 &nbsp;<?php if($CurUserRole>=4){ ?> • &nbsp;<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" style="float:right;">删除</a><?php } ?>
-
-				</div>
+			<div class="commont-button">
+				<div class="float-left">
+				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);">删除</a><?php } ?>
+			</div>
 				<div class="float-right">
-	&laquo; <a href="#reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);">回复</a>
-	<span class="commonet-count">#<?php echo $PostFloor; ?></span></div>
+					<a href="#reply" title="回复" class="icon icon-action-reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);"></a>
+				</div>
 				<div class="c"></div>
 			</div>
 			<div class="c"></div>

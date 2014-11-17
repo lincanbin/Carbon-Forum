@@ -82,31 +82,25 @@ input, select, textarea {
 	outline: 0;
 }
 input[type="text"], input[type="password"] , textarea, .tags-list {
-	border: 1px solid #C0BBB4;
+	border: none;
+	border-bottom: 1px solid #CCC;
 	padding: 6px 12px;
 	font-size: 13px;
 	line-height: 1.428571429;
-	color: #555555;
+	color: #A6A6A6;
 	vertical-align: middle;
 	background-color: white;
-	background-image: none;
-	border-radius: 4px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	-webkit-transition: border-color ease-in-out 0.5s, box-shadow ease-in-out 0.5s;
-	transition: border-color ease-in-out 0.5s, box-shadow ease-in-out 0.5s;
 }
-input[type="text"]:focus, .input[type="text"]:hover,input[type="password"]:focus, .input[type="password"]:hover, .tags-list:focus, .tags-list:hover {
-	border: 1px solid #99CC00;
+input[type="text"]:focus, .input[type="text"]:hover,input[type="password"]:focus, .input[type="password"]:hover, textarea:hover, textarea:focus, .tags-list:focus, .tags-list:hover {
+	color:#676767;
+	border-bottom: 1px solid #33B5E5;
 }
 input.textbtn {
-	color: #645A44;
+	color: #3C3C3C;
 	text-decoration: none;
 	vertical-align: middle;
-	border: 1px solid #ABA498;
-	border-top: 1px solid #C8C4BB;
-	border-left: 1px solid #C8C4BB;
-	background:#F4FBE1 url(img/bg.png) 0 -258px;
+	border: none;
+	background-color: #D6D7D7;
 	-webkit-appearance: button;
 	cursor: pointer;
 	display: inline-block;
@@ -115,10 +109,9 @@ input.textbtn {
 	text-align: center;
 	cursor: pointer;
 	white-space: nowrap;
-	padding: 6px 12px;
+	padding: 4px 20px;
 	font-size: 13px;
 	line-height: 18px;
-	border-radius: 4px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -127,11 +120,8 @@ input.textbtn {
 	text-shadow: none;
 }
 input.textbtn:hover {
-	color: #395500;
-	background:#F4FADF url(img/bg.png) 0 -300px;
-	border: 1px solid #80AA00;
-	border-top: 1px solid #99CC00;
-	border-left: 1px solid #99CC00;
+	background:#ADE1F4;
+	box-shadow: 0 0 2px #33B5E5;
 }
 label {
 	cursor: pointer;
@@ -218,9 +208,8 @@ h2.resp-accordion {
 }
 /* autocomplete*/
 .autocomplete-suggestions {
-	border: 1px solid #C0BBB4;
-	color: #746A52;
-	background: #FFF;
+	color: #000;
+	background: #F3F3F3;
 	cursor: default;
 	overflow: auto;
 	-webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64);
@@ -237,12 +226,12 @@ h2.resp-accordion {
 }
 .autocomplete-selected {
 	cursor: pointer;
-	color: #4F7500;
-	background: #F4FBE1;
+	color: #000;
+	background: #ADE1F4;
 }
 .autocomplete-suggestions strong {
 	font-weight: bold;
-	color: #4F7500;
+	color: #000;
 }
 /* other*/
 .wrapper {
@@ -330,6 +319,9 @@ h2.resp-accordion {
 .text-center {
 	text-align:center;
 }
+.text-bold {
+	font-weight:bold;
+}
 .center-align {
 	margin:0 auto;
 }
@@ -354,7 +346,7 @@ h2.resp-accordion {
 	line-height:1.2em;
 }
 .fs14 {
-	font-size:14px;
+	font-size:14px !important;
 	line-height:20px;
 }
 .textbtn {
@@ -414,8 +406,8 @@ img.avatar {
 	text-align:center;
 }
 .ad {
-	width:666px;
-	padding:0px;
+	width:656px;
+	padding:6px;
 	background-color:#FFF;
 	margin-bottom:10px;
 	border:2px dashed #BBB;
@@ -539,11 +531,11 @@ img.avatar {
 	font-size: 12px;
 	line-height: 14px;
 	font-weight: bold;
-	border-radius: 14px;
+	border-radius: 2px;
 	display: inline-block;
-	background-color: #AAB0C6;
+	background-color: #5590CC;
 	color: #FFF;
-	padding: 2px 10px 2px 10px;
+	padding: 2px 6px;
 }
 .item-count a:hover {
 	text-decoration:none;
@@ -662,21 +654,21 @@ img.avatar {
 	font-size: 12px;
 	margin-bottom:4px;
 }
-.commont-data-date a {
-	color:#666;
-}
-.commont-data-date a:hover {
-	color:#222;
+.commont-button {
+	position: relative;
+	height:24px;
+	padding: 4px 36px 4px 2px;
+	margin-bottom:4px;
 }
 .commonet-count {
 	font-size: 12px;
-	line-height: 12px;
-	font-weight: 500;
-	border-radius: 10px;
+	line-height: 14px;
+	font-weight: bold;
+	border-radius: 2px;
 	display: inline-block;
-	background-color: #E0E0E0;
-	color: #808080;
-	padding: 2px 5px 2px 5px;
+	background-color: #5590CC;
+	color: #fff;
+	padding: 2px 5px;
 }
 .comment-text {
 	width: 640px;
@@ -944,12 +936,17 @@ img.avatar {
 	height: 24px;
 }
 .icon-action-newmessages {
-	background-position: -311px -345px;
+	background-position: -107px -5px;
 	width: 24px;
 	height: 24px;
 }
 .icon-action-dashboard {
 	background-position: -5px -5px;
+	width: 24px;
+	height: 24px;
+}
+.icon-action-reply {
+	background-position: -311px -277px;
 	width: 24px;
 	height: 24px;
 }

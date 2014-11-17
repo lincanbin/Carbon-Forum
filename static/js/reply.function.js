@@ -21,7 +21,7 @@ function ReplyToTopic()
 			success:function(data){
 				if(data.Status==1){
 					$("#ReplyButton").val(" 回复成功 ");
-					location.href = WebsitePath+"/t/"+data.TopicID+(data.Page>1?"-"+data.Page:"");  
+					location.href = WebsitePath+"/t/"+data.TopicID+(data.Page>1?"-"+data.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 					if(window.localStorage){
 						//清空草稿箱
 						StopAutoSave();

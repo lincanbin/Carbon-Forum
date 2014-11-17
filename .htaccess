@@ -44,7 +44,7 @@ ErrorDocument 404 /404.php
 # Image and Flash content Caching for One Month
 <IfModule mod_expires.c>
 	ExpiresActive On
-	<FilesMatch ".(js|css|flv|gif|jpg|jpeg|png|ico|swf|html)$">
+	<FilesMatch ".(js|css|flv|gif|jpg|jpeg|png|ico|swf|html|json)$">
 		Header set Cache-Control "max-age=604800"
 	</FilesMatch>
 </IfModule>

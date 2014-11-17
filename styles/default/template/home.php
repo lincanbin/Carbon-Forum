@@ -3,10 +3,6 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <!-- main-content start -->
 <div class="main-content">
-	<div class="title">
-		<?php echo $Config['SiteName']; ?>
-		&raquo; 最近更新
-	</div>
 	<div class="main-box home-box-list">
 		<?php
 		foreach ($TopicsArray as $Topic) {
