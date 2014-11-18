@@ -41,8 +41,9 @@ switch ($Action) {
 		?>
 	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:mobile="http://www.baidu.com/schemas/sitemap-mobile/1/"> 
 	<?php
-		if(($Page*$ItemPerSitemap) <= ceil($Config['NumTopics']/$Config['TopicsPerPage'])){
-			for($i = ($Page-1)*$ItemPerSitemap+1; $i <= $Page*$ItemPerSitemap; $i++)
+	$TotalPages = ceil($Config['NumTopics']/$Config['TopicsPerPage']);
+		if((($Page-1)*$ItemPerSitemap) <= $TotalPages){
+			for($i = ($Page-1)*$ItemPerSitemap+1; $i <= $Page*$ItemPerSitemap && $i <= $TotalPages ; $i++)
 			{?>
 	<url>
 		<loc><?php echo $CurHost.'/page/'.$i; ?></loc>
