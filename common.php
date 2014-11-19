@@ -40,6 +40,17 @@ foreach($DB->query('SELECT ConfigName,ConfigValue FROM '.$Prefix.'config') as $C
 $PHPSelf  = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
 $UrlPath  = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'].'/', '', substr($PHPSelf, 0, -4)):substr($PHPSelf, 1, -4);
 
+//消除低版本中魔术引号的影响
+if (get_magic_quotes_gpc()) {
+	function StripslashesDeep($var) {
+		return is_array($var) ? array_map('StripslashesDeep', $var) : stripslashes($var);
+	}
+	$_GET = StripslashesDeep($_GET);
+	$_POST = StripslashesDeep($_POST);
+	$_COOKIE = StripslashesDeep($_COOKIE);
+	$_REQUEST = StripslashesDeep($_REQUEST);
+}
+
 // At某人并提醒他，使用时常在其前后加空格或回车，如 “@admin ”
 function AddingNotifications($Content, $TopicID, $PostID, $FilterUser='')
 {
