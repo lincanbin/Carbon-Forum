@@ -88,7 +88,7 @@ switch ($Action) {
 		break;
 	default:
 		?>
-	<sitemapindex>
+	<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<?php
 	//帖子
 	for($i = 1; $i <= ceil($Config['NumTopics']/$ItemPerSitemap); $i++)
