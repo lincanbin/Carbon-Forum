@@ -217,7 +217,7 @@ switch ($Type)
 		AlertMsg('Bad Request','Bad Request');
 		break;
 }
-$PageTitle = '论坛管理';
+$PageTitle = 'Manage';
 $ContentFile = $TemplatePath.'manage.php';
 include($TemplatePath.'layout.php');
 ?>

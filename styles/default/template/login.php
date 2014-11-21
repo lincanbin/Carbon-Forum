@@ -28,11 +28,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<td width="180" align="right">登陆有效期</td>
 						<td width="auto" align="left">
 							<select name="Expires">
-								<option value="0">不保存</option>
-								<option value="1">保存一天</option>
-								<option value="7">保存一周</option>
-								<option value="30">保存一月</option>
 								<option value="365">保存一年</option>
+								<option value="30">保存一月</option>
+								<option value="7">保存一周</option>
+								<option value="1">保存一天</option>
+								<option value="0">不保存</option>
 							</select>
 						</td>
 					</tr>

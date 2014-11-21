@@ -25,7 +25,7 @@ $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
 $TimeStamp = time();
 require(dirname(__FILE__)."/config.php");
-
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/common.php');
 //初始化数据库操作类
 require(dirname(__FILE__)."/includes/PDO.class.php");
 $DB = new Db(DBHost, DBName, DBUser, DBPassword);
@@ -88,7 +88,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser='')
 //提示信息
 function AlertMsg($PageTitle, $error, $status_code=200)
 {
-	global $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode,$CurUserRole,$CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode,$CurUserRole,$CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors   = array();
 	if(!$IsApp){
 		switch($status_code)
@@ -148,22 +148,21 @@ function ArrayColumn($Input, $ColumnKey)
 //鉴权
 function Auth($MinRoleRequire, $AuthorizedUserID=0, $StatusRequire=false)
 {
-	global $CurUserRole, $CurUserID, $CurUserInfo;
+	global $CurUserRole, $CurUserID, $CurUserInfo, $Lang;
 	$error = '';
 	if ($CurUserRole < $MinRoleRequire)
 	{
-		$RolesDict = array('游客','注册会员','VIP会员','版主','超级版主','管理员');
-		$error = '此页面仅 '.$RolesDict[$MinRoleRequire].' 可见，您的权限不足。';
+		$error = str_replace('{{RoleDict}}', $Lang['RolesDict'][$MinRoleRequire], $Lang['Error_Insufficient_Permissions']);
 	}
 	if($CurUserID && $StatusRequire==true && $CurUserInfo['UserAccountStatus'] == 0){
-		$error = '您的账号正在审核或者封禁中，请联系管理员确认！';
+		$error = $Lang['Error_Account_navailable'];
 	}
 	if($AuthorizedUserID && $CurUserID && $CurUserID == $AuthorizedUserID)
 	{
 		$error = false;
 	}
 	if ($error) {
-		AlertMsg('错误信息', $error, 401);
+		AlertMsg($Lang['Error_Message'], $error, 401);
 	}
 }
 
@@ -245,19 +244,20 @@ function FormatBytes($size, $precision = 2)
 // 格式化时间
 function FormatTime($UnixTimeStamp)
 {
+	global $Lang;
 	$Seconds = time() - $UnixTimeStamp;
 	if ($Seconds < 2592000) {
 		// 小于30天如下显示
 		if ($Seconds >= 86400) {
-			return round($Seconds / 86400, 0) . '&nbsp;天前';
+			return round($Seconds / 86400, 0) . '&nbsp;'.$Lang['Time_Days_Ago'];
 		} else if ($Seconds >= 3600) {
-			return round($Seconds / 3600, 0) . '&nbsp;小时前';
+			return round($Seconds / 3600, 0) . '&nbsp;'.$Lang['Time_Hours_Ago'];
 		} else if ($Seconds >= 60) {
-			return round($Seconds / 60, 0) . '&nbsp;分钟前';
+			return round($Seconds / 60, 0) . '&nbsp;'.$Lang['Time_Minutes_Ago'];
 		} else if ($Seconds < 0) {
-			return '刚刚';
+			return $Lang['Time_Just_Now'];
 		} else {
-			return ($Seconds + 1) . '&nbsp;秒钟前';
+			return ($Seconds + 1) . '&nbsp;'.$Lang['Time_Seconds_Ago'];
 		}
 	} else {
 		// 大于一月
@@ -314,13 +314,13 @@ function IsName($string)
 //只有上一页下一页的分页
 function PaginationSimplified($PageUrl,$PageCount,$IsLastPage)
 {
-	global $Config;
+	global $Config,$Lang;
 	$PageUrl = $Config['WebsitePath'].$PageUrl;
 	if ($PageCount != 1)
-		echo '<a href="'.$PageUrl.($PageCount-1).'">&lsaquo;&lsaquo;上一页</a>';
-	echo '<span id=pagenum><span class="currentpage">第'.$PageCount.'页</span>';
+		echo '<a href="'.$PageUrl.($PageCount-1).'">&lsaquo;&lsaquo;'.$Lang['Page_Previous'].'</a>';
+	echo '<span id=pagenum><span class="currentpage">'.$PageCount.'</span>';
 	if (!$IsLastPage)
-		echo '<a href="'.$PageUrl.($PageCount+1).'">下一页&rsaquo;&rsaquo;</a>';
+		echo '<a href="'.$PageUrl.($PageCount+1).'">'.$Lang['Page_Next'].'&rsaquo;&rsaquo;</a>';
 	echo '</span>';
 }
 
@@ -330,16 +330,16 @@ function Pagination($PageUrl,$PageCount,$TotalPage)
 {
 	if($TotalPage<=1)
 		return false;
-	global $Config;
+	global $Config, $Lang;
 	$PageUrl = $Config['WebsitePath'].$PageUrl;
 	$PageLast=$PageCount-1;
 	$PageNext=$PageCount+1;
 
 	echo '<span id=pagenum><span class="currentpage">'.$PageCount.'/'.$TotalPage.'</span>';
 	if ($PageCount != 1)
-		echo '<a href="'.$PageUrl.$PageLast.'">&lsaquo;&lsaquo;上一页</a>';
+		echo '<a href="'.$PageUrl.$PageLast.'">&lsaquo;&lsaquo;'.$Lang['Page_Previous'].'</a>';
 	if (($PageCount-6) > 1)
-		echo '<a href="'.$PageUrl.'1" title="第1页(首页)">1</a>';
+		echo '<a href="'.$PageUrl.'1">1</a>';
 	if (($PageCount-5) <= 1)
 	{
 		$PageiStart=1;
@@ -364,7 +364,7 @@ function Pagination($PageUrl,$PageCount,$TotalPage)
 	{
 		if ($PageCount==$Pagei)
 		{
-		echo '<span title="当前页" class="currentpage"><b>'.$Pagei.'</b></span>';
+		echo '<span class="currentpage">'.$Pagei.'</span>';
 		}
 		elseif ($Pagei > 0 && $Pagei <= $TotalPage)
 		{
@@ -373,11 +373,11 @@ function Pagination($PageUrl,$PageCount,$TotalPage)
 	}
 	if ($PageCount+5<$TotalPage)
 	{
-		echo '<a href="'.$PageUrl.$TotalPage.'" title="第 '.$TotalPage.' 页(尾页)">'.$TotalPage.'</a>';
+		echo '<a href="'.$PageUrl.$TotalPage.'">'.$TotalPage.'</a>';
 	}
 	if ($PageCount != $TotalPage)
 	{
-		echo '<a href="'.$PageUrl.$PageNext.'">下一页&rsaquo;&rsaquo;</a>';
+		echo '<a href="'.$PageUrl.$PageNext.'">'.$Lang['Page_Next'].'&rsaquo;&rsaquo;</a>';
 	}
 	//echo '&nbsp;&nbsp;&nbsp;<input type="text" onkeydown="JavaScript:if((event.keyCode==13)&&(this.value!=\'\')){window.location=\''.$PageUrl.'\'+this.value;}" onkeyup="JavaScript:if(isNaN(this.value)){this.value=\'\';}" size=4 title="请输入要跳转到第几页,然后按下回车键">';
 	echo '</span>';

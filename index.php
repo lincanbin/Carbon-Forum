@@ -1,5 +1,6 @@
 <?php
 require(dirname(__FILE__)."/common.php");
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/home.php');
 $Page = intval(Request('Get', 'page'));
 $TotalPage = ceil($Config['NumTopics']/$Config['TopicsPerPage']);
 if($Page<0 || $Page==1){

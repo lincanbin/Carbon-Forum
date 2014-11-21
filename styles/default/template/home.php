@@ -29,7 +29,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						}
 						?></span><span class="item-date float-right"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;<?php echo FormatTime($Topic['LastTime']); 
 							if($Topic['Replies']){
-						?>&nbsp;•&nbsp;最后回复来自&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a><?php } ?>
+						?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a><?php } ?>
 					</span>
 				</div>
 							<?php if($Topic['Replies']){ ?>
@@ -58,12 +58,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				include($TemplatePath.'sider.php');
 				?>
 				<div class="sider-box">
-					<div class="sider-box-title">站内统计</div>
+					<div class="sider-box-title"><?php echo $Lang['Website_Statistics']; ?></div>
 					<div class="sider-box-content">
 						<ul>
-							<li>主题数量：<?php echo $Config['NumTopics']; ?></li>
-							<li>回帖数量：<?php echo $Config['NumPosts']; ?></li>
-							<li>用户数量：<?php echo $Config['NumUsers']; ?></li>
+							<li><?php echo $Lang['Topics_Number']; ?>：<?php echo $Config['NumTopics']; ?></li>
+							<li><?php echo $Lang['Posts_Number']; ?>：<?php echo $Config['NumPosts']; ?></li>
+							<li><?php echo $Lang['Tags_Number']; ?>：<?php echo $Config['NumTags']; ?></li>
+							<li><?php echo $Lang['Users_Number']; ?>：<?php echo $Config['NumUsers']; ?></li>
 						</ul>
 					</div>
 				</div>

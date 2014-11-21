@@ -17,7 +17,7 @@ if($Page>$TotalPage){
 	exit;
 }
 if($Page == 0) $Page = 1;
-$PostsArray = $DB->query("SELECT * FROM ".$Prefix."posts force index(TopicID) Where TopicID=:id ORDER BY PostTime ASC LIMIT ".($Page-1)*$Config['PostsPerPage'].",".$Config['PostsPerPage'],array("id"=>$id));
+$PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`, `IsDel` FROM ".$Prefix."posts force index(TopicID) Where TopicID=:id ORDER BY PostTime ASC LIMIT ".($Page-1)*$Config['PostsPerPage'].",".$Config['PostsPerPage'],array("id"=>$id));
 $IsFavorite = $DB->single("SELECT ID FROM ".$Prefix."favorites Where UserID=:UserID and Type=1 and FavoriteID=:FavoriteID",array('UserID'=>$CurUserID, 'FavoriteID'=>$id));
 $DB->query("UPDATE ".$Prefix."topics force index(PRI) SET Views = Views+1,LastViewedTime = :LastViewedTime Where ID=:id",array("LastViewedTime"=>$TimeStamp,"id"=>$id));
 $DB->CloseConnection();

@@ -7,7 +7,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <meta charset="UTF-8" />
 <meta content="True" name="HandheldFriendly" />
 <title><?php
-echo $CurUserID && $CurUserInfo['NewMessage']?'('.$CurUserInfo['NewMessage'].'条消息) ':'';
+echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 echo $PageTitle;
 echo $UrlPath=='index'?'':'-'.$Config['SiteName']; ?></title>
 <script>
@@ -44,17 +44,17 @@ if($Config['MobileDomainName']){
 		<div class="navPanel">
 			<div class="innerNavPanel">
 				<div class="buttons">
-				<a href="<?php echo $Config['WebsitePath']; ?>/"<?php echo $UrlPath=='index'?' class="buttons-active"':''; ?>>首页</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/"<?php echo $UrlPath=='index'?' class="buttons-active"':''; ?>><?php echo $Lang['Home']; ?></a>
 				<!--a href="<?php echo $Config['WebsitePath']; ?>/explore"<?php echo $UrlPath=='explore'?' class="buttons-active"':''; ?>>发现</a-->
 				<?php if($CurUserID){ ?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/new"<?php echo $UrlPath=='new'?' class="buttons-active"':''; ?>>发新帖</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/tags/following"<?php echo $UrlPath=='favorite_tags'?' class="buttons-active"':''; ?>>关注的话题</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/users/following"<?php echo $UrlPath=='favorite_users'?' class="buttons-active"':''; ?>>关注的用户</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/new"<?php echo $UrlPath=='new'?' class="buttons-active"':''; ?>><?php echo $Lang['Create_New_Topic']; ?></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/tags/following"<?php echo $UrlPath=='favorite_tags'?' class="buttons-active"':''; ?>><?php echo $Lang['Tags_Followed']; ?></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/users/following"<?php echo $UrlPath=='favorite_users'?' class="buttons-active"':''; ?>><?php echo $Lang['Users_Followed']; ?></a>
 
-				<a href="<?php echo $Config['WebsitePath']; ?>/settings"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?> title="个人设置" style="float:right;"><span class="icon icon-action-settings"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications2"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> title="站内提醒" style="float:right;"><span style="position: relative;"><span class="icon icon-action-newmessages"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $CurUserInfo['NewMessage']?'<span style="color:#FFFFFF;position: absolute;left: 60%;margin-left: 1px;top: -8px;font-size: 10px;line-height: 1.4;background-color: #ff3b30;padding: 1px 5px !important;border-radius: 50%;">'.$CurUserInfo['NewMessage'].'</span>':'';?></span></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/settings"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?> title="<?php echo $Lang['Settings']; ?>" style="float:right;"><span class="icon icon-action-settings"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> title="<?php echo $Lang['Notifications']; ?>" style="float:right;"><span style="position: relative;"><span class="icon icon-action-newmessages"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $CurUserInfo['NewMessage']?'<span style="color:#FFFFFF;position: absolute;left: 60%;margin-left: 1px;top: -8px;font-size: 10px;line-height: 1.4;background-color: #ff3b30;padding: 1px 5px !important;border-radius: 50%;">'.$CurUserInfo['NewMessage'].'</span>':'';?></span></a>
 				<?php if($CurUserRole==5){?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?> title="系统设置" style="float:right;"><span class="icon icon-action-dashboard"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?> title="<?php echo $Lang['System_Settings']; ?>" style="float:right;"><span class="icon icon-action-dashboard"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 				<?php }
 				} ?>
 				</div>
@@ -76,7 +76,7 @@ if($Config['MobileDomainName']){
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum V<?php echo $Config['Version']; ?></a> © 2006-2014
+			Power By <a href="http://<?php echo $Lang['Language']; ?>.94cb.com" target="_blank">Carbon Forum V<?php echo $Config['Version']; ?></a> © 2006-2014
 			<?php
 			if ($IsMobie) {
 			?>
