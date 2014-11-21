@@ -577,12 +577,11 @@ img.avatar {
 .pagination a {
 	font-size:14px;
 	line-height:1.5em;
-	padding:2px 6px;
-	margin:0 3px;
+	padding:2px 4px;
+	margin:0 1px;
 	color:#262626;
 	border: 1px solid #bfbfbf;
 	background-color:#fff;
-	text-shadow: 0px 1px 1px #fff;
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -592,13 +591,10 @@ img.avatar {
 	border: 1px solid #bfbfbf;
 	padding:2px 6px;
 	margin:0 3px;
+	font-weight: bold;
 }
 .pagination a:hover, .pagination a:active,.currentpage {
 	background-color: #E5E5E5;
-	text-shadow: 0px 1px 1px #fff;
-	text-decoration: none;
-	text-decoration: none;
-	font-weight: bold;
 	cursor: pointer;
 	transition:background-color 0.2s ease-in-out;
 }
