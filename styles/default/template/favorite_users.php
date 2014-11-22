@@ -7,7 +7,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a href="<?php echo $Config['WebsitePath']; ?>/">
 			<?php echo $Config['SiteName']; ?>
 		</a>
-		&raquo; 我关注的用户
+		&raquo; <?php echo $Lang['My_Following_Users']; ?>
 	</div>
 	<div class="main-box home-box-list">
 		<?php
@@ -21,7 +21,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					</a>
 				</div>
 				<div class="commont-content">
-					<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName']; ?></a><?php echo $Post['IsTopic']?'创建了主题':'回复了主题';?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>" target="_blank"><?php echo $Post['Subject'];?></a></h2>
+					<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName']; ?></a><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_Topic'];?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>" target="_blank"><?php echo $Post['Subject'];?></a></h2>
 					<?php echo strip_tags(mb_substr($Post['Content'], 0, 200, 'utf-8'),'<p><br><a>'); ?>
 				</div>
 					
@@ -46,7 +46,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-sider start -->
 <div class="main-sider">
 	<div class="sider-box">
-		<div class="sider-box-title">我关注的用户</div>
+		<div class="sider-box-title"><?php echo $Lang['My_Following_Users']; ?></div>
 		<div class="sider-box-content btn">
 			<?php foreach ($UsersFollowing as $User) {?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($User['Title']); ?>" target="_blank"><?php echo GetAvatar($User['FavoriteID'], $User['Title'], 'small'); ?>&nbsp;&nbsp;<?php echo $User['Title']; ?></a>

@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
-
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/new.php');
 Auth(1,0,true);
 
 $Error = '';
@@ -11,7 +11,7 @@ $TagsArray = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	SetStyle('api','API');
 	if(!ReferCheck($_POST['FormHash'])) {
-		AlertMsg('来源错误','来源错误(unknown referer)');
+		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$Title = Request('Post','Title');
 	$Content = Request('Post','Content');
@@ -113,18 +113,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				}
 
 			}else{
-				$Error = '标签不能为空';
+				$Error = $Lang['Tags_Empty'];
 			}
 		}else{
-			$Error = '标题长度不能超过'.$Config['MaxTitleChars'].'个字节，内容长度不能超过'.$Config['MaxPostChars'].'个字节';
+			$Error = str_replace('{{MaxPostChars}}', $Config['MaxPostChars'], str_replace('{{MaxTitleChars}}', $Config['MaxTitleChars'], $Lang['Too_Long']));
 		}
 	}else{
-		$Error = '标题不能为空';
+		$Error = $Lang['Title_Empty'];
 	}
 }
 $DB->CloseConnection();
 // 页面变量
-$PageTitle = '发新帖';
+$PageTitle = $Lang['Create_New_Topic'];
 $ContentFile = $TemplatePath.'new.php';
 include($TemplatePath.'layout.php');
 ?>

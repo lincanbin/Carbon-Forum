@@ -16,8 +16,8 @@ $(document).ready(function(){
 <div class="main-content">
 	<div id="notifications" class="tab-container">
 		<ul class='resp-tabs-list'>
-			<li>回复我的</li>
-			<li>提到我的</li>
+			<li><?php echo $Lang['Notifications_Replied_To_Me']; ?></li>
+			<li><?php echo $Lang['Mentioned_Me']; ?></li>
 		</ul>
 		<div class="resp-tabs-container main-box home-box-list">
 			<div>
@@ -29,7 +29,7 @@ $(document).ready(function(){
 					<div class="commont-item">
 						<div class="user-commont-data">
 							<div class="commont-content">
-							<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;回复了主题&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
+							<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
 							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
@@ -56,7 +56,7 @@ $(document).ready(function(){
 					<div class="commont-item">
 						<div class="user-commont-data">
 							<div class="commont-content">
-							<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;在主题&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a>&nbsp;&nbsp;中提到了我</h2>
+							<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
 							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							

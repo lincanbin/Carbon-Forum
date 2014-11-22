@@ -3,7 +3,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <?php if(!$CurUserID && $UrlPath!='login'){ ?>
 <div class="sider-box">
-	<div class="sider-box-title">登陆</div>
+	<div class="sider-box-title"><?php echo $Lang['Log_In']; ?></div>
 	<div class="sider-box-content">
 		<div class="center-align" style="width:226px;">
 			<form action="<?php echo $Config['WebsitePath']; ?>/login" method="post">
@@ -21,7 +21,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 </div>
 <?php }else if($CurUserID){ ?>
 <div class="sider-box">
-	<div class="sider-box-title"><?php echo $Lang['User_Panel']; ?><span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1"><?php echo $Lang['Logout']; ?></a></span></div>
+	<div class="sider-box-title"><?php echo $Lang['User_Panel']; ?><span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1"><?php echo $Lang['Log_Out']; ?></a></span></div>
 	<div class="sider-box-content">
 		<div class="User-Pannel-Avatar">
 			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>">

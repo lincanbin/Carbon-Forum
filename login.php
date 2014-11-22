@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
-
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/login.php');
 $error = '';
 $UserName = '';
 $ReturnUrl = array_key_exists('HTTP_REFERER',$_SERVER) ? $_SERVER["HTTP_REFERER"] : '';
@@ -19,7 +19,7 @@ if(array_key_exists('logout',$_GET))
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if(!ReferCheck($_POST['FormHash'])) {
-		AlertMsg('登陆失败','来源错误(unknown referer)',403);
+		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$ReturnUrl = trim($_POST["ReturnUrl"]);
 	$UserName = strtolower(trim($_POST["UserName"]));
@@ -45,21 +45,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 						exit('logined');
 					}
 				}else{
-					$error = '密码错误';
+					$error = $Lang['Password_Error'];
 				}
 			}else{
-				$error = '用户不存在';
+				$error = $Lang['User_Does_Not_Exist'];
 			}
 		}else{
-			$error = '验证码错误！';
+			$error = $Lang['Verification_Code_Error'];
 		}
 	}else{
-		$error = '用户名/密码/验证码必填';
+		$error = $Lang['Forms_Can_Not_Be_Empty'];
 	}
 }
 $DB->CloseConnection();
 // 页面变量
-$PageTitle = '登 录';
+$PageTitle = $Lang['Log_In'];
 $ContentFile = $TemplatePath.'login.php';
 include($TemplatePath.'layout.php');
 ?>

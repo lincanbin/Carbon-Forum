@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
-
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/register.php');
 $UserName = '';
 $Email = '';
 $Password = '';
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	if(!ReferCheck($_POST['FormHash']))
 	{
-		AlertMsg('来源错误','来源错误(unknown referer)',403);
+		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$UserName = strtolower(Request('Post','UserName'));
 	$Email = strtolower(Request('Post','Email'));
@@ -78,28 +78,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 							}
 							header('location: '.$Config['WebsitePath'].'/');
 						} else {
-							$Message = '这名字太火了，已经被抢注了，换一个吧！';
+							$Message = $Lang['This_User_Name_Already_Exists'];
 						}
 					} else {
-						$Message = '验证码输入不对';
+						$Message = $Lang['VerificationCode_Error'];
 					}
 				}else{
-					$Message = '电子邮箱不符合规则，电子邮箱正确格式为abc@domain.com';
+					$Message = $Lang['Email_Error'];
 				}
 			} else {
-				$Message = '用户名不符合规则。用户名为4-20个字符，不可全为数字，可以包括字母、数字、中文、半角符号“_”、“-”与“.”';
+				$Message = $Lang['UserName_Error'];
 			}
 		} else {
-			$Message = '密码、重复密码 输入不一致';
+			$Message = $Lang['Passwords_Inconsistent'];
 		}
 	} else {
-		$Message = '用户名、密码、重复密码、验证码 必填';
+		$Message = $Lang['Forms_Can_Not_Be_Empty'];
 	}
 }
 
 $DB->CloseConnection();
 // 页面变量
-$PageTitle = '注 册';
+$PageTitle = $Lang['Sign_Up'];
 $ContentFile = $TemplatePath.'register.php';
 include($TemplatePath.'layout.php');
 ?>

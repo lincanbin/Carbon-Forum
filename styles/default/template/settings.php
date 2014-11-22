@@ -16,9 +16,9 @@ $(document).ready(function(){
 <div class="main-content">
 	<div id="settings" class="tab-container">
 		<ul class='resp-tabs-list'>
-			<li>头像设置</li>
-			<li>资料设置</li>
-			<li>密码更改</li>
+			<li><?php echo $Lang['Avatar_Settings']; ?></li>
+			<li><?php echo $Lang['Profile_Settings']; ?></li>
+			<li><?php echo $Lang['Security_Settings']; ?></li>
 		</ul>
 		<div class="resp-tabs-container main-box">
 			<div>
@@ -27,10 +27,7 @@ $(document).ready(function(){
 					
 					<div class="float-right w300">
 						<p class="grey">
-							
-							你可以在这里修改你的头像
-							<br /><br />
-							头像格式支持jpg/jpeg/png/gif
+							<?php echo $Lang['You_Can_Replace_Your_Avatar_Here']; ?>
 						</p>
 						<hr /><br />
 						<form method="post" enctype="multipart/form-data" action="<?php echo $Config['WebsitePath']; ?>/settings#settings1">
@@ -41,9 +38,9 @@ $(document).ready(function(){
 								<br />
 								
 							<hr /><br />
-							<div class="grey">头像最大不得超过1MiB</div>
+							<div class="grey"><?php echo $Lang['Max_Avatar_Size_Limit']; ?></div>
 							<br />
-							<input type="submit" value="上传头像" name="submit" class="textbtn" />
+							<input type="submit" value="<?php echo $Lang['Upload_Avatar']; ?>" name="submit" class="textbtn" />
 						</form>
 					</div>
 					<div class="c"></div>
@@ -56,35 +53,35 @@ $(document).ready(function(){
 				<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 					<tbody>
 					<tr>
-						<td width="180" align="right">用户名称</td>
+						<td width="180" align="right"><?php echo $Lang['UserName']; ?></td>
 						<td width="auto" align="left"><?php echo $CurUserName; ?></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">用户性别</td>
+						<td width="180" align="right"><?php echo $Lang['User_Sex']; ?></td>
 						<td width="auto" align="left">
 							<select name="UserSex">
-								<option value="<?php echo $CurUserInfo['UserSex']; ?>">不修改</option>
-								<option value="0">不明确</option>
-								<option value="1">男</option>
-								<option value="2">女</option>
+								<option value="<?php echo $CurUserInfo['UserSex']; ?>"><?php echo $Lang['Do_Not_Modify']; ?></option>
+								<option value="0"><?php echo $Lang['Sex_Unknown']; ?></option>
+								<option value="1"><?php echo $Lang['Sex_Male']; ?></option>
+								<option value="2"><?php echo $Lang['Sex_Female']; ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<td width="180" align="right">电子邮件</td>
-						<td width="auto" align="left"><input type="text" class="w300" name="UserMail" value="<?php echo $CurUserInfo['UserMail']; ?>" /> <br />不公开，仅供取回密码，务必正确填写且记住。</td>
+						<td width="180" align="right"><?php echo $Lang['Email']; ?></td>
+						<td width="auto" align="left"><input type="text" class="w300" name="UserMail" value="<?php echo $CurUserInfo['UserMail']; ?>" /> <br /><?php echo $Lang['Ensure_That_Email_Is_Correct']; ?></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">个人网站</td>
+						<td width="180" align="right"><?php echo $Lang['Homepage']; ?></td>
 						<td width="auto" align="left"><input type="text" class="w300" name="UserHomepage" value="<?php echo $CurUserInfo['UserHomepage']; ?>" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">个人简介</td>
+						<td width="180" align="right"><?php echo $Lang['Introduction']; ?></td>
 						<td width="auto" align="left"><textarea class="w300 h160" name="UserIntro"><?php echo $CurUserInfo['UserIntro']; ?></textarea></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="保存设置" name="submit" class="textbtn" /></td>
+						<td width="auto" align="left"><input type="submit" value="<?php echo $Lang['Save_Settings']; ?>" name="submit" class="textbtn" /></td>
 					</tr>
 					
 				</tbody></table>
@@ -97,20 +94,20 @@ $(document).ready(function(){
 				<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 					<tbody>
 					<tr>
-						<td width="180" align="right">当前密码</td>
+						<td width="180" align="right"><?php echo $Lang['Current_Password']; ?></td>
 						<td width="auto" align="left"><input type="password" class="w300" name="OriginalPassword" value="" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">新密码</td>
+						<td width="180" align="right"><?php echo $Lang['New_Password']; ?></td>
 						<td width="auto" align="left"><input type="password" class="w300" name="NewPassword" value="" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">再次输入新密码</td>
+						<td width="180" align="right"><?php echo $Lang['Confirm_New_Password']; ?></td>
 						<td width="auto" align="left"><input type="password" class="w300" name="NewPassword2" value="" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="更改密码" name="submit" class="textbtn" /></td>
+						<td width="auto" align="left"><input type="submit" value="<?php echo $Lang['Change_Password']; ?>" name="submit" class="textbtn" /></td>
 					</tr>
 					
 				</tbody></table>

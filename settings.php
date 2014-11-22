@@ -1,5 +1,6 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/settings.php');
 Auth(1);
 $UploadAvatarMessage = '';
 $UpdateUserInfoMessage = '';
@@ -87,7 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 $DB->CloseConnection();
 // 页面变量
-$PageTitle = '个人设置';
+$PageTitle = $Lang['Settings'];
 $ContentFile = $TemplatePath.'settings.php';
 include($TemplatePath.'layout.php');
 ?>

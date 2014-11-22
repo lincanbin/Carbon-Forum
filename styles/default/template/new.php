@@ -19,7 +19,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<form name="NewForm" onkeydown="if(event.keyCode==13)return false;">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<input type="hidden" name="ContentHash" value="" />
-			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" style="width:624px;" placeholder="标题" /></p>
+			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" style="width:624px;" placeholder="<?php echo $Lang['Title']; ?>" /></p>
 			<p>
 				<script id="editor" type="text/plain" style="width:648px;height:500px;"></script>
 				<script type="text/javascript">
@@ -42,14 +42,14 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<p>
 				<div class="tags-list bth" style="width:624px;height:33px;" onclick="JavaScript:document.NewForm.AlternativeTag.focus();">
 					<span id="SelectTags" class="btn"></span>
-					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onfocus="JavaScript:GetTags();" placeholder="添加话题(按Enter添加)" />
+					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onfocus="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
 				</div>
 			</p>
 			<p>
 				<div id="TagsList" class="btn">
 				</div>
 			</p>
-			<p><div class="text-center"><input type="button" value=" 发 表 " name="submit" class="textbtn" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></div><div class="c"></div></p>
+			<p><div class="text-center"><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="textbtn" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></div><div class="c"></div></p>
 			</form>
 	</div>
 </div>

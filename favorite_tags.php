@@ -1,5 +1,6 @@
 <?php
 require(dirname(__FILE__)."/common.php");
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/favorite_tags.php');
 Auth(1);
 $Page = Request('Get', 'page');
 if($Page<0 || $Page==1){
@@ -17,7 +18,7 @@ if($TopicIDArray)
 	$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM '.$Prefix.'topics force index(PRI) Where ID in (?) and IsDel=0 ORDER BY LastTime DESC',$TopicIDArray);
 
 $DB->CloseConnection();
-$PageTitle = '我关注的话题';
+$PageTitle = $Lang['My_Following_Tags'];
 $PageTitle .= $Page>1?' Page'.$Page:'';
 $ContentFile = $TemplatePath.'favorite_tags.php';
 include($TemplatePath.'layout.php');

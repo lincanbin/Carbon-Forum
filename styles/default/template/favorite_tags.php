@@ -7,7 +7,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a href="<?php echo $Config['WebsitePath']; ?>/">
 			<?php echo $Config['SiteName']; ?>
 		</a>
-		&raquo; 我关注的话题
+		&raquo; <?php echo $Lang['My_Following_Tags']; ?>
 	</div>
 	<div class="main-box home-box-list">
 		<?php
@@ -37,7 +37,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;
 					<?php echo FormatTime($Topic['LastTime']); 
 					if($Topic['Replies']){
-					?>&nbsp;•&nbsp;最后回复来自&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
+					?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
 					<?php } ?>
 				</span>
 			</div>
@@ -61,7 +61,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-sider start -->
 <div class="main-sider">
 	<div class="sider-box">
-		<div class="sider-box-title">我关注的话题</div>
+		<div class="sider-box-title"><?php echo $Lang['My_Following_Tags']; ?></div>
 		<div class="sider-box-content btn">
 			<?php foreach ($TagsFollowing as $Tag) {?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag['Title']); ?>" target="_blank"><?php echo $Tag['Title']; ?></a>

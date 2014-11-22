@@ -1,3 +1,4 @@
+
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
@@ -7,7 +8,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a href="<?php echo $Config['WebsitePath']; ?>/">
 			<?php echo $Config['SiteName']; ?>
 		</a>
-		&raquo; 我的收藏
+		&raquo; <?php echo $Lang['My_Favorites']; ?>
 	</div>
 	<div class="main-box home-box-list">
 		<?php
@@ -21,10 +22,10 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						</a>
 					</h2>
 					<span class="item-tags">
-						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);">取消收藏</a>
+						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
 					</span>
 					<span class="item-date float-right">
-						收藏于<?php echo FormatTime($Topic['DateCreated']); ?>
+						<?php echo $Lang['Collection_In'].FormatTime($Topic['DateCreated']); ?>
 					</span>
 				</div>
 				<div class="c"></div>
