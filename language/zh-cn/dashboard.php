@@ -11,7 +11,7 @@ $Lang = array_merge($Lang, array(
 
 	'Do_Not_Modify' => '不修改', 
 	'Forum_Name' => '论坛名称',
-	'Forum_Descriptions' => '论坛描述<br /><br />给搜索引擎看的<br />150字符以内'
+	'Forum_Descriptions' => '论坛描述<br /><br />给搜索引擎看的<br />150字符以内',
 
 
 	'You_Can_Replace_Your_Avatar_Here' => '你可以在这里修改你的头像<br /><br />头像格式支持jpg/jpeg/png/gif',
