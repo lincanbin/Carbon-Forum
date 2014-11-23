@@ -11,7 +11,7 @@ $Content = '';
 $Topic = $DB->row("SELECT * FROM ".$Prefix."topics Where ID=?",array($TopicID));
 if(!$Topic || ($Topic['IsDel'] && $CurUserRole<3))
 {
-	AlertMsg('帖子不存在','帖子不存在');
+	AlertMsg('404 NOT FOUND','404 NOT FOUND');
 }else if($Topic['IsLocked'] && $CurUserRole<3){
 	AlertMsg('此帖已被锁定','此帖已被锁定，禁止回复');
 }
@@ -74,7 +74,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $DB->CloseConnection();
 
 // 页面变量
-$PageTitle = '回复帖子';
+$PageTitle = 'Reply';
 $ContentFile = $TemplatePath.'reply.php';
 include($TemplatePath.'layout.php');
 ?>

@@ -1,11 +1,12 @@
 <?php
 require(dirname(__FILE__)."/common.php");
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/topic.php');
 $id = intval($_GET['id']);
 $Page = intval(Request('Get', 'page'));
 $topic = $DB->row("SELECT * FROM ".$Prefix."topics force index(PRI) Where ID=:id",array("id"=>$id));
 if(!$topic || ($topic['IsDel'] && $CurUserRole<3))
 {
-	AlertMsg('帖子不存在','帖子不存在',404);
+	AlertMsg('404 Not Found','404 Not Found',404);
 }
 $TotalPage = ceil(($topic['Replies']+1)/$Config['PostsPerPage']);
 if($Page<0 || $Page==1){

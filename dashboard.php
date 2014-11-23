@@ -1,5 +1,6 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/dashboard.php');
 Auth(5);
 $BasicMessage = '';
 $PageMessage = '';
@@ -54,7 +55,7 @@ switch ($Action) {
 
 $DB->CloseConnection();
 // 页面变量
-$PageTitle = '系统设置';
+$PageTitle = $Lang['System_Settings'];
 $ContentFile = $TemplatePath.'dashboard.php';
 include($TemplatePath.'layout.php');
 ?>

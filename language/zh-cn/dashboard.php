@@ -4,9 +4,16 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Avatar_Settings' => '头像设置',
-	'Profile_Settings' => '资料设置',
-	'Security_Settings' => '安全设置',
+	'Basic_Settings' => '基本设置',
+	'Page_Settings' => '页面设置',
+	'Advanced_Settings' => '高级设置',
+	'Refresh_Cache' => '更新缓存',
+
+	'Do_Not_Modify' => '不修改', 
+	'Forum_Name' => '论坛名称',
+	'Forum_Descriptions' => '论坛描述<br /><br />给搜索引擎看的<br />150字符以内'
+
+
 	'You_Can_Replace_Your_Avatar_Here' => '你可以在这里修改你的头像<br /><br />头像格式支持jpg/jpeg/png/gif',
 	'Max_Avatar_Size_Limit' => '头像最大不得超过1MiB',
 	'Upload_Avatar' => '上传头像',

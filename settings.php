@@ -17,13 +17,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/'.$CurUserID.'.png', 90);
 				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/'.$CurUserID.'.png', 90);
 				if($LUploadResult && $MUploadResult && $SUploadResult){
-					$UploadAvatarMessage = '头像上传成功';
+					$UploadAvatarMessage = $Lang['Avatar_Upload_Success'];
 				}else{
-					$UploadAvatarMessage = '头像上传失败';
+					$UploadAvatarMessage = $Lang['Avatar_Upload_Failure'];
 				}
 				
 			}else{
-				$UploadAvatarMessage = '头像超过1M，上传失败';
+				$UploadAvatarMessage = $Lang['Avatar_Is_Oversize'];
 			}
 			break;
 
@@ -40,9 +40,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					'CurUserID' => $CurUserID
 					));
 			if($UpdateUserInfoResult){
-				$UpdateUserInfoMessage = '资料修改成功';
+				$UpdateUserInfoMessage = $Lang['Profile_Modified_Successfully'];
 			}else{
-				$UpdateUserInfoMessage = '资料无改动';
+				$UpdateUserInfoMessage = $Lang['Profile_Do_Not_Modify'];
 			}
 			
 			break;
@@ -63,21 +63,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 								SetCookies(array('UserCode' => md5($NewPasswordHash.$Style.$SALT)));
 								$CurUserInfo['Salt'] = $NewSalt;
 								$CurUserInfo['Password'] = $NewPasswordHash;
-								$ChangePasswordMessage = '密码已成功更改，请记住新密码';
+								$ChangePasswordMessage = $Lang['Change_Password_Success'];
 							}else{
-								$ChangePasswordMessage = '密码更改失败';
+								$ChangePasswordMessage = $Lang['Change_Password_Failure'];
 							}
 						}else{
-							$ChangePasswordMessage = '输入的新密码不能与原密码相同';
+							$ChangePasswordMessage = $Lang['Password_Do_Not_Modify'];
 						}
 					}else{
-						$ChangePasswordMessage = '输入的当前密码不正确';
+						$ChangePasswordMessage = $Lang['Current_Password_Is_Uncorrect'];
 					}
 				}else{
-					$ChangePasswordMessage = '新密码、重复新密码不一致';
+					$ChangePasswordMessage = $Lang['Passwords_Inconsistent'];
 				}
 			}else{
-				$ChangePasswordMessage = '请填写完整，当前当前密码、新密码、重复新密码';
+				$ChangePasswordMessage = $Lang['Forms_Can_Not_Be_Empty'];
 			}
 			break;
 		

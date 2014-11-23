@@ -1,10 +1,11 @@
 <?php
 require(dirname(__FILE__)."/common.php");
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/tag.php');
 $TagName = Request('Get', 'name');
 $Page = Request('Get', 'page');
 $TagInfo = array();
 if($TagName) $TagInfo = $DB->row('SELECT * FROM '.$Prefix.'tags force index(TagName) Where Name=:Name',array('Name'=>$TagName));
-if(!$TagInfo) AlertMsg('标签不存在','标签不存在',404);
+if(!$TagInfo) AlertMsg('404 Not Found','404 Not Found',404);
 $TotalPage = ceil($TagInfo['TotalPosts']/$Config['TopicsPerPage']);
 if($Page<0 || $Page==1){
 	header('location: '.$Config['WebsitePath'].'/tag/'.$TagInfo['Name']);
