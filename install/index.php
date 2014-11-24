@@ -44,12 +44,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//写入htaccess文件
 	$HtaccessPointer=fopen(dirname(__FILE__).'/htaccess.tpl','r');
 	$HtaccessBuffer=fread($HtaccessPointer, filesize(dirname(__FILE__).'/htaccess.tpl'));
-	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath?$WebsitePath:"/",$HtaccessBuffer);
+	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath,$HtaccessBuffer);
 	//Server Software Type
 	if(isset($_SERVER['HTTP_X_REWRITE_URL'])){//IIS(ISAPI_Rewrite)
-		$HtaccessBuffer = str_replace("{{RedirectionType}}","[QSA,NU,PT,L]");
+		$HtaccessBuffer = str_replace("{{RedirectionType}}","[QSA,NU,PT,L]",$HtaccessBuffer);
 	}else{//Others
-		$HtaccessBuffer = str_replace("{{RedirectionType}}","[L]");
+		$HtaccessBuffer = str_replace("{{RedirectionType}}","[L]",$HtaccessBuffer);
 	}
 	fclose($HtaccessPointer);
 	$Htaccess = fopen("../.htaccess","w+");       

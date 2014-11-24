@@ -1,5 +1,5 @@
 # errordoc
-ErrorDocument 404 {{WebSitePath}}404.php
+ErrorDocument 404 {{WebSitePath}}/404.php
 
 <IfModule mod_rewrite.c>
 	#强制重定向到带www的顶级域名
@@ -11,7 +11,7 @@ ErrorDocument 404 {{WebSitePath}}404.php
 	RewriteCond %{REQUEST_METHOD} ^TRACE
 	RewriteRule .* - [F]
 
-	RewriteBase {{WebSitePath}}
+	RewriteBase {{WebSitePath}}/
 	RewriteRule ^dashboard$ dashboard.php [L]
 	RewriteRule ^favorites(/page/([0-9]*))?$ favorites.php?page=$2 [L]
 	RewriteRule ^json/(get_tags|tag_autocomplete|check_username)$ json.php?action=$1 [L]
