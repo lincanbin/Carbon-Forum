@@ -26,16 +26,9 @@ ErrorDocument 404 {{WebSitePath}}404.php
 	RewriteRule ^settings$ settings.php [L]
 	RewriteRule ^sitemap-(topics|pages|tags|users|index)(-([0-9]+))?.xml$ sitemap.php?action=$1&page=$3 [L]
 	RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L]
-	RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [L]
+	RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 {{RedirectionType}}
 	RewriteRule ^tags/following(/page/([0-9]*))?$ favorite_tags.php?page=$2 [L]
-
-
-	#For IIS
-	#RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [QSA,NU,PT,L]
-	#RewriteRule ^u/(.*?)$ user.php?username=$1 [QSA,NU,PT,L]
-
-
-	RewriteRule ^u/(.*?)$ user.php?username=$1 [L]
+	RewriteRule ^u/(.*?)$ user.php?username=$1 {{RedirectionType}}
 	RewriteRule ^users/following(/page/([0-9]*))?$ favorite_users.php?page=$2 [L]
 	RewriteRule ^upload_controller$ upload_controller.php [L]
 

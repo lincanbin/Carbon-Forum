@@ -574,7 +574,7 @@ if ($UserAgent) {
 $CurIP = CurIP();
 $FormHash = FormHash();
 // 限制不能打开.php的网址
-if(strpos($_SERVER["REQUEST_URI"], '.php')){
+if(strpos(isset($_SERVER['HTTP_X_REWRITE_URL'])?$_SERVER['HTTP_X_REWRITE_URL']:$_SERVER["REQUEST_URI"], '.php')){
 	AlertMsg('404','404 NOT FOUND',404);
 }
 

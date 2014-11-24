@@ -45,6 +45,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$HtaccessPointer=fopen(dirname(__FILE__).'/htaccess.tpl','r');
 	$HtaccessBuffer=fread($HtaccessPointer, filesize(dirname(__FILE__).'/htaccess.tpl'));
 	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath?$WebsitePath:"/",$HtaccessBuffer);
+	//Server Software Type
+	if(isset($_SERVER['HTTP_X_REWRITE_URL'])){//IIS(ISAPI_Rewrite)
+		$HtaccessBuffer = str_replace("{{RedirectionType}}","[QSA,NU,PT,L]");
+	}else{//Others
+		$HtaccessBuffer = str_replace("{{RedirectionType}}","[L]");
+	}
 	fclose($HtaccessPointer);
 	$Htaccess = fopen("../.htaccess","w+");       
 	fwrite($Htaccess, $HtaccessBuffer );
