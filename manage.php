@@ -35,9 +35,9 @@ switch ($Type)
 					{
 						$DB->query("UPDATE `".$Prefix."tags` SET TotalPosts=TotalPosts-1 WHERE `Name` in (?)",explode('|', $TopicInfo['Tags']));
 					}
-					$Message = '成功将主题移动至回收站';
+					$Message = $Lang['Deleted'];
 				}else{
-					AlertMsg('Bad Request','帖子已进入回收站，请勿重复操作');
+					AlertMsg('Bad Request', $Lang['Deleted']);
 				}
 				break;
 			//从回收站恢复主题
@@ -57,9 +57,9 @@ switch ($Type)
 					{
 						$DB->query("UPDATE `".$Prefix."tags` SET TotalPosts=TotalPosts+1 WHERE `Name` in (?)",explode('|', $TopicInfo['Tags']));
 					}
-					$Message = '成功还原主题';
+					$Message = $Lang['Recovered'];
 				}else{
-					AlertMsg('Bad Request','恢复失败，请确认帖子在回收站');
+					AlertMsg('Bad Request',$Lang['Failure_Recovery']);
 				}
 				break;
 			//永久删除主题（需要先将主题移动至回收站）
@@ -70,28 +70,28 @@ switch ($Type)
 					$DB->query('DELETE FROM `'.$Prefix.'posts` WHERE TopicID=?',array($ID));
 					$DB->query('DELETE FROM `'.$Prefix.'topics` WHERE ID=?',array($ID));
 					$DB->query('DELETE FROM `'.$Prefix.'notifications` WHERE TopicID=?',array($ID));
-					$Message = '成功永久删除';
+					$Message = $Lang['Permanently_Deleted'];
 				}else{
-					AlertMsg('Bad Request','请确认帖子在回收站');
+					AlertMsg('Bad Request',$Lang['Failure_Permanent_Deletion']);
 				}
 				break;
-			//主题下沉（LastTime-30*86400）
+			//主题下沉（LastTime-7*86400）
 			case 'Sink':
 				Auth(4);
-				$DB->query("UPDATE ".$Prefix."topics SET LastTime = LastTime-2592000 Where ID=:ID",array("ID"=>$ID));
-				$Message = '下沉成功';
+				$DB->query("UPDATE ".$Prefix."topics SET LastTime = LastTime-604800 Where ID=:ID",array("ID"=>$ID));
+				$Message = $Lang['Sunk'];
 				break;
-			//主题上浮（LastTime+30*86400）
+			//主题上浮（LastTime+7*86400）
 			case 'Rise':
 				Auth(4);
-				$DB->query("UPDATE ".$Prefix."topics SET LastTime = LastTime+2592000 Where ID=:ID",array("ID"=>$ID));
-				$Message = '上浮成功';
+				$DB->query("UPDATE ".$Prefix."topics SET LastTime = LastTime+604800 Where ID=:ID",array("ID"=>$ID));
+				$Message = $Lang['Risen'];
 				break;
 			//主题锁定
 			case 'Lock':
 				Auth(4);
 				$DB->query("UPDATE ".$Prefix."topics SET IsLocked = :IsLocked Where ID=:ID",array("ID"=>$ID, "IsLocked"=>$TopicInfo['IsLocked']?0:1));
-				$Message = $TopicInfo['IsLocked']?'解锁成功':'成功锁定';
+				$Message = $TopicInfo['IsLocked']?$Lang['Lock']:$Lang['Unlock'];
 				break;
 			default:
 				AlertMsg('Bad Request','Bad Request');
@@ -120,7 +120,7 @@ switch ($Type)
 				$DB->query("UPDATE `".$Prefix."topics` SET Replies=Replies-1 WHERE `ID`=?",array($PostInfo['TopicID']));
 				//更新用户自身统计数据
 				$DB->query("UPDATE `".$Prefix."users` SET Replies=Replies-1 WHERE `ID`=?",array($PostInfo['UserID']));
-				$Message = '成功删除帖子';
+				$Message = $Lang['Permanently_Deleted'];
 				break;
 
 			default:
@@ -203,7 +203,7 @@ switch ($Type)
 					AlertMsg('Bad Request','Bad Request');
 					break;
 			}
-			$Message = $IsFavorite?($MessageType?'取消关注成功':'取消收藏成功'):($MessageType?'关注成功':'收藏成功');
+			$Message = $IsFavorite?($MessageType?$Lang['Follow']:$Lang['Collect']):($MessageType?$Lang['Unfollow']:$Lang['Unsubscribe']);
 			//$FavoriteID = $DB->lastInsertId();
 		}else{
 			AlertMsg('404 Not Found','404 Not Found');
