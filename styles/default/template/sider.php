@@ -12,7 +12,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<input type="hidden" name="Expires" value="30" />
 				<p><label><input type="text" name="UserName" style="width:200px;" value="" placeholder="<?php echo $Lang['UserName']; ?>" /></label></p>
 				<p><label><input type="password" name="Password" style="width:200px;" value="" placeholder="<?php echo $Lang['Password']; ?>" /></label></p>
-				<p><label><input type="text" name="VerifyCode" style="width:100px;" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> <img src="<?php echo $Config['WebsitePath']; ?>/seccode.php" align="absmiddle" /></p>
+				<p><label><input type="text" name="VerifyCode" class="w100" onclick="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> <img src="" id="Verification_Code_Img" style="cursor: pointer;" onclick="this.src+=''" align="absmiddle" /></p>
 				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" style="margin:0 78px;" /></p>
 				<p class="fs14 text-center"><a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a></p>
 			</form>

@@ -9,41 +9,40 @@ $Lang = array_merge($Lang, array(
 	'Advanced_Settings' => '高级设置',
 	'Refresh_Cache' => '更新缓存',
 
-	'Do_Not_Modify' => '不修改', 
 	'Forum_Name' => '论坛名称',
 	'Forum_Descriptions' => '论坛描述<br /><br />给搜索引擎看的<br />150字符以内',
 
+	'Page_Show' => '每页显示',
+	'Page_Topics' => '个主题',
 
-	'You_Can_Replace_Your_Avatar_Here' => '你可以在这里修改你的头像<br /><br />头像格式支持jpg/jpeg/png/gif',
-	'Max_Avatar_Size_Limit' => '头像最大不得超过1MiB',
-	'Upload_Avatar' => '上传头像',
+	'Topic_Show' => '每个主题显示',
+	'Topic_Posts' => '个回帖',
 
-	'Do_Not_Modify' => '不修改',
-	'User_Sex' => '用户性别',
-	'Sex_Unknown' => '不明确',
-	'Sex_Male' => '男',
-	'Sex_Female' => '女',
-	'Email' => '电子邮箱',
-	'Ensure_That_Email_Is_Correct' => '不公开，仅供取回密码，务必正确填写且记住。',
-	'Homepage' => '个人主页',
-	'Introduction' => '个人简介',
-	'Save_Settings' => '保存设置',
-	'Current_Password' => '当前密码',
-	'New_Password' => '新密码',
-	'Confirm_New_Password' => '再次输入新密码',
-	'Change_Password' => '更改密码',
+	'Topic_Max' => '每个主题最多',
+	'Topic_Max_Tags' => '个话题',
 
-	'Avatar_Upload_Success' => '头像上传成功',
-	'Avatar_Upload_Failure' => '头像上传失败',
-	'Avatar_Is_Oversize' => '头像超过1M，上传失败',
+	'Tag_Max' => '单个标签最多',
+	'Tag_Max_Chars' => '个字符',
 
-	'Profile_Modified_Successfully' => '资料修改成功',
-	'Profile_Do_Not_Modify' => '资料无改动',
+	'Post_Max' => '每个帖子最多',
+	'Post_Max_Chars' => '个字符',
 
-	'Change_Password_Success' => '密码已成功更改，请记住新密码',
-	'Change_Password_Failure' => '密码更改失败',
-	'Password_Do_Not_Modify' => '输入的新密码不能与原密码相同',
-	'Current_Password_Is_Uncorrect' => '输入的当前密码不正确',
-	'Passwords_Inconsistent' => '新密码、重复新密码不一致',
-	'Forms_Can_Not_Be_Empty' => '请填写完整，当前当前密码、新密码、重复新密码'
+	'Save' => '保存设置',
+
+	'Html_Between_Head' => '&lt;Head&gt;标签之间的内容',
+	'Html_Before_Body' => '&lt;/Body&gt;标签之前的内容<br />一般放置统计代码',
+	'Html_SiderBar' => '侧边栏的内容',
+
+	'jQuery_CDN' => 'jQuery库地址',
+	'Main_Domainname' => 'PC端主站域名',
+	'Mobile_Domainname' => '手机站域名',
+	'API_Domainname' => '客户端API域名',
+
+	'Refresh_Cache_Notice' => '更新缓存的操作可能需要较长时间，请耐心等待<br />如果数据正确，则没有必要清理缓存',
+	'Refresh_All_Cache' => '更新全站缓存',
+
+	'Successfully_Refreshed' => '缓存更新成功',
+	'Basic_Settings_Successfully_Saved' => '基本设置修改成功，{{NewConfig}}项已修改',
+	'Page_Settings_Successfully_Saved' => '页面设置修改成功，{{NewConfig}}项已修改',
+	'Advanced_Settings_Successfully_Saved' => '高级设置修改成功，{{NewConfig}}项已修改',
 	));

@@ -3,11 +3,19 @@ set_time_limit(0);
 $Message = '';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$fp = @fopen(dirname(__FILE__).'/database.sql', "r") or die("不能打开SQL文件");
+	$Language = $_POST['Language'];
 	$DBHost = $_POST['DBHost'];
 	$DBName = $_POST['DBName'];
 	$DBUser = $_POST['DBUser'];
 	$DBPassword = $_POST['DBPassword'];
-	$WebsitePath = $_POST['WebsitePath'];
+	//$WebsitePath = $_POST['WebsitePath'];
+	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+	if(preg_match('/(.*)\/install/i', $WebsitePath , $WebsitePathMatch))
+	{
+		$WebsitePath = $WebsitePathMatch[1];
+	}else{
+		$WebsitePath = '';
+	}
 	//初始化数据库操作类
 	require('../includes/PDO.class.php');
 	$DB = new Db($DBHost, $DBName, $DBUser, $DBPassword);
@@ -23,6 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//写入config文件
 	$ConfigPointer=fopen(dirname(__FILE__).'/config.tpl','r');
 	$ConfigBuffer=fread($ConfigPointer, filesize(dirname(__FILE__).'/config.tpl'));
+	$ConfigBuffer = str_replace("{{Language}}",$Language,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBHost}}",$DBHost,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBUser}}",$DBUser,$ConfigBuffer);
@@ -95,49 +104,45 @@ function GetNextSQL() {
 			<!-- main-content start -->
 <div class="main-content">
 	<div class="title">
-		Carbon Forum &raquo; 安装
+		Carbon Forum &raquo; 安装&nbsp;&nbsp;/&nbsp;&nbsp;Install
 	</div>
 	<div class="main-box">
 			<form action="?" method="post">
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 				<tbody>
 					<tr>
-						<td width="180" align="right"></td>
+						<td width="280" align="right"></td>
 						<td width="auto" align="left"><span class="red"><?php echo $Message; ?></span></td>
 					</tr>
 					<?php if(!$Message) {?>
 					<tr>
-						<td width="180" align="right">数据库地址</td>
+						<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
+						<td width="auto" align="left">
+							<select name="Language">
+								<option value="zh-cn">简体中文</option>
+								<option value="en">English</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
 						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="127.0.0.1" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">数据库名</td>
+						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
 						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">数据库登陆账号</td>
+						<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
 						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="root" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right">数据库密码</td>
+						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
 						<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
 					</tr>
 					<tr>
-						<?php
-							$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-							if(preg_match('/(.*)\/install/i', $WebsitePath , $WebsitePathMatch))
-							{
-								$WebsitePath = $WebsitePathMatch[1];
-							}else{
-								$WebsitePath = '';
-							}
-						?>
-						<td width="180" align="right">安装路径<br />(自动检测，无需修改)</td>
-						<td width="auto" align="left"><input type="text" name="WebsitePath" class="sl w200" value="<?php echo $WebsitePath; ?>" /></td>
-					</tr>
-					<tr>
-						<td width="180" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="安 装" name="submit" class="textbtn" /></td>
+						<td width="280" align="right"></td>
+						<td width="auto" align="left"><input type="submit" value="安 装 / Install " name="submit" class="textbtn" /></td>
 					</tr>
 					<?php } ?>
 				</tbody>
@@ -151,7 +156,7 @@ function GetNextSQL() {
 			<div class="sider-box-title">安装说明</div>
 			<div class="sider-box-content">
 				<p>
-				如果出现“Access denied”错误说明填写不整齐，请返回重新填写。
+				如果出现“Access denied”错误说明填写不正确，请返回重新填写。
 				</p>
 				<p>
 				安装完毕后，第一个注册的用户将会自动成为管理员。

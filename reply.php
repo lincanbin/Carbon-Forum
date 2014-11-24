@@ -1,6 +1,6 @@
 <?php
 include(dirname(__FILE__) . '/common.php');
-
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/reply.php');
 SetStyle('api','API');
 Auth(1,0,true);
 
@@ -13,12 +13,12 @@ if(!$Topic || ($Topic['IsDel'] && $CurUserRole<3))
 {
 	AlertMsg('404 NOT FOUND','404 NOT FOUND');
 }else if($Topic['IsLocked'] && $CurUserRole<3){
-	AlertMsg('此帖已被锁定','此帖已被锁定，禁止回复');
+	AlertMsg($Lang['Topic_Has_Been_Locked'], $Lang['Topic_Has_Been_Locked']);
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if(!ReferCheck($_POST['FormHash'])) {
-		AlertMsg('来源错误','来源错误(unknown referer)');
+		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$Content = Request('Post','Content');
 	if($Content){
@@ -65,10 +65,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				//header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
 			}
 		}else{
-			$Error = '内容长度不能超过'.$Config['MaxPostChars'].'个字节';
+			$Error = str_replace('{{MaxPostChars}}', $Config['MaxPostChars'], $Lang['Too_Long']);
 		}
 	}else{
-		$Error = '内容不能为空';
+		$Error = $Lang['Content_Empty'];
 	}
 }
 $DB->CloseConnection();

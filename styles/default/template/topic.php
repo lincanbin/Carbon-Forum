@@ -14,7 +14,7 @@ if($Page==1)
 		<h1><?php  echo $topic['Topic']; ?></h1>
 		<div class="topic-title-date">
 		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
- at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo $topic['Favorites']; ?>人收藏 • <?php echo ($topic['Views']+1); ?>人点击
+ at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 		</div>
 	</div>
 	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>">
@@ -40,22 +40,22 @@ if($CurUserRole>=4){
 
 	if($topic['IsDel']==0){
 	?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" style="float:right;">删除</a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" style="float:right;"><?php echo $Lang['Delete']; ?></a>
 <?php
 	}else{
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" style="float:right;">恢复</a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;">永久删除</a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" style="float:right;"><?php echo $Lang['Recover']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;"><?php echo $Lang['Permanently_Delete']; ?></a>
 <?php
 	}
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?'解锁':'锁定'; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" style="float:right;">下沉</a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" style="float:right;">上浮</a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" style="float:right;"><?php echo $Lang['Sink']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" style="float:right;"><?php echo $Lang['Rise']; ?></a>
 <?php
 }
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?'取消收藏':'收藏'; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
 <div class="c"></div>
 </div>
 </div>
@@ -68,7 +68,7 @@ if($topic['Replies']!=0)
 ?>
 <!-- comment list start -->
 <div class="title">
-	<?php echo $topic['Replies']; ?> 回复  |  直到 <?php echo FormatTime($topic['LastTime']); ?>
+	<?php echo $topic['Replies']; ?> <?php echo $Lang['Replies']; ?>  |  <?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($topic['LastTime']); ?>
 </div>
 <div class="main-box home-box-list">
 <?php
@@ -99,10 +99,10 @@ foreach($PostsArray as $key => $post)
 			<?php if($CurUserID){ ?>
 			<div class="commont-button">
 				<div class="float-left">
-				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);">删除</a><?php } ?>
+				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
 			</div>
 				<div class="float-right">
-					<a href="#reply" title="回复" class="icon icon-action-reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);"></a>
+					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" class="icon icon-action-reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);"></a>
 				</div>
 				<div class="c"></div>
 			</div>
@@ -131,18 +131,18 @@ if($TotalPage>1){
 <?php
 if(!$topic['IsLocked'] && !$CurUserInfo){
 ?>
-<div class="ad"><p>登陆后方可回帖</p></div>
+<div class="ad"><p><?php echo $Lang['Requirements_For_Login']; ?></p></div>
 <?php
 }else if($topic['IsLocked']){
 ?>
-<div class="ad"><p>此帖已被锁定，禁止回复</p></div>
+<div class="ad"><p><?php echo $Lang['Topic_Has_Been_Locked']; ?></p></div>
 <?php
 }else{
 ?>
 
 <div class="title">
-	<div class="float-left">添加一条新回复<a name="reply"></a></div>
-	<div class="float-right"><a href="#">↑ 回到顶部</a></div>
+	<div class="float-left"><?php echo $Lang['Reply']; ?><a name="reply"></a></div>
+	<div class="float-right"><a href="#">↑ Top</a></div>
 	<div class="c"></div>    
 </div>
 <div class="main-box">
@@ -174,7 +174,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 				}});
 			</script>
 		</p>
-		<div class="float-left"><input type="button" value=" 回 复 " class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
+		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
 		<p></p>
 	</form>

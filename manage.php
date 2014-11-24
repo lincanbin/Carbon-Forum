@@ -1,6 +1,6 @@
 <?php
 require(dirname(__FILE__)."/common.php");
-
+require(dirname(__FILE__).'/language/'.ForumLanguage.'/manage.php');
 SetStyle('api','API');
 
 $ID = intval(Request('POST','ID',0));

@@ -21,7 +21,7 @@ switch ($Action) {
 		$DB->query('UPDATE '.$Prefix.'users u SET u.Topics=(SELECT count(*) FROM '.$Prefix.'topics t WHERE t.UserName=u.UserName),u.Replies=(SELECT count(*) FROM '.$Prefix.'posts p WHERE p.UserName=u.UserName and p.IsTopic=0),u.Followers=(SELECT count(*) FROM '.$Prefix.'favorites f WHERE f.FavoriteID=u.ID and Type=3)');
 		$DB->query('UPDATE '.$Prefix.'topics t SET t.Replies=(SELECT count(*) FROM '.$Prefix.'posts p WHERE p.TopicID=t.ID and p.IsTopic=0 and p.IsDel=0),t.Favorites=(SELECT count(*) FROM '.$Prefix.'favorites f WHERE f.FavoriteID=t.ID and Type=1)');
 		$DB->query('UPDATE '.$Prefix.'tags t SET t.TotalPosts=(SELECT count(*) FROM '.$Prefix.'posttags p WHERE p.TagID=t.ID),t.Followers=(SELECT count(*) FROM '.$Prefix.'favorites f WHERE f.FavoriteID=t.ID and Type=2)');
-		$CacheMessage = '缓存更新成功';
+		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;
 	
 	default:
@@ -38,20 +38,19 @@ switch ($Action) {
 		UpdateConfig($NewConfig);
 		switch ($Action) {
 			case 'Basic':
-				$BasicMessage = '基本设置修改成功，'.count($NewConfig).'项已修改';
+				$BasicMessage = str_replace('{{NewConfig}}', count($NewConfig), $Lang['Basic_Settings_Successfully_Saved']);
 				break;
 			case 'Page':
-				$PageMessage = '页面设置修改成功，'.count($NewConfig).'项已修改';
+				$PageMessage = str_replace('{{NewConfig}}', count($NewConfig), $Lang['Page_Settings_Successfully_Saved']);
 				break;
 			case 'Advanced':
-				$AdvancedMessage = '高级设置修改成功，'.count($NewConfig).'项已修改';
+				$AdvancedMessage = str_replace('{{NewConfig}}', count($NewConfig), $Lang['Advanced_Settings_Successfully_Saved']);
 				break;
 			default:
 				break;
 		}
 		break;
 }
-
 
 $DB->CloseConnection();
 // 页面变量
