@@ -28,13 +28,6 @@ ErrorDocument 404 /404.php
 	RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L]
 	RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [L]
 	RewriteRule ^tags/following(/page/([0-9]*))?$ favorite_tags.php?page=$2 [L]
-
-
-	#For IIS
-	#RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [QSA,NU,PT,L]
-	#RewriteRule ^u/(.*?)$ user.php?username=$1 [QSA,NU,PT,L]
-
-
 	RewriteRule ^u/(.*?)$ user.php?username=$1 [L]
 	RewriteRule ^users/following(/page/([0-9]*))?$ favorite_users.php?page=$2 [L]
 	RewriteRule ^upload_controller$ upload_controller.php [L]

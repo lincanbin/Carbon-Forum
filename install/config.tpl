@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $SALT = 'AuthorIsLinCanbin';//Salt，用于Cookie与Form，随便改
 $Prefix = 'carbon_';
 define('InternalAccess', true);

@@ -1,5 +1,6 @@
 <?php
 set_time_limit(0);
+date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$fp = @fopen(dirname(__FILE__).'/database.sql', "r") or die("不能打开SQL文件");
@@ -57,7 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($Htaccess);
 
 	//rewrite文件配置
-	$Message = '安装成功，安装完成后请马上删除install文件夹。<br /><a href="../register">点我马上注册管理员账号</a>';
+	$Message = '安装成功，安装完成后请马上删除install文件夹。<br />Please delete the install folder. <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
 
 	//安全起见，修改为不可执行文件
 	if (file_exists('index.php')) {  
@@ -117,8 +118,7 @@ function GetNextSQL() {
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 				<tbody>
 					<tr>
-						<td width="280" align="right"></td>
-						<td width="auto" align="left"><span class="red"><?php echo $Message; ?></span></td>
+						<td width="auto" align="center" colspan="2"><span class="red"><?php echo $Message; ?></span></td>
 					</tr>
 					<?php if(!$Message) {?>
 					<tr>

@@ -4,10 +4,10 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Basic_Settings' => '基本设置',
-	'Page_Settings' => '页面设置',
-	'Advanced_Settings' => '高级设置',
-	'Refresh_Cache' => '更新缓存',
+	'Basic_Settings' => 'Basic Settings',
+	'Page_Settings' => 'Page Settings',
+	'Advanced_Settings' => 'Advanced Settings',
+	'Refresh_Cache' => 'Refresh Cache',
 
 	'Forum_Name' => '论坛名称',
 	'Forum_Descriptions' => '论坛描述<br /><br />给搜索引擎看的<br />150字符以内',
