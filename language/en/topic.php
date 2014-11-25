@@ -4,8 +4,8 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'People_Collection' => ' followers',
-	'People_Have_Seen' => ' views',
+	'People_Collection' => ' collector',
+	'People_Have_Seen' => ' pageviews',
 	'Delete' => 'Delete',
 	'Recover' => 'Recover',
 	'Permanently_Delete' => 'Permanently Delete',
