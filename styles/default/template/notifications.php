@@ -17,7 +17,7 @@ $(document).ready(function(){
 	<div id="notifications" class="tab-container">
 		<ul class='resp-tabs-list'>
 			<li><?php echo $Lang['Notifications_Replied_To_Me']; ?></li>
-			<li><?php echo $Lang['Mentioned_Me']; ?></li>
+			<li><?php echo $Lang['Notifications_Mentioned_Me']; ?></li>
 		</ul>
 		<div class="resp-tabs-container main-box home-box-list">
 			<div>

@@ -4,14 +4,14 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Unfollow' => '取消关注',
-	'Follow' => '关注他',
-	'Registered_In' => '注册于',
-	'Topics_Number' => '主题数',
-	'Posts_Number' => '回贴数',
-	'Homepage' => '网站',
-	'Introduction' => '介绍',
-	'Last_Activity_In' => '最后活动于',
-	'Created_Topic' => '创建了主题',
-	'Replied_To_Topic' => '回复了主题'
+	'Unfollow' => 'Unfollow',
+	'Follow' => 'Follow',
+	'Registered_In' => 'Registered in',
+	'Topics_Number' => 'Topics Number',
+	'Posts_Number' => 'Posts Number',
+	'Homepage' => 'Homepage',
+	'Introduction' => 'Introduction',
+	'Last_Activity_In' => 'Last activity in',
+	'Created_Topic' => 'Created topic',
+	'Replied_To_Topic' => 'Replied to topic'
 	));

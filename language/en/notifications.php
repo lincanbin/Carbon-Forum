@@ -4,8 +4,8 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Notifications_Replied_To_Me' => '回复我的',
-	'Notifications_Mentioned_Me' => '提到我的',
-	'Replied_To_Topic' => '回复了主题',
-	'Mentioned_Me' => '提到了我',
+	'Notifications_Replied_To_Me' => 'Replied To Me',
+	'Notifications_Mentioned_Me' => 'Mentioned Me',
+	'Replied_To_Topic' => 'replied to topic',
+	'Mentioned_Me' => 'mentioned Me',
 	));

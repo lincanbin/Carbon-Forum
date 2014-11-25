@@ -25,7 +25,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
 					</span>
 					<span class="item-date float-right">
-						<?php echo $Lang['Collection_In'].FormatTime($Topic['DateCreated']); ?>
+						<?php echo $Lang['Collected_In'].FormatTime($Topic['DateCreated']); ?>
 					</span>
 				</div>
 				<div class="c"></div>

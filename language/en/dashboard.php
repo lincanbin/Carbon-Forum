@@ -9,40 +9,40 @@ $Lang = array_merge($Lang, array(
 	'Advanced_Settings' => 'Advanced Settings',
 	'Refresh_Cache' => 'Refresh Cache',
 
-	'Forum_Name' => '论坛名称',
-	'Forum_Descriptions' => '论坛描述<br /><br />给搜索引擎看的<br />150字符以内',
+	'Forum_Name' => 'Forum Name',
+	'Forum_Descriptions' => 'Forum Descriptions<br /><br />Which are shown to the Search Engine.<br />Less than 150 characters. ',
 
-	'Page_Show' => '每页显示',
-	'Page_Topics' => '个主题',
+	'Page_Show' => 'Show ',
+	'Page_Topics' => ' topics per page. ',
 
-	'Topic_Show' => '每个主题显示',
-	'Topic_Posts' => '个回帖',
+	'Topic_Show' => 'Show ',
+	'Topic_Posts' => ' posts per topic. ',
 
-	'Topic_Max' => '每个主题最多',
-	'Topic_Max_Tags' => '个话题',
+	'Topic_Max' => 'Up to ',
+	'Topic_Max_Tags' => ' tags per topic. ',
 
-	'Tag_Max' => '单个标签最多',
-	'Tag_Max_Chars' => '个字符',
+	'Tag_Max' => 'Up to ',
+	'Tag_Max_Chars' => ' characters per tag. ',
 
-	'Post_Max' => '每个帖子最多',
-	'Post_Max_Chars' => '个字符',
+	'Post_Max' => 'Up to ',
+	'Post_Max_Chars' => ' characters per post.',
 
-	'Save' => '保存设置',
+	'Save' => 'Save settings',
 
-	'Html_Between_Head' => '&lt;Head&gt;标签之间的内容',
-	'Html_Before_Body' => '&lt;/Body&gt;标签之前的内容<br />一般放置统计代码',
-	'Html_SiderBar' => '侧边栏的内容',
+	'Html_Between_Head' => 'Content between &lt;Head&gt;',
+	'Html_Before_Body' => 'Content before &lt;/Body&gt;<br />Generally placed statistical code of Google Analytics. ',
+	'Html_SiderBar' => 'Content of Siderbar',
 
-	'jQuery_CDN' => 'jQuery库地址',
-	'Main_Domainname' => 'PC端主站域名',
-	'Mobile_Domainname' => '手机站域名',
-	'API_Domainname' => '客户端API域名',
+	'jQuery_CDN' => 'jQuery URL (CDN)',
+	'Main_Domainname' => 'PC Domainname',
+	'Mobile_Domainname' => 'Mobile Domainname',
+	'API_Domainname' => 'API Domainname',
 
-	'Refresh_Cache_Notice' => '更新缓存的操作可能需要较长时间，请耐心等待<br />如果数据正确，则没有必要清理缓存',
-	'Refresh_All_Cache' => '更新全站缓存',
+	'Refresh_Cache_Notice' => 'Refreshing cache may take a long time, so please be patient. <br />If the statistics are correct, there is no need to refresh the cache. ',
+	'Refresh_All_Cache' => 'Refresh Cache',
 
-	'Successfully_Refreshed' => '缓存更新成功',
-	'Basic_Settings_Successfully_Saved' => '基本设置修改成功，{{NewConfig}}项已修改',
-	'Page_Settings_Successfully_Saved' => '页面设置修改成功，{{NewConfig}}项已修改',
-	'Advanced_Settings_Successfully_Saved' => '高级设置修改成功，{{NewConfig}}项已修改',
+	'Successfully_Refreshed' => 'Success! ',
+	'Basic_Settings_Successfully_Saved' => 'Success, {{NewConfig}} items has been modified. ',
+	'Page_Settings_Successfully_Saved' => 'Success, {{NewConfig}} items has been modified. ',
+	'Advanced_Settings_Successfully_Saved' => 'Success, {{NewConfig}} items has been modified. ',
 	));
