@@ -45,15 +45,15 @@ function CreateNewTopic()
 {
 	if(!document.NewForm.Title.value.length)
 	{
-		alert("标题不能为空！");
+		alert(Lang['Title_Can_Not_Be_Empty']);
 		document.NewForm.Title.focus();
 		return false;
 	}else if(document.NewForm.Title.value.replace(/[^\x00-\xff]/g,"***").length > MaxTitleChars){
-		alert("标题长度不能超过"+MaxTitleChars+"字节，当前标题长度为"+document.NewForm.Title.value.replace(/[^\x00-\xff]/g,"***").length+"个字节");
+		alert(Lang['Title_Too_Long'].replace("{{MaxTitleChars}}", MaxTitleChars).replace("{{Current_Title_Length}}", document.NewForm.Title.value.replace(/[^\x00-\xff]/g,"***").length));
 		document.NewForm.Title.focus();
 		return false;
 	}else if(!$("#SelectTags").html()){
-		alert("话题不能为空！");
+		alert(Lang['Tags_Empty']);
 		document.NewForm.AlternativeTag.focus();
 		return false;
 	}else{
@@ -74,7 +74,7 @@ function CreateNewTopic()
 			async:false,//阻塞防止干扰
 			success:function(data){
 				if(data.Status==1){
-					$("#PublishButton").val(" 发表成功 ");
+					$("#PublishButton").val(Lang['Submit_Success']);
 					location.href = WebsitePath+"/t/"+data.TopicID;  
 					if(window.localStorage){
 						//清空草稿箱
@@ -86,9 +86,9 @@ function CreateNewTopic()
 				}
 			},
 			error:function(){
-				alert("发表失败，请再次提交");
+				alert(Lang['Submit_Failure']);
 				UE.getEditor('editor').setEnabled();
-				$("#PublishButton").val(" 再次提交 ");
+				$("#PublishButton").val(Lang['Submit_Again']);
 			}
 		});
 	}
@@ -102,7 +102,7 @@ function CheckTag(TagName,IsAdd)
 	$("input[name='Tag[]']").each(
 		function(index){
 			if(IsAdd && i>=MaxTagNum){
-				alert('最多只能插入'+MaxTagNum+'个话题！');
+				alert(Lang['Tags_Too_Much'].replace("{{MaxTagNum}}", MaxTagNum));
 				show=false;
 			}
 			if(TagName==$(this).val() || TagName==''){
@@ -163,7 +163,7 @@ function AddTag(TagName,id)
 	if($("input[name='Tag[]']").length==MaxTagNum)
 	{
 		$("#AlternativeTag").attr("disabled",true);
-		$("#AlternativeTag").attr("placeholder","最多添加"+MaxTagNum+"个话题");
+		$("#AlternativeTag").attr("placeholder",Lang['Tags_Too_Much'].replace("{{MaxTagNum}}", MaxTagNum));
 	}
 }
 
@@ -196,7 +196,7 @@ function TagRemove(TagName,id)
 	if($("input[name='Tag[]']").length<MaxTagNum)
 	{
 		$("#AlternativeTag").attr("disabled",false);
-		$("#AlternativeTag").attr("placeholder","添加话题"); 
+		$("#AlternativeTag").attr("placeholder",Lang['Add_Tags']); 
 	}
 	document.NewForm.AlternativeTag.focus();
 }

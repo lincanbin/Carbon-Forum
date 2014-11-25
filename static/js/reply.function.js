@@ -2,10 +2,10 @@
 function ReplyToTopic()
 {
 	if(!UE.getEditor('editor').getContent().length){
-		alert("内容不能为空！");
+		alert(Lang['Content_Empty']);
 		UE.getEditor('editor').focus();
 	}else{
-		$("#ReplyButton").val(" 回复中…… ");
+		$("#ReplyButton").val(Lang['Replying']);
 		UE.getEditor('editor').setDisabled('fullscreen');
 		$.ajax({
 			url: WebsitePath+'/reply',
@@ -20,7 +20,7 @@ function ReplyToTopic()
 			async:false,//阻塞防止干扰
 			success:function(data){
 				if(data.Status==1){
-					$("#ReplyButton").val(" 回复成功 ");
+					$("#ReplyButton").val(Lang['Reply_Success']);
 					location.href = WebsitePath+"/t/"+data.TopicID+(data.Page>1?"-"+data.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 					if(window.localStorage){
 						//清空草稿箱
@@ -32,9 +32,9 @@ function ReplyToTopic()
 				}
 			},
 			error:function(){
-				alert("回复失败，请再次提交");
+				alert(Lang['Submit_Failure']);
 				UE.getEditor('editor').setEnabled();
-				$("#ReplyButton").val(" 再次提交 ");
+				$("#ReplyButton").val(Lang['Submit_Again']);
 			}
 		});
 	}
