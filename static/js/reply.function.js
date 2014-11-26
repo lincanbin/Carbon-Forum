@@ -44,7 +44,7 @@ function ReplyToTopic()
 //回复某人
 function Reply(UserName, PostFloor, PostID)
 {
-	UE.getEditor('editor').setContent('<p>回复<a href="'+location.pathname+'#Post'+PostID+'">#'+PostFloor+'</a> @'+UserName+' :<br /></p>', false);
+	UE.getEditor('editor').setContent('<p>'+Lang['Reply_To']+'<a href="'+location.pathname+'#Post'+PostID+'">#'+PostFloor+'</a> @'+UserName+' :<br /></p>', false);
 	UE.getEditor('editor').focus(true);
 }
 

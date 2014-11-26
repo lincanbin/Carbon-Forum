@@ -19,6 +19,7 @@ var Lang = {
     'Content_Empty':'内容不能为空！',
     'Replying':' 回复中…… ',
     'Reply_Success':' 回复成功 ',
+    'Reply_To':'回复',
 };
 
 UE.I18N['zh-cn'] = {

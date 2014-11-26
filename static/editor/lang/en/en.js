@@ -19,6 +19,7 @@ var Lang = {
     'Content_Empty':'Content can not be empty! ',
     'Replying':' Replying…… ',
     'Reply_Success':' Success ',
+    'Reply_To':'Reply to ',
 };
 
 UE.I18N['en'] = {
