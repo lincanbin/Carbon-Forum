@@ -9,7 +9,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <title><?php
 echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 echo $PageTitle;
-echo $UrlPath=='index'?'':'-'.$Config['SiteName']; ?></title>
+echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <script>
 var Prefix="<?php echo $Prefix; ?>";
 var WebsitePath="<?php echo $Config['WebsitePath'];?>";
