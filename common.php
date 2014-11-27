@@ -1,6 +1,6 @@
 <?php
 /*
- * Carbon-Forum v 3.2.0
+ * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
  * Copyright 2014, Lin Canbin
@@ -16,8 +16,8 @@
 //数据库从设计上避免使用Join多表联查
 
 //error_reporting(0);//不输出任何错误信息
-//error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
-error_reporting(E_ALL);//输出所有错误信息，调试用
+error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
+//error_reporting(E_ALL);//输出所有错误信息，调试用
 ini_set('display_errors', '1');//显示错误
 //开始计时，初始化常量、常量
 $mtime     = explode(' ', microtime());
