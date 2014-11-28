@@ -26,6 +26,15 @@ Install
 
 3. Open the Forum, and register. The first registered users will become administrators. 
 
+Features
+------------
+* Discussions Tags based, Quora/StackOverflow like.
+* High performance. 
+* Reasonable asynchronous design, improve the loading speed. 
+* Perfect draft saving mechanism. 
+* The modern Notification Center (currently supported and @ replies). 
+
+
 License
 ------------
 
