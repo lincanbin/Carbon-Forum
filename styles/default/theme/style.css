@@ -1,3 +1,15 @@
+/*
+ * Carbon-Forum
+ * https://github.com/lincanbin/Carbon-Forum
+ *
+ * Copyright 2014, Lin Canbin
+ * http://www.94cb.com/
+ *
+ * Licensed under the Apache License, Version 2.0:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * A high performance open-source forum software written in PHP. 
+ */
 
 /****** General Styles ******/
 html {
@@ -326,7 +338,7 @@ h2.resp-accordion {
 .center-align {
 	margin:0 auto;
 }
-.img-center, .detail-avatar, .member-avatar, .item-avatar {
+.img-center, .detail-avatar, .member-avatar, .item-avatar, .commont-avatar {
 	display:table-cell;
 	vertical-align:middle;
 	text-align:center;
