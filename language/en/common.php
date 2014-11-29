@@ -5,7 +5,7 @@ if (empty($Lang) || !is_array($Lang))
 
 $Lang = array_merge($Lang, array(
 	'Language' => 'en',
-	'RoleDict' => array('Visitor','Member','VIP','SVP','Administrator','System Administrator'),
+	'RolesDict' => array('Visitor','Member','VIP','SVP','Administrator','System Administrator'),
 	'Error_Message' => 'Error Message',
 	'Error_Unknown_Referer' => 'Unknown referer',
 	'Error_Insufficient_Permissions' => 'This page is only visible to {{RoleDict}}, you have insufficient permissions.',
