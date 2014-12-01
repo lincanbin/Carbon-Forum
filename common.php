@@ -415,11 +415,13 @@ function SetStyle($PathName, $StyleName)
 {
 	global $IsApp, $TemplatePath, $Style;
 	if ($StyleName = 'API')
+	{
 		$IsApp = true;
+		header('Access-Control-Allow-Origin: *');
+		header('Content-Type: application/json');
+	}
 	$TemplatePath = dirname(__FILE__) .'/styles/'.$PathName.'/template/';
 	$Style = $StyleName;
-	header('Access-Control-Allow-Origin: *');
-	header('Content-Type: application/json');
 }
 
 
@@ -482,7 +484,7 @@ function XssEscape($html) {
 		$replaces[] = '&gt;';
 
 		if($ms[1]) {
-			$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre';
+			$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre|h1|h2|h3|h4|h5|h6';
 			$ms[1] = array_unique($ms[1]);
 			foreach ($ms[1] as $value) {
 				$searchs[] = "&lt;".$value."&gt;";
@@ -546,13 +548,13 @@ if ($UserAgent) {
 	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
 	$IsMobie  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
 	$IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName']?true:false;
-	// 设置模板前缀
+	// 设置模板路径
 	if ($IsApp) {
 		$TemplatePath = dirname(__FILE__) .'/styles/api/template/';
 		$Style = 'API';
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: application/json');
-	} else if ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
+	} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
 		$TemplatePath = dirname(__FILE__) .'/styles/mobile/template/';
 		$Style = 'Mobile';
 	} else {
