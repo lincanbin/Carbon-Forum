@@ -8,45 +8,34 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div id="content">
 	<!-- here is where you can add your panels -->
 	<div data-title="<?php echo $PageTitle; ?>" id="main" class="panel" selected="true">
-	<?php
+		<ul class="list">
+		<?php
 		foreach ($TopicsArray as $Topic) {
 		?>
-			<div class="post-list">
-				<div class="item-avatar">
-					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank">
+			<li>
+				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank">
 						<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
-					</a>
-				</div>
-				<div class="item-content">
-					<h2>
-						<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" target="_blank">
-							<?php echo $Topic['Topic']; ?>
-						</a>
-					</h2>
-					<span class="item-tags">
-						<?php
-						if($Topic['Tags']){
-							foreach (explode("|", $Topic['Tags']) as $Tag) {
-						?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
-							<?php
-							}
-						}
-						?>
-					</span><br /><br /><span class="item-date">
-						<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
-					</span>
-				</div>
-							<?php if($Topic['Replies']){ ?>
-							<div class="item-count">
-							<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
-							</div>
-							<?php } ?>
-							<div class="c"></div>
-							</div>
-							
-	<?php
-	}
-	?>
+				</a>
+
+				<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Topic']; ?></a>
+				<?php
+				if($Topic['Tags']){
+					foreach (explode("|", $Topic['Tags']) as $Tag) {
+					?>
+					<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
+				<?php }
+				} ?>
+				<span class="item-date">
+					<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
+				</span>
+				<?php if($Topic['Replies']){ ?>
+				<span class="item-count">
+					<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
+				</span>
+				<?php } ?>
+			</li>
+		<?php } ?>
+		</ul>
 	<?php Pagination("/page/",$Page,$TotalPage); ?>
 	</div>
 </div>

@@ -19,7 +19,6 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 var Prefix="<?php echo $Prefix; ?>";
 var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 </script>
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.min.js?version=<?php echo $Config['Version']; ?>"></script>
 
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.ui.jquery.js?version=<?php echo $Config['Version']; ?>"></script>
@@ -54,33 +53,9 @@ if($Config['MobileDomainName']){
 </head>
 
 <body>
-	<div id="afui" class="ios7"> <!-- this is the main container div.  This way, you can have only part of your app use UI -->
-		<!-- this is the header div at the top -->
-		<div id="header">
-			<a href="javascript:$.ui.toggleLeftSideMenu()" class="button" style="float:left">Toggle Nav</a>
-		</div>
-		<div id="content">
-			<!-- here is where you can add your panels -->
-			<div data-title='Welcome' id="main" class="panel" selected="true">This is a basic skeleton UI sample</div>
-		</div>
-		<!-- bottom navbar. Add additional tabs here -->
-		<div id="navbar">
-			<div class="horzRule"></div>
-			<a href="#main" id='navbar_home' class='icon home'>home</a>
-		</div>
-		<!-- this is the default left side nav menu.  If you do not want any, do not include these -->
-		<nav>
-			<header class="header"><h1>Left Menu</h1></header>
-			<?php
-			//include($ContentFile);
-			?>
-			<ul class="list">
-				<li class="divider">Home</li>
-				<li>
-					<a  class="icon home mini" href="#main">Selectors</a>
-				</li>
-			</ul>
-		</nav>
+	<!-- this is the main container div.  This way, you can have only part of your app use UI -->
+	<div id="afui" class="ios7">
+		<?php include($ContentFile); ?>
 	</div>
 </body>
 </html>
