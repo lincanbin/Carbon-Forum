@@ -8,16 +8,19 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div id="content">
 	<!-- here is where you can add your panels -->
 	<div data-title="<?php echo $PageTitle; ?>" id="main" class="panel" selected="true">
-		<ul class="list">
+		<ul class="list topic-list">
 		<?php
 		foreach ($TopicsArray as $Topic) {
 		?>
 			<li>
-				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank">
-						<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
-				</a>
-
-				<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Topic']; ?></a>
+				<div class="avatar">
+					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank">
+							<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
+					</a>
+				</div>
+				<div class="content">
+				<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" data-transition="slide" data-persist-ajax="true"><h2><?php echo $Topic['Topic']; ?></h2></a>
+				<p>
 				<?php
 				if($Topic['Tags']){
 					foreach (explode("|", $Topic['Tags']) as $Tag) {
@@ -25,14 +28,15 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
 				<?php }
 				} ?>
-				<span class="item-date">
+				
 					<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
-				</span>
+				</p>
 				<?php if($Topic['Replies']){ ?>
-				<span class="item-count">
+				<p class="aside">
 					<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
-				</span>
+				</p>
 				<?php } ?>
+				</div>
 			</li>
 		<?php } ?>
 		</ul>
