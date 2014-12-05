@@ -22,6 +22,7 @@ function trim3(str){
     }
     return str;
 }
+
 //编辑帖子
 function EditPost(PostID)
 {
@@ -37,7 +38,7 @@ function EditPost(PostID)
 	document.getElementById('edit'+PostID).style.visibility="visible";
 }
 
-//编辑帖子
+//取消编辑（销毁编辑器）
 function DestoryEditor(PostID)
 {
 	UE.getEditor('edit'+PostID).destroy();
@@ -48,6 +49,7 @@ function DestoryEditor(PostID)
 	document.getElementById('edit'+PostID).style.visibility="hidden";
 }
 
+//提交编辑修改
 function SubmitEdit(PostID)
 {
 	var EditCallbackObj=new EditPostCallback(PostID);
@@ -85,7 +87,7 @@ function EditPostCallback(PostID)
 	};
 }
 
-//提交前的检查
+//回复帖子提交前的检查
 function ReplyToTopic()
 {
 	if(!UE.getEditor('editor').getContent().length){
