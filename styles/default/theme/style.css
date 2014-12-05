@@ -484,8 +484,6 @@ img.avatar {
 .topic-content {
 	word-wrap: break-word;
 	font-size:16px;
-	overflow-x: auto!important;
-	overflow-y: hidden!important;
 }
 .topic-content img {
 	/*display:block;*/
