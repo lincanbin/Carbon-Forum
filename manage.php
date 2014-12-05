@@ -122,7 +122,17 @@ switch ($Type)
 				$DB->query("UPDATE `".$Prefix."users` SET Replies=Replies-1 WHERE `ID`=?",array($PostInfo['UserID']));
 				$Message = $Lang['Permanently_Deleted'];
 				break;
-
+			//编辑帖子
+			case 'Edit':
+				Auth(4, $PostInfo['UserID'], true);
+				$Content = Request('POST','Content', $PostInfo['Content']);
+				if($Content == $PostInfo['Content'])
+					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
+				if($DB->query("UPDATE ".$Prefix."posts SET Content = :Content Where ID=:ID",array('ID'=>$ID, 'Content'=>$Content)))
+					$Message = $Lang['Edited'];
+				else
+					AlertMsg($Lang['Failure_Edit'], $Lang['Failure_Edit']);
+				break;
 			default:
 				AlertMsg('Bad Request','Bad Request');
 				break;

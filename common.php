@@ -547,29 +547,33 @@ $UserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? strtolower($_SERVER
 if ($UserAgent) {
 	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
 	$IsMobie  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
-	$IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName']?true:false;
-	// 设置模板路径
-	if ($IsApp) {
-		$TemplatePath = dirname(__FILE__) .'/styles/api/template/';
-		$Style = 'API';
-		header('Access-Control-Allow-Origin: *');
-		header('Content-Type: application/json');
-	} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
-		$TemplatePath = dirname(__FILE__) .'/styles/mobile/template/';
-		$Style = 'Mobile';
-	} else {
-		$TemplatePath = dirname(__FILE__) .'/styles/default/template/';
-		$Style = 'Default';
-	}
-	$AutomaticSwitch = GetCookie('Style','Default');
-	if ($_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $IsMobie && $AutomaticSwitch != 'Default') {
-		//如果是手机，则跳转到移动版，暂时关闭
-		//header('location: http://'.$Config['MobileDomainName'].$_SERVER['REQUEST_URI']);
-	}
 } else {
 	//exit('error: 400 no agent');
 	$IsSpider = '';
 	$IsMobie  = '';
+}
+$IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName']?true:false;
+/* 设置要调用的模板
+* default: PC端模板
+* mobile: 手机端模板
+* api: 客户端要调用的模板
+*/
+if ($IsApp) {
+	$TemplatePath = dirname(__FILE__) .'/styles/api/template/';
+	$Style = 'API';
+	header('Access-Control-Allow-Origin: *');
+	header('Content-Type: application/json');
+} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
+	$TemplatePath = dirname(__FILE__) .'/styles/mobile/template/';
+	$Style = 'Mobile';
+} else {
+	$TemplatePath = dirname(__FILE__) .'/styles/default/template/';
+	$Style = 'Default';
+}
+$AutomaticSwitch = GetCookie('Style','Default');
+if ($_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $IsMobie && $AutomaticSwitch != 'Default') {
+	//如果是手机，则跳转到移动版，暂时关闭
+	//header('location: http://'.$Config['MobileDomainName'].$_SERVER['REQUEST_URI']);
 }
 
 $CurIP = CurIP();
@@ -578,12 +582,6 @@ $FormHash = FormHash();
 if(strpos(isset($_SERVER['HTTP_X_REWRITE_URL'])?$_SERVER['HTTP_X_REWRITE_URL']:$_SERVER["REQUEST_URI"], '.php')){
 	AlertMsg('404','404 NOT FOUND',404);
 }
-
-//设置基本环境变量
-/*
-$IsSpider
-$IsMobie
-*/
 
 // 获取当前用户
 $CurUserInfo = null;//当前用户信息，Array，以后判断是否登陆使用if($CurUserID)

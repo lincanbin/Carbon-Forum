@@ -29,6 +29,9 @@ var Lang = {
 	'Tags_Too_Much':'最多只能插入{{MaxTagNum}}个话题！',
 	'Add_Tags':'添加话题(按Enter添加)',
 
+	'Edit':' 编 辑 ',
+	'Cancel':' 取 消 ',
+
 	'Content_Empty':'内容不能为空！',
 	'Replying':' 回复中…… ',
 	'Reply_Success':' 回复成功 ',

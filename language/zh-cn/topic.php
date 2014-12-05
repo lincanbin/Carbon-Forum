@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'People_Collection' => '人收藏',
 	'People_Have_Seen' => '人看过',
+	'Edit' => '编辑',
 	'Delete' => '删除',
 	'Recover' => '恢复',
 	'Permanently_Delete' => '永久删除',

@@ -21,5 +21,9 @@ $Lang = array_merge($Lang, array(
 	'Unfollow' => 'Unfollow',
 
 	'Unsubscribe' => 'Unsubscribe',
-	'Collect' => 'Collect'
+	'Collect' => 'Collect',
+
+	'Do_Not_Modify' => 'Do Not Modify',
+	'Edited' => 'Edited',
+	'Failure_Edit' => 'Failure Edit'
 	));

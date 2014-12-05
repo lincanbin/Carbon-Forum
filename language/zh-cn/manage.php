@@ -21,5 +21,9 @@ $Lang = array_merge($Lang, array(
 	'Unfollow' => '取消关注',
 
 	'Unsubscribe' => '取消收藏',
-	'Collect' => '收藏'
+	'Collect' => '收藏',
+
+	'Do_Not_Modify' => '未修改',
+	'Edited' => '编辑成功',
+	'Failure_Edit' => '编辑失败'
 	));

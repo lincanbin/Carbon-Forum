@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'People_Collection' => ' collector',
 	'People_Have_Seen' => ' pageviews',
+	'Edit' => 'Edit',
 	'Delete' => 'Delete',
 	'Recover' => 'Recover',
 	'Permanently_Delete' => 'Permanently Delete',

@@ -29,6 +29,9 @@ var Lang = {
 	'Tags_Too_Much':'Up to {{MaxTagNum}} tags per topic. ',
 	'Add_Tags':'Add a tag (press Enter)',
 
+	'Edit':' Edit ',
+	'Cancel':' Cancel ',
+
 	'Content_Empty':'Content can not be empty! ',
 	'Replying':' Replying…… ',
 	'Reply_Success':' Success ',

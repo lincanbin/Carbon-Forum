@@ -24,7 +24,10 @@ if($Page==1)
 	<div class="c"></div>
 </div>
 <div class="topic-content">
-<p><?php echo $PostsArray[0]['Content']; ?></p>
+	<div id="p<?php echo $PostsArray[0]['ID']; ?>" style="visibility:visible;">
+		<?php echo $PostsArray[0]['Content']; ?>
+	</div>
+	<script id="edit<?php echo $PostsArray[0]['ID']; ?>" type="text/plain" style="width:648px;height:auto;visibility:hidden;"></script>
 </div>
 <div class="topic-tags btn">
 <div class="w400">
@@ -55,6 +58,9 @@ if($CurUserRole>=4){
 <?php
 }
 ?>
+<?php if($CurUserRole>=4 || $topic['UserID']==$CurUserID){ ?>
+<a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
+<?php } ?>
 <a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
 <div class="c"></div>
 </div>
@@ -94,11 +100,15 @@ foreach($PostsArray as $key => $post)
 					</span>
 				</div>
 				<div class="c"></div>
-			<p><?php echo $post['Content']; ?></p>
+				<div id="p<?php echo $post['ID']; ?>" style="visibility:visible;">
+					<?php echo $post['Content']; ?>
+				</div>
+				<script id="edit<?php echo $post['ID']; ?>" type="text/plain" style="width:588px;height:auto;visibility:hidden;"></script>
 			</div>
 			<?php if($CurUserID){ ?>
 			<div class="commont-button">
 				<div class="float-left">
+				<?php if($CurUserRole>=4 || $post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $post['ID']; ?>);"><?php echo $Lang['Edit']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
 				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
 			</div>
 				<div class="float-right">
@@ -191,22 +201,26 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 </div>
 <!-- main-sider end -->
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>"> </script>
-<script type="text/javascript">
-uParse('.main-content',{
-	'rootPath': '<?php echo $Config['WebsitePath']; ?>/static/editor/',
-	'liiconpath':'<?php echo $Config['WebsitePath']; ?>/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
-});
+<script>
 //强制所有链接在新窗口中打开
 var AllPosts = document.getElementsByClassName("commont-content");
+var PostContentLists = {};;
 AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
-for (var j=0; j<=AllPosts.length; j++) {
+PostContentLists[document.getElementsByClassName("topic-content")[0].childNodes[1].id] = trim3(document.getElementsByClassName("topic-content")[0].childNodes[1].innerHTML);
+//console.log(PostContentLists);
+for (var j=0; j<AllPosts.length; j++) {
+	PostContentLists[document.getElementsByClassName("commont-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("commont-content")[j].childNodes[5].innerHTML);
+	console.log(PostContentLists);
 	var AllLinks = AllPosts[j].getElementsByTagName("a");
 	for(var i=0; i<AllLinks.length; i++)
 	{
 		var a = AllLinks[i];
-		console.log(a);
+		//console.log(a);
 		a.target="_blank";
 	};
 };
-
+uParse('.main-content',{
+	'rootPath': '<?php echo $Config['WebsitePath']; ?>/static/editor/',
+	'liiconpath':'<?php echo $Config['WebsitePath']; ?>/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+});
 </script>

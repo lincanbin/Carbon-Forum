@@ -11,6 +11,80 @@
  * A high performance open-source forum software written in PHP. 
  */
 
+//可以去除tab的trim
+function trim3(str){
+    str = str.replace(/^(\s|\u00A0)+/,'');
+    for(var i=str.length-1; i>=0; i--){
+        if(/\S/.test(str.charAt(i))){
+            str = str.substring(0, i+1);
+            break;
+        }
+    }
+    return str;
+}
+//编辑帖子
+function EditPost(PostID)
+{
+	//初始化编辑器
+	document.getElementById('p'+PostID).style.visibility="hidden";
+	document.getElementById('p'+PostID).style.height="0";
+	window.UEDITOR_CONFIG['textarea'] = 'PostContent'+PostID;
+	UE.getEditor('edit'+PostID,{onready:function(){
+		UE.getEditor('edit'+PostID).setContent(PostContentLists['p'+PostID]);//将帖子内容放到编辑器里
+	}});
+	$("#edit"+PostID).append('<p></p><p><input type="button" value=" '+Lang['Edit']+' " class="textbtn" id="EditButton'+PostID+'" onclick="JavaScript:SubmitEdit('+PostID+');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" '+Lang['Cancel']+' " class="textbtn" onclick="JavaScript:DestoryEditor('+PostID+');"></p>');
+	
+	document.getElementById('edit'+PostID).style.visibility="visible";
+}
+
+//编辑帖子
+function DestoryEditor(PostID)
+{
+	UE.getEditor('edit'+PostID).destroy();
+	document.getElementById('p'+PostID).style.visibility="visible";
+	document.getElementById('p'+PostID).style.height="auto";
+	document.getElementById('edit'+PostID).style.height="0";
+	document.getElementById('edit'+PostID).style.padding="0";
+	document.getElementById('edit'+PostID).style.visibility="hidden";
+}
+
+function SubmitEdit(PostID)
+{
+	var EditCallbackObj=new EditPostCallback(PostID);
+	$.ajax({
+		url:WebsitePath+"/manage",
+		data:{
+			ID: PostID,
+			Type: 2,
+			Action: 'Edit',
+			Content: UE.getEditor('edit'+PostID).getContent()
+		},
+		cache: false,
+		dataType: "json",
+		type: "POST",
+		success: EditCallbackObj.Success
+	});
+	
+}
+
+//编辑帖子的回调函数
+function EditPostCallback(PostID)
+{
+	this.Success=function(Json){
+		if(Json.Status==1){
+			document.getElementById('p'+PostID).innerHTML = UE.getEditor('edit'+PostID).getContent();
+			PostContentLists['p'+PostID] =  UE.getEditor('edit'+PostID).getContent();
+			DestoryEditor(PostID);
+			uParse('.main-content',{
+				'rootPath': WebsitePath+'/static/editor/',
+				'liiconpath': WebsitePath+'/static/editor/themes/ueditor-list/'
+			});
+		}else{
+			alert(Json.ErrorMessage);
+		}
+	};
+}
+
 //提交前的检查
 function ReplyToTopic()
 {
