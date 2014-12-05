@@ -665,8 +665,6 @@ img.avatar {
 .commont-content {
 	WORD-WRAP: break-word;
 	font-size:16px;
-	overflow-x: auto!important;
-	overflow-y: hidden!important;
 }
 .commont-content img {
 	/*display:block;*/
