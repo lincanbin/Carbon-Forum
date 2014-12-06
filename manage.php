@@ -125,7 +125,7 @@ switch ($Type)
 			//编辑帖子
 			case 'Edit':
 				Auth(4, $PostInfo['UserID'], true);
-				$Content = Request('POST','Content', $PostInfo['Content']);
+				$Content = XssEscape(Request('POST','Content', $PostInfo['Content']));
 				if($Content == $PostInfo['Content'])
 					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
 				if($DB->query("UPDATE ".$Prefix."posts SET Content = :Content Where ID=:ID",array('ID'=>$ID, 'Content'=>$Content)))
