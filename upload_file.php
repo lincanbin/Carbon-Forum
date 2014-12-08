@@ -3,47 +3,47 @@ include(dirname(__FILE__) . '/common.php');
 include(dirname(__FILE__) . '/includes/Uploader.class.php');
 
 SetStyle('api','API');
-header("Content-Type: text/html;");
+header("Content-Type: text/html; charset=utf-8");
 Auth(1,0,true);
 
 /* 上传配置 */
 $base64 = "upload";
 switch (htmlspecialchars($_GET['action'])) {
-    case 'uploadimage':
-        $config = array(
-            "pathFormat" => $Config['WebsitePath'].$UploadConfig['imagePathFormat'],
-            "maxSize" => $UploadConfig['imageMaxSize'],
-            "allowFiles" => $UploadConfig['imageAllowFiles']
-        );
-        $fieldName = $UploadConfig['imageFieldName'];
-        break;
-    case 'uploadscrawl':
-        $config = array(
-            "pathFormat" => $Config['WebsitePath'].$UploadConfig['scrawlPathFormat'],
-            "maxSize" => $UploadConfig['scrawlMaxSize'],
-            "allowFiles" => $UploadConfig['scrawlAllowFiles'],
-            "oriName" => "scrawl.png"
-        );
-        $fieldName = $UploadConfig['scrawlFieldName'];
-        $base64 = "base64";
-        break;
-    case 'uploadvideo':
-        $config = array(
-            "pathFormat" => $Config['WebsitePath'].$UploadConfig['videoPathFormat'],
-            "maxSize" => $UploadConfig['videoMaxSize'],
-            "allowFiles" => $UploadConfig['videoAllowFiles']
-        );
-        $fieldName = $UploadConfig['videoFieldName'];
-        break;
-    case 'uploadfile':
-    default:
-        $config = array(
-            "pathFormat" => $Config['WebsitePath'].$UploadConfig['filePathFormat'],
-            "maxSize" => $UploadConfig['fileMaxSize'],
-            "allowFiles" => $UploadConfig['fileAllowFiles']
-        );
-        $fieldName = $UploadConfig['fileFieldName'];
-        break;
+	case 'uploadimage':
+		$config = array(
+			"pathFormat" => $Config['WebsitePath'].$UploadConfig['imagePathFormat'],
+			"maxSize" => $UploadConfig['imageMaxSize'],
+			"allowFiles" => $UploadConfig['imageAllowFiles']
+		);
+		$fieldName = $UploadConfig['imageFieldName'];
+		break;
+	case 'uploadscrawl':
+		$config = array(
+			"pathFormat" => $Config['WebsitePath'].$UploadConfig['scrawlPathFormat'],
+			"maxSize" => $UploadConfig['scrawlMaxSize'],
+			"allowFiles" => $UploadConfig['scrawlAllowFiles'],
+			"oriName" => "scrawl.png"
+		);
+		$fieldName = $UploadConfig['scrawlFieldName'];
+		$base64 = "base64";
+		break;
+	case 'uploadvideo':
+		$config = array(
+			"pathFormat" => $Config['WebsitePath'].$UploadConfig['videoPathFormat'],
+			"maxSize" => $UploadConfig['videoMaxSize'],
+			"allowFiles" => $UploadConfig['videoAllowFiles']
+		);
+		$fieldName = $UploadConfig['videoFieldName'];
+		break;
+	case 'uploadfile':
+	default:
+		$config = array(
+			"pathFormat" => $Config['WebsitePath'].$UploadConfig['filePathFormat'],
+			"maxSize" => $UploadConfig['fileMaxSize'],
+			"allowFiles" => $UploadConfig['fileAllowFiles']
+		);
+		$fieldName = $UploadConfig['fileFieldName'];
+		break;
 }
 
 /* 生成上传实例对象并完成上传 */

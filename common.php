@@ -418,7 +418,7 @@ function SetStyle($PathName, $StyleName)
 	{
 		$IsApp = true;
 		header('Access-Control-Allow-Origin: *');
-		header('Content-Type: application/json');
+		header('Content-Type: application/json; charset=utf-8');
 	}
 	$TemplatePath = dirname(__FILE__) .'/styles/'.$PathName.'/template/';
 	$Style = $StyleName;
@@ -603,4 +603,3 @@ if ($CurUserID && $CurUserCode) {
 	}
 	unset($TempUserInfo);
 }
-?>

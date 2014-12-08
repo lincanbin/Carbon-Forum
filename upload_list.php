@@ -3,7 +3,7 @@ include(dirname(__FILE__) . '/common.php');
 include(dirname(__FILE__) . '/includes/Uploader.class.php');
 
 SetStyle('api','API');
-//header("Content-Type: text/html;");
+//header("Content-Type: text/html; charset=utf-8");
 Auth(1,0,true);
 
 $Size = isset($_GET['size']) ? intval($_GET['size']) : 20;
