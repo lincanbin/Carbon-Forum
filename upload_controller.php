@@ -3,7 +3,7 @@
 //header('Access-Control-Allow-Headers: X-Requested-With,X_Requested_With'); //设置允许的跨域header
 date_default_timezone_set("Asia/chongqing");
 //error_reporting(E_ERROR);
-header("Content-Type: text/html; charset=utf-8");
+header("Charset=utf-8");
 
 
 $UploadConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("includes/Uploader.config.json")), true);

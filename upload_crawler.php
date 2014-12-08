@@ -4,7 +4,7 @@ include(dirname(__FILE__) . '/common.php');
 include(dirname(__FILE__) . '/includes/Uploader.class.php');
 
 SetStyle('api','API');
-
+header("Content-Type: text/html;");
 Auth(1,0,true);
 
 /* 上传配置 */
