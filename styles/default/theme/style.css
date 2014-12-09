@@ -26,19 +26,34 @@ body {
 	padding: 0px;
 }
 /* title */
-h3 {
-	color: #669900;
-	font-size: 150%;
+.topic-content h1, .commont-content h1 {
+	color: #555;
+	font-size: 180%;
 	font-weight: bold;
-	padding: 5px 0px 5px 0px;
+	padding: 15px 0px 15px 0px;
 	margin: 10px 0px 10px 0px;
-	border-bottom: 1px dashed #E0E0E0;
+	border-bottom: 1px dashed #33B5E5;
 }
-h4 {
-	color: #666666;
-	font-size: 125%;
+.topic-content h2, .commont-content h2 {
+	color: #555;
+	font-size: 160%;
 	font-weight: bold;
-	padding: 5px 5px 5px 0px;
+	padding: 15px 0px 15px 10px;
+	margin: 10px 0px 10px 0px;
+	border-bottom: 1px dashed #33B5E5;
+}
+.topic-content h3, .commont-content h3 {
+	color: #555;
+	font-size: 140%;
+	font-weight: bold;
+	padding: 5px 0px 5px 20px;
+	margin: 10px 0px 10px 0px;
+}
+.topic-content h4, .commont-content h4 {
+	color: #555;
+	font-size: 120%;
+	font-weight: bold;
+	padding: 5px 5px 5px 30px;
 	margin: 10px 0px 5px 0px;
 }
 /* text*/
