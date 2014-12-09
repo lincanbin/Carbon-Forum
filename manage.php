@@ -128,10 +128,13 @@ switch ($Type)
 				$Content = XssEscape(Request('POST','Content', $PostInfo['Content']));
 				if($Content == $PostInfo['Content'])
 					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
-				if($DB->query("UPDATE ".$Prefix."posts SET Content = :Content Where ID=:ID",array('ID'=>$ID, 'Content'=>$Content)))
+				if($DB->query("UPDATE ".$Prefix."posts SET Content = :Content Where ID=:ID",array('ID'=>$ID, 'Content'=>$Content))){
+					//标记附件所对应的帖子标签
+					$DB->query("UPDATE `".$Prefix."upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?",array($ID, $CurUserName));
 					$Message = $Lang['Edited'];
-				else
+				}else{
 					AlertMsg($Lang['Failure_Edit'], $Lang['Failure_Edit']);
+				}
 				break;
 			default:
 				AlertMsg('Bad Request','Bad Request');
