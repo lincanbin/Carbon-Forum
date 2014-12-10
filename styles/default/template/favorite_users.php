@@ -14,18 +14,18 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		foreach($PostsArray as $key => $Post)
 		{
 		?>
-			<div class="commont-item">
-				<div class="commont-avatar">
+			<div class="comment-item">
+				<div class="comment-avatar">
 					<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>">
 					<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'middle'); ?>
 					</a>
 				</div>
-				<div class="commont-content">
+				<div class="comment-content">
 					<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName']; ?></a><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_Topic'];?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>" target="_blank"><?php echo $Post['Subject'];?></a></h2>
 					<?php echo strip_tags(mb_substr($Post['Content'], 0, 200, 'utf-8'),'<p><br><a>'); ?>
 				</div>
 					
-				<div class="commont-data-date">
+				<div class="comment-data-date">
 					<div class="float-right">
 						&laquo;&nbsp;&nbsp;<?php echo FormatTime($Post['PostTime']); ?>
 					</div>

@@ -32,14 +32,14 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 foreach($PostsArray as $key => $post)
 {
 ?>
-	<div class="commont-item">
-		<div class="user-commont-data">
-			<div class="commont-content">
+	<div class="comment-item">
+		<div class="user-comment-data">
+			<div class="comment-content">
 			<h2 class="grey"><?php echo $post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
 			<?php echo strip_tags(mb_substr($post['Content'], 0, 300, 'utf-8'),'<p><br>'); ?>
 			</div>
 			
-			<div class="commont-data-date">
+			<div class="comment-data-date">
 				<div class="float-right">
 	&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
 				<div class="c"></div>

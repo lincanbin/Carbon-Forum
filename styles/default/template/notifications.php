@@ -26,14 +26,14 @@ $(document).ready(function(){
 				foreach($ReplyArray as $key => $post)
 				{
 				?>
-					<div class="commont-item">
-						<div class="user-commont-data">
-							<div class="commont-content">
+					<div class="comment-item">
+						<div class="user-comment-data">
+							<div class="comment-content">
 							<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
 							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
-							<div class="commont-data-date">
+							<div class="comment-data-date">
 								<div class="float-right">
 					&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
 								<div class="c"></div>
@@ -53,14 +53,14 @@ $(document).ready(function(){
 				foreach($MentionArray as $key => $post)
 				{
 				?>
-					<div class="commont-item">
-						<div class="user-commont-data">
-							<div class="commont-content">
+					<div class="comment-item">
+						<div class="user-comment-data">
+							<div class="comment-content">
 							<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
 							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
-							<div class="commont-data-date">
+							<div class="comment-data-date">
 								<div class="float-right">
 					&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
 								<div class="c"></div>

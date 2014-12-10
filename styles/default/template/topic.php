@@ -82,15 +82,15 @@ foreach($PostsArray as $key => $post)
 {
 	$PostFloor = ($Page-1)*$Config['PostsPerPage']+$key;
 ?>
-	<div class="commont-item">
+	<div class="comment-item">
 		<a name="Post<?php echo $post['ID'];?>"></a>
-		<div class="commont-avatar">
+		<div class="comment-avatar">
 			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
 			<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
 			</a>
 		</div>
-		<div class="commont-data">
-			<div class="commont-content">
+		<div class="comment-data">
+			<div class="comment-content">
 				<div>
 					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a></div>
 					<span class="float-right grey fs12">
@@ -106,7 +106,7 @@ foreach($PostsArray as $key => $post)
 				<script id="edit<?php echo $post['ID']; ?>" type="text/plain" style="width:588px;height:auto;visibility:hidden;"></script>
 			</div>
 			<?php if($CurUserID){ ?>
-			<div class="commont-button">
+			<div class="comment-button">
 				<div class="float-left">
 				<?php if($CurUserRole>=4 || $post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $post['ID']; ?>);"><?php echo $Lang['Edit']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
 				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
@@ -203,13 +203,13 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>"> </script>
 <script>
 //强制所有链接在新窗口中打开
-var AllPosts = document.getElementsByClassName("commont-content");
+var AllPosts = document.getElementsByClassName("comment-content");
 var PostContentLists = {};;
 AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
 PostContentLists[document.getElementsByClassName("topic-content")[0].childNodes[1].id] = trim3(document.getElementsByClassName("topic-content")[0].childNodes[1].innerHTML);
 //console.log(PostContentLists);
 for (var j=0; j<AllPosts.length; j++) {
-	PostContentLists[document.getElementsByClassName("commont-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("commont-content")[j].childNodes[5].innerHTML);
+	PostContentLists[document.getElementsByClassName("comment-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("comment-content")[j].childNodes[5].innerHTML);
 	console.log(PostContentLists);
 	var AllLinks = AllPosts[j].getElementsByTagName("a");
 	for(var i=0; i<AllLinks.length; i++)

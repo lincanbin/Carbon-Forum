@@ -26,7 +26,7 @@ body {
 	padding: 0px;
 }
 /* title */
-.topic-content h1, .commont-content h1 {
+.topic-content h1, .comment-content h1 {
 	color: #555;
 	font-size: 180%;
 	font-weight: bold;
@@ -34,7 +34,7 @@ body {
 	margin: 10px 0px 10px 0px;
 	border-bottom: 1px dashed #33B5E5;
 }
-.topic-content h2, .commont-content h2 {
+.topic-content h2, .comment-content h2 {
 	color: #555;
 	font-size: 160%;
 	font-weight: bold;
@@ -42,14 +42,14 @@ body {
 	margin: 10px 0px 10px 0px;
 	border-bottom: 1px dashed #33B5E5;
 }
-.topic-content h3, .commont-content h3 {
+.topic-content h3, .comment-content h3 {
 	color: #555;
 	font-size: 140%;
 	font-weight: bold;
 	padding: 5px 0px 5px 20px;
 	margin: 10px 0px 10px 0px;
 }
-.topic-content h4, .commont-content h4 {
+.topic-content h4, .comment-content h4 {
 	color: #555;
 	font-size: 120%;
 	font-weight: bold;
@@ -353,7 +353,7 @@ h2.resp-accordion {
 .center-align {
 	margin:0 auto;
 }
-.img-center, .detail-avatar, .member-avatar, .item-avatar, .commont-avatar {
+.img-center, .detail-avatar, .member-avatar, .item-avatar, .comment-avatar {
 	display:table-cell;
 	vertical-align:middle;
 	text-align:center;
@@ -623,41 +623,41 @@ img.avatar {
 	cursor: pointer;
 	transition:background-color 0.2s ease-in-out;
 }
-.commont-item {
+.comment-item {
 	border-bottom: 1px solid #EFEFEF;
 	padding:0 10px 0 10px;
 	margin-bottom:15px;
 }
-.commont-avatar {
+.comment-avatar {
 	width:58px;
 	height:58px;
 	float:left;
 }
-.commont-avatar img {
+.comment-avatar img {
 	max-height:48px;
 	max-width:48px;
 	border-radius: 4px;
 }
-.commont-data {
+.comment-data {
 	float:left;
 	width:590px;
 }
-.user-commont-data {
+.user-comment-data {
 	float:left;
 	width:640px;
 }
-.commont-content h2 {
+/*.comment-content h2 {
 	font-size: 16px;
 	padding:0 0 5px 0;
 	margin: 0;
 	min-height:28px;
-}
-.commont-data-date {
+}*/
+.comment-data-date {
 	color:#999;
 	font-size: 12px;
 	margin-bottom:4px;
 }
-.commont-button {
+.comment-button {
 	position: relative;
 	height:24px;
 	padding: 4px 36px 4px 2px;
@@ -677,16 +677,16 @@ img.avatar {
 	width: 640px;
 	height: 150px;
 }
-.commont-content {
+.comment-content {
 	WORD-WRAP: break-word;
 	font-size:16px;
 }
-.commont-content img {
+.comment-content img {
 	/*display:block;*/
 	margin-top:10px;
 	max-width:590px;
 }
-.commont-content embed {
+.comment-content embed {
 	display:block;
 	margin-top:10px;
 	max-width:590px;
