@@ -21,7 +21,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					</a>
 				</div>
 				<div class="comment-content">
-					<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName']; ?></a><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_Topic'];?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>" target="_blank"><?php echo $Post['Subject'];?></a></h2>
+					<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName']; ?></a><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_Topic'];?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>" target="_blank"><?php echo $Post['Subject'];?></a></span>
 					<?php echo strip_tags(mb_substr($Post['Content'], 0, 200, 'utf-8'),'<p><br><a>'); ?>
 				</div>
 					
