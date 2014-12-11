@@ -6,5 +6,5 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'My_Favorites' => '我的收藏',
 	'Unsubscribe' => '取消收藏',
-	'Collection_In' => '收藏于'
+	'Collected_In' => '收藏于'
 	));
