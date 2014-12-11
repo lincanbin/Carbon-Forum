@@ -171,6 +171,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 		<p>
 			<script id="editor" type="text/plain" style="width:648px;height:160px;"></script>
 			<script type="text/javascript">
+			$(document).ready(function(){
 				//实例化编辑器
 				window.UEDITOR_CONFIG['textarea'] = 'Content';
 				//window.UEDITOR_CONFIG['initialFrameHeight'] = 160;
@@ -182,6 +183,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 						RecoverContents();
 					}
 				}});
+			});
 			</script>
 		</p>
 		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
