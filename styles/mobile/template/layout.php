@@ -1,5 +1,7 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+$IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')?true:false;
+if(!$IsAjax){
 ?><!DOCTYPE html>
 <!--HTML5 doctype-->
 <html>
@@ -53,3 +55,6 @@ if($Config['MobileDomainName']){
 	</div>
 </body>
 </html>
+<?php }else{
+	include($ContentFile);
+} ?>
