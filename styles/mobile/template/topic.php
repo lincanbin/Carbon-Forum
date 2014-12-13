@@ -9,57 +9,52 @@ if(!$IsAjax){
 <div id="content">
 	<!-- here is where you can add your panels -->
 <?php } ?>
-	<div data-title="<?php echo $PageTitle; ?>" id="Topic<?php echo $id.$Page; ?>" class="panel commentList" selected="true">
+	<div data-title="<?php echo $PageTitle; ?>" id="Topic<?php echo $id.$Page; ?>" class="panel" selected="true">
 <?php
 if($Page==1){
 ?>
 <div class="topic-title">
-	<div class="topic-title-main float-left">
+	<div class="topic-title-main">
 		<h1><?php  echo $topic['Topic']; ?></h1>
 		<div class="topic-title-date">
 		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
- at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
+ at <?php echo FormatTime($topic['PostTime']); ?><?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 		</div>
 	</div>
-	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>">
-<?php echo GetAvatar($topic['UserID'], $topic['UserName'], 'large'); ?>
-
-	</a></div>
 	<div class="c"></div>
 </div>
 <div class="topic-content">
 <p><?php echo $PostsArray[0]['Content']; ?></p>
 </div>
-<div class="topic-tags btn">
-<div class="w400">
+<div class="TagLists">
 <?php
 if($topic['Tags']){
 	foreach (explode("|", $topic['Tags']) as $Tag) {
-?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
+?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank" class="button"><?php echo $Tag; ?></a>
 <?php
 	}
 }?></div>
+<div class="Manage">
 <?php
 if($CurUserRole>=4){
-
 	if($topic['IsDel']==0){
 	?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" style="float:right;"><?php echo $Lang['Delete']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" class="button red"><?php echo $Lang['Delete']; ?></a>
 <?php
 	}else{
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" style="float:right;"><?php echo $Lang['Recover']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;"><?php echo $Lang['Permanently_Delete']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" class="button green"><?php echo $Lang['Recover']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" class="button red"><?php echo $Lang['Permanently_Delete']; ?></a>
 <?php
 	}
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" style="float:right;"><?php echo $Lang['Sink']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" style="float:right;"><?php echo $Lang['Rise']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" class="button"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" class="button"><?php echo $Lang['Sink']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" class="button"><?php echo $Lang['Rise']; ?></a>
 <?php
 }
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" class="button"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
 <div class="c"></div>
 </div>
 <!-- post main content end -->
@@ -73,7 +68,7 @@ if($topic['Replies']!=0)
 <div class="title">
 	<?php echo $topic['Replies']; ?> <?php echo $Lang['Replies']; ?>  |  <?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($topic['LastTime']); ?>
 </div>
-<div class="main-box home-box-list">
+<div class="commentList">
 <?php
 foreach($PostsArray as $key => $post)
 {
@@ -168,7 +163,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 				}});
 			</script>
 		</p>
-		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
+		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbutton" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
 		<p></p>
 	</form>
