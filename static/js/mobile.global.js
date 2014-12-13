@@ -19,13 +19,14 @@ if (!((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchsta
 }
 
 $.ui.overlayStatusbar=true; // for ios7 only to add header padding to overlay the statusbar
-$.ui.autoLaunch = false; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
+$.ui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
 $.ui.useOSThemes=false; //This must be set before $(document).ready() triggers;
+$.ui.isAjaxApp=true;
 /* This function runs when the body is loaded.*/
 $(document).ready(function(){
 	$.ui.launch();
 });
-//$.feat.nativeTouchScroll=false;
+//$.feat.nativeTouchScroll=false; //Disable native scrolling globally
 
 
 function loadScript(url, callback){

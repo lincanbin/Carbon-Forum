@@ -38,8 +38,9 @@ $(function () {
 	// Initialize ajax autocomplete:
 	$("#AlternativeTag").autocomplete({
 		serviceUrl: WebsitePath+'/json/tag_autocomplete',
-		type: 'post',
-		/*lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
+		type: 'post'
+		/*,
+		lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
 			var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
 			return re.test(suggestion.value);
 		},
