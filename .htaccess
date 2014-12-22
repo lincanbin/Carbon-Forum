@@ -7,11 +7,16 @@ ErrorDocument 404 /404.php
 	RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]
 	RewriteRule ^(.*)$ http://www.94cb.com/$1 [L,R=301]
 
-	RewriteEngine On
 	RewriteCond %{REQUEST_METHOD} ^TRACE
 	RewriteRule .* - [F]
 
 	RewriteBase /
+	#RewriteRule ^includes - [F,L]
+	#RewriteRule ^language - [F,L]
+	#RewriteRule ^styles/default/template - [F,L]
+	#RewriteRule ^styles/mobile/template - [F,L]
+	#RewriteRule ^styles/api/template - [F,L]
+
 	RewriteRule ^dashboard$ dashboard.php [L]
 	RewriteRule ^favorites(/page/([0-9]*))?$ favorites.php?page=$2 [L]
 	RewriteRule ^json/(get_tags|tag_autocomplete|check_username)$ json.php?action=$1 [L]
