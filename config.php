@@ -12,4 +12,3 @@ define('DBHost', '127.0.0.1');
 define('DBName', 'carbon');
 define('DBUser', 'root');
 define('DBPassword', '');
-?>
