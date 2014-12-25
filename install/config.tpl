@@ -12,4 +12,3 @@ define('DBHost', '{{DBHost}}');
 define('DBName', '{{DBName}}');
 define('DBUser', '{{DBUser}}');
 define('DBPassword', '{{DBPassword}}');
-?>
