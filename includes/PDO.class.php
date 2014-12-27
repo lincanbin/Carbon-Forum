@@ -42,7 +42,7 @@ class DB
 		{
 			try 
 			{
-				$this->pdo = new PDO('mysql:dbname='.$this->DBName.';host='.$this->Host, $this->DBUser, $this->DBPassword, array(PDO::ATTR_PERSISTENT => true,
+				$this->pdo = new PDO('mysql:dbname='.$this->DBName.';host='.$this->Host, $this->DBUser, $this->DBPassword, array(//PDO::ATTR_PERSISTENT => true,
 											PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
 											));
 				$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
