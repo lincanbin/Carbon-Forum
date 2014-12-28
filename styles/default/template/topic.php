@@ -208,11 +208,13 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 var AllPosts = document.getElementsByClassName("comment-content");
 var PostContentLists = {};;
 AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
+<?php if($Page == 1){ ?>
 PostContentLists[document.getElementsByClassName("topic-content")[0].childNodes[1].id] = trim3(document.getElementsByClassName("topic-content")[0].childNodes[1].innerHTML);
+<?php } ?>
 //console.log(PostContentLists);
 for (var j=0; j<AllPosts.length; j++) {
 	PostContentLists[document.getElementsByClassName("comment-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("comment-content")[j].childNodes[5].innerHTML);
-	console.log(PostContentLists);
+	//console.log(PostContentLists);
 	var AllLinks = AllPosts[j].getElementsByTagName("a");
 	for(var i=0; i<AllLinks.length; i++)
 	{
@@ -221,6 +223,7 @@ for (var j=0; j<AllPosts.length; j++) {
 		a.target="_blank";
 	};
 };
+//样式渲染需最后进行
 uParse('.main-content',{
 	'rootPath': '<?php echo $Config['WebsitePath']; ?>/static/editor/',
 	'liiconpath':'<?php echo $Config['WebsitePath']; ?>/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
