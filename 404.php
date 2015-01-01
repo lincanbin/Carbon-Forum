@@ -1,4 +1,5 @@
 <?php
+require(dirname(__FILE__)."/config.php");//Timezone
 if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $_SERVER['REQUEST_URI'], $AvatarSize))
 {	
 	//header('Location: default.png');
