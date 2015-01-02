@@ -169,7 +169,7 @@ function AddTag(TagName,id)
 {
 	if(CheckTag(TagName,1))
 	{
-		$("#SelectTags").append('<a href="###" onclick="javascript:TagRemove(\''+TagName+'\','+id+');" id="Tag'+id+'">'+TagName+'&nbsp;×<input type="hidden" name="Tag[]" value="'+TagName+'"></a>');
+		$("#SelectTags").append('<a href="###" onclick="javascript:TagRemove(\''+TagName+'\','+id+');" id="Tag'+id+'">'+TagName+'&nbsp;×<input type="hidden" name="Tag[]" value="'+TagName+'" /></a>');
 		$("#TagsList"+id).remove();
 	}
 	//document.NewForm.AlternativeTag.focus();

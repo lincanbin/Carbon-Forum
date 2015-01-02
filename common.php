@@ -209,7 +209,7 @@ function CurIP()
 			}
 		}
 	}
-	return ($IP ? $IP : $_SERVER['REMOTE_ADDR']);
+	return htmlspecialchars($IP ? $IP : $_SERVER['REMOTE_ADDR']);
 }
 
 
