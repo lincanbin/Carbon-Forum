@@ -66,7 +66,7 @@ function ManageCallback(TargetTag)
 
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 {
-	if(NeedToConfirm?confirm("确定执行该操作？"):true){
+	if(NeedToConfirm?confirm("确定执行该操作？\r\nConfirm?"):true){
 		TargetTag.innerText = "Loading";
 		var CallbackObj=new ManageCallback(TargetTag); 
 		$.ajax({
