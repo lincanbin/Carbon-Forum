@@ -3,7 +3,7 @@ set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	$fp = @fopen(dirname(__FILE__).'/database.sql', "r") or die("不能打开SQL文件");
+	$fp = fopen(dirname(__FILE__).'/database.sql', "r") or die("不能打开SQL文件");
 	$Language = $_POST['Language'];
 	$DBHost = $_POST['DBHost'];
 	$DBName = $_POST['DBName'];
@@ -70,7 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 function GetNextSQL() {
 	global $fp;
 	$sql="";
-	while ($line = @fgets($fp, 40960)) {
+	while ($line = fgets($fp, 40960)) {
 		$line = trim($line);
 		//以下三句在高版本php中不需要，在部分低版本中也许需要修改
 		/*
