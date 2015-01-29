@@ -63,28 +63,56 @@ function ManageCallback(TargetTag)
 	}
 }
 
-
+//操作
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 {
-	if(NeedToConfirm?confirm("确定执行该操作？\r\nConfirm?"):true){
-		TargetTag.innerText = "Loading";
-		var CallbackObj=new ManageCallback(TargetTag); 
-		$.ajax({
-			url:WebsitePath+"/manage",
-			data:{
-				ID: ID,
-				Type: Type,
-				Action: Action
-			},
-			cache: false,
-			dataType: "json",
-			type: "POST",
-			success: CallbackObj.Success
-		});
-	}
+	$("#afui").popup({
+		title: "Confirm",
+		message: "Please confirm the operation. ",
+		cancelText: "Cancel",
+		cancelCallback: function () {
+			console.log("cancelled");
+		},
+		doneText: "Confirm",
+		doneCallback: function () {
+			console.log("Done for!");
+			TargetTag.innerText = "Loading";
+			var CallbackObj=new ManageCallback(TargetTag); 
+			$.ajax({
+				url:WebsitePath+"/manage",
+				data:{
+					ID: ID,
+					Type: Type,
+					Action: Action
+				},
+				cache: false,
+				dataType: "json",
+				type: "POST",
+				success: CallbackObj.Success
+			});
+		},
+		cancelOnly: false
+	});
 }
 
 
+//回复某人
+function Reply(UserName, PostFloor, PostID)
+{
+	$("#afui").popup({
+		title: "Reply",
+		message: "Username: <input type='text' class='af-ui-forms'><br>Password: <input type='text' class='af-ui-forms' style='webkit-text-security:disc'>",
+		cancelText: "Cancel",
+		cancelCallback: function () {},
+		doneText: "Reply",
+		doneCallback: function () {
+			alert("Logging in")
+		},
+		cancelOnly: false
+	});
+	//UE.getEditor('editor').setContent('<p>'+Lang['Reply_To']+'<a href="'+location.pathname+'#Post'+PostID+'">#'+PostFloor+'</a> @'+UserName+' :<br /></p>', false);
+	//UE.getEditor('editor').focus(true);
+}
 
 /*
  * JavaScript MD5 1.0.1
