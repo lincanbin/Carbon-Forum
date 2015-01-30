@@ -10,7 +10,10 @@
  * 
  * A high performance open-source forum software written in PHP. 
  */
-
+/* Init Language*/
+var UE={
+	'I18N':{}
+}
 /* Init Appframework*/
 if (!((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
 	var script = document.createElement("script");
@@ -105,13 +108,14 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
 		cancelText: Lang['Cancel'],
 		cancelCallback: function(){},
 		doneText: Lang['Reply'],
-		doneCallback: function(){
-			console.log('test');
+		doneCallback: function(arg){
+			console.log(arg);
 			if(!document.getElementById('Content').value.length){
 				alert(Lang['Content_Empty']);
 			}else{
+				console.log(typeof jQuery);
 				//alert(document.getElementById('Content').value);
-				$.ajax({
+				/*$.ajax({
 					url: WebsitePath+'/reply',
 					data:{
 						FormHash: FormHash,
@@ -122,18 +126,19 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
 					cache: false,
 					dataType: 'json',
 					async: false,//阻塞防止干扰
-					success: function(data){
-						if(data.Status==1){
+					success: function(Result){
+						if(Result.Status==1){
 							alert("Success");
-							//location.href = WebsitePath+"/t/"+data.TopicID+(data.Page>1?"-"+data.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
+							//Back and Reload this Page
+							//location.href = WebsitePath+"/t/"+Result.TopicID+(Result.Page>1?"-"+Result.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 						}else{
-							alert(data.ErrorMessage);
+							alert(Result.ErrorMessage);
 						}
 					},
 					error: function(){
 						alert(Lang['Submit_Failure']);
 					}
-				});
+				});*/
 			}
 		},
 		cancelOnly: false
