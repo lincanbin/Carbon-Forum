@@ -97,16 +97,44 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 
 
 //回复某人
-function Reply(UserName, PostFloor, PostID)
+function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
 {
 	$("#afui").popup({
-		title: "Reply",
-		message: "Username: <input type='text' class='af-ui-forms'><br>Password: <input type='text' class='af-ui-forms' style='webkit-text-security:disc'>",
-		cancelText: "Cancel",
-		cancelCallback: function () {},
-		doneText: "Reply",
-		doneCallback: function () {
-			alert("Logging in")
+		title: Lang['Reply_To']+" @"+UserName,
+		message: "<textarea id=\"Content\">"+Lang['Reply_To']+"#"+PostFloor+" @"+UserName+" :\r\n</textarea>",
+		cancelText: Lang['Cancel'],
+		cancelCallback: function(){},
+		doneText: Lang['Reply'],
+		doneCallback: function(){
+			console.log('test');
+			if(!document.getElementById('Content').value.length){
+				alert(Lang['Content_Empty']);
+			}else{
+				//alert(document.getElementById('Content').value);
+				$.ajax({
+					url: WebsitePath+'/reply',
+					data:{
+						FormHash: FormHash,
+						TopicID: TopicID,
+						Content: document.getElementById("Content").value
+					},
+					type: 'post',
+					cache: false,
+					dataType: 'json',
+					async: false,//阻塞防止干扰
+					success: function(data){
+						if(data.Status==1){
+							alert("Success");
+							//location.href = WebsitePath+"/t/"+data.TopicID+(data.Page>1?"-"+data.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
+						}else{
+							alert(data.ErrorMessage);
+						}
+					},
+					error: function(){
+						alert(Lang['Submit_Failure']);
+					}
+				});
+			}
 		},
 		cancelOnly: false
 	});

@@ -92,7 +92,7 @@ foreach($PostsArray as $key => $post)
 						<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
 						</div>
 						<div class="reply">
-							<a href="#reply" title="<?php echo $Lang['Reply']; ?>"onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);"><?php echo $Lang['Reply']; ?></a>
+							<a href="#reply" title="<?php echo $Lang['Reply']; ?>"onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);"><?php echo $Lang['Reply']; ?></a>
 						</div>
 						<div class="c"></div>
 					<?php } ?>
