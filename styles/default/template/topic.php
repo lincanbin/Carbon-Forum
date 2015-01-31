@@ -85,7 +85,7 @@ foreach($PostsArray as $key => $post)
 	<div class="comment-item">
 		<a name="Post<?php echo $post['ID'];?>"></a>
 		<div class="comment-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>" target="_blank">
 			<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
 			</a>
 		</div>
