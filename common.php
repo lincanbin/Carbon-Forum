@@ -431,9 +431,9 @@ function SetCookies($CookiesArray,$Expires=0)
 	global $Config;
 	foreach ($CookiesArray as $key => $value) {
 		if(!$Expires)
-			setcookie($Config['CookiePrefix'].$key, $value, 0, $Config['WebsitePath'].'/');
+			setcookie($Config['CookiePrefix'].$key, $value, 0, $Config['WebsitePath'].'/', null, false, true);
 		else
-			setcookie($Config['CookiePrefix'].$key, $value, time()+ 86400 * $Expires, $Config['WebsitePath'].'/');
+			setcookie($Config['CookiePrefix'].$key, $value, time()+ 86400 * $Expires, $Config['WebsitePath'].'/', null, false, true);
 	}
 }
 
