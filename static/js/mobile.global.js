@@ -11,7 +11,7 @@
  * A high performance open-source forum software written in PHP. 
  */
 /* Init Language*/
-var UE={
+var UE = {
 	'I18N':{}
 }
 /* Init Appframework*/
@@ -30,6 +30,10 @@ $(document).ready(function(){
 	$.ui.launch();
 });
 //$.feat.nativeTouchScroll=false; //Disable native scrolling globally
+
+function CarbonAlert(Message){
+	$.ui.popup(Message);
+}
 
 
 function loadScript(url, callback){
@@ -51,7 +55,7 @@ function loadScript(url, callback){
 	document.getElementsByTagName("head")[0].appendChild(script);
 }
 
-
+//管理函数的完成回调
 function ManageCallback(TargetTag)
 {
 	this.Success=function(Json){
@@ -66,10 +70,10 @@ function ManageCallback(TargetTag)
 	}
 }
 
-//操作
+//管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 {
-	$("#afui").popup({
+	$.ui.popup({
 		title: "Confirm",
 		message: "Please confirm the operation. ",
 		cancelText: "Cancel",
@@ -88,7 +92,7 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 					Type: Type,
 					Action: Action
 				},
-				cache: false,
+				//cache: false,
 				dataType: "json",
 				type: "POST",
 				success: CallbackObj.Success
@@ -102,18 +106,18 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 //回复某人
 function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
 {
-	$("#afui").popup({
-		title: Lang['Reply_To']+" @"+UserName,
+	$.ui.popup({
+		title: Lang['Reply_To']+"#"+PostFloor+" @"+UserName+" :",
 		message: "<textarea id=\"Content\">"+Lang['Reply_To']+"#"+PostFloor+" @"+UserName+" :\r\n</textarea>",
 		cancelText: Lang['Cancel'],
 		cancelCallback: function(){
-			console.log("cancelled");
+			//console.log("cancelled");
 		},
 		doneText: Lang['Reply'],
 		doneCallback: function(){
 			//console.log(arg);
 			if(!document.getElementById('Content').value.length){
-				alert(Lang['Content_Empty']);
+				CarbonAlert(Lang['Content_Empty']);
 			}else{
 				console.log(typeof jQuery);
 				//alert(document.getElementById('Content').value);
@@ -125,20 +129,20 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
 						Content: document.getElementById("Content").value
 					},
 					type: 'post',
-					cache: false,
+					//cache: false,
 					dataType: 'json',
-					async: false,//阻塞防止干扰
+					//async: false,//阻塞防止干扰
 					success: function(Result){
 						if(Result.Status==1){
-							alert("Success");
+							CarbonAlert("Success");
 							//Back and Reload this Page
 							//location.href = WebsitePath+"/t/"+Result.TopicID+(Result.Page>1?"-"+Result.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 						}else{
-							alert(Result.ErrorMessage);
+							CarbonAlert(Result.ErrorMessage);
 						}
 					},
 					error: function(){
-						alert(Lang['Submit_Failure']);
+						CarbonAlert(Lang['Submit_Failure']);
 					}
 				});
 			}
