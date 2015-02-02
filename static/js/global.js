@@ -11,18 +11,19 @@
  * A high performance open-source forum software written in PHP. 
  */
 
-function loadScript(url, callback){
-	var script = document.createElement ("script")
+//异步非阻塞加载JavaScript脚本文件
+function loadScript(url, callback) {
+	var script = document.createElement("script");
 	script.type = "text/javascript";
-	if (script.readyState){ //IE
-		script.onreadystatechange = function(){
-			if (script.readyState == "loaded" || script.readyState == "complete"){
+	if (script.readyState) { //IE
+		script.onreadystatechange = function() {
+			if (script.readyState == "loaded" || script.readyState == "complete") {
 				script.onreadystatechange = null;
 				callback();
 			}
 		};
 	} else { //Others
-		script.onload = function(){
+		script.onload = function() {
 			callback();
 		};
 	}
@@ -30,30 +31,28 @@ function loadScript(url, callback){
 	document.getElementsByTagName("head")[0].appendChild(script);
 }
 
-
-function ManageCallback(TargetTag)
-{
-	this.Success=function(Json){
-		if(Json.Status==1){
+//管理函数的完成回调
+function ManageCallback(TargetTag) {
+	this.Success = function(Json) {
+		if (Json.Status == 1) {
 			//alert(Json.Message);
 			TargetTag.innerText = Json.Message;
 			//window.location.reload();
-		}else{
+		} else {
 			TargetTag.innerText = Json.ErrorMessage;
 			//alert(Json.ErrorMessage);
 		}
 	}
 }
 
-
-function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
-{
-	if(NeedToConfirm?confirm("确定执行该操作？\r\nConfirm?"):true){
+//管理
+function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
+	if (NeedToConfirm ? confirm("确定执行该操作？\r\nConfirm?") : true) {
 		TargetTag.innerText = "Loading";
-		var CallbackObj=new ManageCallback(TargetTag); 
+		var CallbackObj = new ManageCallback(TargetTag);
 		$.ajax({
-			url:WebsitePath+"/manage",
-			data:{
+			url: WebsitePath + "/manage",
+			data: {
 				ID: ID,
 				Type: Type,
 				Action: Action
@@ -65,7 +64,6 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 		});
 	}
 }
-
 
 
 /*

@@ -12,42 +12,41 @@
  */
 /* Init Language*/
 var UE = {
-	'I18N':{}
+	'I18N': {}
 }
 /* Init Appframework*/
-if (!((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
+if (! ((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
 	var script = document.createElement("script");
-	script.src = WebsitePath+"/static/appframework.desktopBrowsers.js";
+	script.src = WebsitePath + "/static/appframework.desktopBrowsers.js";
 	var tag = $("head").append(script);
 }
 
-$.ui.overlayStatusbar=true; // for ios7 only to add header padding to overlay the statusbar
+$.ui.overlayStatusbar = true; // for ios7 only to add header padding to overlay the statusbar
 $.ui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
-$.ui.useOSThemes=false; //This must be set before $(document).ready() triggers;
-$.ui.isAjaxApp=true;
+$.ui.useOSThemes = false; //This must be set before $(document).ready() triggers;
+$.ui.isAjaxApp = true;
 /* This function runs when the body is loaded.*/
-$(document).ready(function(){
+$(document).ready(function() {
 	$.ui.launch();
+	$("#navbar").css("height", 0);
 });
 //$.feat.nativeTouchScroll=false; //Disable native scrolling globally
-
-function CarbonAlert(Message){
+function CarbonAlert(Message) {
 	$.ui.popup(Message);
 }
-
-
-function loadScript(url, callback){
-	var script = document.createElement ("script")
+//异步非阻塞加载JavaScript脚本文件
+function loadScript(url, callback) {
+	var script = document.createElement("script");
 	script.type = "text/javascript";
-	if (script.readyState){ //IE
-		script.onreadystatechange = function(){
-			if (script.readyState == "loaded" || script.readyState == "complete"){
+	if (script.readyState) { //IE
+		script.onreadystatechange = function() {
+			if (script.readyState == "loaded" || script.readyState == "complete") {
 				script.onreadystatechange = null;
 				callback();
 			}
 		};
 	} else { //Others
-		script.onload = function(){
+		script.onload = function() {
 			callback();
 		};
 	}
@@ -56,14 +55,13 @@ function loadScript(url, callback){
 }
 
 //管理函数的完成回调
-function ManageCallback(TargetTag)
-{
-	this.Success=function(Json){
-		if(Json.Status==1){
+function ManageCallback(TargetTag) {
+	this.Success = function(Json) {
+		if (Json.Status == 1) {
 			//alert(Json.Message);
 			TargetTag.innerText = Json.Message;
 			//window.location.reload();
-		}else{
+		} else {
 			TargetTag.innerText = Json.ErrorMessage;
 			//alert(Json.ErrorMessage);
 		}
@@ -71,23 +69,22 @@ function ManageCallback(TargetTag)
 }
 
 //管理
-function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
-{
+function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 	$.ui.popup({
 		title: "Confirm",
 		message: "Please confirm the operation. ",
 		cancelText: "Cancel",
-		cancelCallback: function () {
+		cancelCallback: function() {
 			console.log("cancelled");
 		},
 		doneText: "Confirm",
-		doneCallback: function () {
+		doneCallback: function() {
 			console.log("Done for!");
 			TargetTag.innerText = "Loading";
-			var CallbackObj=new ManageCallback(TargetTag); 
+			var CallbackObj = new ManageCallback(TargetTag);
 			$.ajax({
-				url:WebsitePath+"/manage",
-				data:{
+				url: WebsitePath + "/manage",
+				data: {
 					ID: ID,
 					Type: Type,
 					Action: Action
@@ -102,27 +99,25 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag)
 	});
 }
 
-
 //回复某人
-function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
-{
+function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	$.ui.popup({
-		title: Lang['Reply_To']+"#"+PostFloor+" @"+UserName+" :",
-		message: "<textarea id=\"Content\">"+Lang['Reply_To']+"#"+PostFloor+" @"+UserName+" :\r\n</textarea>",
+		title: Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :",
+		message: "<textarea id=\"Content\">" + Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n</textarea>",
 		cancelText: Lang['Cancel'],
-		cancelCallback: function(){
+		cancelCallback: function() {
 			//console.log("cancelled");
 		},
 		doneText: Lang['Reply'],
-		doneCallback: function(){
+		doneCallback: function() {
 			//console.log(arg);
-			if(!document.getElementById('Content').value.length){
+			if (!document.getElementById('Content').value.length) {
 				CarbonAlert(Lang['Content_Empty']);
-			}else{
-				console.log(typeof jQuery);
+			} else {
+				//console.log(typeof jQuery);
 				//alert(document.getElementById('Content').value);
 				$.ajax({
-					url: WebsitePath+'/reply',
+					url: WebsitePath + '/reply',
 					data: {
 						FormHash: FormHash,
 						TopicID: TopicID,
@@ -132,16 +127,16 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID)
 					//cache: false,
 					dataType: 'json',
 					//async: false,//阻塞防止干扰
-					success: function(Result){
-						if(Result.Status==1){
+					success: function(Result) {
+						if (Result.Status == 1) {
 							CarbonAlert("Success");
 							//Back and Reload this Page
 							//location.href = WebsitePath+"/t/"+Result.TopicID+(Result.Page>1?"-"+Result.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
-						}else{
+						} else {
 							CarbonAlert(Result.ErrorMessage);
 						}
 					},
-					error: function(){
+					error: function() {
 						CarbonAlert(Lang['Submit_Failure']);
 					}
 				});
