@@ -32,10 +32,11 @@ var Lang = {
 	'Edit':' Submit ',
 	'Cancel':' Cancel ',
 
+	'Reply':' Reply ',
 	'Content_Empty':'Content can not be empty! ',
 	'Replying':' Replying…… ',
 	'Reply_Success':' Success ',
-	'Reply_To':'Reply to ',
+	'Reply_To':'Reply to '
 };
 
 UE.I18N['en'] = {
