@@ -20,17 +20,21 @@ if (! ((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchst
 	script.src = WebsitePath + "/static/appframework.desktopBrowsers.js";
 	var tag = $("head").append(script);
 }
-
 $.ui.overlayStatusbar = true; // for ios7 only to add header padding to overlay the statusbar
 $.ui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
 $.ui.useOSThemes = false; //This must be set before $(document).ready() triggers;
 $.ui.isAjaxApp = true;
-/* This function runs when the body is loaded.*/
+$.ui.slideSideMenu = true; //Set to false to turn off the swiping to reveal
+//This function runs when the body is loaded.
 $(document).ready(function() {
 	$.ui.launch();
-	$("#navbar").css("height", 0);
+	//$.ui.toggleNavMenu(false);//force hide the bottom nav menu. 
+	$.ui.removeFooterMenu();
+	//$("#navbar").css("display", "block");//AddFooterMenu
 });
 //$.feat.nativeTouchScroll=false; //Disable native scrolling globally
+
+//非阻塞的带样式的Alert
 function CarbonAlert(Message) {
 	$.ui.popup(Message);
 }
@@ -117,20 +121,22 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 				//console.log(typeof jQuery);
 				//alert(document.getElementById('Content').value);
 				$.ajax({
-					url: WebsitePath + '/reply',
+					url: WebsitePath + "/reply",
 					data: {
 						FormHash: FormHash,
 						TopicID: TopicID,
 						Content: document.getElementById("Content").value
 					},
-					type: 'post',
+					type: "post",
 					//cache: false,
-					dataType: 'json',
+					dataType: "json",
 					//async: false,//阻塞防止干扰
 					success: function(Result) {
 						if (Result.Status == 1) {
 							CarbonAlert("Success");
 							//Back and Reload this Page
+							$.ui.goBack();
+							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID, false, false, "slide");
 							//location.href = WebsitePath+"/t/"+Result.TopicID+(Result.Page>1?"-"+Result.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 						} else {
 							CarbonAlert(Result.ErrorMessage);

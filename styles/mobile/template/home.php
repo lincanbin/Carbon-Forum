@@ -14,7 +14,7 @@ if(!$IsAjax){
 		<?php
 		if($Page>1){
 		?>
-			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page-1); ?>" data-transition="slide" data-persist-ajax="true">上一页</a></li>
+			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page-1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Previous']; ?></a></li>
 		<?php
 		}
 		foreach ($TopicsArray as $Topic) {
@@ -42,7 +42,7 @@ if(!$IsAjax){
 		<?php } 
 		if($Page<$TotalPage){
 		?>
-			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page+1); ?>" data-transition="slide" data-persist-ajax="true">下一页</a></li>
+			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
 		<?php } ?>
 		</ul>
 	</div>
@@ -50,8 +50,6 @@ if(!$IsAjax){
 if(!$IsAjax){
 ?>
 </div>
-<!-- bottom navbar. Add additional tabs here -->
-<div id="navbar" style="height:0;"></div>
 <!-- this is the default left side nav menu.  If you do not want any, do not include these -->
 <nav>
 	<!--header class="header"><h1>Left Menu</h1></header-->

@@ -5,12 +5,20 @@ if(!$IsAjax){
 <!-- this is the header div at the top -->
 <div id="header">
 	<!--a href="javascript:$.ui.toggleLeftSideMenu()" class="button" style="float:left">Toggle Nav</a-->
+	<a href="###" class="button" style="float:right;" class="icon home" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a>
 </div>
 <div id="content">
 	<!-- here is where you can add your panels -->
 <?php } ?>
-	<div data-title="<?php echo $PageTitle; ?>" id="Topic<?php echo $id.$Page; ?>" class="panel" selected="true">
+	<div data-title="<?php echo $PageTitle; ?>" id="Topic<?php echo $id.'-'.$Page; ?>" class="panel" selected="true">
 <?php
+if($Page>1){
+?>
+	<ul class="list topic-list">
+		<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $id.'-'.($Page-1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Previous']; ?></a></li>
+	</ul>
+<?php
+}
 if($Page==1){
 ?>
 <div class="topic-title">
@@ -92,7 +100,7 @@ foreach($PostsArray as $key => $post)
 						<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
 						</div>
 						<div class="reply">
-							<a href="#reply" title="<?php echo $Lang['Reply']; ?>"onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);"><?php echo $Lang['Reply']; ?></a>
+							<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);"><?php echo $Lang['Reply']; ?></a>
 						</div>
 						<div class="c"></div>
 					<?php } ?>
@@ -102,14 +110,6 @@ foreach($PostsArray as $key => $post)
 	</table>
 <?php
 }
-if($TotalPage>1){
-?>
-<div class="pagination">
-	<?php Pagination("/t/".$id."-",$Page,$TotalPage); ?>
-<div class="c"></div>
-</div>
-<?php
-}
 ?>
 </div>
 <!-- comment list end -->
@@ -117,24 +117,32 @@ if($TotalPage>1){
 }
 ?>
 <!-- editor start -->
+<ul class="list topic-list">
 <?php
 if(!$topic['IsLocked'] && !$CurUserInfo){
 ?>
-<div class="ad"><p><?php echo $Lang['Requirements_For_Login']; ?></p></div>
+<li class="pagination"><?php echo $Lang['Requirements_For_Login']; ?></li>
 <?php
 }else if($topic['IsLocked']){
 ?>
-<div class="ad"><p><?php echo $Lang['Topic_Has_Been_Locked']; ?></p></div>
+<li class="pagination"><?php echo $Lang['Topic_Has_Been_Locked']; ?></li>
+<?php
+}else{
+?>
+<li class="pagination"><a href="###" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a></li>
 <?php
 }
+if($Page<$TotalPage){
 ?>
+	
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $id.'-'.($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
+<?php } ?>
+</ul>
 <!-- editor end -->
 <?php
 if(!$IsAjax){
 ?>
 </div>
-<!-- bottom navbar. Add additional tabs here -->
-<div id="navbar" style="height:0;"></div>
 <!-- this is the default left side nav menu.  If you do not want any, do not include these -->
 <nav>
 	<!--header class="header"><h1>Left Menu</h1></header-->
