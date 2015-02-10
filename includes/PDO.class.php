@@ -168,7 +168,9 @@ class DB
 			$message .= "\r\nRaw SQL : " . $sql;
 		}
 		$this->log->write($message);
-		
+		//Prevent search engines to crawl
+		header("HTTP/1.1 500 Internal Server Error");
+		header("Status: 500 Internal Server Error");
 		return $exception;
 	}
 }
