@@ -21,7 +21,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<input type="hidden" name="ContentHash" value="" />
 			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" style="width:624px;" placeholder="<?php echo $Lang['Title']; ?>" /></p>
 			<p>
-				<script id="editor" type="text/plain" style="width:648px;height:500px;"></script>
+				<div id="editor" style="width:648px;height:500px;"></div>
 				<script type="text/javascript">
 				$(document).ready(function(){
 					//实例化编辑器
