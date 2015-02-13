@@ -27,7 +27,7 @@ if($Page==1)
 	<div id="p<?php echo $PostsArray[0]['ID']; ?>" style="visibility:visible;">
 		<?php echo $PostsArray[0]['Content']; ?>
 	</div>
-	<script id="edit<?php echo $PostsArray[0]['ID']; ?>" type="text/plain" style="width:648px;height:auto;visibility:hidden;"></script>
+	<div id="edit<?php echo $PostsArray[0]['ID']; ?>" style="width:648px;height:auto;visibility:hidden;"></div>
 </div>
 <div class="topic-tags btn">
 <div class="w400">
@@ -103,7 +103,7 @@ foreach($PostsArray as $key => $post)
 				<div id="p<?php echo $post['ID']; ?>" style="visibility:visible;">
 					<?php echo $post['Content']; ?>
 				</div>
-				<script id="edit<?php echo $post['ID']; ?>" type="text/plain" style="width:588px;height:auto;visibility:hidden;"></script>
+				<div id="edit<?php echo $post['ID']; ?>" style="width:588px;height:auto;visibility:hidden;"></div>
 			</div>
 			<?php if($CurUserID){ ?>
 			<div class="comment-button">
@@ -169,7 +169,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
 		<input type="hidden" name="TopicID" value="<?php echo $id; ?>">
 		<p>
-			<script id="editor" type="text/plain" style="width:648px;height:160px;"></script>
+			<div id="editor" style="width:648px;height:160px;"></div>
 			<script type="text/javascript">
 			//$(document).ready(function(){
 				//实例化编辑器
