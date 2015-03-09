@@ -474,7 +474,7 @@ function XssEscape($html)
 	$replaces[] = '&gt;';
 	
 	if ($ms[1]) {
-		$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre|hr|h1|h2|h3|h4|h5|h6';
+		$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre|hr|h1|h2|h3|h4|h5|h6|video|source';
 		$ms[1]     = array_unique($ms[1]);
 		foreach ($ms[1] as $value) {
 			$searchs[] = "&lt;" . $value . "&gt;";
@@ -574,7 +574,8 @@ function XssEscape($html)
 				'eval',
 				'behaviour',
 				'expression',
-				'style'
+				'style',
+				'class'
 			); //class
 			$skipstr  = implode('|', $skipkeys);
 			$value    = preg_replace(array(
