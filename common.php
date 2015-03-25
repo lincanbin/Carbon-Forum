@@ -11,13 +11,12 @@
  * 
  * A high performance open-source forum software written in PHP. 
  */
-
 //逐渐替换为帕斯卡命名法
 //数据库从设计上避免使用Join多表联查
 
 //error_reporting(0);//不输出任何错误信息
-error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
-//error_reporting(E_ALL); //输出所有错误信息，调试用
+//error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
+error_reporting(E_ALL); //输出所有错误信息，调试用
 ini_set('display_errors', '1'); //显示错误
 //开始计时，初始化常量、常量
 $mtime     = explode(' ', microtime());
@@ -28,11 +27,28 @@ require(dirname(__FILE__) . '/language/' . ForumLanguage . '/common.php');
 //初始化数据库操作类
 require(dirname(__FILE__) . "/includes/PDO.class.php");
 $DB = new Db(DBHost, DBName, DBUser, DBPassword);
-//加载网站设置
+//初始化MemCache(d)
+$MCache = false;
+if(EnableMemcache) {
+	//MemCache
+	$MCache = new Memcache;
+	$MCache->pconnect(MemCacheHost, MemCachePort);
+	//MemCached
+	//$MCache = new Memcached($Prefix.'Cache');
+}
 
 $Config = array();
-foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config') as $ConfigArray) {
-	$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
+//加载网站设置
+if($MCache) {
+	$Config = $MCache -> get($Prefix.'Config');
+}
+if(!$Config) {
+	foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config') as $ConfigArray) {
+		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
+	}
+	if($MCache) {
+		$MCache->set($Prefix.'Config', $Config, 0, 86400);
+	}
 }
 
 $PHPSelf = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
@@ -447,13 +463,17 @@ function TagsDiff($Arr1, $Arr2)
 //修改系统设置
 function UpdateConfig($NewConfig)
 {
-	global $Prefix, $DB;
+	global $Prefix, $DB, $Config, $MCache;
 	if ($NewConfig) {
 		foreach ($NewConfig as $Key => $Value) {
 			$DB->query("UPDATE `" . $Prefix . "config` SET ConfigValue=? WHERE ConfigName=?", array(
 				$Value,
 				$Key
 			));
+			$Config[$Key] = $Value;
+		}
+		if($MCache){
+			$MCache->set($Prefix.'Config', $Config, 0, 86400);
 		}
 		return true;
 	} else {
@@ -462,6 +482,36 @@ function UpdateConfig($NewConfig)
 	
 }
 
+
+//修改用户资料
+function UpdateUserInfo($NewUserInfo, $UserID = 0)
+{
+	global $Prefix, $DB, $CurUserID, $CurUserInfo, $MCache;
+	if($UserID == 0){
+		$UserID = $CurUserID;
+	}
+	if ($NewUserInfo) {
+		$StringBindParam = '';
+		foreach ($NewUserInfo as $Key => $Value) {
+			$StringBindParam .= $Key.' = :'.$Key.',';
+		}
+		$StringBindParam = substr($StringBindParam, 0, -1);
+		$DB->query('UPDATE `' . $Prefix . 'users` SET '.$StringBindParam.' WHERE ID = :UserID', array_merge($NewUserInfo, array('UserID' => $UserID)));
+		if($MCache){
+			$MCache->delete($Prefix.'UserInfo_'.$UserID, 
+				$DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+					"UserID" => $UserID
+				)), 
+				0, 
+				600
+			);
+		}
+		return true;
+	} else {
+		return false;
+	}
+	
+}
 
 //跨站脚本白名单过滤
 function XssEscape($html)
@@ -676,9 +726,20 @@ $CurUserID   = GetCookie('UserID');
 $CurUserCode = GetCookie('UserCode');
 
 if ($CurUserID && $CurUserCode) {
-	$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
-		"UserID" => $CurUserID
-	));
+	$TempUserInfo = array();
+	if($MCache){
+		$TempUserInfo = $MCache -> get($Prefix.'UserInfo_'.$CurUserID);
+	}
+	if(!$TempUserInfo){
+		$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+			"UserID" => $CurUserID
+		));
+
+		if($MCache && $TempUserInfo){
+			$MCache->set($Prefix.'UserInfo_'.$CurUserID, $TempUserInfo, 0, 600);
+		}
+	}
+	
 	if ($TempUserInfo && $CurUserCode == md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $Style . $SALT)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
