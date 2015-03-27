@@ -11,7 +11,8 @@ define('ForumLanguage', 'zh-cn');
 //MemCache(d)
 define('EnableMemcache', true);
 define('MemCacheHost', '127.0.0.1');
-define('MemCachePort', '11211');
+define('MemCachePort', 11211);
+define('MemCachePrefix', 'carbon_');
 //Database
 define('DBHost', '127.0.0.1');
 define('DBName', 'carbon');

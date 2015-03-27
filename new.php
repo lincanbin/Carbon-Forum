@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck($_POST['FormHash'])) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
-	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 5) {//发帖至少要间隔5秒
+	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 5) { //发帖至少要间隔5秒
 		AlertMsg($Lang['Posting_Too_Often'], $Lang['Posting_Too_Often']);
 	}
 	$Title     = Request('Post', 'Title');
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					UpdateConfig($NewConfig);
 					//更新用户自身统计数据
 					UpdateUserInfo(array(
-						"Topics" => $CurUserInfo['Topics']+1,
+						"Topics" => $CurUserInfo['Topics'] + 1,
 						"LastPostTime" => $TimeStamp
 					));
 					//标记附件所对应的帖子标签
@@ -128,8 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					//添加提醒消息
 					AddingNotifications($Content, $TopicID, $PostID);
 					//清理首页内存缓存
-					if($MCache){
-						$MCache -> delete($Prefix.'Homepage');
+					if ($MCache) {
+						$MCache->delete(MemCachePrefix . 'Homepage');
 					}
 					//跳转到主题页
 					//header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);

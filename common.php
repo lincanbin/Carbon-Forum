@@ -26,18 +26,18 @@ require(dirname(__FILE__) . "/config.php");
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/common.php');
 //初始化数据库操作类
 require(dirname(__FILE__) . "/includes/PDO.class.php");
-$DB = new Db(DBHost, DBName, DBUser, DBPassword);
+$DB     = new Db(DBHost, DBName, DBUser, DBPassword);
 //初始化MemCache(d)
 $MCache = false;
-if(EnableMemcache) {
-	if(class_exists('Memcached')){
+if (EnableMemcache) {
+	if (class_exists('Memcached')) {
 		//MemCached
-		$MCache = new Memcached($Prefix.'Cache');
+		$MCache = new Memcached(MemCachePrefix . 'Cache');
 		//Using persistent memcached connection
-		if (!count($MCache -> getServerList())) {
-			$MCache -> addServer(MemCacheHost, MemCachePort);
+		if (!count($MCache->getServerList())) {
+			$MCache->addServer(MemCacheHost, MemCachePort);
 		}
-	}elseif (class_exists('Memcache')) {
+	} elseif (class_exists('Memcache')) {
 		//MemCache
 		$MCache = new Memcache;
 		$MCache->pconnect(MemCacheHost, MemCachePort);
@@ -46,15 +46,15 @@ if(EnableMemcache) {
 
 //Load configuration
 $Config = array();
-if($MCache) {
-	$Config = $MCache -> get($Prefix.'Config');
+if ($MCache) {
+	$Config = $MCache->get(MemCachePrefix . 'Config');
 }
-if(!$Config) {
+if (!$Config) {
 	foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config') as $ConfigArray) {
 		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
 	}
-	if($MCache) {
-		$MCache->set($Prefix.'Config', $Config, 0, 86400);
+	if ($MCache) {
+		$MCache->set(MemCachePrefix . 'Config', $Config, 0, 86400);
 	}
 }
 
@@ -112,8 +112,8 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 					'UserID' => $UserID
 				));
 				//清理内存缓存
-				if($MCache){
-					$MCache -> delete($Prefix.'UserInfo_'.$UserID);
+				if ($MCache) {
+					$MCache->delete(MemCachePrefix . 'UserInfo_' . $UserID);
 				}
 			}
 		}
@@ -483,8 +483,8 @@ function UpdateConfig($NewConfig)
 			));
 			$Config[$Key] = $Value;
 		}
-		if($MCache){
-			$MCache->set($Prefix.'Config', $Config, 0, 86400);
+		if ($MCache) {
+			$MCache->set(MemCachePrefix . 'Config', $Config, 0, 86400);
 		}
 		return true;
 	} else {
@@ -498,24 +498,22 @@ function UpdateConfig($NewConfig)
 function UpdateUserInfo($NewUserInfo, $UserID = 0)
 {
 	global $Prefix, $DB, $CurUserID, $CurUserInfo, $MCache;
-	if($UserID == 0){
+	if ($UserID == 0) {
 		$UserID = $CurUserID;
 	}
 	if ($NewUserInfo) {
 		$StringBindParam = '';
 		foreach ($NewUserInfo as $Key => $Value) {
-			$StringBindParam .= $Key.' = :'.$Key.',';
+			$StringBindParam .= $Key . ' = :' . $Key . ',';
 		}
 		$StringBindParam = substr($StringBindParam, 0, -1);
-		$Result = $DB->query('UPDATE `' . $Prefix . 'users` SET '.$StringBindParam.' WHERE ID = :UserID', array_merge($NewUserInfo, array('UserID' => $UserID)));
-		if($MCache){
-			$MCache->set($Prefix.'UserInfo_'.$UserID, 
-				$DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
-					"UserID" => $UserID
-				)), 
-				0, 
-				600
-			);
+		$Result          = $DB->query('UPDATE `' . $Prefix . 'users` SET ' . $StringBindParam . ' WHERE ID = :UserID', array_merge($NewUserInfo, array(
+			'UserID' => $UserID
+		)));
+		if ($MCache) {
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserID, $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+				"UserID" => $UserID
+			)), 0, 600);
 		}
 		return $Result;
 	} else {
@@ -738,16 +736,16 @@ $CurUserCode = GetCookie('UserCode');
 
 if ($CurUserID && $CurUserCode) {
 	$TempUserInfo = array();
-	if($MCache){
-		$TempUserInfo = $MCache -> get($Prefix.'UserInfo_'.$CurUserID);
+	if ($MCache) {
+		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 	}
-	if(!$TempUserInfo){
+	if (!$TempUserInfo) {
 		$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
 			"UserID" => $CurUserID
 		));
-
-		if($MCache && $TempUserInfo){
-			$MCache->set($Prefix.'UserInfo_'.$CurUserID, $TempUserInfo, 0, 600);
+		
+		if ($MCache && $TempUserInfo) {
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600);
 		}
 	}
 	

@@ -9,9 +9,10 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 */
 define('ForumLanguage', '{{Language}}');
 //MemCache(d)
-define('EnableMemcache', true & class_exists('Memcache'));
+define('EnableMemcache', false);
 define('MemCacheHost', '127.0.0.1');
-define('MemCachePort', '11211');
+define('MemCachePort', 11211);
+define('MemCachePrefix', 'carbon_');
 //Database
 define('DBHost', '{{DBHost}}');
 define('DBName', '{{DBName}}');
