@@ -6,6 +6,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <head>
 <meta charset="UTF-8" />
 <meta content="True" name="HandheldFriendly" />
+<?php
+if($Config['MobileDomainName']){
+?>
+<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $_SERVER['REQUEST_URI']; ?>" />
+<?php } ?>
 <title><?php
 echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 echo $PageTitle;
@@ -33,10 +38,7 @@ if (isset($canonical)) {
 	echo '<link rel="canonical" href="http://', $_SERVER['HTTP_HOST'], $canonical, '" />
 ';
 }
-if($Config['MobileDomainName']){
 ?>
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $_SERVER['REQUEST_URI']; ?>" />
-<?php } ?>
 </head>
 <body>
 	<!-- content wrapper start -->
@@ -93,9 +95,9 @@ if($Config['MobileDomainName']){
 			echo $totaltime;
 			?> ms, <?php
 			echo $DB->querycount;
-			?> SQL Queries<!--, Memory usage: <?php
+			?> SQL Queries, Memory usage: <?php
 			echo FormatBytes(memory_get_usage(false));
-			?>-->
+			?>
 			</p>
 		</div>
 		<!-- footer end -->
