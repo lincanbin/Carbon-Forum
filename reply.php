@@ -57,9 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$TopicID
 				));
 				//更新用户自身统计数据
-				$DB->query("UPDATE `" . $Prefix . "users` SET Replies=Replies+1,LastPostTime=? WHERE `ID`=?", array(
-					$TimeStamp,
-					$CurUserID
+				UpdateUserInfo(array(
+					"Replies" => $CurUserInfo['Replies']+1,
+					"LastPostTime" => $TimeStamp
 				));
 				//标记附件所对应的帖子标签
 				$DB->query("UPDATE `" . $Prefix . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(

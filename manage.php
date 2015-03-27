@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__)."/common.php");
+require(dirname(__FILE__).'/common.php');
 require(dirname(__FILE__).'/language/'.ForumLanguage.'/manage.php');
 SetStyle('api','API');
 
@@ -215,6 +215,9 @@ switch ($Type)
 				default:
 					AlertMsg('Bad Request','Bad Request');
 					break;
+			}
+			if($MCache){
+				$MCache->delete($Prefix.'UserInfo_'.$CurUserID);
 			}
 			$Message = $IsFavorite?($MessageType?$Lang['Follow']:$Lang['Collect']):($MessageType?$Lang['Unfollow']:$Lang['Unsubscribe']);
 			//$FavoriteID = $DB->lastInsertId();
