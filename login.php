@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$VerifyCode = intval(trim($_POST["VerifyCode"]));
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
-		if ($VerifyCode == intval($_SESSION['code'])) {
+		if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode == intval($_SESSION[$Prefix . 'VerificationCode'])) {
 			$DBUser = $DB->row("SELECT ID,UserName,Salt,Password FROM " . $Prefix . "users WHERE UserName = :UserName", array(
 				"UserName" => $UserName
 			));
@@ -60,13 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		} else {
 			$error = $Lang['Verification_Code_Error'];
 		}
+		unset($_SESSION[$Prefix . 'VerificationCode']);
 	} else {
 		$error = $Lang['Forms_Can_Not_Be_Empty'];
 	}
 }
+
 $DB->CloseConnection();
 // 页面变量
 $PageTitle   = $Lang['Log_In'];
 $ContentFile = $TemplatePath . 'login.php';
 include($TemplatePath . 'layout.php');
-?>

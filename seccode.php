@@ -1,8 +1,9 @@
 <?php
 error_reporting(0);
+require(dirname(__FILE__) . "/config.php");
 session_start();
-//session_register('code');
-$_SESSION['code'] = '';
+//session_register('VerificationCode');
+$_SESSION[$Prefix . 'VerificationCode'] = '';
 $width            = '58';//图片宽
 $height           = '27';//图片高
 
@@ -13,7 +14,7 @@ for ($i=0; $i<4; $i++) {
     $code .= $randtext;
 }
 
-$_SESSION['code'] = $code;
+$_SESSION[$Prefix . 'VerificationCode'] = $code;
 
 @header("Expires: -1");
 @header("Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0", FALSE);
@@ -108,5 +109,3 @@ if(function_exists('imagecreate') && function_exists('imagecolorset') && functio
     header('Content-Type: image/bmp');
     echo $image;
 }
-
-?>
