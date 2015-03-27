@@ -216,6 +216,7 @@ switch ($Type)
 					AlertMsg('Bad Request','Bad Request');
 					break;
 			}
+			//清理内存缓存
 			if($MCache){
 				$MCache->delete($Prefix.'UserInfo_'.$CurUserID);
 			}

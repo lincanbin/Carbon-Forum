@@ -81,6 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$DB->query('UPDATE `' . $Prefix . 'users` SET `NewMessage` = `NewMessage`+1 WHERE ID = :UserID', array(
 						'UserID' => $Topic['UserID']
 					));
+					//清理内存缓存
+					if($MCache){
+						$MCache -> delete($Prefix.'UserInfo_'.$Topic['UserID']);
+					}
+				}
+				//清理首页内存缓存
+				if($MCache){
+					$MCache -> delete($Prefix.'Homepage');
 				}
 				//跳转到主题页
 				//计算页数，跳转到准确页数

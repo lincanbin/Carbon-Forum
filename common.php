@@ -81,7 +81,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	1:新回复
 	2:@ 到我的
 	*/
-	global $Prefix, $DB, $TimeStamp, $CurUserName;
+	global $Prefix, $DB, $MCache, $TimeStamp, $CurUserName;
 	//例外列表
 	$ExceptionUser = array(
 		$CurUserName
@@ -111,6 +111,10 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 				$DB->query('UPDATE `' . $Prefix . 'users` SET `NewMessage` = NewMessage+1 WHERE ID = :UserID', array(
 					'UserID' => $UserID
 				));
+				//清理内存缓存
+				if($MCache){
+					$MCache -> delete($Prefix.'UserInfo_'.$UserID);
+				}
 			}
 		}
 	}
