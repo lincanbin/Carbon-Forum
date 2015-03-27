@@ -507,7 +507,7 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 			$StringBindParam .= $Key.' = :'.$Key.',';
 		}
 		$StringBindParam = substr($StringBindParam, 0, -1);
-		$DB->query('UPDATE `' . $Prefix . 'users` SET '.$StringBindParam.' WHERE ID = :UserID', array_merge($NewUserInfo, array('UserID' => $UserID)));
+		$Result = $DB->query('UPDATE `' . $Prefix . 'users` SET '.$StringBindParam.' WHERE ID = :UserID', array_merge($NewUserInfo, array('UserID' => $UserID)));
 		if($MCache){
 			$MCache->set($Prefix.'UserInfo_'.$UserID, 
 				$DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
@@ -517,7 +517,7 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 				600
 			);
 		}
-		return true;
+		return $Result;
 	} else {
 		return false;
 	}

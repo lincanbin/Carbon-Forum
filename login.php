@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if ($DBUser) {
 				if (md5(md5($Password) . $DBUser['Salt']) == $DBUser['Password']) {
 					UpdateUserInfo(array(
-						"LastLoginTime" => $TimeStamp,
-						"UserLastIP" => CurIP()
+						'LastLoginTime' => $TimeStamp,
+						'UserLastIP' => CurIP()
 					), $DBUser['ID']);
 					SetCookies(array(
 						'UserID' => $DBUser['ID'],
