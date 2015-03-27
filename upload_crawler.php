@@ -3,13 +3,13 @@ set_time_limit(0);
 include(dirname(__FILE__) . '/common.php');
 include(dirname(__FILE__) . '/includes/Uploader.class.php');
 
-SetStyle('api','API');
+SetStyle('api', 'API');
 header("Content-Type: text/html; charset=utf-8");
-Auth(1,0,true);
+Auth(1, 0, true);
 
 /* 上传配置 */
-$config = array(
-	"pathFormat" => $Config['WebsitePath'].$UploadConfig['catcherPathFormat'],
+$config    = array(
+	"pathFormat" => $Config['WebsitePath'] . $UploadConfig['catcherPathFormat'],
 	"maxSize" => $UploadConfig['catcherMaxSize'],
 	"allowFiles" => $UploadConfig['catcherAllowFiles'],
 	"oriName" => "remote.png"
@@ -38,7 +38,6 @@ foreach ($source as $imgUrl) {
 
 /* 返回抓取数据 */
 return json_encode(array(
-	'state'=> count($list) ? 'SUCCESS':'ERROR',
-	'list'=> $list
+	'state' => count($list) ? 'SUCCESS' : 'ERROR',
+	'list' => $list
 ));
-?>

@@ -20,20 +20,20 @@ Disallow: <?php echo $Config['WebsitePath']; ?>/users/following/
 Disallow: <?php echo $Config['WebsitePath']; ?>/upload_controller
 <?php
 //Crawl-delay: 1
-$CurHost = 'http://'.$_SERVER['HTTP_HOST'].$Config['WebsitePath'];
+$CurHost        = 'http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'];
 $ItemPerSitemap = 30000;
 //sitemap 索引
-echo 'Sitemap: ',$CurHost,"/sitemap-index.xml\n";
+echo 'Sitemap: ', $CurHost, "/sitemap-index.xml\n";
 //帖子
-for($i = 1; $i <= ceil($Config['NumTopics']/$ItemPerSitemap); $i++)
-	echo 'Sitemap: ',$CurHost,'/sitemap-topics-',$i,".xml\n";
+for ($i = 1; $i <= ceil($Config['NumTopics'] / $ItemPerSitemap); $i++)
+	echo 'Sitemap: ', $CurHost, '/sitemap-topics-', $i, ".xml\n";
 //帖子页
-for($i = 1; $i <= ceil(ceil($Config['NumTopics']/$Config['TopicsPerPage'])/$ItemPerSitemap); $i++)
-	echo 'Sitemap: ',$CurHost,'/sitemap-pages-',$i,".xml\n";
+for ($i = 1; $i <= ceil(ceil($Config['NumTopics'] / $Config['TopicsPerPage']) / $ItemPerSitemap); $i++)
+	echo 'Sitemap: ', $CurHost, '/sitemap-pages-', $i, ".xml\n";
 //话题
-for($i = 1; $i <= ceil($Config['NumTags']/$ItemPerSitemap); $i++)
-	echo 'Sitemap: ',$CurHost,'/sitemap-tags-',$i,".xml\n";
+for ($i = 1; $i <= ceil($Config['NumTags'] / $ItemPerSitemap); $i++)
+	echo 'Sitemap: ', $CurHost, '/sitemap-tags-', $i, ".xml\n";
 //用户
-for($i = 1; $i <= ceil($Config['NumUsers']/$ItemPerSitemap); $i++)
-	echo 'Sitemap: ',$CurHost,'/sitemap-users-',$i,".xml\n";
+for ($i = 1; $i <= ceil($Config['NumUsers'] / $ItemPerSitemap); $i++)
+	echo 'Sitemap: ', $CurHost, '/sitemap-users-', $i, ".xml\n";
 ?>

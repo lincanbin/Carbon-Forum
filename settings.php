@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$CurUserInfo['UserMail']     = IsEmail(Request('POST', 'UserMail', $CurUserInfo['UserMail'])) ? Request('POST', 'UserMail', $CurUserInfo['UserMail']) : $CurUserInfo['UserMail'];
 			$CurUserInfo['UserHomepage'] = CharCV(Request('POST', 'UserHomepage', $CurUserInfo['UserHomepage']));
 			$CurUserInfo['UserIntro']    = CharCV(Request('POST', 'UserIntro', $CurUserInfo['UserIntro']));
-			$UpdateUserInfoResult = UpdateUserInfo(array(
+			$UpdateUserInfoResult        = UpdateUserInfo(array(
 				'UserSex' => $CurUserInfo['UserSex'],
 				'UserMail' => $CurUserInfo['UserMail'],
 				'UserHomepage' => $CurUserInfo['UserHomepage'],
@@ -95,4 +95,3 @@ $DB->CloseConnection();
 $PageTitle   = $Lang['Settings'];
 $ContentFile = $TemplatePath . 'settings.php';
 include($TemplatePath . 'layout.php');
-?>

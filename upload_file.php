@@ -2,34 +2,34 @@
 include(dirname(__FILE__) . '/common.php');
 include(dirname(__FILE__) . '/includes/Uploader.class.php');
 
-SetStyle('api','API');
+SetStyle('api', 'API');
 header("Content-Type: text/html; charset=utf-8");
-Auth(1,0,true);
+Auth(1, 0, true);
 
 /* 上传配置 */
 $base64 = "upload";
 switch (htmlspecialchars($_GET['action'])) {
 	case 'uploadimage':
-		$config = array(
-			"pathFormat" => $Config['WebsitePath'].$UploadConfig['imagePathFormat'],
+		$config    = array(
+			"pathFormat" => $Config['WebsitePath'] . $UploadConfig['imagePathFormat'],
 			"maxSize" => $UploadConfig['imageMaxSize'],
 			"allowFiles" => $UploadConfig['imageAllowFiles']
 		);
 		$fieldName = $UploadConfig['imageFieldName'];
 		break;
 	case 'uploadscrawl':
-		$config = array(
-			"pathFormat" => $Config['WebsitePath'].$UploadConfig['scrawlPathFormat'],
+		$config    = array(
+			"pathFormat" => $Config['WebsitePath'] . $UploadConfig['scrawlPathFormat'],
 			"maxSize" => $UploadConfig['scrawlMaxSize'],
 			"allowFiles" => $UploadConfig['scrawlAllowFiles'],
 			"oriName" => "scrawl.png"
 		);
 		$fieldName = $UploadConfig['scrawlFieldName'];
-		$base64 = "base64";
+		$base64    = "base64";
 		break;
 	case 'uploadvideo':
-		$config = array(
-			"pathFormat" => $Config['WebsitePath'].$UploadConfig['videoPathFormat'],
+		$config    = array(
+			"pathFormat" => $Config['WebsitePath'] . $UploadConfig['videoPathFormat'],
 			"maxSize" => $UploadConfig['videoMaxSize'],
 			"allowFiles" => $UploadConfig['videoAllowFiles']
 		);
@@ -37,8 +37,8 @@ switch (htmlspecialchars($_GET['action'])) {
 		break;
 	case 'uploadfile':
 	default:
-		$config = array(
-			"pathFormat" => $Config['WebsitePath'].$UploadConfig['filePathFormat'],
+		$config    = array(
+			"pathFormat" => $Config['WebsitePath'] . $UploadConfig['filePathFormat'],
 			"maxSize" => $UploadConfig['fileMaxSize'],
 			"allowFiles" => $UploadConfig['fileAllowFiles']
 		);
@@ -63,4 +63,3 @@ $up = new Uploader($fieldName, $config, $base64, $Prefix, $CurUserName, $DB);
 
 /* 返回数据 */
 return json_encode($up->getFileInfo());
-?>

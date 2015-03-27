@@ -4,13 +4,13 @@
 date_default_timezone_set("Asia/chongqing");
 //error_reporting(E_ERROR);
 $UploadConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("includes/Uploader.config.json")), true);
-$action = $_GET['action'];
+$action       = $_GET['action'];
 
 switch ($action) {
 	case 'config':
-		$result =  json_encode($UploadConfig);
+		$result = json_encode($UploadConfig);
 		break;
-
+	
 	/* 上传图片 */
 	case 'uploadimage':
 	/* 上传涂鸦 */
@@ -21,7 +21,7 @@ switch ($action) {
 	case 'uploadfile':
 		$result = include("upload_file.php");
 		break;
-
+	
 	/* 列出图片 */
 	case 'listimage':
 		$result = include("upload_list.php");
@@ -30,15 +30,15 @@ switch ($action) {
 	case 'listfile':
 		$result = include("upload_list.php");
 		break;
-
+	
 	/* 抓取远程文件 */
 	case 'catchimage':
 		$result = include("upload_crawler.php");
 		break;
-
+	
 	default:
 		$result = json_encode(array(
-			'state'=> '请求地址出错'
+			'state' => '请求地址出错'
 		));
 		break;
 }
@@ -49,10 +49,9 @@ if (isset($_GET["callback"])) {
 		echo htmlspecialchars($_GET["callback"]) . '(' . $result . ')';
 	} else {
 		echo json_encode(array(
-			'state'=> 'callback参数不合法'
+			'state' => 'callback参数不合法'
 		));
 	}
 } else {
 	echo $result;
 }
-?>
