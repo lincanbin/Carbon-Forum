@@ -14,9 +14,9 @@
 //逐渐替换为帕斯卡命名法
 //数据库从设计上避免使用Join多表联查
 
-//error_reporting(0);//不输出任何错误信息
+error_reporting(0);//不输出任何错误信息
 //error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
-error_reporting(E_ALL); //输出所有错误信息，调试用
+//error_reporting(E_ALL); //输出所有错误信息，调试用
 ini_set('display_errors', '1'); //显示错误
 //开始计时，初始化常量、常量
 $mtime     = explode(' ', microtime());
@@ -30,15 +30,22 @@ $DB = new Db(DBHost, DBName, DBUser, DBPassword);
 //初始化MemCache(d)
 $MCache = false;
 if(EnableMemcache) {
-	//MemCache
-	$MCache = new Memcache;
-	$MCache->pconnect(MemCacheHost, MemCachePort);
-	//MemCached
-	//$MCache = new Memcached($Prefix.'Cache');
+	if(class_exists('Memcached')){
+		//MemCached
+		$MCache = new Memcached($Prefix.'Cache');
+		//Using persistent memcached connection
+		if (!count($MCache -> getServerList())) {
+			$MCache -> addServer(MemCacheHost, MemCachePort);
+		}
+	}elseif (class_exists('Memcache')) {
+		//MemCache
+		$MCache = new Memcache;
+		$MCache->pconnect(MemCacheHost, MemCachePort);
+	}
 }
 
+//Load configuration
 $Config = array();
-//加载网站设置
 if($MCache) {
 	$Config = $MCache -> get($Prefix.'Config');
 }
@@ -498,7 +505,7 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 		$StringBindParam = substr($StringBindParam, 0, -1);
 		$DB->query('UPDATE `' . $Prefix . 'users` SET '.$StringBindParam.' WHERE ID = :UserID', array_merge($NewUserInfo, array('UserID' => $UserID)));
 		if($MCache){
-			$MCache->delete($Prefix.'UserInfo_'.$UserID, 
+			$MCache->set($Prefix.'UserInfo_'.$UserID, 
 				$DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
 					"UserID" => $UserID
 				)), 
