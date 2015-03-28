@@ -30,14 +30,14 @@ $DB     = new Db(DBHost, DBName, DBUser, DBPassword);
 //Initialize MemCache(d)
 $MCache = false;
 if (EnableMemcache) {
-	if (class_exists('Memcached')) {
+	if (extension_loaded('memcached')) {
 		//MemCached
 		$MCache = new Memcached(MemCachePrefix . 'Cache');
 		//Using persistent memcached connection
 		if (!count($MCache->getServerList())) {
 			$MCache->addServer(MemCacheHost, MemCachePort);
 		}
-	} elseif (class_exists('Memcache')) {
+	} elseif (extension_loaded('memcache')) {
 		//MemCache
 		$MCache = new Memcache;
 		$MCache->pconnect(MemCacheHost, MemCachePort);
