@@ -1,5 +1,6 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+ob_start();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
@@ -95,9 +96,9 @@ if (isset($canonical)) {
 			echo $totaltime;
 			?> ms, <?php
 			echo $DB->querycount;
-			?> SQL Queries, Memory usage: <?php
+			?> SQL Queries, <?php
 			echo FormatBytes(memory_get_usage(false));
-			?>
+			?> Memory Usage
 			</p>
 		</div>
 		<!-- footer end -->
@@ -111,3 +112,6 @@ if ($Config['PageBottomContent']) {
 ?>
 </body>
 </html>
+<?php
+ob_end_flush();
+?>
