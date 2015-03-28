@@ -18,16 +18,16 @@ error_reporting(0);//不输出任何错误信息
 //error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
 //error_reporting(E_ALL); //输出所有错误信息，调试用
 ini_set('display_errors', '1'); //显示错误
-//开始计时，初始化常量、常量
+//Initialize timer
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
 require(dirname(__FILE__) . "/config.php");
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/common.php');
-//初始化数据库操作类
+//Initialize PHP Data Object(Database)
 require(dirname(__FILE__) . "/includes/PDO.class.php");
 $DB     = new Db(DBHost, DBName, DBUser, DBPassword);
-//初始化MemCache(d)
+//Initialize MemCache(d)
 $MCache = false;
 if (EnableMemcache) {
 	if (class_exists('Memcached')) {
@@ -54,7 +54,7 @@ if (!$Config) {
 		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
 	}
 	if ($MCache) {
-		$MCache->set(MemCachePrefix . 'Config', $Config, 0, 86400);
+		$MCache->set(MemCachePrefix . 'Config', $Config, 0, 43200);
 	}
 }
 
@@ -62,7 +62,7 @@ $PHPSelf = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF
 $UrlPath = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
 
 //消除低版本中魔术引号的影响
-if (get_magic_quotes_gpc()) {
+if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	function StripslashesDeep($var)
 	{
 		return is_array($var) ? array_map('StripslashesDeep', $var) : stripslashes($var);
@@ -273,7 +273,7 @@ function FormatBytes($size, $precision = 2)
 function FormatTime($UnixTimeStamp)
 {
 	global $Lang;
-	$Seconds = time() - $UnixTimeStamp;
+	$Seconds = $_SERVER['REQUEST_TIME'] - $UnixTimeStamp;
 	if ($Seconds < 2592000) {
 		// 小于30天如下显示
 		if ($Seconds >= 86400) {
@@ -673,7 +673,7 @@ function dhtmlspecialchars($string, $flags = null)
 				$string = preg_replace('/&amp;((#(\d{3,5}|x[a-fA-F0-9]{4}));)/', '&\\1', $string);
 			}
 		} else {
-			if (PHP_VERSION < '5.4.0') {
+			if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 				$string = htmlspecialchars($string, $flags);
 			} else {
 				if (strtolower(CHARSET) == 'utf-8') {
@@ -714,6 +714,7 @@ if ($IsApp) {
 } else {
 	$TemplatePath = dirname(__FILE__) . '/styles/default/template/';
 	$Style        = 'Default';
+	header('X-XSS-Protection: 1; mode=block');
 }
 $AutomaticSwitch = GetCookie('Style', 'Default');
 if ($_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $IsMobie && $AutomaticSwitch != 'Default') {
