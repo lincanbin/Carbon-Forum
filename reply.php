@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				UpdateConfig($NewConfig);
 				//更新主题统计数据
 				$DB->query("UPDATE `" . $Prefix . "topics` SET Replies=Replies+1,LastTime=?,LastName=? WHERE `ID`=?", array(
-					$TimeStamp,
+					($TimeStamp > $Topic['LastTime']) ? $TimeStamp : $Topic['LastTime'],
 					$CurUserName,
 					$TopicID
 				));
