@@ -11,11 +11,11 @@ $Action          = Request('POST', 'Action', false);
 switch ($Action) {
 	case 'Cache':
 		UpdateConfig(array(
-			'NumFiles' => $DB->single('SELECT count(ID) FROM ' . $Prefix . 'upload'),
-			'NumTopics' => $DB->single('SELECT count(*) FROM ' . $Prefix . 'topics WHERE IsDel=0'),
-			'NumPosts' => $DB->single('SELECT sum(Replies) FROM ' . $Prefix . 'topics WHERE IsDel=0'),
-			'NumUsers' => $DB->single('SELECT count(ID) FROM ' . $Prefix . 'users'),
-			'NumTags' => $DB->single('SELECT count(ID) FROM ' . $Prefix . 'tags')
+			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'upload')),
+			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
+			'NumPosts' => intval($DB->single('SELECT sum(Replies) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
+			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'users')),
+			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'tags'))
 		));
 		$DB->query('UPDATE ' . $Prefix . 'users u SET u.Topics=(SELECT count(*) FROM ' . $Prefix . 'topics t WHERE t.UserName=u.UserName),u.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p WHERE p.UserName=u.UserName and p.IsTopic=0),u.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=u.ID and Type=3)');
 		$DB->query('UPDATE ' . $Prefix . 'topics t SET t.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p WHERE p.TopicID=t.ID and p.IsTopic=0 and p.IsDel=0),t.Favorites=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=t.ID and Type=1)');
