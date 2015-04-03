@@ -8,7 +8,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 来防止模板文件被游客访问
 */
 define('ForumLanguage', 'zh-cn');
-//MemCache(d)
+//MemCache(d) / Redis
 define('EnableMemcache', true);
 define('MemCacheHost', '127.0.0.1');
 define('MemCachePort', 11211);

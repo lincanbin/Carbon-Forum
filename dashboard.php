@@ -21,7 +21,12 @@ switch ($Action) {
 		$DB->query('UPDATE ' . $Prefix . 'topics t SET t.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p WHERE p.TopicID=t.ID and p.IsTopic=0 and p.IsDel=0),t.Favorites=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=t.ID and Type=1)');
 		$DB->query('UPDATE ' . $Prefix . 'tags t SET t.TotalPosts=(SELECT count(*) FROM ' . $Prefix . 'posttags p WHERE p.TagID=t.ID),t.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=t.ID and Type=2)');
 		if($MCache){
-			$MCache -> flush();
+			if( !extension_loaded('redis') ) {
+				$MCache -> flush();
+			} else {
+				$MCache -> flushAll();
+			}
+			
 		}
 		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;

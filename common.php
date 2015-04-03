@@ -17,7 +17,7 @@
 error_reporting(0);//不输出任何错误信息
 //error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
 //error_reporting(E_ALL); //输出所有错误信息，调试用
-ini_set('display_errors', '1'); //显示错误
+ini_set('display_errors', '0'); //显示错误
 //Initialize timer
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -27,7 +27,7 @@ require(dirname(__FILE__) . '/language/' . ForumLanguage . '/common.php');
 //Initialize PHP Data Object(Database)
 require(dirname(__FILE__) . "/includes/PDO.class.php");
 $DB     = new Db(DBHost, DBName, DBUser, DBPassword);
-//Initialize MemCache(d)
+//Initialize MemCache(d) / Redis
 $MCache = false;
 if (EnableMemcache) {
 	if (extension_loaded('memcached')) {
@@ -40,6 +40,11 @@ if (EnableMemcache) {
 	} elseif (extension_loaded('memcache')) {
 		//MemCache
 		$MCache = new Memcache;
+		$MCache->pconnect(MemCacheHost, MemCachePort);
+		//Redis
+		//https://github.com/phpredis/phpredis
+	} elseif (extension_loaded('redis')) {
+		$MCache = new Redis();
 		$MCache->pconnect(MemCacheHost, MemCachePort);
 	}
 }
