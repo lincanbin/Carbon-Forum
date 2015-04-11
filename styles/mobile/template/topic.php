@@ -21,49 +21,52 @@ if($Page>1){
 }
 if($Page==1){
 ?>
-<div class="topic-title">
-	<div class="topic-title-main">
-		<h1><?php  echo $topic['Topic']; ?></h1>
-		<div class="topic-title-date">
-		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
+<div class="card">
+	<div class="card-header"><?php echo $topic['Topic']; ?></div>
+	<div class="card-content">
+		<div class="card-content-inner">
+			<p class="color-gray">By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
  at <?php echo FormatTime($topic['PostTime']); ?><?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
-		</div>
-	</div>
-	<div class="c"></div>
-</div>
-<div class="topic-content">
-<p><?php echo $PostsArray[0]['Content']; ?></p>
-</div>
-<div class="TagLists">
+			</p>
+			<p><?php echo $PostsArray[0]['Content']; ?></p>
+			<div class="TagLists">
 <?php
 if($topic['Tags']){
 	foreach (explode("|", $topic['Tags']) as $Tag) {
-?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank" class="button"><?php echo $Tag; ?></a>
+?>					<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank" class="button"><?php echo $Tag; ?></a>
 <?php
 	}
-}?></div>
-<div class="Manage">
-<?php
+}
+?>
+			</div>
+		</div>
+	</div>
+	<div class="card-footer">
+	<?php
 if($CurUserRole>=4){
 	if($topic['IsDel']==0){
 	?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" class="button red"><?php echo $Lang['Delete']; ?></a>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" class="link red"><?php echo $Lang['Delete']; ?></a>
 <?php
 	}else{
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" class="button green"><?php echo $Lang['Recover']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" class="button red"><?php echo $Lang['Permanently_Delete']; ?></a>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" class="link green"><?php echo $Lang['Recover']; ?></a>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" class="link red"><?php echo $Lang['Permanently_Delete']; ?></a>
 <?php
 	}
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" class="button"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" class="button"><?php echo $Lang['Sink']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" class="button"><?php echo $Lang['Rise']; ?></a>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" class="link"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" class="link"><?php echo $Lang['Sink']; ?></a>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" class="link"><?php echo $Lang['Rise']; ?></a>
+<?php
+}
+if($CurUserID){
+?>
+		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" class="link"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
 <?php
 }
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" class="button"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
-<div class="c"></div>
+	</div>
 </div>
 <!-- post main content end -->
 <?php
@@ -73,45 +76,41 @@ if($topic['Replies']!=0)
 {
 ?>
 <!-- comment list start -->
-<div class="title">
+<div class="content-block-title">
 	<?php echo $topic['Replies']; ?> <?php echo $Lang['Replies']; ?>  |  <?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($topic['LastTime']); ?>
 </div>
-<div class="commentList">
 <?php
 foreach($PostsArray as $key => $post)
 {
 	$PostFloor = ($Page-1)*$Config['PostsPerPage']+$key;
 ?>
-	<table width="100%" border="0">
-		<tr>
-			<td class="portrait">
-				<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
-					<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
-				</a>
-			</td>
-			<td class="body">
-				<div class="r_title"><?php echo $post['UserName'];?>&nbsp;&nbsp; <?php echo FormatTime($post['PostTime']); ?> <span class="commonet-count">#<?php echo $PostFloor; ?></span></div>
-				<div class="TextContent">
-					<?php echo $post['Content']; ?>
-				</div>
-				<div class="opts">
-					<?php if($CurUserID){ ?>
-						<div class="manage">
-						<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
-						</div>
-						<div class="reply">
-							<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);"><?php echo $Lang['Reply']; ?></a>
-						</div>
-						<div class="c"></div>
-					<?php } ?>
-				</div>
-			</td>
-		</tr>
-	</table>
+<div class="card facebook-card">
+	<div class="card-header no-border">
+		<div class="facebook-avatar">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
+				<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
+			</a>
+		</div>
+		<div class="facebook-name"><?php echo $post['UserName'];?></div>
+		<div class="facebook-date"><?php echo FormatTime($post['PostTime']); ?></div>
+		<div class="facebook-floor">#<?php echo $PostFloor; ?></div>
+	</div>
+	<div class="card-content"><p><?php echo $post['Content']; ?></p></div>
+	<div class="card-footer no-border">
+<?php if($CurUserID){
+	if($CurUserRole>=4){
+?>
+	<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" class="link"><?php echo $Lang['Delete']; ?></a>
+<?php
+	}
+?>
+	<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);" class="link"><?php echo $Lang['Reply']; ?></a>
+<?php } ?>
+	</div>
+</div>
 <?php
 }
 ?>
-</div>
 <!-- comment list end -->
 <?php
 }
