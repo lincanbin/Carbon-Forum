@@ -61,7 +61,9 @@ if($CurUserRole>=4){
 <?php if($CurUserRole>=4 || $topic['UserID']==$CurUserID){ ?>
 <a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
 <?php } ?>
+<?php if($CurUserID){ ?>
 <a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
+<?php } ?>
 <div class="c"></div>
 </div>
 </div>
