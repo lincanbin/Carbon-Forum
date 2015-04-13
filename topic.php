@@ -28,11 +28,13 @@ if ($CurUserID) {
 		'UserID' => $CurUserID,
 		'FavoriteID' => $id
 	));
-}
+//只有注册用户才更新访问数据，Spider实在太烦。
 $DB->query("UPDATE " . $Prefix . "topics force index(PRI) SET Views = Views+1,LastViewedTime = :LastViewedTime Where ID=:id", array(
 	"LastViewedTime" => $TimeStamp,
 	"id" => $id
 ));
+}
+
 $DB->CloseConnection();
 $PageTitle = $topic['Topic'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
