@@ -155,7 +155,7 @@ label {
 	cursor: pointer;
 }
 /* quote*/
-	blockquote {
+blockquote {
 	border-right: #cccccc 1px dotted;
 	padding-right: 4px;
 	border-top: #cccccc 1px dotted;
@@ -167,7 +167,7 @@ label {
 	border-bottom: #cccccc 1px dotted;
 }
 /* tag*/
-	.tags-list {
+.tags-list {
 	padding: 6px 12px 0 12px;
 }
 .tag-input {
@@ -191,7 +191,7 @@ label {
 	width: 20%;
 }
 /* tabs*/
-	ul.resp-tabs-list {
+ul.resp-tabs-list {
 	margin: 0px;
 	padding: 0px;
 }
@@ -869,73 +869,6 @@ img.avatar {
 .h160 {
 	height:160px;
 }
-/* 这里实现星级显示 先这样凑和用着先，有时间了再改*/
-	.vote-star {
-	display:inline-block;
-	/*内联元素转换成块元素，并不换行*/
-	margin-right:6px;
-	width:300px;
-	/*5个星星的宽度*/
-	height:30px;
-	/*1个星星的高度*/
-	overflow:hidden;
-	vertical-align:middle;
-	background:url(img/star.gif) repeat-x 0 0;
-}
-.vote-star i {
-	display:inline-block;
-	/*内联元素转换成块元素，并不换行*/
-	height:30px;
-	/*1个星星的高度*/
-	background:url(img/star.gif) repeat-x 0 -30px;
-}
-/* 这里是黄色星星，表示不行*/
-	.vote-starbad {
-	display:inline-block;
-	/*内联元素转换成块元素，并不换行*/
-	margin-right:6px;
-	width:300px;
-	/*5个星星的宽度*/
-	height:30px;
-	/*1个星星的高度*/
-	overflow:hidden;
-	vertical-align:middle;
-	background:url(img/star.gif) repeat-x 0 0;
-}
-.vote-starbad i {
-	display:inline-block;
-	/*内联元素转换成块元素，并不换行*/
-	height:30px;
-	/*1个星星的高度*/
-	background:url(img/star.gif) repeat-x 0 -60px;
-}
-/*五个星星*/
-	.vote-star-five {
-	display:inline-block;
-	/*内联元素转换成块元素，并不换行*/
-	margin-right:6px;
-	width:150px;
-	/*5个星星的宽度*/
-	height:30px;
-	/*1个星星的高度*/
-	overflow:hidden;
-	vertical-align:middle;
-	background:url(img/star.gif) repeat-x 0 0;
-}
-.vote-star-five i {
-	display:inline-block;
-	/*内联元素转换成块元素，并不换行*/
-	height:30px;
-	/*1个星星的高度*/
-	background:url(img/star.gif) repeat-x 0 -30px;
-}
-.vote-number {
-	vertical-align:middle;
-	font-family:微软雅黑, Verdana, Geneva, sans-serif;
-	font-size:16px;
-	padding:7px;
-}
-
 
 .icon {
 	position: absolute;
