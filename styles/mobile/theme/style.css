@@ -187,6 +187,8 @@
 }
 .card-header a.link,
 .card-footer a.link {
+	color: #81848b;
+	font-weight: 500;
 	line-height: 44px;
 	height: 44px;
 	text-decoration: none;
@@ -312,45 +314,45 @@ html.ios-gt-6.pixel-ratio-3 .card-footer:before {
 	background-size: cover;
 	background-position: center;
 }
-.facebook-card .card-header {
+.carbonforum-card .card-header {
 	display: block;
 	padding: 10px;
 }
-.facebook-card .facebook-avatar {
+.carbonforum-card .carbonforum-avatar {
 	float: left;
 }
-.facebook-card .facebook-avatar img {
+.carbonforum-card .carbonforum-avatar img {
 	width: 34px;
 	height: 34px;
 }
-.facebook-card .facebook-name {
+.carbonforum-card .carbonforum-name {
 	margin-left: 44px;
 	font-size: 14px;
 	font-weight: 500;
 }
-.facebook-card .facebook-floor {
+.carbonforum-card .carbonforum-floor {
 	display: none;
 }
 
-.facebook-card .facebook-date {
+.carbonforum-card .carbonforum-date {
 	margin-left: 44px;
 	font-size: 13px;
 	color: #8e8e93;
 }
-.facebook-card .card-footer {
+.carbonforum-card .card-footer {
 	background: #fafafa;
 }
-.facebook-card .card-footer a {
+.carbonforum-card .card-footer a {
 	color: #81848b;
 	font-weight: 500;
 }
-.facebook-card .card-content p {
+.carbonforum-card .card-content p {
 	margin: 6px 10px !important;
 }
-.facebook-card .card-content img {
+.carbonforum-card .card-content img {
 	display: block;
 }
-.facebook-card .card-content-inner {
+.carbonforum-card .card-content-inner {
 	padding: 15px 10px;
 }
 .content-block-title {
@@ -367,4 +369,16 @@ html.ios-gt-6.pixel-ratio-3 .card-footer:before {
 }
 .content-block-title + .card {
 	margin-top: 10px;
+}
+
+
+.user-card-header-pic .card-header {
+	height: 60vw;
+	background-size: cover;
+	background-position: center;
+}
+
+.card a, color-gray, .color-gray a{
+	color: #8e8e93;
+	text-decoration: none;
 }

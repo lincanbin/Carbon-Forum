@@ -44,7 +44,7 @@ body {
 
 	font-size:14px;
 	line-height:20px;
-	color:inherit
+	/* color: inherit; */
 }
 
 
@@ -194,7 +194,7 @@ body {
 	overflow:hidden;
 
 	background:inherit;
-	color:inherit;
+	/* color:inherit; */
 } /* Accounts for positioning of the content area, which is everything below the header and above the navbar. */
 
 
@@ -782,7 +782,7 @@ body {
 #afui .list .divider { color:black; }
 
 #afui .panel, #afui #modalContainer, #afui #modal {
-	color:inherit;
+	/* color:inherit; */
 	background:inherit;
 }
 
