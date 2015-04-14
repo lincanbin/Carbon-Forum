@@ -21,22 +21,23 @@ if(!$IsAjax){
 		?>
 			<li>
 				<div class="avatar">
-					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" target="_blank">
+					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" data-transition="slide" data-persist-ajax="true">
 							<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
 					</a>
 				</div>
+				<div class="content">
 				<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" data-transition="slide" data-persist-ajax="true">
-					<div class="content">
 					<h2><?php echo $Topic['Topic']; ?></h2>
-					<p><?php echo FormatTime($Topic['LastTime']); ?>&nbsp;&nbsp;<?php echo $Topic['LastName']; ?>
-					</p>
-					<?php if($Topic['Replies']){ ?>
-					<span class="aside">
-						<?php echo $Topic['Replies']; ?>
-					</span>
-					<?php } ?>
-					</div>
 				</a>
+				<p><?php echo FormatTime($Topic['LastTime']); ?>&nbsp;&nbsp;<?php echo $Topic['LastName']; ?>
+				</p>
+				<?php if($Topic['Replies']){ ?>
+				<span class="aside">
+					<?php echo $Topic['Replies']; ?>
+				</span>
+				<?php } ?>
+				</div>
+				
 				<div class="c"></div>
 			</li>
 		<?php } 

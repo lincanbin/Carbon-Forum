@@ -26,7 +26,7 @@ if($Page==1){
 	<div class="card-content">
 		<div class="card-content-inner">
 			<p class="color-gray">By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
- at <?php echo FormatTime($topic['PostTime']); ?><?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
+ at <?php echo FormatTime($topic['PostTime']); ?><br /><?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 			</p>
 			<p><?php echo $PostsArray[0]['Content']; ?></p>
 			<div class="TagLists">
@@ -84,16 +84,16 @@ foreach($PostsArray as $key => $post)
 {
 	$PostFloor = ($Page-1)*$Config['PostsPerPage']+$key;
 ?>
-<div class="card facebook-card">
+<div class="card carbonforum-card">
 	<div class="card-header no-border">
-		<div class="facebook-avatar">
+		<div class="carbonforum-avatar">
 			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>">
-				<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
+				<?php echo GetAvatar($post['UserID'], $post['UserName'], 'small'); ?>
 			</a>
 		</div>
-		<div class="facebook-name"><?php echo $post['UserName'];?></div>
-		<div class="facebook-date"><?php echo FormatTime($post['PostTime']); ?></div>
-		<div class="facebook-floor">#<?php echo $PostFloor; ?></div>
+		<div class="carbonforum-name"><?php echo $post['UserName'];?></div>
+		<div class="carbonforum-date"><?php echo FormatTime($post['PostTime']); ?></div>
+		<div class="carbonforum-floor">#<?php echo $PostFloor; ?></div>
 	</div>
 	<div class="card-content"><p><?php echo $post['Content']; ?></p></div>
 	<div class="card-footer no-border">
@@ -104,7 +104,7 @@ foreach($PostsArray as $key => $post)
 <?php
 	}
 ?>
-	<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);" class="link"><?php echo $Lang['Reply']; ?></a>
+	<a href="###" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);" class="link"><?php echo $Lang['Reply']; ?></a>
 <?php } ?>
 	</div>
 </div>
