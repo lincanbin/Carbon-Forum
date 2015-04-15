@@ -23,22 +23,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<p>
 				<div id="editor" style="width:648px;height:500px;"></div>
 				<script type="text/javascript">
-				$(document).ready(function(){
-					//实例化编辑器
-					//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-					window.UEDITOR_CONFIG['textarea'] = 'Content';
-					window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', 'paragraph', 'fontsize', 'fontfamily', 'forecolor', '|', 'justifyleft','justifycenter', 'justifyright', 'justifyjustify', '|','undo', 'redo'],['insertcode', 'link','inserttable', 'blockquote', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
-					UE.getEditor('editor',{onready:function(){
-						if(window.localStorage){
-							//从草稿中恢复
-							RecoverContents();
-						}
-						var content='<?php echo $Content; ?>';
-						if(content){
-							this.setContent(content);
-						}
-					}});
-				});
+				var content='<?php echo $Content; ?>';
 				</script>
 			</p>
 			<p>

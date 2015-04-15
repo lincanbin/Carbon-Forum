@@ -11,12 +11,45 @@
  * A high performance open-source forum software written in PHP. 
  */
 
-//屏蔽Tag输入框的回车提交
-document.body.onkeydown = function(e) {
-	if (e.keyCode == 13) {
-		e.preventDefault ? e.preventDefault() : e.returnValue = false;
-	}
+$(document).ready(function(){
+	//实例化编辑器
+	//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	window.UEDITOR_CONFIG['textarea'] = 'Content';
+	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', 'paragraph', 'fontsize', 'fontfamily', 'forecolor', '|', 'justifyleft','justifycenter', 'justifyright', 'justifyjustify', '|','undo', 'redo'],['insertcode', 'link','inserttable', 'blockquote', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
+	UE.getEditor('editor',{onready:function(){
+		//从草稿中恢复
+		if(window.localStorage){
+			RecoverContents();
+		}
+		//二次提交，恢复现场
+		if(content){
+			this.setContent(content);
+		}
+		//编辑器内Ctrl + Enter提交回复
+		document.getElementById("ueditor_0").contentWindow.document.body.onkeydown = function(Event){
+			CtrlAndEnter(Event, false);
+		};
+	}});
+});
+
+//编辑器外Ctrl + Enter提交回复
+document.body.onkeydown = function(Event){
+	CtrlAndEnter(Event, true);
 };
+
+//Ctrl + Enter操作接收函数
+function CtrlAndEnter(Event, IsPreventDefault) {
+	//console.log("keydown");
+	if (Event.keyCode == 13) {
+		if(IsPreventDefault){
+			//屏蔽Tag输入框的回车提交，阻止回车的默认操作
+			Event.preventDefault ? Event.preventDefault() : Event.returnValue = false;
+		}
+		if(Event.ctrlKey){
+			document.getElementById("PublishButton").click();
+		}
+	}
+}
 
 /*
 //添加标题、内容输入框失焦监听器
