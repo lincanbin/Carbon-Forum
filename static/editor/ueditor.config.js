@@ -273,7 +273,7 @@
 		//可以最多回退的次数,默认20
 		//,maxUndoCount:20
 		//当输入的字符数超过该值时，保存一次现场
-		,maxInputCount:4
+		,maxInputCount:65535
 
 		//autoHeightEnabled
 		// 是否自动长高,默认true
