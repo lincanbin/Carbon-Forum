@@ -34,6 +34,14 @@ switch ($Action) {
 	default:
 		$NewConfig = $_POST;
 		//Fool-proofing
+		if($Action == 'Basic'){
+			$NewConfig['TopicsPerPage'] = intval(Request('Post', 'TopicsPerPage', 20));
+			$NewConfig['PostsPerPage']  = intval(Request('Post', 'PostsPerPage', 20));
+			$NewConfig['MaxTagsNum']    = intval(Request('Post', 'MaxTagsNum', 5));
+			$NewConfig['MaxTagChars']   = intval(Request('Post', 'MaxTagChars', 128));
+			$NewConfig['MaxPostChars']  = intval(Request('Post', 'MaxPostChars', 65536));
+		}
+		//Fool-proofing
 		if($Action == 'Advanced'){
 			if($NewConfig['MobileDomainName'] == $_SERVER ['HTTP_HOST']){
 				$NewConfig['MobileDomainName'] = $Config['MobileDomainName'];
