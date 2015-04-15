@@ -13,10 +13,10 @@
 
 //屏蔽Tag输入框的回车提交
 document.body.onkeydown = function(e) {
-	if (13 == e.keyCode) {
+	if (e.keyCode == 13) {
 		e.preventDefault ? e.preventDefault() : e.returnValue = false;
 	}
-}
+};
 
 /*
 //添加标题、内容输入框失焦监听器

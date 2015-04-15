@@ -11,6 +11,46 @@
  * A high performance open-source forum software written in PHP. 
  */
 
+
+//$(document).ready(function(){
+//实例化编辑器
+window.UEDITOR_CONFIG['textarea'] = 'Content';
+//window.UEDITOR_CONFIG['initialFrameHeight'] = 160;
+window.UEDITOR_CONFIG['elementPathEnabled'] = false;
+window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
+UE.getEditor('editor',{onready:function(){
+	if(window.localStorage){
+		//从草稿中恢复
+		RecoverContents();
+	}
+	//编辑器内Ctrl + Enter提交回复
+	var EditorIframe = document.getElementsByTagName("iframe");
+	console.log(EditorIframe);
+	for (var i = EditorIframe.length - 1; i >= 0; i--) {
+		EditorIframe[i].contentWindow.document.body.onkeydown = function(Event){
+			CtrlAndEnter(Event);
+		};
+		console.log(EditorIframe[i].contentWindow.document);
+	};
+}});
+//});
+
+
+//编辑器外Ctrl + Enter提交回复
+document.body.onkeydown = function(Event){
+	CtrlAndEnter(Event);
+};
+
+//Ctrl + Enter操作接收函数
+function CtrlAndEnter(Event) {
+	//console.log("keydown");
+	if (Event.ctrlKey && Event.keyCode == 13) {
+		document.getElementById("ReplyButton").click();
+		Event.preventDefault ? Event.preventDefault() : Event.returnValue = false;//阻止回车的默认操作
+	}
+}
+
+
 //可以去除tab的trim
 function trim3(str) {
 	str = str.replace(/^(\s|\u00A0)+/, '');
