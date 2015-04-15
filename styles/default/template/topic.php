@@ -172,21 +172,6 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 		<input type="hidden" name="TopicID" value="<?php echo $id; ?>">
 		<p>
 			<div id="editor" style="width:648px;height:160px;"></div>
-			<script type="text/javascript">
-			//$(document).ready(function(){
-				//实例化编辑器
-				window.UEDITOR_CONFIG['textarea'] = 'Content';
-				//window.UEDITOR_CONFIG['initialFrameHeight'] = 160;
-				window.UEDITOR_CONFIG['elementPathEnabled'] = false;
-				window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
-				UE.getEditor('editor',{onready:function(){
-					if(window.localStorage){
-						//从草稿中恢复
-						RecoverContents();
-					}
-				}});
-			//});
-			</script>
 		</p>
 		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
