@@ -420,13 +420,13 @@ function Request($Type, $Key, $DefaultValue = '')
 {
 	switch ($Type) {
 		case 'Get':
-			return array_key_exists($Key, $_GET) ? trim($_GET[$Key]) : $DefaultValue;
+			return isset($_GET[$Key]) ? trim($_GET[$Key]) : $DefaultValue;
 			break;
 		case 'Post':
-			return array_key_exists($Key, $_POST) ? trim($_POST[$Key]) : $DefaultValue;
+			return isset($_POST[$Key]) ? trim($_POST[$Key]) : $DefaultValue;
 			break;
 		default:
-			return array_key_exists($Key, $_REQUEST) ? trim($_REQUEST[$Key]) : $DefaultValue;
+			return isset($_REQUEST[$Key]) ? trim($_REQUEST[$Key]) : $DefaultValue;
 			break;
 	}
 }
