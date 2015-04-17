@@ -62,9 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 								'Salt' => $NewSalt,
 								'Password' => $NewPasswordHash
 							))) {
+								$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
 								SetCookies(array(
-									'UserCode' => md5($NewPasswordHash . $Style . $SALT)
-								));
+									'UserExpirationTime' => $TemporaryUserExpirationTime,
+									'UserCode' => md5($NewPasswordHash . $NewSalt . $TemporaryUserExpirationTime . $SALT)
+								), 30);
 								$CurUserInfo['Salt']     = $NewSalt;
 								$CurUserInfo['Password'] = $NewPasswordHash;
 								$ChangePasswordMessage   = $Lang['Change_Password_Success'];
