@@ -312,7 +312,7 @@ function GetAvatar($UserID, $UserName, $Size = 'middle')
 function GetCookie($Key, $DefaultValue = false)
 {
 	global $Config;
-	if (array_key_exists($Config['CookiePrefix'] . $Key, $_COOKIE))
+	if (isset($_COOKIE[$Config['CookiePrefix'] . $Key]))
 		return $_COOKIE[$Config['CookiePrefix'] . $Key];
 	else if ($DefaultValue) {
 		SetCookies(array(
@@ -546,8 +546,7 @@ function XssEscape($html)
 			$value = str_replace('&', '_uch_tmp_str_', $value);
 			$value = dhtmlspecialchars($value);
 			$value = str_replace('_uch_tmp_str_', '&', $value);
-			
-			$value    = str_replace(array(
+			$value = str_replace(array(
 				'\\',
 				'/*'
 			), array(
@@ -637,9 +636,8 @@ function XssEscape($html)
 				'script',
 				'eval',
 				'behaviour',
-				'expression',
-				'style'
-			); //class
+				'expression'
+			); //style, class
 			$skipstr  = implode('|', $skipkeys);
 			$value    = preg_replace(array(
 				"/($skipstr)/i"
@@ -737,10 +735,11 @@ if (strpos(isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'
 // 获取当前用户
 $CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
 $CurUserRole = 0;
-$CurUserID   = GetCookie('UserID');
+$CurUserID   = intval(GetCookie('UserID'));
+$CurUserExpirationTime   = intval(GetCookie('UserExpirationTime'));
 $CurUserCode = GetCookie('UserCode');
 
-if ($CurUserID && $CurUserCode) {
+if ($CurUserExpirationTime > $TimeStamp && $CurUserID && $CurUserCode) {
 	$TempUserInfo = array();
 	if ($MCache) {
 		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
@@ -755,17 +754,22 @@ if ($CurUserID && $CurUserCode) {
 		}
 	}
 	
-	if ($TempUserInfo && $CurUserCode == md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $Style . $SALT)) {
+	if ($TempUserInfo && $CurUserCode == md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;
 	} else {
-		$CurUserID   = 0;
-		$CurUserCode = '';
 		SetCookies(array(
 			'UserID' => '',
+			'UserExpirationTime' => '',
 			'UserCode' => ''
 		), 1);
 	}
 	unset($TempUserInfo);
+} elseif ($CurUserExpirationTime || $CurUserID || $CurUserCode) {
+	SetCookies(array(
+		'UserID' => '',
+		'UserExpirationTime' => '',
+		'UserCode' => ''
+	), 1);
 }
