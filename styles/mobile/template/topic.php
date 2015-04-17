@@ -150,6 +150,7 @@ if(!$IsAjax){
 	</ul>
 </nav>
 <?php } ?>
+<!--
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>"> </script>
 <script type="text/javascript">
 uParse('.main-content',{
@@ -170,3 +171,4 @@ for (var j=0; j<=AllPosts.length; j++) {
 };
 
 </script>
+-->

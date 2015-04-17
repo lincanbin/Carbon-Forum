@@ -350,6 +350,7 @@ html.ios-gt-6.pixel-ratio-3 .card-footer:before {
 	margin: 6px 10px !important;
 }
 .carbonforum-card .card-content img {
+	max-width: 100%;
 	display: block;
 }
 .carbonforum-card .card-content-inner {
@@ -378,7 +379,7 @@ html.ios-gt-6.pixel-ratio-3 .card-footer:before {
 	background-position: center;
 }
 
-.card a, color-gray, .color-gray a{
-	color: #8e8e93;
+.card a, color-gray, .color-gray a, .color-gray p{
+	color: #8e8e93!important;
 	text-decoration: none;
 }
