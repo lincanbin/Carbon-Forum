@@ -13,7 +13,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<input type="password" name="Password" value="" placeholder="<?php echo $Lang['Password']; ?>" /><br />
 		<input type="text" style="width:60%;" name="VerifyCode" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /> <img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" align="absmiddle" />
 		<br />
-		<input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
+		<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
 	</li>
 	<li><a href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Sign_Up']; ?></a></li>
 </form>
@@ -25,32 +25,46 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	</a>
 </li>
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/notifications" data-transition="slide" data-persist-ajax="true">
-		<?php echo $Lang['Notifications']; ?>(<?php echo $CurUserInfo['NewMessage']; ?>)
+	<a class="icon message" href="###" onclick="JavaScript:document.location.href='<?php echo $Config['WebsitePath']; ?>/notifications';">
+		<?php echo $Lang['Notifications'];
+		if($CurUserInfo['NewMessage']){
+		?>
+		<span class="af-badge lr"><?php echo $CurUserInfo['NewMessage']; ?></span>
+		<?php } ?>
 	</a>
 </li>
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/favorites" data-transition="slide" data-persist-ajax="true">
+	<a class="icon settings" href="<?php echo $Config['WebsitePath']; ?>/settings" data-transition="slide" data-persist-ajax="true">
+		<?php echo $Lang['Settings']; ?>
+	</a>
+</li>
+<li>
+	<a class="icon star" href="<?php echo $Config['WebsitePath']; ?>/favorites" data-transition="slide" data-persist-ajax="true">
 		<?php echo $Lang['Favorite_Topics']; ?>(<?php echo $CurUserInfo['NumFavTopics']; ?>)
 	</a>
 </li>
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/tags/following" data-transition="slide" data-persist-ajax="true">
+	<a class="icon tag" href="<?php echo $Config['WebsitePath']; ?>/tags/following" data-transition="slide" data-persist-ajax="true">
 		<?php echo $Lang['Tags_Followed']; ?>(<?php echo $CurUserInfo['NumFavTags']; ?>)
 	</a>
 </li>
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/users/following" data-transition="slide" data-persist-ajax="true">
+	<a class="icon user" href="<?php echo $Config['WebsitePath']; ?>/users/following" data-transition="slide" data-persist-ajax="true">
 		<?php echo $Lang['Users_Followed']; ?>(<?php echo $CurUserInfo['NumFavUsers']; ?>)
 	</a>
 </li>
 
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1" data-persist-ajax="false"><?php echo $Lang['Log_Out']; ?></a>
+	<a class="icon remove" href="###" onclick="JavaScript:document.location.href='<?php echo $Config['WebsitePath']; ?>/login?logout=1';"><?php echo $Lang['Log_Out']; ?></a>
 </li>
 <?php }
 ?>
-<li class="divider">Navi</li>
+<li class="divider">
+	<?php echo $Lang['Information_Bar']; ?>
+</li>
 <li>
-	<a class="icon home mini" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Home']; ?></a>
+	<a class="icon home" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Home']; ?></a>
+</li>
+<li>
+	<a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/new" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Create_New_Topic']; ?></a>
 </li>
