@@ -8,6 +8,7 @@ $ReturnUrl = array_key_exists('HTTP_REFERER', $_SERVER) ? $_SERVER["HTTP_REFERER
 if (array_key_exists('logout', $_GET)) {
 	SetCookies(array(
 		'UserID' => '',
+		'CurUserExpirationTime' => '',
 		'UserCode' => ''
 	), 1);
 	if ($ReturnUrl) {
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$ReturnUrl  = trim($_POST["ReturnUrl"]);
 	$UserName   = strtolower(trim($_POST["UserName"]));
 	$Password   = trim($_POST["Password"]);
-	$Expires    = intval(trim($_POST["Expires"]));
+	$Expires    = min(intval(trim($_POST["Expires"])), 30);//最多保持登陆30天
 	$VerifyCode = intval(trim($_POST["VerifyCode"]));
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
@@ -35,14 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"UserName" => $UserName
 			));
 			if ($DBUser) {
-				if (md5(md5($Password) . $DBUser['Salt']) == $DBUser['Password']) {
+				if (md5($Password . $DBUser['Salt']) == $DBUser['Password']) {
 					UpdateUserInfo(array(
 						'LastLoginTime' => $TimeStamp,
 						'UserLastIP' => CurIP()
 					), $DBUser['ID']);
+					$TemporaryUserExpirationTime = $Expires * 86400 + $TimeStamp;
 					SetCookies(array(
 						'UserID' => $DBUser['ID'],
-						'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $Style . $SALT)
+						'UserExpirationTime' => $TemporaryUserExpirationTime,
+						'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT)
 					), $Expires);
 					if ($ReturnUrl) {
 						header('location: ' . $ReturnUrl);
