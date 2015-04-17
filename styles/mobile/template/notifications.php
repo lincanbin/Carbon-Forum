@@ -8,62 +8,53 @@ if(!$IsAjax){
 <div id="content">
 <?php } ?>
 <!-- main-content start -->
-	<div data-title="<?php echo $PageTitle; ?>" id="Notifications" class="panel" selected="true">
-		<div>
-			<!-- posts list start -->
-			<?php
-			foreach($ReplyArray as $key => $post)
-			{
-			?>
-				<div class="comment-item">
-					<div class="user-comment-data">
-						<div class="comment-content">
-						<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
-						<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
-						</div>
-						
-						<div class="comment-data-date">
-							<div class="float-right">
-				&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
-							<div class="c"></div>
-						</div>
-						<div class="c"></div>
-					</div>
-					<div class="c"></div>
-				</div>
-			<?php
-			}
-			?>
-			<!-- posts list end -->
+	<div data-title="<?php echo $PageTitle; ?>" id="Notifications1" class="panel" selected="true">
+		<div class="button-grouped flex tabbed">
+			<a class="button pressed" href="<?php echo $Config['WebsitePath']; ?>/notifications#Notifications1"><?php echo $Lang['Notifications_Replied_To_Me']; ?></a>
+			<a class="button" href="<?php echo $Config['WebsitePath']; ?>/notifications#Notifications2"><?php echo $Lang['Notifications_Mentioned_Me']; ?></a>
 		</div>
-		<div>
-			<!-- posts list start -->
-			<?php
-			foreach($MentionArray as $key => $post)
-			{
-			?>
-				<div class="comment-item">
-					<div class="user-comment-data">
-						<div class="comment-content">
-						<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $post['UserName']; ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></h2>
-						<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
-						</div>
-						
-						<div class="comment-data-date">
-							<div class="float-right">
-				&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
-							<div class="c"></div>
-						</div>
-						<div class="c"></div>
-					</div>
-					<div class="c"></div>
+		<!-- posts list start -->
+		<?php
+		foreach($ReplyArray as $key => $post)
+		{
+		?>
+			<div class="card">
+				<div class="card-header"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" data-transition="slide" data-persist-ajax="true"><?php echo $post['UserName'];?>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<?php echo $post['Subject'];?></a></div>
+				<div class="card-content">
+					<div class="card-content-inner"><?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?></div>
 				</div>
-			<?php
-			}
-			?>
-			<!-- posts list end -->
-		</div>
+				<div class="card-footer"><?php echo FormatTime($post['PostTime']); ?></div>
+			</div>
+		<?php
+		}
+		?>
+		<!-- posts list end -->
 	</div>
+
+
+	<div data-title="<?php echo $PageTitle; ?>" id="Notifications2" class="panel" selected="false">
+		<div class="button-grouped flex tabbed">
+			<a class="button" href="<?php echo $Config['WebsitePath']; ?>/notifications#Notifications1"><?php echo $Lang['Notifications_Replied_To_Me']; ?></a>
+			<a class="button pressed" href="<?php echo $Config['WebsitePath']; ?>/notifications#Notifications2"><?php echo $Lang['Notifications_Mentioned_Me']; ?></a>
+		</div>
+		<!-- posts list start -->
+		<?php
+		foreach($MentionArray as $key => $post)
+		{
+		?>
+			<div class="card">
+				<div class="card-header"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" data-transition="slide" data-persist-ajax="true"><?php echo $post['UserName'];?>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<?php echo $post['Subject'];?></a></div>
+				<div class="card-content">
+					<div class="card-content-inner"><?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?></div>
+				</div>
+				<div class="card-footer"><?php echo FormatTime($post['PostTime']); ?></div>
+			</div>
+		<?php
+		}
+		?>
+		<!-- posts list end -->
+	</div>
+	
 <!-- main-content end -->
 <?php
 if(!$IsAjax){
