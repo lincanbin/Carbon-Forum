@@ -2,7 +2,7 @@
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <?php if(!$CurUserID && $UrlPath!='login'){ ?>
-<form action="<?php echo $Config['WebsitePath']; ?>/login" method="post">
+<form action="<?php echo $Config['WebsitePath']; ?>/login" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
 	<input type="hidden" value="<?php echo $_SERVER['REQUEST_URI']; ?>" name="ReturnUrl" />
 	<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 	<input type="hidden" name="Expires" value="30" />
@@ -11,7 +11,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<input type="text" name="UserName" value="" placeholder="<?php echo $Lang['UserName']; ?>" />
 		<br />
 		<input type="password" name="Password" value="" placeholder="<?php echo $Lang['Password']; ?>" /><br />
-		<input type="text" style="width:60%;" name="VerifyCode" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /> <img src="" id="Verification_Code_Img" style="cursor: pointer;" onclick="this.src+=''" align="absmiddle" />
+		<input type="text" style="width:60%;" name="VerifyCode" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /> <img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" align="absmiddle" />
 		<br />
 		<input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
 	</li>
@@ -46,7 +46,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 </li>
 
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1"><?php echo $Lang['Log_Out']; ?></a>
+	<a href="<?php echo $Config['WebsitePath']; ?>/login?logout=1" data-persist-ajax="false"><?php echo $Lang['Log_Out']; ?></a>
 </li>
 <?php }
 ?>

@@ -11,7 +11,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<p class="red fs12" style="margin-left:60px;">
 		› <?php echo $error; ?> <br/></p>
 		<?php } ?>
-		<form action="?" method="post">
+		<form action="?" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
 			<input type="hidden" value="<?php echo $ReturnUrl; ?>" name="ReturnUrl" />
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
@@ -28,8 +28,8 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<td width="180" align="right"><?php echo $Lang['Login_Expiration_Time']; ?></td>
 						<td width="auto" align="left">
 							<select name="Expires">
-								<option value="365">365<?php echo $Lang['Days']; ?></option>
 								<option value="30">30<?php echo $Lang['Days']; ?></option>
+								<option value="14">14<?php echo $Lang['Days']; ?></option>
 								<option value="7">7<?php echo $Lang['Days']; ?></option>
 								<option value="1">1<?php echo $Lang['Days']; ?></option>
 								<option value="0">0<?php echo $Lang['Days']; ?></option>
@@ -39,7 +39,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Verification_Code']; ?></td>
 						<td width="auto" align="left">
-							<label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> <img src="" id="Verification_Code_Img" style="cursor: pointer;" onclick="this.src+=''" align="absmiddle" />
+							<label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> <img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" align="absmiddle" />
 						</td>
 					</tr>
 					<tr>
