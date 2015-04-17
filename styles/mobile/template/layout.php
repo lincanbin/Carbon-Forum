@@ -1,5 +1,6 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+ob_start();
 $IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')?true:false;
 if(!$IsAjax){
 ?><!DOCTYPE html>
@@ -58,6 +59,15 @@ if($Config['MobileDomainName']){
 	</div>
 </body>
 </html>
-<?php }else{
+<?php
+}else{
 	include($ContentFile);
-} ?>
+	//Pjax
+?>
+<script>
+PageAjaxLoad("<?php echo $PageTitle; ?>", "http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>");
+</script>
+<?php
+}
+ob_end_flush();
+?>

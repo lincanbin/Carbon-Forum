@@ -26,13 +26,48 @@ $.ui.useOSThemes = false; //This must be set before $(document).ready() triggers
 $.ui.isAjaxApp = true;
 $.ui.slideSideMenu = true; //Set to false to turn off the swiping to reveal
 //This function runs when the body is loaded.
+
 $(document).ready(function() {
 	$.ui.launch();
-	//$.ui.toggleNavMenu(false);//force hide the bottom nav menu. 
-	$.ui.removeFooterMenu();
+	$.ui.removeFooterMenu();//force hide the bottom nav menu. 
 	//$("#navbar").css("display", "block");//AddFooterMenu
+	//Prevent appearance of scroll bar in the PC side
+	$("#content")[0].children[0].style.overflowX = "hidden";
+	/*
+	//Pjax
+	document.onclick = function(event) {
+		event = event || window.event; // IE specials
+		var target = event.target || event.srcElement; // IE specials
+		//console.log(event);
+		//console.log(target);
+		while(target.nodeName !== "A" && target !== null) {
+			target = target.parentNode;
+		}
+		if(target) {
+			setTimeout(function () {
+				history.pushState({}, document.title, target.href);
+			}, 5000);
+		}
+	};
+	*/
 });
-//$.feat.nativeTouchScroll=false; //Disable native scrolling globally
+
+if($.os.ios || $.os.android || $.os.ios7){
+	$.feat.nativeTouchScroll = false; //Disable native scrolling globally
+}else{
+	$.feat.nativeTouchScroll = true;
+}
+
+function PageAjaxLoad (Title, URL) {
+	setTimeout(function () {
+		history.pushState({}, Title, URL);
+		var TemporaryContent = $("#content")[0].children;
+		for (var i = TemporaryContent.length - 1; i >= 0; i--) {
+			TemporaryContent[i].style.overflowX = "hidden";
+		};
+		$("#content")[0].children[0].style.overflowX = "hidden";
+	}, 1);
+}
 
 //非阻塞的带样式的Alert
 function CarbonAlert(Message) {
