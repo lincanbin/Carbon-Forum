@@ -22,12 +22,11 @@ if($error){
 				<input type="hidden" value="<?php echo $ReturnUrl; ?>" name="ReturnUrl" />
 				<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 
-				<label for="UserName"><?php echo $Lang['UserName']; ?></label>
-				<input type="text" name="UserName" id="UserName" value="<?php echo htmlspecialchars($UserName); ?>" />
+				<input type="text" name="UserName" id="UserName" placeholder="<?php echo $Lang['UserName']; ?>" value="<?php echo htmlspecialchars($UserName); ?>" />
+
+				<input type="password" name="Password" id="Password" placeholder="<?php echo $Lang['Password']; ?>" value="" />
 				<br style="clear:both">
-				<label for="Password"><?php echo $Lang['Password']; ?></label>
-				<input type="password" name="Password" id="Password" value="" />
-				<br style="clear:both">
+				<p>
 				<label for="Expires"><?php echo $Lang['Login_Expiration_Time']; ?></label>
 				<select name="Expires" id="Expires" style="display:inline;">
 					<option value="30">30<?php echo $Lang['Days']; ?></option>
@@ -36,10 +35,9 @@ if($error){
 					<option value="1">1<?php echo $Lang['Days']; ?></option>
 					<option value="0">0<?php echo $Lang['Days']; ?></option>
 				</select>
-				<br style="clear:both">
-				<label for="VerifyCode"><?php echo $Lang['Verification_Code']; ?></label>
-				<input type="text" name="VerifyCode" id="VerifyCode" onclick="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>"  style="width:33%;"/>
-				<img src="" id="Verification_Code_Img" style="cursor: pointer;" onclick="this.src+=''" align="absmiddle" />
+				</p>
+				<input type="text" name="VerifyCode" id="VerifyCode" placeholder="<?php echo $Lang['Verification_Code']; ?>" onclick="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" style="width:66%;"/>
+				<img src="" id="Verification_Code_Img" style="cursor: pointer;" onclick="this.src+=''" style="width:33%;" align="absmiddle" />
 				<br style="clear:both">
 				<a href="<?php echo $Config['WebsitePath']; ?>/register" class="button"><?php echo $Lang['Sign_Up']; ?></a>
 				<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" style="float:right;" />
