@@ -11,27 +11,10 @@
  * A high performance open-source forum software written in PHP. 
  */
 
-//话题自动补全
-$(function() {
-	//'use strict';
-	// Initialize ajax autocomplete:
-	$("#AlternativeTag").autocomplete({
-		serviceUrl: WebsitePath + '/json/tag_autocomplete',
-		type: 'post'
-		/*,
-		lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
-			var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
-			return re.test(suggestion.value);
-		},
-		onSelect: function(suggestion) {
-			//AddTag(document.NewForm.AlternativeTag.value, Math.round(new Date().getTime()/1000));
-		}, 
-		onHint: function (hint) {
-            alert(hint);
-        },*/
-	});
-
-});
+//编辑框自适应高度
+document.getElementById("Content").onkeyup = function(e) {
+	document.getElementById("Content").style.height = (parseInt(document.getElementById("Content").scrollHeight) + 2) + "px";
+};
 
 //提交前的检查
 function CreateNewTopic() {
@@ -48,7 +31,6 @@ function CreateNewTopic() {
 		document.NewForm.AlternativeTag.focus();
 		return false;
 	} else {
-		UE.getEditor('editor').setDisabled('fullscreen');
 		$.ajax({
 			url: WebsitePath + '/new',
 			data: {
@@ -60,26 +42,18 @@ function CreateNewTopic() {
 				}).get()
 			},
 			type: 'post',
-			cache: false,
 			dataType: 'json',
-			async: false,
 			//阻塞防止干扰
 			success: function(data) {
 				if (data.Status == 1) {
 					$("#PublishButton").val(Lang['Submit_Success']);
-					location.href = WebsitePath + "/t/" + data.TopicID;
-					if (window.localStorage) {
-						//清空草稿箱
-						StopAutoSave();
-					}
+					$.ui.loadContent(WebsitePath + "/t/" + data.TopicID, false, false, "slide");
 				} else {
 					alert(data.ErrorMessage);
-					UE.getEditor('editor').setEnabled();
 				}
 			},
 			error: function() {
 				alert(Lang['Submit_Failure']);
-				UE.getEditor('editor').setEnabled();
 				$("#PublishButton").val(Lang['Submit_Again']);
 			}
 		});
@@ -124,7 +98,6 @@ function GetTags() {
 								TagsListAppend(data.lists[i], i);
 							}
 						}
-						//$("#TagsList").append('<div class="c"></div>');
 					}
 				}
 			});
@@ -134,13 +107,13 @@ function GetTags() {
 }
 
 function TagsListAppend(TagName, id) {
-	$("#TagsList").append('<a href="###" onclick="javascript:AddTag(\'' + TagName + '\',' + id + ');" id="TagsList' + id + '">' + TagName + '&nbsp;+</a>');
+	$("#TagsList").append('<a class="button" href="#" onclick="javascript:AddTag(\'' + TagName + '\',' + id + ');" id="TagsList' + id + '">' + TagName + '<span style="float:right;">+&nbsp;&nbsp;</span></a>&nbsp;');
 	//document.NewForm.AlternativeTag.focus();
 }
 
 function AddTag(TagName, id) {
 	if (CheckTag(TagName, 1)) {
-		$("#SelectTags").append('<a href="###" onclick="javascript:TagRemove(\'' + TagName + '\',' + id + ');" id="Tag' + id + '">' + TagName + '&nbsp;×<input type="hidden" name="Tag[]" value="' + TagName + '" /></a>');
+		$("#SelectTags").append('<li id="Tag' + id + '"><a href="#" onclick="javascript:TagRemove(\'' + TagName + '\',' + id + ');">' + TagName + '<span style="float:right;">×&nbsp;&nbsp;</span><input type="hidden" name="Tag[]" value="' + TagName + '" /></a></li>');
 		$("#TagsList" + id).remove();
 	}
 	//document.NewForm.AlternativeTag.focus();
@@ -160,12 +133,6 @@ $(function() {
 				AddTag($("#AlternativeTag").val(), Math.round(new Date().getTime() / 1000));
 			}
 			break;
-		case 8:
-			if ($("#AlternativeTag").val().length == 0) {
-				var LastTag = $("#SelectTags").children().last();
-				TagRemove(LastTag.children().attr("value"), LastTag.attr("id").replace("Tag", ""));
-			}
-			break;
 		default:
 			return true;
 		}
@@ -180,46 +147,4 @@ function TagRemove(TagName, id) {
 		$("#AlternativeTag").attr("placeholder", Lang['Add_Tags']);
 	}
 	document.NewForm.AlternativeTag.focus();
-}
-
-if (window.localStorage) {
-	var saveTimer = setInterval(function() {
-		var TagsList = JSON.stringify($("input[name='Tag[]']").map(function() {
-			return $(this).val();
-		}).get());
-		if (document.NewForm.Title.value.length >= 4) {
-			localStorage.setItem(Prefix + "TopicTitle", document.NewForm.Title.value);
-		}
-		if (document.NewForm.Content.value.length >= 10) {
-			localStorage.setItem(Prefix + "TopicContent", document.NewForm.Content.value);
-		}
-		if (TagsList) {
-			localStorage.setItem(Prefix + "TopicTagsList", TagsList);
-		}
-	},
-	1000); //每隔N秒保存一次
-	function StopAutoSave() {
-		clearInterval(saveTimer); //停止保存
-		localStorage.removeItem(Prefix + "TopicTitle"); //清空标题
-		localStorage.removeItem(Prefix + "TopicContent"); //清空内容
-		localStorage.removeItem(Prefix + "TopicTagsList"); //清空标签
-		UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
-	}
-
-	function RecoverContents() {
-		var DraftTitle = localStorage.getItem(Prefix + "TopicTitle");
-		var DraftContent = localStorage.getItem(Prefix + "TopicContent");
-		var DraftTagsList = JSON.parse(localStorage.getItem(Prefix + "TopicTagsList"));
-		if (DraftTitle) {
-			document.NewForm.Title.value = DraftTitle;
-		}
-		if (DraftContent) {
-			UE.getEditor('editor').setContent(DraftContent);
-		}
-		if (DraftTagsList) {
-			for (var i = DraftTagsList.length - 1; i >= 0; i--) {
-				AddTag(DraftTagsList[i], Math.round(new Date().getTime() / 1000) + i * 314159);
-			};
-		}
-	}
 }

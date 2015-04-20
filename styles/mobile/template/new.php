@@ -10,7 +10,13 @@ if(!$IsAjax){
 <!-- main-content start -->
 	<div data-title="<?php echo $PageTitle; ?>" id="New" class="panel" selected="true">
 		<script type="text/javascript">
-			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile.new.function.js", function() {
+			var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
+			var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
+			var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
+			loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/lang/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>", function() {
+				console.log("Language Loaded");
+			});
+			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile.new.function.js?version=<?php echo $Config['Version']; ?>", function() {
 				// body...
 				console.log("Loaded");
 			});
@@ -20,13 +26,13 @@ if(!$IsAjax){
 			<input type="hidden" name="ContentHash" value="" />
 			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" placeholder="<?php echo $Lang['Title']; ?>" /></p>
 			<p>
-				<textarea name="Content"></textarea>
+				<textarea name="Content" id="Content" placeholder="<?php echo $Lang['Content']; ?>"></textarea>
 			</p>
 			<p>
-				<div onclick="JavaScript:document.NewForm.AlternativeTag.focus();">
-					<span id="SelectTags"></span>
-					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onfocus="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
-				</div>
+				<input type="text" name="AlternativeTag" id="AlternativeTag" value="" onfocus="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
+				<ul id="SelectTags" class="list">
+					<li class="divider"><?php echo $Lang['Tags']; ?></li>
+				</ul>
 			</p>
 			<p>
 				<div id="TagsList">

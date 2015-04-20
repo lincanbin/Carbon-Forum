@@ -170,7 +170,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 						if (Result.Status == 1) {
 							CarbonAlert("Success");
 							//Back and Reload this Page
-							$.ui.goBack();
+							//$.ui.goBack();
 							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID, false, false, "slide");
 							//location.href = WebsitePath+"/t/"+Result.TopicID+(Result.Page>1?"-"+Result.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 						} else {
