@@ -1,6 +1,15 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
+<li class="divider">
+	<?php echo $Lang['Information_Bar']; ?>
+</li>
+<li>
+	<a class="icon home" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Home']; ?></a>
+</li>
+<li>
+	<a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/new" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Create_New_Topic']; ?></a>
+</li>
 <?php if(!$CurUserID && $UrlPath!='login'){ ?>
 <form action="<?php echo $Config['WebsitePath']; ?>/login" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
 	<input type="hidden" value="<?php echo $_SERVER['REQUEST_URI']; ?>" name="ReturnUrl" />
@@ -11,7 +20,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<input type="text" name="UserName" value="" placeholder="<?php echo $Lang['UserName']; ?>" />
 		<br />
 		<input type="password" name="Password" value="" placeholder="<?php echo $Lang['Password']; ?>" /><br />
-		<input type="text" style="width:60%;" name="VerifyCode" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /> <img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" align="absmiddle" />
+		<input type="text" style="width:60%;" name="VerifyCode" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /> <img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" align="middle" />
 		<br />
 		<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
 	</li>
@@ -59,12 +68,3 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 </li>
 <?php }
 ?>
-<li class="divider">
-	<?php echo $Lang['Information_Bar']; ?>
-</li>
-<li>
-	<a class="icon home" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Home']; ?></a>
-</li>
-<li>
-	<a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/new" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Create_New_Topic']; ?></a>
-</li>
