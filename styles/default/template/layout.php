@@ -5,7 +5,7 @@ ob_start();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta content="True" name="HandheldFriendly" />
 <?php
 if($Config['MobileDomainName']){
@@ -16,7 +16,7 @@ if($Config['MobileDomainName']){
 echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 echo $PageTitle;
 echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
-<script>
+<script type="text/javascript">
 var Prefix="<?php echo $Prefix; ?>";
 var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 </script>
