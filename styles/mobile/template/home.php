@@ -4,7 +4,7 @@ if(!$IsAjax){
 ?>
 <!-- this is the header div at the top -->
 <div id="header">
-	<!--a href="javascript:$.ui.toggleLeftSideMenu()" class="button" style="float:left">Toggle Nav</a-->
+	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
 </div>
 <div id="content">
 	<!-- here is where you can add your panels -->

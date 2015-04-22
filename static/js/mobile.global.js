@@ -73,6 +73,14 @@ function PageAjaxLoad (Title, URL) {
 function CarbonAlert(Message) {
 	$.ui.popup(Message);
 }
+
+//精简版的Markdown Parser
+function SimplifiedMarkdown (text) {
+	text = text.replace("\n"," <br />\n");
+	return text;
+}
+
+
 //异步非阻塞加载JavaScript脚本文件
 function loadScript(url, callback) {
 	var script = document.createElement("script");
@@ -142,7 +150,7 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	$.ui.popup({
 		title: Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :",
-		message: "<textarea id=\"Content\">" + Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n</textarea>",
+		message: "<textarea id=\"Content" + TopicID +"\">" + Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n</textarea>",
 		cancelText: Lang['Cancel'],
 		cancelCallback: function() {
 			//console.log("cancelled");
@@ -150,7 +158,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 		doneText: Lang['Reply'],
 		doneCallback: function() {
 			//console.log(arg);
-			if (!document.getElementById('Content').value.length) {
+			if (!document.getElementById("Content" + TopicID).value.length) {
 				CarbonAlert(Lang['Content_Empty']);
 			} else {
 				//console.log(typeof jQuery);
@@ -160,7 +168,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 					data: {
 						FormHash: FormHash,
 						TopicID: TopicID,
-						Content: document.getElementById("Content").value
+						Content: SimplifiedMarkdown(document.getElementById("Content" + TopicID).value)
 					},
 					type: "post",
 					//cache: false,

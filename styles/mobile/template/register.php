@@ -1,54 +1,39 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+if(!$IsAjax){
 ?>
-<!-- main-content start -->
-<div class="main-content">
-	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $Lang['Sign_Up']; ?>
-	</div>
-	<div class="main-box">
-		<?php if($Message){ ?>
-		<p class="red fs14" style="margin-left:60px;">
-		› <?php echo $Message; ?> <br/></p>
-		<?php } ?>
-		<form action="?" method="post">
-			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
-			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
-				<tbody>
-					<tr>
-						<td width="180" align="right"><?php echo $Lang['UserName']; ?></td>
-						<td width="auto" align="left"><input type="text" name="UserName" class="sl w200" value="<?php echo htmlspecialchars($UserName); ?>" /></td>
-					</tr>
-					<tr>
-						<td width="180" align="right"><?php echo $Lang['Email']; ?></td>
-						<td width="auto" align="left"><input type="text" name="Email" class="sl w200" value="<?php echo htmlspecialchars($Email); ?>" /></td>
-					</tr>
-					<tr>
-						<td width="180" align="right"><?php echo $Lang['Password']; ?></td>
-						<td width="auto" align="left"><input type="password" name="Password" class="sl w200" value="" /></td>
-					</tr>
-					<tr>
-						<td width="180" align="right"><?php echo $Lang['Confirm_Password']; ?></td>
-						<td width="auto" align="left"><input type="password" name="Password2" class="sl w200" value="" /></td>
-					</tr>
-					<tr>
-						<td width="180" align="right"><?php echo $Lang['Verification_Code']; ?></td>
-						<td width="auto" align="left">
-							<input type="text" name="VerifyCode" class="sl w100" value="" /> <img src="<?php echo $Config['WebsitePath']; ?>/seccode.php" align="absmiddle" />
-						</td>
-					</tr>
-					<tr>
-						<td width="180" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="<?php echo $Lang['Sign_Up']; ?>" name="submit" class="textbtn" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/login"><?php echo $Lang['Log_In']; ?></a></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
+<div id="header">
+	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
 </div>
+<div id="content">
+<?php } ?>
+<!-- main-content start -->
+	<div data-title="<?php echo $PageTitle; ?>" id="Login" class="panel" selected="true">
+<?php if($Message){ ?>
+		<script type="text/javascript">CarbonAlert("<?php echo $Message; ?>");</script>
+<?php } ?>
+		<br />
+		<form action="?" method="post">
+			<div class="input-group">
+				<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
+				<input type="text" placeholder="<?php echo $Lang['UserName']; ?>" name="UserName" value="<?php echo htmlspecialchars($UserName); ?>" />
+				<input type="text" placeholder="<?php echo $Lang['Email']; ?>" name="Email" value="<?php echo htmlspecialchars($Email); ?>" />
+				<input type="password" placeholder="<?php echo $Lang['Password']; ?>" name="Password" value="" />
+				<input type="password" placeholder="<?php echo $Lang['Confirm_Password']; ?>" name="Password2" value="" />
+				<input type="text" placeholder="<?php echo $Lang['Verification_Code']; ?>" name="VerifyCode" value="" style="width:66%;" /> 
+				<img src="<?php echo $Config['WebsitePath']; ?>/seccode.php" align="middle" onclick="this.src+=''" style="cursor: pointer;" />
+				<input type="submit" value="<?php echo $Lang['Sign_Up']; ?>" name="submit" class="button" style="float:right;" />
+			</div>
+		</form>
 	<!-- main-content end -->
-	<!-- main-sider start -->
-	<div class="main-sider">
-	<?php include($TemplatePath.'sider.php'); ?>
+<?php
+if(!$IsAjax){
+?>
 	</div>
-	<!-- main-sider end -->
+<!-- this is the default left side nav menu.  If you do not want any, do not include these -->
+<nav>
+	<ul class="list">
+		<?php include($TemplatePath.'sider.php'); ?>
+	</ul>
+</nav>
+<?php } ?>

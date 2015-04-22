@@ -3,7 +3,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 if(!$IsAjax){
 ?>
 <div id="header">
-
+	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
 </div>
 <div id="content">
 <?php } ?>
@@ -12,7 +12,7 @@ if(!$IsAjax){
 <?php
 if($error){
 ?>
-		<script type="text/javascript">CarbonAlert("<?php echo $error; ?>");</script>>
+		<script type="text/javascript">CarbonAlert("<?php echo $error; ?>");</script>
 <?php
 }
 ?>

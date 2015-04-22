@@ -4,8 +4,7 @@ if(!$IsAjax){
 ?>
 <!-- this is the header div at the top -->
 <div id="header">
-	<!--a href="javascript:$.ui.toggleLeftSideMenu()" class="button" style="float:left">Toggle Nav</a-->
-	<a href="###" class="button" style="float:right;" class="icon home" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a>
+	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
 </div>
 <div id="content">
 	<!-- here is where you can add your panels -->
@@ -46,23 +45,23 @@ if($topic['Tags']){
 if($CurUserRole>=4){
 	if($topic['IsDel']==0){
 	?>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" class="link red"><?php echo $Lang['Delete']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" class="link red"><?php echo $Lang['Delete']; ?></a>
 <?php
 	}else{
 ?>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" class="link green"><?php echo $Lang['Recover']; ?></a>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" class="link red"><?php echo $Lang['Permanently_Delete']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" class="link green"><?php echo $Lang['Recover']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" class="link red"><?php echo $Lang['Permanently_Delete']; ?></a>
 <?php
 	}
 ?>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" class="link"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" class="link"><?php echo $Lang['Sink']; ?></a>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" class="link"><?php echo $Lang['Rise']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" class="link"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" class="link"><?php echo $Lang['Sink']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" class="link"><?php echo $Lang['Rise']; ?></a>
 <?php
 }
 if($CurUserID){
 ?>
-		<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" class="link"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
+		<a href="#" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" class="link"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
 <?php
 }
 ?>
@@ -100,11 +99,11 @@ foreach($PostsArray as $key => $post)
 <?php if($CurUserID){
 	if($CurUserRole>=4){
 ?>
-	<a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" class="link"><?php echo $Lang['Delete']; ?></a>
+	<a href="#" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);" class="link"><?php echo $Lang['Delete']; ?></a>
 <?php
 	}
 ?>
-	<a href="###" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);" class="link"><?php echo $Lang['Reply']; ?></a>
+	<a href="#" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>, '<?php echo $FormHash;?>', <?php echo $id;?>);" class="link"><?php echo $Lang['Reply']; ?></a>
 <?php } ?>
 	</div>
 </div>
@@ -128,7 +127,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 <?php
 }else{
 ?>
-<li class="pagination"><a href="###" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a></li>
+<li class="pagination"><a href="#" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a></li>
 <?php
 }
 if($Page<$TotalPage){

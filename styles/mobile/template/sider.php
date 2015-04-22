@@ -24,8 +24,8 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<br />
 		<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
 	</li>
-	<li><a href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Sign_Up']; ?></a></li>
 </form>
+<li><a href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Sign_Up']; ?></a></li>
 <?php }else if($CurUserID){ ?>
 <li class="divider"><?php echo $Lang['User_Panel']; ?></li>
 <li>

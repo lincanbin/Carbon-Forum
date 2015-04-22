@@ -36,7 +36,7 @@ function CreateNewTopic() {
 			data: {
 				FormHash: document.NewForm.FormHash.value,
 				Title: document.NewForm.Title.value,
-				Content: document.NewForm.Content.value,
+				Content: SimplifiedMarkdown(document.NewForm.Content.value),
 				Tag: $("input[name='Tag[]']").map(function() {
 					return $(this).val();
 				}).get()
