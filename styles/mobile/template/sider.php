@@ -8,7 +8,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<a class="icon home" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Home']; ?></a>
 </li>
 <li>
-	<a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/new" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Create_New_Topic']; ?></a>
+	<a class="icon add" href="<?php echo $Config['WebsitePath']; ?>/new" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Create_New_Topic']; ?></a>
 </li>
 <?php if(!$CurUserID && $UrlPath!='login'){ ?>
 <form action="<?php echo $Config['WebsitePath']; ?>/login" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
@@ -25,7 +25,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
 	</li>
 </form>
-<li><a href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Sign_Up']; ?></a></li>
+<li><a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Sign_Up']; ?></a></li>
 <?php }else if($CurUserID){ ?>
 <li class="divider"><?php echo $Lang['User_Panel']; ?></li>
 <li>
@@ -64,7 +64,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 </li>
 
 <li>
-	<a class="icon remove" href="###" onclick="JavaScript:document.location.href='<?php echo $Config['WebsitePath']; ?>/login?logout=1';"><?php echo $Lang['Log_Out']; ?></a>
+	<a class="icon close" href="###" onclick="JavaScript:document.location.href='<?php echo $Config['WebsitePath']; ?>/login?logout=1';"><?php echo $Lang['Log_Out']; ?></a>
 </li>
 <?php }
 ?>

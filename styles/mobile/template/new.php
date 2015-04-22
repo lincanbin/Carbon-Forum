@@ -13,9 +13,6 @@ if(!$IsAjax){
 			var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
 			var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
 			var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
-			loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/lang/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>", function() {
-				console.log("Language Loaded");
-			});
 			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile.new.function.js?version=<?php echo $Config['Version']; ?>", function() {
 				// body...
 				console.log("Loaded");

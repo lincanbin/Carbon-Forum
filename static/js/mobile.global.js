@@ -171,16 +171,11 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 						Content: SimplifiedMarkdown(document.getElementById("Content" + TopicID).value)
 					},
 					type: "post",
-					//cache: false,
 					dataType: "json",
-					//async: false,//阻塞防止干扰
 					success: function(Result) {
 						if (Result.Status == 1) {
 							CarbonAlert("Success");
-							//Back and Reload this Page
-							//$.ui.goBack();
 							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID, false, false, "slide");
-							//location.href = WebsitePath+"/t/"+Result.TopicID+(Result.Page>1?"-"+Result.Page:"")+"?cache="+Math.round(new Date().getTime()/1000)+"#reply";  
 						} else {
 							CarbonAlert(Result.ErrorMessage);
 						}
@@ -193,10 +188,30 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 		},
 		cancelOnly: false
 	});
-	//UE.getEditor('editor').setContent('<p>'+Lang['Reply_To']+'<a href="'+location.pathname+'#Post'+PostID+'">#'+PostFloor+'</a> @'+UserName+' :<br /></p>', false);
-	//UE.getEditor('editor').focus(true);
 }
 
+
+function TopicParse() {
+	loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function() {
+		uParse('.card-content',{
+			'rootPath': WebsitePath + '/static/editor/',
+			'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		});
+		/*
+		//强制所有链接在新窗口中打开
+		var AllPosts = document.getElementsByClassName("card-content");
+		for (var j=0; j<AllPosts.length; j++) {
+			var AllLinks = AllPosts[j].getElementsByTagName("a");
+			for(var i=0; i<AllLinks.length; i++)
+			{
+				var a = AllLinks[i];
+				//console.log(a);
+				a.target="_blank";
+			};
+		};
+		*/
+	});
+}
 /*
  * JavaScript MD5 1.0.1
  * https://github.com/blueimp/JavaScript-MD5

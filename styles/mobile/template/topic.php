@@ -149,25 +149,6 @@ if(!$IsAjax){
 	</ul>
 </nav>
 <?php } ?>
-<!--
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>"> </script>
 <script type="text/javascript">
-uParse('.main-content',{
-	'rootPath': '<?php echo $Config['WebsitePath']; ?>/static/editor/',
-	'liiconpath':'<?php echo $Config['WebsitePath']; ?>/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
-});
-//强制所有链接在新窗口中打开
-var AllPosts = document.getElementsByClassName("comment-content");
-AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
-for (var j=0; j<=AllPosts.length; j++) {
-	var AllLinks = AllPosts[j].getElementsByTagName("a");
-	for(var i=0; i<AllLinks.length; i++)
-	{
-		var a = AllLinks[i];
-		console.log(a);
-		a.target="_blank";
-	};
-};
-
+TopicParse();
 </script>
--->
