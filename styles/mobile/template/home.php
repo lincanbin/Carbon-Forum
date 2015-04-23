@@ -40,8 +40,8 @@ if(!$IsAjax){
 				
 				<div class="c"></div>
 			</li>
-		<?php } 
-		if($Page<$TotalPage){
+<?php } 
+if($Page<$TotalPage){
 		?>
 			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
 		<?php } ?>

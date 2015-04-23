@@ -61,12 +61,13 @@ if($.os.ios || $.os.android || $.os.ios7){
 function PageAjaxLoad (Title, URL) {
 	setTimeout(function () {
 		history.pushState({}, Title, URL);
+		document.title=Title;
 		var TemporaryContent = $("#content")[0].children;
 		for (var i = TemporaryContent.length - 1; i >= 0; i--) {
 			TemporaryContent[i].style.overflowX = "hidden";
 		};
 		$("#content")[0].children[0].style.overflowX = "hidden";
-	}, 1);
+	}, 100);
 }
 
 //非阻塞的带样式的Alert
@@ -117,33 +118,47 @@ function ManageCallback(TargetTag) {
 
 //管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
-	$.ui.popup({
-		title: "Confirm",
-		message: "Please confirm the operation. ",
-		cancelText: "Cancel",
-		cancelCallback: function() {
-			console.log("cancelled");
-		},
-		doneText: "Confirm",
-		doneCallback: function() {
-			console.log("Done for!");
-			TargetTag.innerText = "Loading";
-			var CallbackObj = new ManageCallback(TargetTag);
-			$.ajax({
-				url: WebsitePath + "/manage",
-				data: {
-					ID: ID,
-					Type: Type,
-					Action: Action
-				},
-				//cache: false,
-				dataType: "json",
-				type: "POST",
-				success: CallbackObj.Success
-			});
-		},
-		cancelOnly: false
-	});
+	if(NeedToConfirm){
+		$.ui.popup({
+			title: "Confirm",
+			message: "Please confirm the operation. ",
+			cancelText: "Cancel",
+			cancelCallback: function() {
+				console.log("cancelled");
+			},
+			doneText: "Confirm",
+			doneCallback: function() {
+				TargetTag.innerText = "Loading";
+				var CallbackObj = new ManageCallback(TargetTag);
+				$.ajax({
+					url: WebsitePath + "/manage",
+					data: {
+						ID: ID,
+						Type: Type,
+						Action: Action
+					},
+					dataType: "json",
+					type: "POST",
+					success: CallbackObj.Success
+				});
+			},
+			cancelOnly: false
+		});
+	}else{
+		TargetTag.innerText = "Loading";
+		var CallbackObj = new ManageCallback(TargetTag);
+		$.ajax({
+			url: WebsitePath + "/manage",
+			data: {
+				ID: ID,
+				Type: Type,
+				Action: Action
+			},
+			dataType: "json",
+			type: "POST",
+			success: CallbackObj.Success
+		});
+	}
 }
 
 //回复某人

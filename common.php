@@ -131,7 +131,7 @@ function AlertMsg($PageTitle, $error, $status_code = 200)
 {
 	global $Lang, $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors = array();
-	if (!$IsApp) {
+	if (!$IsApp && !$IsMobie) {
 		switch ($status_code) {
 			case 404:
 				header("HTTP/1.1 404 Not Found");

@@ -92,6 +92,8 @@
 }
 .card-content {
 	position: relative;
+	overflow-x: auto!important;
+	overflow-y: hidden!important;
 }
 .card-content-inner {
 	padding: 15px;

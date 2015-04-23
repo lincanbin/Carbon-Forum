@@ -28,11 +28,11 @@ if($Page==1){
  at <?php echo FormatTime($topic['PostTime']); ?><br /><?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 			</p>
 			<p><?php echo $PostsArray[0]['Content']; ?></p>
-			<div class="TagLists">
+			<div class="button-grouped">
 <?php
 if($topic['Tags']){
 	foreach (explode("|", $topic['Tags']) as $Tag) {
-?>					<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank" class="button"><?php echo $Tag; ?></a>
+?>					<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" class="button"><?php echo $Tag; ?></a>
 <?php
 	}
 }
@@ -114,20 +114,19 @@ foreach($PostsArray as $key => $post)
 <?php
 }
 ?>
-<!-- editor start -->
 <ul class="list topic-list">
 <?php
 if(!$topic['IsLocked'] && !$CurUserInfo){
 ?>
-<li class="pagination"><?php echo $Lang['Requirements_For_Login']; ?></li>
+	<li class="pagination"><?php echo $Lang['Requirements_For_Login']; ?></li>
 <?php
 }else if($topic['IsLocked']){
 ?>
-<li class="pagination"><?php echo $Lang['Topic_Has_Been_Locked']; ?></li>
+	<li class="pagination"><?php echo $Lang['Topic_Has_Been_Locked']; ?></li>
 <?php
 }else{
 ?>
-<li class="pagination"><a href="#" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a></li>
+	<li class="pagination"><a href="#" onclick="JavaScript:Reply('<?php echo $topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $id; ?>);"><?php echo $Lang['Reply']; ?></a></li>
 <?php
 }
 if($Page<$TotalPage){
@@ -136,7 +135,6 @@ if($Page<$TotalPage){
 	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $id.'-'.($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php } ?>
 </ul>
-<!-- editor end -->
 <?php
 if(!$IsAjax){
 ?>

@@ -4,7 +4,6 @@ ob_start();
 $IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')?true:false;
 if(!$IsAjax){
 ?><!DOCTYPE html>
-<!--HTML5 doctype-->
 <html>
 <head>
 <title><?php
@@ -23,8 +22,6 @@ var Prefix="<?php echo $Prefix; ?>";
 var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 </script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.min.js?version=<?php echo $Config['Version']; ?>"></script>
-<!--script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.ui.jquery.js?version=<?php echo $Config['Version']; ?>"></script-->
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.ui.min.js?version=<?php echo $Config['Version']; ?>"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.slidemenu.js?version=<?php echo $Config['Version']; ?>"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.popup.js?version=<?php echo $Config['Version']; ?>"></script>
