@@ -717,7 +717,8 @@ if ($IsApp) {
 } else {
 	$TemplatePath = dirname(__FILE__) . '/styles/default/template/';
 	$Style        = 'Default';
-	header('X-XSS-Protection: 1; mode=block');
+	//header('X-XSS-Protection: 1; mode=block');
+	//X-XSS-Protection may cause some issues in dashboard
 }
 $AutomaticSwitch = GetCookie('Style', 'Default');
 if ($_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $IsMobie && $AutomaticSwitch != 'Default') {
