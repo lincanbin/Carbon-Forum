@@ -17,6 +17,7 @@ if ($UserAgent) {
 	$IsGoogleBot = preg_match('/(googlebot|mediapartners-google|adsbot-google)/i', $UserAgent);
 	$IsBaiduBot = preg_match('/(baiduspider)/i', $UserAgent);
 }
+$XMLNameSpace = '';
 if($IsGoogleBot){
 	$XMLNameSpace = ' xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"';
 }elseif ($IsBaiduBot) {
@@ -25,6 +26,7 @@ if($IsGoogleBot){
 ob_start();
 ?><?xml version="1.0" encoding="UTF-8" ?>
 <?php
+$MobileTag = '';
 if($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'])
 {
 	if($IsGoogleBot){
