@@ -3,7 +3,7 @@ include(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/login.php');
 $error     = '';
 $UserName  = '';
-$ReturnUrl = array_key_exists('HTTP_REFERER', $_SERVER) ? $_SERVER["HTTP_REFERER"] : '';
+$ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 
 if (array_key_exists('logout', $_GET)) {
 	SetCookies(array(

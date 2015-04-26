@@ -77,7 +77,8 @@ function CarbonAlert(Message) {
 
 //精简版的Markdown Parser
 function SimplifiedMarkdown (text) {
-	text = text.replace("\n"," <br />\n");
+	text = text + "\n";
+	text = text.replace(/(.*)\n/g, "<p>$1</p>\n");;
 	return text;
 }
 

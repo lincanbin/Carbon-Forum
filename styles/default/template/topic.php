@@ -43,18 +43,18 @@ if($CurUserRole>=4){
 
 	if($topic['IsDel']==0){
 	?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Delete', true, this);" style="float:right;"><?php echo $Lang['Delete']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);" style="float:right;"><?php echo $Lang['Delete']; ?></a>
 <?php
 	}else{
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Recover', false, this);" style="float:right;"><?php echo $Lang['Recover']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;"><?php echo $Lang['Permanently_Delete']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Recover', false, this);" style="float:right;"><?php echo $Lang['Recover']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;"><?php echo $Lang['Permanently_Delete']; ?></a>
 <?php
 	}
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Sink', true, this);" style="float:right;"><?php echo $Lang['Sink']; ?></a>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 1, 'Rise', true, this);" style="float:right;"><?php echo $Lang['Rise']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Sink', true, this);" style="float:right;"><?php echo $Lang['Sink']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Rise', true, this);" style="float:right;"><?php echo $Lang['Rise']; ?></a>
 <?php
 }
 ?>
@@ -62,7 +62,7 @@ if($CurUserRole>=4){
 <a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
 <?php } ?>
 <?php if($CurUserID){ ?>
-<a href="###" onclick="javascript:Manage(<?php echo $id; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
 <?php } ?>
 <div class="c"></div>
 </div>
@@ -128,7 +128,7 @@ foreach($PostsArray as $key => $post)
 if($TotalPage>1){
 ?>
 <div class="pagination">
-	<?php Pagination("/t/".$id."-",$Page,$TotalPage); ?>
+	<?php Pagination("/t/".$ID."-",$Page,$TotalPage); ?>
 <div class="c"></div>
 </div>
 <?php
@@ -169,7 +169,7 @@ if(!$topic['IsLocked'] && !$CurUserInfo){
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>"></script>
 	<form name="reply">
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
-		<input type="hidden" name="TopicID" value="<?php echo $id; ?>">
+		<input type="hidden" name="TopicID" value="<?php echo $ID; ?>">
 		<p>
 			<div id="editor" style="width:648px;height:160px;"></div>
 		</p>

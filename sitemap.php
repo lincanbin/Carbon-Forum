@@ -8,6 +8,7 @@ $ItemPerSitemap  = 30000;
 /*
 Google crawlers
 https://support.google.com/webmasters/answer/1061943?hl=en
+
 Baidu crawlers
 http://help.baidu.com/question?prod_en=master&class=498&id=1000973
 */
