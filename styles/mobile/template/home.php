@@ -2,23 +2,21 @@
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 if(!$IsAjax){
 ?>
-<!-- this is the header div at the top -->
 <div id="header">
 	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
 </div>
 <div id="content">
-	<!-- here is where you can add your panels -->
 <?php } ?>
 	<div data-title="<?php echo $PageTitle; ?>" id="Home<?php echo $Page; ?>" class="panel" selected="true">
 		<ul class="list topic-list">
-		<?php
-		if($Page>1){
-		?>
+<?php
+if($Page>1){
+?>
 			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page-1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Previous']; ?></a></li>
-		<?php
-		}
-		foreach ($TopicsArray as $Topic) {
-		?>
+<?php
+}
+foreach ($TopicsArray as $Topic) {
+?>
 			<li>
 				<div class="avatar">
 					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" data-transition="slide" data-persist-ajax="true">
@@ -31,20 +29,27 @@ if(!$IsAjax){
 				</a>
 				<p><?php echo FormatTime($Topic['LastTime']); ?>&nbsp;&nbsp;<?php echo $Topic['LastName']; ?>
 				</p>
-				<?php if($Topic['Replies']){ ?>
+<?php
+if($Topic['Replies']){
+?>
 				<span class="aside">
 					<?php echo $Topic['Replies']; ?>
 				</span>
-				<?php } ?>
+<?php
+}
+?>
 				</div>
 				
 				<div class="c"></div>
 			</li>
-<?php } 
+<?php
+} 
 if($Page<$TotalPage){
-		?>
+?>
 			<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/page/<?php echo ($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
-		<?php } ?>
+<?php
+}
+?>
 		</ul>
 	</div>
 <?php
@@ -63,4 +68,6 @@ if(!$IsAjax){
 		<li><?php echo $Lang['Users_Number']; ?>：<?php echo $Config['NumUsers']; ?></li>
 	</ul>
 </nav>
-<?php } ?>
+<?php
+}
+?>

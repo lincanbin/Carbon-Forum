@@ -1,60 +1,64 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+if(!$IsAjax){
 ?>
-<!-- main-content start -->
-<div class="main-content">
-	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/">
-			<?php echo $Config['SiteName']; ?>
-		</a>
-		&raquo; <?php echo $Lang['My_Following_Users']; ?>
-	</div>
-	<div class="main-box home-box-list">
-		<?php
-		foreach($PostsArray as $key => $Post)
-		{
-		?>
-			<div class="comment-item">
-				<div class="comment-avatar">
-					<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>">
-					<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'middle'); ?>
-					</a>
-				</div>
-				<div class="comment-content">
-					<h2 class="grey"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName']; ?></a><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_Topic'];?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>" target="_blank"><?php echo $Post['Subject'];?></a></h2>
-					<?php echo strip_tags(mb_substr($Post['Content'], 0, 200, 'utf-8'),'<p><br><a>'); ?>
-				</div>
-					
-				<div class="comment-data-date">
-					<div class="float-right">
-						&laquo;&nbsp;&nbsp;<?php echo FormatTime($Post['PostTime']); ?>
-					</div>
-					<div class="c"></div>
-				</div>
-					<div class="c"></div>
-			</div>
-		<?php
-		}
-		?>
-		<div class="pagination">
-			<?php PaginationSimplified('/users/following/page/', $Page, empty($PostsArray)); ?>
-			<div class="c"></div>
-		</div>
-	</div>
+<div id="header">
+	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
 </div>
-<!-- main-content end -->
-<!-- main-sider start -->
-<div class="main-sider">
-	<div class="sider-box">
-		<div class="sider-box-title"><?php echo $Lang['My_Following_Users']; ?></div>
-		<div class="sider-box-content btn">
-			<?php foreach ($UsersFollowing as $User) {?>
-			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($User['Title']); ?>" target="_blank"><?php echo GetAvatar($User['FavoriteID'], $User['Title'], 'small'); ?>&nbsp;&nbsp;<?php echo $User['Title']; ?></a>
-			<?php } ?>
+<div id="content">
+<?php } ?>
+	<div data-title="<?php echo $Lang['My_Following_Users']; ?>" id="Following-Users-<?php echo $Page; ?>" class="panel" selected="true">
+		<h2 class="expanded" onclick="showHide(this,'UsersFollowing<?php echo $Page; ?>');"><?php echo $Lang['My_Following_Users']; ?></h2>
+		<p id="UsersFollowing<?php echo $Page; ?>">
+<?php
+foreach ($UsersFollowing as $User){
+?>
+			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($User['Title']); ?>" class="button"><?php echo GetAvatar($User['FavoriteID'], $User['Title'], 'small'); ?>&nbsp;&nbsp;<?php echo $User['Title']; ?></a>
+<?php
+}
+?>
+<?php
+if($Page>1){
+?>
+	<ul class="list topic-list">
+		<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page-1); ?>',false,false,'slide');"><?php echo $Lang['Page_Previous']; ?></a></li>
+	</ul>
+<?php
+}
+foreach($PostsArray as $key => $Post) {
+?>
+<div class="card carbonforum-card">
+	<div class="card-header">
+		<div class="carbonforum-avatar">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>">
+				<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'small'); ?>
+			</a>
 		</div>
+		<div class="carbonforum-name"><?php echo $Post['UserName'];?></div>
+		<div class="carbonforum-date"><?php echo FormatTime($Post['PostTime']); ?></div>
 	</div>
-	<?php
-	include($TemplatePath.'sider.php');
-	?>
+	<div class="card-header">
+		<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Post['TopicID']; ?>"><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_Topic'];?>&nbsp;<?php echo $Post['Subject'];?></a>
+	</div>
+	<div class="card-content"><p><?php echo strip_tags(mb_substr($Post['Content'], 0, 200, 'utf-8'),'<p><br><a>'); ?></p></div>
 </div>
-<!-- main-sider end -->
+<?php
+}
+?>
+			<ul class="list topic-list">
+				<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
+			</ul>
+
+	</div>
+<?php
+if(!$IsAjax){
+?>
+</div>
+<nav>
+	<ul class="list">
+		<?php include($TemplatePath.'sider.php'); ?>
+	</ul>
+</nav>
+<?php
+}
+?>

@@ -52,7 +52,7 @@ $(document).ready(function() {
 	*/
 });
 
-if($.os.ios || $.os.android || $.os.ios7){
+if($.os.ios || $.os.android){
 	$.feat.nativeTouchScroll = false; //Disable native scrolling globally
 }else{
 	$.feat.nativeTouchScroll = true;
@@ -67,7 +67,7 @@ function PageAjaxLoad (Title, URL) {
 			TemporaryContent[i].style.overflowX = "hidden";
 		};
 		$("#content")[0].children[0].style.overflowX = "hidden";
-	}, 100);
+	}, 1);
 }
 
 //非阻塞的带样式的Alert

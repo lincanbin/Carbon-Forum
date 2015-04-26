@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck($_POST['FormHash'])) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
-	$ReturnUrl  = trim($_POST["ReturnUrl"]);
+	$ReturnUrl  = htmlspecialchars(trim($_POST["ReturnUrl"]));
 	$UserName   = strtolower(trim($_POST["UserName"]));
 	$Password   = trim($_POST["Password"]);
 	$Expires    = min(intval(trim($_POST["Expires"])), 30);//最多保持登陆30天

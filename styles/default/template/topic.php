@@ -11,14 +11,14 @@ if($Page==1)
 <div class="main-box without-title">
 <div class="topic-title">
 	<div class="topic-title-main float-left">
-		<h1><?php  echo $topic['Topic']; ?></h1>
+		<h1><?php  echo $Topic['Topic']; ?></h1>
 		<div class="topic-title-date">
-		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>"><?php echo $topic['UserName']; ?></a>
- at <?php echo FormatTime($topic['PostTime']); ?> • <?php echo $topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
+		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>"><?php echo $Topic['UserName']; ?></a>
+ at <?php echo FormatTime($Topic['PostTime']); ?> • <?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($Topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 		</div>
 	</div>
-	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$topic['UserName']; ?>">
-<?php echo GetAvatar($topic['UserID'], $topic['UserName'], 'large'); ?>
+	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>">
+<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'large'); ?>
 
 	</a></div>
 	<div class="c"></div>
@@ -32,8 +32,8 @@ if($Page==1)
 <div class="topic-tags btn">
 <div class="w400">
 <?php
-if($topic['Tags']){
-	foreach (explode("|", $topic['Tags']) as $Tag) {
+if($Topic['Tags']){
+	foreach (explode("|", $Topic['Tags']) as $Tag) {
 ?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
 <?php
 	}
@@ -41,7 +41,7 @@ if($topic['Tags']){
 <?php
 if($CurUserRole>=4){
 
-	if($topic['IsDel']==0){
+	if($Topic['IsDel']==0){
 	?>
 <a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);" style="float:right;"><?php echo $Lang['Delete']; ?></a>
 <?php
@@ -52,13 +52,13 @@ if($CurUserRole>=4){
 <?php
 	}
 ?>
-<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
+<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);" style="float:right;"><?php echo $Topic['IsLocked']?$Lang['Unlock']:$Lang['Lock']; ?></a>
 <a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Sink', true, this);" style="float:right;"><?php echo $Lang['Sink']; ?></a>
 <a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Rise', true, this);" style="float:right;"><?php echo $Lang['Rise']; ?></a>
 <?php
 }
 ?>
-<?php if($CurUserRole>=4 || $topic['UserID']==$CurUserID){ ?>
+<?php if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){ ?>
 <a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
 <?php } ?>
 <?php if($CurUserID){ ?>
@@ -71,50 +71,50 @@ if($CurUserRole>=4){
 <?php
 	unset($PostsArray[0]);
 }
-if($topic['Replies']!=0)
+if($Topic['Replies']!=0)
 {
 ?>
 <!-- comment list start -->
 <div class="title">
-	<?php echo $topic['Replies']; ?> <?php echo $Lang['Replies']; ?>  |  <?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($topic['LastTime']); ?>
+	<?php echo $Topic['Replies']; ?> <?php echo $Lang['Replies']; ?>  |  <?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($Topic['LastTime']); ?>
 </div>
 <div class="main-box home-box-list">
 <?php
-foreach($PostsArray as $key => $post)
+foreach($PostsArray as $key => $Post)
 {
 	$PostFloor = ($Page-1)*$Config['PostsPerPage']+$key;
 ?>
 	<div class="comment-item">
-		<a name="Post<?php echo $post['ID'];?>"></a>
+		<a name="Post<?php echo $Post['ID'];?>"></a>
 		<div class="comment-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>" target="_blank">
-			<?php echo GetAvatar($post['UserID'], $post['UserName'], 'middle'); ?>
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>" target="_blank">
+			<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'middle'); ?>
 			</a>
 		</div>
 		<div class="comment-data">
 			<div class="comment-content">
 				<div>
-					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$post['UserName']; ?>"><?php echo $post['UserName'];?></a></div>
+					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>"><?php echo $Post['UserName'];?></a></div>
 					<span class="float-right grey fs12">
-						<?php echo FormatTime($post['PostTime']); ?>&nbsp;&nbsp;
+						<?php echo FormatTime($Post['PostTime']); ?>&nbsp;&nbsp;
 						<span class="commonet-count">#<?php echo $PostFloor; ?></span>
 						
 					</span>
 				</div>
 				<div class="c"></div>
-				<div id="p<?php echo $post['ID']; ?>" style="visibility:visible;">
-					<?php echo $post['Content']; ?>
+				<div id="p<?php echo $Post['ID']; ?>" style="visibility:visible;">
+					<?php echo $Post['Content']; ?>
 				</div>
-				<div id="edit<?php echo $post['ID']; ?>" style="width:588px;height:auto;visibility:hidden;"></div>
+				<div id="edit<?php echo $Post['ID']; ?>" style="width:588px;height:auto;visibility:hidden;"></div>
 			</div>
 			<?php if($CurUserID){ ?>
 			<div class="comment-button">
 				<div class="float-left">
-				<?php if($CurUserRole>=4 || $post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $post['ID']; ?>);"><?php echo $Lang['Edit']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
-				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
+				<?php if($CurUserRole>=4 || $Post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);"><?php echo $Lang['Edit']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
+				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
 			</div>
 				<div class="float-right">
-					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" class="icon icon-action-reply" onclick="JavaScript:Reply('<?php echo $post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $post['ID'];?>);"></a>
+					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" class="icon icon-action-reply" onclick="JavaScript:Reply('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"></a>
 				</div>
 				<div class="c"></div>
 			</div>
@@ -141,11 +141,11 @@ if($TotalPage>1){
 ?>
 <!-- editor start -->
 <?php
-if(!$topic['IsLocked'] && !$CurUserInfo){
+if(!$Topic['IsLocked'] && !$CurUserInfo){
 ?>
 <div class="ad"><p><?php echo $Lang['Requirements_For_Login']; ?></p></div>
 <?php
-}else if($topic['IsLocked']){
+}else if($Topic['IsLocked']){
 ?>
 <div class="ad"><p><?php echo $Lang['Topic_Has_Been_Locked']; ?></p></div>
 <?php

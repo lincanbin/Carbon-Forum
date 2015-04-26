@@ -1,50 +1,45 @@
-
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+if(!$IsAjax){
 ?>
-<!-- main-content start -->
-<div class="main-content">
-	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/">
-			<?php echo $Config['SiteName']; ?>
-		</a>
-		&raquo; <?php echo $Lang['My_Favorites']; ?>
-	</div>
-	<div class="main-box home-box-list">
-		<?php
-		foreach ($TopicsArray as $Topic) {
-		?>
-			<div class="post-list">
-				<div class="item-content">
-					<h2>
-						<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['FavoriteID']; ?>" target="_blank">
-							<?php echo $Topic['Title']; ?>
-						</a>
-					</h2>
-					<span class="item-tags">
-						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
-					</span>
-					<span class="item-date float-right">
-						<?php echo $Lang['Collected_In'].FormatTime($Topic['DateCreated']); ?>
-					</span>
-				</div>
-				<div class="c"></div>
-			</div>
+<!-- this is the header div at the top -->
+<div id="header">
+	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
+</div>
+<div id="content">
+<?php } ?>
+	<div data-title="<?php echo $PageTitle; ?>" id="Favorites-<?php echo $Page; ?>" class="panel" selected="true">
+		<ul class="list">
+<?php
+if($Page>1){
+?>
+	
+			<li><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/favorites/page/<?php echo ($Page-1); ?>',false,false,'slide');"><?php echo $Lang['Page_Previous']; ?></a></li>
+<?php
+}
+foreach ($TopicsArray as $Topic) {
+?>
+			<li>
+				<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['FavoriteID']; ?>" data-transition="slide" data-persist-ajax="true">
+					<?php echo $Topic['Title']; ?>
+				</a>
+			</li>
 							
-		<?php
-		}
-		?>
-		<div class="pagination">
-			<?php Pagination('/favorites/page/', $Page, $TotalPage); ?>
-			<div class="c"></div>
-		</div>
+<?php
+}
+if($Page<$TotalPage){
+?>
+			<li><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/favorites/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
+<?php } ?>
+		</ul>
 	</div>
-</div>
-<!-- main-content end -->
-<!-- main-sider start -->
-<div class="main-sider">
-	<?php
-	include($TemplatePath.'sider.php');
-	?>
-</div>
-<!-- main-sider end -->
+<?php
+if(!$IsAjax){
+?>
+	</div>
+<nav>
+	<ul class="list">
+		<?php include($TemplatePath.'sider.php'); ?>
+	</ul>
+</nav>
+<?php } ?>

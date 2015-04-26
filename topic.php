@@ -3,13 +3,13 @@ require(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/topic.php');
 $ID    = intval($_GET['id']);
 $Page  = intval(Request('Get', 'page'));
-$topic = $DB->row("SELECT * FROM " . $Prefix . "topics force index(PRI) Where ID=:id", array(
+$Topic = $DB->row("SELECT * FROM " . $Prefix . "topics force index(PRI) Where ID=:id", array(
 	"id" => $ID
 ));
-if (!$topic || ($topic['IsDel'] && $CurUserRole < 3)) {
+if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
-$TotalPage = ceil(($topic['Replies'] + 1) / $Config['PostsPerPage']);
+$TotalPage = ceil(($Topic['Replies'] + 1) / $Config['PostsPerPage']);
 if ($Page < 0 || $Page == 1) {
 	header('location: ' . $Config['WebsitePath'] . '/t/' . $ID);
 	exit;
@@ -36,9 +36,9 @@ $DB->query("UPDATE " . $Prefix . "topics force index(PRI) SET Views = Views+1,La
 }
 
 $DB->CloseConnection();
-$PageTitle = $topic['Topic'];
+$PageTitle = $Topic['Topic'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $PageMetaDesc    = htmlspecialchars(strip_tags(mb_substr($PostsArray[0]['Content'], 0, 150, 'utf-8')));
-$PageMetaKeyword = str_replace('|', ',', $topic['Tags']);
+$PageMetaKeyword = str_replace('|', ',', $Topic['Tags']);
 $ContentFile     = $TemplatePath . 'topic.php';
 include($TemplatePath . 'layout.php');
