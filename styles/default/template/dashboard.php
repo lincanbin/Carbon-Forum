@@ -143,11 +143,11 @@ $(document).ready(function(){
 							<select name="LoadJqueryUrl">
 								<option value="<?php echo $Config['LoadJqueryUrl']; ?>"><?php echo $Config['LoadJqueryUrl']; ?></option>
 								<option value="<?php echo $Config['WebsitePath']; ?>/static/js/jquery.js"><?php echo $Config['WebsitePath']; ?>/static/js/jquery.js(Local)</option>
-								<option value="http://lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js">lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js(Sina CDN)</option>
-								<option value="http://libs.baidu.com/jquery/1.10.2/jquery.min.js">libs.baidu.com/jquery/1.10.2/jquery.min.js(Baidu CDN)</option>
-								<option value="http://libs.useso.com/js/jquery/1.10.2/jquery.min.js">libs.useso.com/js/jquery/1.10.2/jquery.min.js(Qihoo360 CDN)</option>
-								<option value="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js">ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js(Microsoft CDN)</option>
-								<option value="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js(Google CDN)</option>
+								<option value="//lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js">lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js(Sina CDN)</option>
+								<option value="//libs.baidu.com/jquery/1.10.2/jquery.min.js">libs.baidu.com/jquery/1.10.2/jquery.min.js(Baidu CDN)</option>
+								<option value="//libs.useso.com/js/jquery/1.10.2/jquery.min.js">libs.useso.com/js/jquery/1.10.2/jquery.min.js(Qihoo360 CDN)</option>
+								<option value="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js">ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js(Microsoft CDN)</option>
+								<option value="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js(Google CDN)</option>
 							</select>
 						</td>
 					</tr>

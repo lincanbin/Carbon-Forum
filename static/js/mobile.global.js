@@ -24,6 +24,7 @@ $.ui.overlayStatusbar = true; // for ios7 only to add header padding to overlay 
 $.ui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
 $.ui.useOSThemes = false; //This must be set before $(document).ready() triggers;
 $.ui.isAjaxApp = true;
+$.ui.useAjaxCacheBuster = false;
 $.ui.slideSideMenu = true; //Set to false to turn off the swiping to reveal
 //This function runs when the body is loaded.
 
@@ -74,6 +75,29 @@ function PageAjaxLoad (Title, URL) {
 function CarbonAlert(Message) {
 	$.ui.popup(Message);
 }
+
+//仿安卓的Toast
+var ToastCounter = 0;//Toast计时器
+
+//显示Toast
+function DrawToast(message){
+	var Toast = document.getElementById("toast");
+	if (Toast == null){
+		var toastHTML = '<div id="toast">' + message + '</div>';
+		document.body.insertAdjacentHTML('beforeEnd', toastHTML);
+	}else{
+		Toast.style.opacity = .8;
+	}
+	ToastCounter = setInterval("HideToast()", 3000);
+}
+
+//隐藏Toast
+function HideToast(){
+	var Toast = document.getElementById("toast");
+	Toast.style.opacity = 0;
+	clearInterval(ToastCounter);
+}
+
 
 //精简版的Markdown Parser
 function SimplifiedMarkdown (text) {
@@ -166,7 +190,7 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	$.ui.popup({
 		title: Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :",
-		message: "<textarea id=\"Content" + TopicID +"\">" + Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n</textarea>",
+		message: "<textarea id=\"Content" + TopicID +"\" rows=\"10\">" + Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n</textarea>",
 		cancelText: Lang['Cancel'],
 		cancelCallback: function() {
 			//console.log("cancelled");
@@ -177,8 +201,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 			if (!document.getElementById("Content" + TopicID).value.length) {
 				CarbonAlert(Lang['Content_Empty']);
 			} else {
-				//console.log(typeof jQuery);
-				//alert(document.getElementById('Content').value);
+				DrawToast(Lang['Replying']);
 				$.ajax({
 					url: WebsitePath + "/reply",
 					data: {
@@ -190,7 +213,6 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 					dataType: "json",
 					success: function(Result) {
 						if (Result.Status == 1) {
-							CarbonAlert("Success");
 							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID, false, false, "slide");
 						} else {
 							CarbonAlert(Result.ErrorMessage);

@@ -23,7 +23,7 @@ if(!$IsAjax){
 			<input type="hidden" name="ContentHash" value="" />
 			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" placeholder="<?php echo $Lang['Title']; ?>" /></p>
 			<p>
-				<textarea name="Content" id="Content" placeholder="<?php echo $Lang['Content']; ?>"></textarea>
+				<textarea name="Content" id="Content" rows="10" placeholder="<?php echo $Lang['Content']; ?>"></textarea>
 			</p>
 			<p>
 				<input type="text" name="AlternativeTag" id="AlternativeTag" value="" onfocus="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />

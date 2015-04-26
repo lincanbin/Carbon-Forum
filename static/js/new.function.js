@@ -100,6 +100,7 @@ function CreateNewTopic() {
 		document.NewForm.AlternativeTag.focus();
 		return false;
 	} else {
+		$("#PublishButton").val(Lang['Submitting']);
 		UE.getEditor('editor').setDisabled('fullscreen');
 		$.ajax({
 			url: WebsitePath + '/new',

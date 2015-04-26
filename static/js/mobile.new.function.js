@@ -11,26 +11,29 @@
  * A high performance open-source forum software written in PHP. 
  */
 
+/*
 //编辑框自适应高度
 document.getElementById("Content").onkeyup = function(e) {
 	document.getElementById("Content").style.height = (parseInt(document.getElementById("Content").scrollHeight) + 2) + "px";
 };
-
+*/
 //提交前的检查
 function CreateNewTopic() {
 	if (!document.NewForm.Title.value.length) {
-		alert(Lang['Title_Can_Not_Be_Empty']);
+		CarbonAlert(Lang['Title_Can_Not_Be_Empty']);
 		document.NewForm.Title.focus();
 		return false;
 	} else if (document.NewForm.Title.value.replace(/[^\x00-\xff]/g, "***").length > MaxTitleChars) {
-		alert(Lang['Title_Too_Long'].replace("{{MaxTitleChars}}", MaxTitleChars).replace("{{Current_Title_Length}}", document.NewForm.Title.value.replace(/[^\x00-\xff]/g, "***").length));
+		CarbonAlert(Lang['Title_Too_Long'].replace("{{MaxTitleChars}}", MaxTitleChars).replace("{{Current_Title_Length}}", document.NewForm.Title.value.replace(/[^\x00-\xff]/g, "***").length));
 		document.NewForm.Title.focus();
 		return false;
 	} else if (!$("#SelectTags").html()) {
-		alert(Lang['Tags_Empty']);
+		CarbonAlert(Lang['Tags_Empty']);
 		document.NewForm.AlternativeTag.focus();
 		return false;
 	} else {
+		DrawToast(Lang['Submitting']);
+		$("#PublishButton").val(Lang['Submitting']);
 		$.ajax({
 			url: WebsitePath + '/new',
 			data: {
@@ -49,11 +52,11 @@ function CreateNewTopic() {
 					$("#PublishButton").val(Lang['Submit_Success']);
 					$.ui.loadContent(WebsitePath + "/t/" + data.TopicID, false, false, "slide");
 				} else {
-					alert(data.ErrorMessage);
+					CarbonAlert(data.ErrorMessage);
 				}
 			},
 			error: function() {
-				alert(Lang['Submit_Failure']);
+				CarbonAlert(Lang['Submit_Failure']);
 				$("#PublishButton").val(Lang['Submit_Again']);
 			}
 		});
@@ -66,7 +69,7 @@ function CheckTag(TagName, IsAdd) {
 	var i = 1;
 	$("input[name='Tag[]']").each(function(index) {
 		if (IsAdd && i >= MaxTagNum) {
-			alert(Lang['Tags_Too_Much'].replace("{{MaxTagNum}}", MaxTagNum));
+			CarbonAlert(Lang['Tags_Too_Much'].replace("{{MaxTagNum}}", MaxTagNum));
 			show = false;
 		}
 		if (TagName == $(this).val() || TagName == '') {
