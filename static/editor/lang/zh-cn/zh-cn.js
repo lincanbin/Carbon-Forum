@@ -23,6 +23,7 @@ var Lang = {
 	'Title_Can_Not_Be_Empty':'标题不能为空！',
 	'Title_Too_Long':'标题长度不能超过{{MaxTitleChars}}字节，当前标题长度为{{Current_Title_Length}}个字节',
 	'Tags_Empty':'话题不能为空！',
+	'Submitting':' 发表中 ',
 	'Submit_Success':' 发表成功 ',
 	'Submit_Failure':'发表失败，请再次提交！',
 	'Submit_Again':' 再次提交 ',

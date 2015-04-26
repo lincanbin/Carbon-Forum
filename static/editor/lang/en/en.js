@@ -23,6 +23,7 @@ var Lang = {
 	'Title_Can_Not_Be_Empty':'Title Can not be empty. ',
 	'Title_Too_Long':'Title length can not exceed {{MaxTitleChars}} bytes, current title length is {{Current_Title_Length}} bytes. ',
 	'Tags_Empty':'Tags can not be empty. ',
+	'Submitting':' Submitting ',
 	'Submit_Success':' Success ',
 	'Submit_Failure':'Failure, try again. ',
 	'Submit_Again':' Submit again ',

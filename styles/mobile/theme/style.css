@@ -336,7 +336,7 @@ html.ios-gt-6.pixel-ratio-3 .card-footer:before {
 
 
 .user-card-header-pic .card-header {
-	height: 60vw;
+	min-height: 240px;
 	background-size: cover;
 	background-position: center;
 }
