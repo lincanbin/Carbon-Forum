@@ -124,7 +124,7 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 <?php
 }else{
 ?>
-	<li class="pagination"><a href="#" onclick="JavaScript:Reply('<?php echo $Topic['UserName'];?>', 1, 0, '<?php echo $FormHash;?>', <?php echo $ID; ?>);"><?php echo $Lang['Reply']; ?></a></li>
+	<li class="pagination"><a href="#" onclick="JavaScript:Reply('<?php echo $Topic['UserName'];?>', 0, 0, '<?php echo $FormHash;?>', <?php echo $ID; ?>);"><?php echo $Lang['Reply']; ?></a></li>
 <?php
 }
 if($Page<$TotalPage){

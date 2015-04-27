@@ -48,6 +48,7 @@ function CreateNewTopic() {
 			dataType: 'json',
 			//阻塞防止干扰
 			success: function(data) {
+				HideToast();
 				if (data.Status == 1) {
 					$("#PublishButton").val(Lang['Submit_Success']);
 					$.ui.loadContent(WebsitePath + "/t/" + data.TopicID, false, false, "slide");

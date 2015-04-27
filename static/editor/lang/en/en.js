@@ -33,6 +33,9 @@ var Lang = {
 	'Edit':' Submit ',
 	'Cancel':' Cancel ',
 
+	'Confirm_Operation':'Please confirm the operation. ',
+	'Confirm':'Confirm',
+
 	'Reply':' Reply ',
 	'Content_Empty':'Content can not be empty! ',
 	'Replying':' Replying…… ',

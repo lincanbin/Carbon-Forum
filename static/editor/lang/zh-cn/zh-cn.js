@@ -33,6 +33,9 @@ var Lang = {
 	'Edit':' 提 交 ',
 	'Cancel':' 取 消 ',
 
+	'Confirm_Operation':'确认执行该操作？',
+	'Confirm':'确定',
+
 	'Reply':' 回 复 ',
 	'Content_Empty':'内容不能为空！',
 	'Replying':' 回复中…… ',

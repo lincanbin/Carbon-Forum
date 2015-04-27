@@ -145,13 +145,13 @@ function ManageCallback(TargetTag) {
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 	if(NeedToConfirm){
 		$.ui.popup({
-			title: "Confirm",
-			message: "Please confirm the operation. ",
-			cancelText: "Cancel",
+			title: Lang['Confirm'],
+			message: Lang['Confirm_Operation'],
+			cancelText: Lang['Cancel'],
 			cancelCallback: function() {
-				console.log("cancelled");
+				//console.log("cancelled");
 			},
-			doneText: "Confirm",
+			doneText: Lang['Confirm'],
 			doneCallback: function() {
 				TargetTag.innerText = "Loading";
 				var CallbackObj = new ManageCallback(TargetTag);
@@ -188,16 +188,16 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 
 //回复某人
 function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
+	DefaultContent = PostFloor==0 ? "" : Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n"
 	$.ui.popup({
 		title: Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :",
-		message: "<textarea id=\"Content" + TopicID +"\" rows=\"10\">" + Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n</textarea>",
+		message: "<textarea id=\"Content" + TopicID +"\" rows=\"10\">"+ DefaultContent +"</textarea>",
 		cancelText: Lang['Cancel'],
 		cancelCallback: function() {
 			//console.log("cancelled");
 		},
 		doneText: Lang['Reply'],
 		doneCallback: function() {
-			//console.log(arg);
 			if (!document.getElementById("Content" + TopicID).value.length) {
 				CarbonAlert(Lang['Content_Empty']);
 			} else {
@@ -212,6 +212,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 					type: "post",
 					dataType: "json",
 					success: function(Result) {
+						HideToast();
 						if (Result.Status == 1) {
 							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID, false, false, "slide");
 						} else {

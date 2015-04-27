@@ -7,7 +7,6 @@ if(!$IsAjax){
 </div>
 <div id="content">
 <?php } ?>
-<!-- main-content start -->
 	<div data-title="<?php echo $PageTitle; ?>" id="Login" class="panel" selected="true">
 <?php
 if($error){
@@ -44,12 +43,10 @@ if($error){
 				
 			</div>
 		</form>
-	<!-- main-content end -->
 <?php
 if(!$IsAjax){
 ?>
 	</div>
-<!-- this is the default left side nav menu.  If you do not want any, do not include these -->
 <nav>
 	<ul class="list">
 		<?php include($TemplatePath.'sider.php'); ?>
