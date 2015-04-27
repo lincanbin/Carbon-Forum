@@ -18,7 +18,7 @@ if($CurUserID){
 if(!$CurUserID && $UrlPath!='login'){
 ?>
 <form action="<?php echo $Config['WebsitePath']; ?>/login" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
-	<input type="hidden" value="<?php echo $_SERVER['REQUEST_URI']; ?>" name="ReturnUrl" />
+	<input type="hidden" value="<?php echo $_SERVER['REQUEST_URI']; ?>" name="ReturnUrl" id="ReturnUrl" />
 	<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 	<input type="hidden" name="Expires" value="30" />
 	<li class="divider"><?php echo $Lang['Log_In']; ?></li>

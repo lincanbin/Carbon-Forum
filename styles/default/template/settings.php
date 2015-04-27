@@ -34,7 +34,7 @@ $(document).ready(function(){
 							<input type="hidden" name="Action" value="UploadAvatar">
 								<span class="red"><?php echo $UploadAvatarMessage; ?></span>
 								<br />
-								<input type="file" id="Avatar" name="Avatar">
+								<input type="file" id="Avatar" name="Avatar" accept="image/*" />
 								<br />
 								
 							<hr /><br />

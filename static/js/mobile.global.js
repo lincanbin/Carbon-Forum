@@ -62,12 +62,15 @@ if($.os.ios || $.os.android){
 function PageAjaxLoad (Title, URL) {
 	setTimeout(function () {
 		history.pushState({}, Title, URL);
-		document.title=Title;
+		document.title = Title;
 		var TemporaryContent = $("#content")[0].children;
 		for (var i = TemporaryContent.length - 1; i >= 0; i--) {
 			TemporaryContent[i].style.overflowX = "hidden";
 		};
 		$("#content")[0].children[0].style.overflowX = "hidden";
+		if (document.getElementById("ReturnUrl") != null) {
+			document.getElementById("ReturnUrl") = URL;
+		};
 	}, 1);
 }
 
