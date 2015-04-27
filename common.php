@@ -725,8 +725,8 @@ $CurView = GetCookie('View', $IsMobie ? 'mobile' : 'desktop');
 $RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"];
 if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile') {
 	//如果是手机，则跳转到移动版，暂时关闭
-	header("HTTP/1.1 301 Moved Permanently");
-	header("Status: 301 Moved Permanently");
+	header("HTTP/1.1 302 Moved Temporarily");
+	header("Status: 302 Moved Temporarily");
 	header('Location: http://' . $Config['MobileDomainName'] . $RequestURI);
 	exit();
 }
