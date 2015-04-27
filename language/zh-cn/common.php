@@ -33,5 +33,7 @@ $Lang = array_merge($Lang, array(
 	'Users_Followed' => '关注的用户',
 	'Notifications' => '消息提醒',
 	'Settings' => '个人设置',
-	'System_Settings' => '系统设置'
+	'System_Settings' => '系统设置',
+	'Desktop_Version' => '桌面模式',
+	'Mobile_Version' => '手机模式'
 ));

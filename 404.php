@@ -1,6 +1,8 @@
 <?php
 require(dirname(__FILE__)."/config.php");//Timezone
-if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $_SERVER['REQUEST_URI'], $AvatarSize))
+//For IIS ISAPI_Rewrite
+$RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"];
+if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $RequestURI, $AvatarSize))
 {	
 	//header('Location: default.png');
 	header("HTTP/1.0 200 OK");
@@ -14,6 +16,6 @@ if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $_SERVER['R
 	fclose($DefaultAvatar);
 
 }else{
-	echo '404 NOT FOUND';
+	echo 'Error: 404 NOT FOUND';
 }
 ?>

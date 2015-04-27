@@ -33,5 +33,7 @@ $Lang = array_merge($Lang, array(
 	'Users_Followed' => 'Following',
 	'Notifications' => 'Notifications',
 	'Settings' => 'Settings',
-	'System_Settings' => 'System Settings'
+	'System_Settings' => 'System Settings',
+	'Desktop_Version' => 'Desktop Version',
+	'Mobile_Version' => 'Mobile Version'
 ));

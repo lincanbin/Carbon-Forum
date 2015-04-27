@@ -39,13 +39,9 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 	echo '<meta name="description" content="', $PageMetaDesc, '" />
 ';
 }
-if (isset($canonical)) {
-	echo '<link rel="canonical" href="http://', $_SERVER['HTTP_HOST'], $canonical, '" />
-';
-}
 if($Config['MobileDomainName']){
 ?>
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $_SERVER['REQUEST_URI']; ?>" />
+<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
 <?php } ?>
 </head>
 

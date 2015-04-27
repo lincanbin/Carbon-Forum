@@ -17,7 +17,7 @@
 error_reporting(0);//不输出任何错误信息
 //error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
 //error_reporting(E_ALL); //输出所有错误信息，调试用
-ini_set('display_errors', '0'); //显示错误
+ini_set('display_errors', '0'); //不显示错误
 //Initialize timer
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -351,7 +351,7 @@ function PaginationSimplified($PageUrl, $PageCount, $IsLastPage)
 	$PageUrl = $Config['WebsitePath'] . $PageUrl;
 	if ($PageCount != 1)
 		echo '<a href="' . $PageUrl . ($PageCount - 1) . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a>';
-	echo '<span id=pagenum><span class="currentpage">' . $PageCount . '</span>';
+	echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '</span>';
 	if (!$IsLastPage)
 		echo '<a href="' . $PageUrl . ($PageCount + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a>';
 	echo '</span>';
@@ -368,7 +368,7 @@ function Pagination($PageUrl, $PageCount, $TotalPage)
 	$PageLast = $PageCount - 1;
 	$PageNext = $PageCount + 1;
 	
-	echo '<span id=pagenum><span class="currentpage">' . $PageCount . '/' . $TotalPage . '</span>';
+	echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '/' . $TotalPage . '</span>';
 	if ($PageCount != 1)
 		echo '<a href="' . $PageUrl . $PageLast . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a>';
 	if (($PageCount - 6) > 1)
@@ -697,8 +697,8 @@ if ($UserAgent) {
 	$IsMobie  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
 } else {
 	//exit('error: 400 no agent');
-	$IsSpider = '';
-	$IsMobie  = '';
+	$IsSpider = false;
+	$IsMobie  = false;
 }
 $IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName'] ? true : false;
 /* 设置要调用的模板
@@ -720,20 +720,25 @@ if ($IsApp) {
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard
 }
-$AutomaticSwitch = GetCookie('Style', 'Default');
-if ($_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $IsMobie && $AutomaticSwitch != 'Default') {
+$CurView = GetCookie('View', $IsMobie ? 'mobile' : 'desktop');
+//For IIS ISAPI_Rewrite
+$RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"];
+if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile') {
 	//如果是手机，则跳转到移动版，暂时关闭
-	//header('location: http://'.$Config['MobileDomainName'].$_SERVER['REQUEST_URI']);
+	header("HTTP/1.1 301 Moved Permanently");
+	header("Status: 301 Moved Permanently");
+	header('Location: http://' . $Config['MobileDomainName'] . $RequestURI);
+	exit();
 }
 
 $CurIP    = CurIP();
 $FormHash = FormHash();
 // 限制不能打开.php的网址
-if (strpos(isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"], '.php')) {
+if (strpos($RequestURI, '.php')) {
 	AlertMsg('404', '404 NOT FOUND', 404);
 }
 
-// 获取当前用户
+// Get the infomation of current user
 $CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
 $CurUserRole = 0;
 $CurUserID   = intval(GetCookie('UserID'));

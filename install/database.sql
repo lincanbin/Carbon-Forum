@@ -429,12 +429,12 @@ INSERT INTO `carbon_config` VALUES ('DaysDate', '2014-11-01');
 INSERT INTO `carbon_config` VALUES ('DaysPosts', '0');
 INSERT INTO `carbon_config` VALUES ('DaysTopics', '0');
 INSERT INTO `carbon_config` VALUES ('DaysUsers', '0');
-INSERT INTO `carbon_config` VALUES ('MainDomainName', 'www.94cb.com');
+INSERT INTO `carbon_config` VALUES ('MainDomainName', '');
 INSERT INTO `carbon_config` VALUES ('MaxPostChars', '60000');
 INSERT INTO `carbon_config` VALUES ('MaxTagChars', '128');
 INSERT INTO `carbon_config` VALUES ('MaxTagsNum', '5');
 INSERT INTO `carbon_config` VALUES ('MaxTitleChars', '255');
-INSERT INTO `carbon_config` VALUES ('MobileDomainName', 'm.94cb.com');
+INSERT INTO `carbon_config` VALUES ('MobileDomainName', '');
 INSERT INTO `carbon_config` VALUES ('NumFiles', '0');
 INSERT INTO `carbon_config` VALUES ('NumPosts', '0');
 INSERT INTO `carbon_config` VALUES ('NumTags', '0');
@@ -447,7 +447,7 @@ INSERT INTO `carbon_config` VALUES ('PostsPerPage', '25');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');
-INSERT INTO `carbon_config` VALUES ('Version', '3.2.9');
+INSERT INTO `carbon_config` VALUES ('Version', '3.3.0');
 
 -- ----------------------------
 -- Records of carbon_roles

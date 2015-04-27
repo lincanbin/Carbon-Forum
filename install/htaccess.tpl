@@ -36,7 +36,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^u/(.*?)$ user.php?username=$1 {{RedirectionType}}
 	RewriteRule ^users/following(/page/([0-9]*))?$ favorite_users.php?page=$2 [L]
 	RewriteRule ^upload_controller$ upload_controller.php [L]
-
+	RewriteRule ^view-(desktop|mobile)$ view.php?view=$1 [L,QSA]
 </IfModule>
 
 # Image and Flash content Caching for One Month

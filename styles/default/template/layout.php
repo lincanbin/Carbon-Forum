@@ -10,7 +10,7 @@ ob_start();
 <?php
 if($Config['MobileDomainName']){
 ?>
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $_SERVER['REQUEST_URI']; ?>" />
+<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
 <?php } ?>
 <title><?php
 echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
@@ -33,10 +33,6 @@ if (isset($PageMetaKeyword) && $PageMetaKeyword) {
 }
 if (isset($PageMetaDesc) && $PageMetaDesc) {
 	echo '<meta name="description" content="', $PageMetaDesc, '" />
-';
-}
-if (isset($canonical)) {
-	echo '<link rel="canonical" href="http://', $_SERVER['HTTP_HOST'], $canonical, '" />
 ';
 }
 ?>
@@ -79,26 +75,22 @@ if (isset($canonical)) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://<?php echo $Lang['Language']; ?>.94cb.com" target="_blank">Carbon Forum V<?php echo $Config['Version']; ?></a> © 2006-2014
+			Power By <a href="http://<?php echo $Lang['Language']; ?>.94cb.com" target="_blank">Carbon Forum V<?php echo $Config['Version']; ?></a> © 2006-2015
 			<?php
-			if ($IsMobie) {
+			if ($IsMobie && $Config['MobileDomainName']) {
 			?>
-			&nbsp;&nbsp;<!--a href="http://<?php echo $Config['MobileDomainName']; ?>/">手机模式</a-->
+			&nbsp;&nbsp;<a href="http://<?php echo $Config['MainDomainName']; ?>/view-mobile?cookie_prefix=<?php echo urlencode($Config['CookiePrefix']); ?>&website_path=<?php echo urlencode($Config['WebsitePath']); ?>&callback=<?php echo urlencode($Config['MobileDomainName'].$RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
 			<?php
 			}
 			?>
 			<br />
-			<?php
-			$mtime     = explode(' ', microtime());
-			$totaltime = number_format(($mtime[1] + $mtime[0] - $starttime), 6) * 1000;
-			?>
-			Processed in <?php
-			echo $totaltime;
-			?> ms, <?php
-			echo $DB->querycount;
-			?> SQL Queries, <?php
-			echo FormatBytes(memory_get_usage(false));
-			?> Memory Usage
+<?php
+$mtime     = explode(' ', microtime());
+$totaltime = number_format(($mtime[1] + $mtime[0] - $starttime), 6) * 1000;
+?>
+			Processed in <?php echo $totaltime; ?> ms, 
+			<?php echo $DB->querycount; ?> SQL Queries, 
+			<?php echo FormatBytes(memory_get_usage(false)); ?> Memory Usage
 			</p>
 		</div>
 		<!-- footer end -->
