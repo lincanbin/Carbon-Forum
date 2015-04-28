@@ -34,23 +34,6 @@ $(document).ready(function() {
 	//$("#navbar").css("display", "block");//AddFooterMenu
 	//Prevent appearance of scroll bar in the PC side
 	$("#content")[0].children[0].style.overflowX = "hidden";
-	/*
-	//Pjax
-	document.onclick = function(event) {
-		event = event || window.event; // IE specials
-		var target = event.target || event.srcElement; // IE specials
-		//console.log(event);
-		//console.log(target);
-		while(target.nodeName !== "A" && target !== null) {
-			target = target.parentNode;
-		}
-		if(target) {
-			setTimeout(function () {
-				history.pushState({}, document.title, target.href);
-			}, 5000);
-		}
-	};
-	*/
 });
 
 if($.os.ios || $.os.android){
@@ -134,12 +117,9 @@ function loadScript(url, callback) {
 function ManageCallback(TargetTag) {
 	this.Success = function(Json) {
 		if (Json.Status == 1) {
-			//alert(Json.Message);
 			TargetTag.innerText = Json.Message;
-			//window.location.reload();
 		} else {
 			TargetTag.innerText = Json.ErrorMessage;
-			//alert(Json.ErrorMessage);
 		}
 	}
 }
