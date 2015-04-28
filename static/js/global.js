@@ -11,6 +11,26 @@
  * A high performance open-source forum software written in PHP. 
  */
 
+
+// 返回顶部的按钮
+$(function(){
+	$("#go-to-top").click(function(){
+		$("html, body").animate({"scrollTop": 0}, 400);
+		return false;
+	});
+	$(window).scroll(function() {
+		var top = $(document).scrollTop();
+		var g = $("#go-to-top");
+		if (top > 600 && g.is(":hidden")) {
+			g.fadeIn();
+		} else if(top < 600 && g.is(":visible")) {
+			g.fadeOut();
+		}
+	});
+})
+
+
+
 //异步非阻塞加载JavaScript脚本文件
 function loadScript(url, callback) {
 	var script = document.createElement("script");
@@ -47,7 +67,10 @@ function ManageCallback(TargetTag) {
 
 //管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
-	if (NeedToConfirm ? confirm("确定执行该操作？\r\nConfirm?") : true) {
+	if(Lang['Confirm_Operation'] == undefined){
+		Lang['Confirm_Operation'] = "Confirm? ";
+	}
+	if (NeedToConfirm ? confirm(Lang['Confirm_Operation']) : true) {
 		TargetTag.innerText = "Loading";
 		var CallbackObj = new ManageCallback(TargetTag);
 		$.ajax({

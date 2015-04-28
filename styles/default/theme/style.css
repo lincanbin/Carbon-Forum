@@ -896,3 +896,23 @@ img.avatar {
 	width: 24px;
 	height: 24px;
 }
+
+#go-to-top {
+	display: none;
+	position: fixed;
+	right: 200px;
+	bottom: 50px;
+	padding: 15px 10px;
+	color: #666;
+	background: #DDD;
+	font: 24px/12px Helvetica,Arial,Verdana,sans-serif;
+	opacity: 0.7;
+	outline: 0 none;
+	text-decoration: none;
+	text-shadow: 0 0 1px #DDD;
+	vertical-align: baseline;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}

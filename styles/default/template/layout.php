@@ -68,6 +68,7 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 			include($ContentFile);
 			?>
 			<div class="c"></div>
+			<a style="display: none; " rel="nofollow" href="#top" id="go-to-top">▲</a>
 		</div>
 		<!-- main end -->
 		<div class="c"></div>
@@ -94,7 +95,6 @@ $totaltime = number_format(($mtime[1] + $mtime[0] - $starttime), 6) * 1000;
 			</p>
 		</div>
 		<!-- footer end -->
-
 	</div>
 	<!-- content wrapper end -->
 <?php
