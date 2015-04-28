@@ -12,8 +12,10 @@
  */
 
 
-// 返回顶部的按钮
+//Button go to top
 $(function(){
+	//Initialize position of button
+	$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
 	$("#go-to-top").click(function(){
 		$("html, body").animate({"scrollTop": 0}, 400);
 		return false;
@@ -21,11 +23,14 @@ $(function(){
 	$(window).scroll(function() {
 		var top = $(document).scrollTop();
 		var g = $("#go-to-top");
-		if (top > 600 && g.is(":hidden")) {
+		if (top > 500 && g.is(":hidden")) {
 			g.fadeIn();
-		} else if(top < 600 && g.is(":visible")) {
+		} else if(top < 500 && g.is(":visible")) {
 			g.fadeOut();
 		}
+	});
+	$(window).resize(function() {
+		$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
 	});
 })
 

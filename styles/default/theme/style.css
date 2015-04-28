@@ -900,14 +900,15 @@ img.avatar {
 #go-to-top {
 	display: none;
 	position: fixed;
-	right: 200px;
+	width: 50px;
 	bottom: 50px;
 	padding: 15px 10px;
 	color: #666;
-	background: #DDD;
+	background: #ECECEC;
 	font: 24px/12px Helvetica,Arial,Verdana,sans-serif;
 	opacity: 0.7;
 	outline: 0 none;
+	text-align: center;
 	text-decoration: none;
 	text-shadow: 0 0 1px #DDD;
 	vertical-align: baseline;
