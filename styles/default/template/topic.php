@@ -1,6 +1,10 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
+<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>"></script>
+<script type="text/javascript">
+	var TopicID = <?php echo $ID; ?>;
+</script>
 <!-- main-content start -->
 <div class="main-content">
 <?php
@@ -163,15 +167,17 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+	<!--建议手动加载语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/lang/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>"></script>
 	<form name="reply">
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
 		<input type="hidden" name="TopicID" value="<?php echo $ID; ?>">
 		<p>
 			<div id="editor" style="width:648px;height:160px;"></div>
+			<script type="text/javascript">
+			InitEditor();
+			</script>
 		</p>
 		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
@@ -189,30 +195,3 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 	<?php include($TemplatePath.'sider.php'); ?>
 </div>
 <!-- main-sider end -->
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>"> </script>
-<script>
-//强制所有链接在新窗口中打开
-var AllPosts = document.getElementsByClassName("comment-content");
-var PostContentLists = {};;
-AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
-<?php if($Page == 1){ ?>
-PostContentLists[document.getElementsByClassName("topic-content")[0].childNodes[1].id] = trim3(document.getElementsByClassName("topic-content")[0].childNodes[1].innerHTML);
-<?php } ?>
-//console.log(PostContentLists);
-for (var j=0; j<AllPosts.length; j++) {
-	PostContentLists[document.getElementsByClassName("comment-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("comment-content")[j].childNodes[5].innerHTML);
-	//console.log(PostContentLists);
-	var AllLinks = AllPosts[j].getElementsByTagName("a");
-	for(var i=0; i<AllLinks.length; i++)
-	{
-		var a = AllLinks[i];
-		//console.log(a);
-		a.target="_blank";
-	};
-};
-//样式渲染需最后进行
-uParse('.main-content',{
-	'rootPath': '<?php echo $Config['WebsitePath']; ?>/static/editor/',
-	'liiconpath':'<?php echo $Config['WebsitePath']; ?>/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
-});
-</script>

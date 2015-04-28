@@ -12,29 +12,60 @@
  */
 
 
-//$(document).ready(function(){
-//实例化编辑器
-window.UEDITOR_CONFIG['textarea'] = 'Content';
-//window.UEDITOR_CONFIG['initialFrameHeight'] = 160;
-window.UEDITOR_CONFIG['elementPathEnabled'] = false;
-window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
-UE.getEditor('editor',{onready:function(){
-	if(window.localStorage){
-		//从草稿中恢复
-		RecoverContents();
+loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function(){
+	//强制所有链接在新窗口中打开
+	var AllPosts = document.getElementsByClassName("comment-content");
+	PostContentLists = {};//Global
+	AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
+	if(document.getElementsByClassName("topic-content").length>0){
+		PostContentLists[document.getElementsByClassName("topic-content")[0].childNodes[1].id] = trim3(document.getElementsByClassName("topic-content")[0].childNodes[1].innerHTML);
 	}
-	//编辑器内Ctrl + Enter提交回复
-	var EditorIframe = document.getElementsByTagName("iframe");
-	console.log(EditorIframe);
-	for (var i = EditorIframe.length - 1; i >= 0; i--) {
-		EditorIframe[i].contentWindow.document.body.onkeydown = function(Event){
-			CtrlAndEnter(Event);
+	//console.log(PostContentLists);
+	for (var j=0; j<AllPosts.length; j++) {
+		PostContentLists[document.getElementsByClassName("comment-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("comment-content")[j].childNodes[5].innerHTML);
+		//console.log(PostContentLists);
+		var AllLinks = AllPosts[j].getElementsByTagName("a");
+		for(var i=0; i<AllLinks.length; i++)
+		{
+			var a = AllLinks[i];
+			//console.log(a);
+			if(a.host != location.host){
+				a.target="_blank";
+			}
 		};
-		console.log(EditorIframe[i].contentWindow.document);
 	};
-}});
-//});
+	//样式渲染需最后进行
+	uParse('.main-content',{
+		'rootPath': WebsitePath + '/static/editor/',
+		'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+	});
+});
 
+function InitEditor(){
+	//Initialize editor
+	window.UEDITOR_CONFIG['textarea'] = 'Content';
+	window.UEDITOR_CONFIG['elementPathEnabled'] = false;
+	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
+	UE.getEditor('editor',{onready:function(){
+		if(window.localStorage){
+			SaveDraftTimer = setInterval(function() {//Global
+				SaveDraft();
+			},
+			1000); //每隔N秒保存一次
+			//Try to recover previous article from draft
+			RecoverContents();
+		}
+		//Press Ctrl + Enter to submit in editor
+		var EditorIframe = document.getElementsByTagName("iframe");
+		//console.log(EditorIframe);
+		for (var i = EditorIframe.length - 1; i >= 0; i--) {
+			EditorIframe[i].contentWindow.document.body.onkeydown = function(Event){
+				CtrlAndEnter(Event);
+			};
+			//console.log(EditorIframe[i].contentWindow.document);
+		};
+	}});
+}
 
 //编辑器外Ctrl + Enter提交回复
 document.body.onkeydown = function(Event){
@@ -148,11 +179,11 @@ function ReplyToTopic() {
 			success: function(data) {
 				if (data.Status == 1) {
 					$("#ReplyButton").val(Lang['Reply_Success']);
-					location.href = WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#reply";
 					if (window.localStorage) {
 						//清空草稿箱
 						StopAutoSave();
 					}
+					location.href = WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#reply";
 				} else {
 					alert(data.ErrorMessage);
 					UE.getEditor('editor').setEnabled();
@@ -168,29 +199,38 @@ function ReplyToTopic() {
 	return true;
 }
 
+
 //回复某人
 function Reply(UserName, PostFloor, PostID) {
 	UE.getEditor('editor').setContent('<p>' + Lang['Reply_To'] + '<a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br /></p>', false);
 	UE.getEditor('editor').focus(true);
 }
 
-if (window.localStorage) {
-	var saveTimer = setInterval(function() {
-		if (UE.getEditor('editor').getContent().length >= 10) {
-			localStorage.setItem(Prefix + "PostContent", UE.getEditor('editor').getContent());
-		}
-	},
-	1000); //每隔N秒保存一次
-	function StopAutoSave() {
-		clearInterval(saveTimer); //停止保存
-		localStorage.removeItem(Prefix + "PostContent"); //清空内容
-		UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
-	}
 
-	function RecoverContents() {
-		var DraftContent = localStorage.getItem(Prefix + "PostContent");
-		if (DraftContent) {
-			UE.getEditor('editor').setContent(DraftContent);
+//Save Draft
+function SaveDraft() {
+	try{
+		if (UE.getEditor('editor').getContent().length >= 10) {
+			localStorage.setItem(Prefix + "PostContent" + TopicID, UE.getEditor('editor').getContent());
 		}
+	}catch(oException){
+		if(oException.name == 'QuotaExceededError'){
+			console.log('Draft Overflow! ');
+			localStorage.clear();//Clear all draft
+			SaveDraft();//Save draft again
+		}
+	}
+}
+
+function StopAutoSave() {
+	clearInterval(SaveDraftTimer); //停止保存
+	localStorage.removeItem(Prefix + "PostContent" + TopicID); //清空内容
+	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
+}
+
+function RecoverContents() {
+	var DraftContent = localStorage.getItem(Prefix + "PostContent" + TopicID);
+	if (DraftContent) {
+		UE.getEditor('editor').setContent(DraftContent);
 	}
 }

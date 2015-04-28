@@ -19,11 +19,16 @@ $(document).ready(function(){
 	UE.getEditor('editor',{onready:function(){
 		//从草稿中恢复
 		if(window.localStorage){
+			SaveDraftTimer = setInterval(function() {//Global
+				SaveDraft();
+			},
+			1000); //每隔N秒保存一次
+			//Try to recover previous article from draft
 			RecoverContents();
 		}
 		//二次提交，恢复现场
-		if(content){
-			this.setContent(content);
+		if(Content){
+			this.setContent(Content);
 		}
 		//编辑器内Ctrl + Enter提交回复
 		document.getElementById("ueditor_0").contentWindow.document.body.onkeydown = function(Event){
@@ -235,8 +240,9 @@ function TagRemove(TagName, id) {
 	document.NewForm.AlternativeTag.focus();
 }
 
-if (window.localStorage) {
-	var saveTimer = setInterval(function() {
+//Save Draft
+function SaveDraft() {
+	try{
 		var TagsList = JSON.stringify($("input[name='Tag[]']").map(function() {
 			return $(this).val();
 		}).get());
@@ -249,30 +255,37 @@ if (window.localStorage) {
 		if (TagsList) {
 			localStorage.setItem(Prefix + "TopicTagsList", TagsList);
 		}
-	},
-	1000); //每隔N秒保存一次
-	function StopAutoSave() {
-		clearInterval(saveTimer); //停止保存
-		localStorage.removeItem(Prefix + "TopicTitle"); //清空标题
-		localStorage.removeItem(Prefix + "TopicContent"); //清空内容
-		localStorage.removeItem(Prefix + "TopicTagsList"); //清空标签
-		UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
+	}catch(oException){
+		if(oException.name == 'QuotaExceededError'){
+			console.log('Draft Overflow! ');
+			localStorage.clear();//Clear all draft
+			SaveDraft();//Save draft again
+		}
 	}
+	
+}
 
-	function RecoverContents() {
-		var DraftTitle = localStorage.getItem(Prefix + "TopicTitle");
-		var DraftContent = localStorage.getItem(Prefix + "TopicContent");
-		var DraftTagsList = JSON.parse(localStorage.getItem(Prefix + "TopicTagsList"));
-		if (DraftTitle) {
-			document.NewForm.Title.value = DraftTitle;
-		}
-		if (DraftContent) {
-			UE.getEditor('editor').setContent(DraftContent);
-		}
-		if (DraftTagsList) {
-			for (var i = DraftTagsList.length - 1; i >= 0; i--) {
-				AddTag(DraftTagsList[i], Math.round(new Date().getTime() / 1000) + i * 314159);
-			};
-		}
+function StopAutoSave() {
+	clearInterval(SaveDraftTimer); //停止保存
+	localStorage.removeItem(Prefix + "TopicTitle"); //清空标题
+	localStorage.removeItem(Prefix + "TopicContent"); //清空内容
+	localStorage.removeItem(Prefix + "TopicTagsList"); //清空标签
+	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
+}
+
+function RecoverContents() {
+	var DraftTitle = localStorage.getItem(Prefix + "TopicTitle");
+	var DraftContent = localStorage.getItem(Prefix + "TopicContent");
+	var DraftTagsList = JSON.parse(localStorage.getItem(Prefix + "TopicTagsList"));
+	if (DraftTitle) {
+		document.NewForm.Title.value = DraftTitle;
+	}
+	if (DraftContent) {
+		UE.getEditor('editor').setContent(DraftContent);
+	}
+	if (DraftTagsList) {
+		for (var i = DraftTagsList.length - 1; i >= 0; i--) {
+			AddTag(DraftTagsList[i], Math.round(new Date().getTime() / 1000) + i * 314159);
+		};
 	}
 }

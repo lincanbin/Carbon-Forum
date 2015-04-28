@@ -23,7 +23,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 			<p>
 				<div id="editor" style="width:648px;height:500px;"></div>
 				<script type="text/javascript">
-				var content='<?php echo $Content; ?>';
+				var Content='<?php echo $Content; ?>';
 				</script>
 			</p>
 			<p>
