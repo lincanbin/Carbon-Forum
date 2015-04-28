@@ -50,7 +50,7 @@ switch ($Action) {
 		<?php echo $MobileTag; ?>
 		<lastmod><?php echo date("Y-m-d", $TimeStamp); ?></lastmod>
 		<priority>1.0</priority>
-		<?php if ($IsBaiduBot) { ?>
+		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 		<display>
 			<html5_url>http://<?php echo $Config['MobileDomainName']; ?></html5_url>
@@ -67,7 +67,7 @@ switch ($Action) {
 		<?php echo $MobileTag; ?>
 		<lastmod><?php echo date("Y-m-d", $Topic['LastTime']); ?></lastmod>
 		<priority>0.<?php echo $Topic['Replies']>=70?'8':ceil(($Topic['Replies']+10)/10); ?></priority>
-		<?php if ($IsBaiduBot) { ?>
+		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 		<display>
 			<html5_url>http://<?php echo $Config['MobileDomainName'].'/t/'.$Topic['ID']; ?></html5_url>
@@ -92,7 +92,7 @@ switch ($Action) {
 		<loc><?php echo $CurHost.'/page/'.$i; ?></loc>
 		<?php echo $MobileTag; ?>
 		<priority>0.3</priority>
-		<?php if ($IsBaiduBot) { ?>
+		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 		<display>
 			<html5_url>http://<?php echo $Config['MobileDomainName'].'/page/'.$i; ?></html5_url>
@@ -117,7 +117,7 @@ switch ($Action) {
 		<?php echo $MobileTag; ?>
 		<lastmod><?php echo date("Y-m-d", $Tags['MostRecentPostTime']); ?></lastmod>
 		<priority>0.<?php echo $Tags['TotalPosts']>=50?'6':ceil(($Tags['TotalPosts']+10)/10); ?></priority>
-		<?php if ($IsBaiduBot) { ?>
+		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 		<display>
 			<html5_url>http://<?php echo $Config['MobileDomainName'].'/tag/'.urlencode($Tags['Name']); ?></html5_url>
@@ -139,7 +139,7 @@ switch ($Action) {
 		<?php echo $MobileTag; ?>
 		<lastmod><?php echo date("Y-m-d", $User['LastPostTime']); ?></lastmod>
 		<priority>0.<?php echo $User['Topics']+$User['Replies']>=40?'5':ceil(($User['Topics']+$User['Replies'])/10); ?></priority>
-		<?php if ($IsBaiduBot) { ?>
+		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 		<display>
 			<html5_url>http://<?php echo $Config['MobileDomainName'].'/u/'.urlencode($User['UserName']); ?></html5_url>
