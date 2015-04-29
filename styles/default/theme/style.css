@@ -18,7 +18,7 @@ html {
 }
 body {
 	font-size: 12px;
-	font-family: 微软雅黑, Tahoma, Arial, Helvetica, Sans-Serif;
+	font-family: 微软雅黑, Microsoft YaHei, Tahoma, Arial, Helvetica, Sans-Serif;
 	color: #000000;
 	line-height: 150%;
 	background: #F9F9F9;
@@ -662,6 +662,7 @@ img .avatar {
 	margin-bottom:4px;
 }
 .comment-button {
+	font-size: 24px;
 	border-top: 1px solid #e5e5e5;
 	position: relative;
 	height:24px;
@@ -719,8 +720,7 @@ img .avatar {
 .member-avatar {
 	float:left;
 	margin:10px;
-	width:128px;
-	height:160px;
+	width:148px;
 }
 .member-avatar a{
 	margin:0 auto;
@@ -730,6 +730,7 @@ img .avatar {
 	border-radius: 4px;
 	max-width:128px;
 	max-height:128px;
+	margin:10px;
 }
 .member-detail {
 	float:left;

@@ -3,7 +3,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2014, Lin Canbin
+ * Copyright 2015, Lin Canbin
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -723,7 +723,7 @@ if ($IsApp) {
 $CurView = GetCookie('View', $IsMobie ? 'mobile' : 'desktop');
 //For IIS ISAPI_Rewrite
 $RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"];
-if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile') {
+if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp) {
 	//如果是手机，则跳转到移动版，暂时关闭
 	header("HTTP/1.1 302 Moved Temporarily");
 	header("Status: 302 Moved Temporarily");

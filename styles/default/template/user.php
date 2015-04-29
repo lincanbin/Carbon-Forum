@@ -10,9 +10,19 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div class="main-box">
 <div class="member-avatar btn"><?php echo GetAvatar($UserInfo['ID'], $UserInfo['UserName'], 'large'); ?>
 <?php
-	if($CurUserID){ ?>
-	<p></p><p></p><p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a></p>
-	<?php } ?></div>
+if($CurUserID){
+?>
+	<p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a></p>
+<?php
+	if($CurUserRole>=4){
+?>
+	<div class="c"></div>
+	<p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);"><?php echo $UserInfo['UserAccountStatus']?$Lang['Block_User']:$Lang['Unblock_User']; ?></a></p>
+<?php
+	}
+}
+?>
+</div>
 <div class="member-detail">
 <p><?php echo $Lang['UserName']; ?>：<strong><?php echo $UserInfo['UserName']; ?></strong></p>
 <p><?php echo $Lang['Registered_In']; ?>：<?php echo FormatTime($UserInfo['UserRegTime']); ?></p>

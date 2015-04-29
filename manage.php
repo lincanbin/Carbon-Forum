@@ -183,12 +183,21 @@ switch ($Type) {
 
 	//User
 	case 3:
+		$UserInfo = $DB->row("SELECT * FROM " . $Prefix . "users force index(PRI) Where ID=:ID", array(
+			"ID" => $ID
+		));
 		switch ($Action) {
 			case 'Delete':
 				Auth(4);
 				# code...
 				break;
-			
+			case 'Block':
+				Auth(4);
+				$NewUserAccountStatus = $UserInfo['UserAccountStatus'] ? 0 : 1;
+				if(UpdateUserInfo(array('UserAccountStatus' => $NewUserAccountStatus), $ID)){
+					$Message = $NewUserAccountStatus ? $Lang['Block_User'] : $Lang['Unblock_User'];
+				}
+				break;
 			default:
 				AlertMsg('Bad Request', 'Bad Request');
 				break;

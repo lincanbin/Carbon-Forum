@@ -72,9 +72,9 @@ function ManageCallback(TargetTag) {
 
 //管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
-	if(Lang['Confirm_Operation'] == undefined){
-		Lang['Confirm_Operation'] = "Confirm? ";
-	}
+	if (!Lang) {
+　　　　var Lang = {Confirm_Operation : 'Confirm_Operation'};
+　　}
 	if (NeedToConfirm ? confirm(Lang['Confirm_Operation']) : true) {
 		TargetTag.innerText = "Loading";
 		var CallbackObj = new ManageCallback(TargetTag);

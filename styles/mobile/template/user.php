@@ -28,7 +28,14 @@ if(!$IsAjax){
 if($CurUserID){
 ?>
 	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);" class="link"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a>
-<?php } ?>
+<?php
+	if($CurUserRole>=4){
+?>
+	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);" class="link"><?php echo $UserInfo['UserAccountStatus']?$Lang['Block_User']:$Lang['Unblock_User']; ?></a>
+<?php
+	}
+}
+?>
 	</div>
 </div>
 <!-- User Infomation end -->
