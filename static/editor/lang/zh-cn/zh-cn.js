@@ -541,13 +541,7 @@ UE.I18N['zh-cn'] = {
 	},
 	'emotion':{
 		'static':{
-			'lang_input_choice':'精选',
-			'lang_input_Tuzki':'兔斯基',
-			'lang_input_BOBO':'BOBO',
-			'lang_input_lvdouwa':'绿豆蛙',
-			'lang_input_babyCat':'baby猫',
-			'lang_input_bubble':'泡泡',
-			'lang_input_youa':'有啊'
+			'lang_input_choice':'泡泡'
 		}
 	},
 	'gmap':{

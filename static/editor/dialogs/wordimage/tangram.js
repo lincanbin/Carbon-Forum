@@ -22,7 +22,7 @@
  * @author: allstar, erik, meizz, berg
  */
 var T,
-    baidu = T = baidu || {version: "1.5.0"};
+	baidu = T = baidu || {version: "1.5.0"};
 baidu.guid = "$BAIDU$";
 baidu.$$ = window[baidu.guid] = window[baidu.guid] || {global:{}};
 
@@ -52,13 +52,13 @@ baidu.dom = baidu.dom || {};
  * @return {HTMLElement|null} 获取的元素，查找不到时返回null,如果参数不合法，直接返回参数.
  */
 baidu.dom.g = function(id) {
-    if (!id) return null;
-    if ('string' == typeof id || id instanceof String) {
-        return document.getElementById(id);
-    } else if (id.nodeName && (id.nodeType == 1 || id.nodeType == 9)) {
-        return id;
-    }
-    return null;
+	if (!id) return null;
+	if ('string' == typeof id || id instanceof String) {
+		return document.getElementById(id);
+	} else if (id.nodeName && (id.nodeType == 1 || id.nodeType == 9)) {
+		return id;
+	}
+	return null;
 };
 baidu.g = baidu.G = baidu.dom.g;
 
@@ -88,19 +88,19 @@ baidu.array = baidu.array || {};
  */
  
 baidu.each = baidu.array.forEach = baidu.array.each = function (source, iterator, thisObject) {
-    var returnValue, item, i, len = source.length;
-    
-    if ('function' == typeof iterator) {
-        for (i = 0; i < len; i++) {
-            item = source[i];
-            returnValue = iterator.call(thisObject || source, item, i);
-    
-            if (returnValue === false) {
-                break;
-            }
-        }
-    }
-    return source;
+	var returnValue, item, i, len = source.length;
+	
+	if ('function' == typeof iterator) {
+		for (i = 0; i < len; i++) {
+			item = source[i];
+			returnValue = iterator.call(thisObject || source, item, i);
+	
+			if (returnValue === false) {
+				break;
+			}
+		}
+	}
+	return source;
 };
 
 /**
@@ -122,7 +122,7 @@ baidu.lang = baidu.lang || {};
  * @returns {boolean} 类型判断结果
  */
 baidu.lang.isFunction = function (source) {
-    return '[object Function]' == Object.prototype.toString.call(source);
+	return '[object Function]' == Object.prototype.toString.call(source);
 };
 
 /**
@@ -138,7 +138,7 @@ baidu.lang.isFunction = function (source) {
  * @returns {boolean} 类型判断结果
  */
 baidu.lang.isString = function (source) {
-    return '[object String]' == Object.prototype.toString.call(source);
+	return '[object String]' == Object.prototype.toString.call(source);
 };
 baidu.isString = baidu.lang.isString;
 
@@ -187,24 +187,24 @@ baidu.browser.opera = /opera(\/| )(\d+(\.\d+)?)(.+?(version\/(\d+(\.\d+)?)))?/i.
  * @returns {HTMLElement} 目标元素
  */
 baidu.dom.insertHTML = function (element, position, html) {
-    element = baidu.dom.g(element);
-    var range,begin;
-    if (element.insertAdjacentHTML && !baidu.browser.opera) {
-        element.insertAdjacentHTML(position, html);
-    } else {
-        range = element.ownerDocument.createRange();
-        position = position.toUpperCase();
-        if (position == 'AFTERBEGIN' || position == 'BEFOREEND') {
-            range.selectNodeContents(element);
-            range.collapse(position == 'AFTERBEGIN');
-        } else {
-            begin = position == 'BEFOREBEGIN';
-            range[begin ? 'setStartBefore' : 'setEndAfter'](element);
-            range.collapse(begin);
-        }
-        range.insertNode(range.createContextualFragment(html));
-    }
-    return element;
+	element = baidu.dom.g(element);
+	var range,begin;
+	if (element.insertAdjacentHTML && !baidu.browser.opera) {
+		element.insertAdjacentHTML(position, html);
+	} else {
+		range = element.ownerDocument.createRange();
+		position = position.toUpperCase();
+		if (position == 'AFTERBEGIN' || position == 'BEFOREEND') {
+			range.selectNodeContents(element);
+			range.collapse(position == 'AFTERBEGIN');
+		} else {
+			begin = position == 'BEFOREBEGIN';
+			range[begin ? 'setStartBefore' : 'setEndAfter'](element);
+			range.collapse(begin);
+		}
+		range.insertNode(range.createContextualFragment(html));
+	}
+	return element;
 };
 
 baidu.insertHTML = baidu.dom.insertHTML;
@@ -224,25 +224,25 @@ baidu.swf = baidu.swf || {};
  * @meta standard
  */
 baidu.swf.version = (function () {
-    var n = navigator;
-    if (n.plugins && n.mimeTypes.length) {
-        var plugin = n.plugins["Shockwave Flash"];
-        if (plugin && plugin.description) {
-            return plugin.description
-                    .replace(/([a-zA-Z]|\s)+/, "")
-                    .replace(/(\s)+r/, ".") + ".0";
-        }
-    } else if (window.ActiveXObject && !window.opera) {
-        for (var i = 12; i >= 2; i--) {
-            try {
-                var c = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.' + i);
-                if (c) {
-                    var version = c.GetVariable("$version");
-                    return version.replace(/WIN/g,'').replace(/,/g,'.');
-                }
-            } catch(e) {}
-        }
-    }
+	var n = navigator;
+	if (n.plugins && n.mimeTypes.length) {
+		var plugin = n.plugins["Shockwave Flash"];
+		if (plugin && plugin.description) {
+			return plugin.description
+					.replace(/([a-zA-Z]|\s)+/, "")
+					.replace(/(\s)+r/, ".") + ".0";
+		}
+	} else if (window.ActiveXObject && !window.opera) {
+		for (var i = 12; i >= 2; i--) {
+			try {
+				var c = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.' + i);
+				if (c) {
+					var version = c.GetVariable("$version");
+					return version.replace(/WIN/g,'').replace(/,/g,'.');
+				}
+			} catch(e) {}
+		}
+	}
 })();
 
 /**
@@ -267,12 +267,12 @@ baidu.string = baidu.string || {};
  * @returns {string} html编码后的字符串
  */
 baidu.string.encodeHTML = function (source) {
-    return String(source)
-                .replace(/&/g,'&amp;')
-                .replace(/</g,'&lt;')
-                .replace(/>/g,'&gt;')
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#39;");
+	return String(source)
+				.replace(/&/g,'&amp;')
+				.replace(/</g,'&lt;')
+				.replace(/>/g,'&gt;')
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#39;");
 };
 
 baidu.encodeHTML = baidu.string.encodeHTML;
@@ -313,110 +313,110 @@ baidu.encodeHTML = baidu.string.encodeHTML;
  * @returns {string} flash对象的html字符串
  */
 baidu.swf.createHTML = function (options) {
-    options = options || {};
-    var version = baidu.swf.version, 
-        needVersion = options['ver'] || '6.0.0', 
-        vUnit1, vUnit2, i, k, len, item, tmpOpt = {},
-        encodeHTML = baidu.string.encodeHTML;
-    for (k in options) {
-        tmpOpt[k] = options[k];
-    }
-    options = tmpOpt;
-    if (version) {
-        version = version.split('.');
-        needVersion = needVersion.split('.');
-        for (i = 0; i < 3; i++) {
-            vUnit1 = parseInt(version[i], 10);
-            vUnit2 = parseInt(needVersion[i], 10);
-            if (vUnit2 < vUnit1) {
-                break;
-            } else if (vUnit2 > vUnit1) {
-                return '';
-            }
-        }
-    } else {
-        return '';
-    }
-    
-    var vars = options['vars'],
-        objProperties = ['classid', 'codebase', 'id', 'width', 'height', 'align'];
-    options['align'] = options['align'] || 'middle';
-    options['classid'] = 'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000';
-    options['codebase'] = 'http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0';
-    options['movie'] = options['url'] || '';
-    delete options['vars'];
-    delete options['url'];
-    if ('string' == typeof vars) {
-        options['flashvars'] = vars;
-    } else {
-        var fvars = [];
-        for (k in vars) {
-            item = vars[k];
-            fvars.push(k + "=" + encodeURIComponent(item));
-        }
-        options['flashvars'] = fvars.join('&');
-    }
-    var str = ['<object '];
-    for (i = 0, len = objProperties.length; i < len; i++) {
-        item = objProperties[i];
-        str.push(' ', item, '="', encodeHTML(options[item]), '"');
-    }
-    str.push('>');
-    var params = {
-        'wmode'             : 1,
-        'scale'             : 1,
-        'quality'           : 1,
-        'play'              : 1,
-        'loop'              : 1,
-        'menu'              : 1,
-        'salign'            : 1,
-        'bgcolor'           : 1,
-        'base'              : 1,
-        'allowscriptaccess' : 1,
-        'allownetworking'   : 1,
-        'allowfullscreen'   : 1,
-        'seamlesstabbing'   : 1,
-        'devicefont'        : 1,
-        'swliveconnect'     : 1,
-        'flashvars'         : 1,
-        'movie'             : 1
-    };
-    
-    for (k in options) {
-        item = options[k];
-        k = k.toLowerCase();
-        if (params[k] && (item || item === false || item === 0)) {
-            str.push('<param name="' + k + '" value="' + encodeHTML(item) + '" />');
-        }
-    }
-    options['src']  = options['movie'];
-    options['name'] = options['id'];
-    delete options['id'];
-    delete options['movie'];
-    delete options['classid'];
-    delete options['codebase'];
-    options['type'] = 'application/x-shockwave-flash';
-    options['pluginspage'] = 'http://www.macromedia.com/go/getflashplayer';
-    str.push('<embed');
-    var salign;
-    for (k in options) {
-        item = options[k];
-        if (item || item === false || item === 0) {
-            if ((new RegExp("^salign\x24", "i")).test(k)) {
-                salign = item;
-                continue;
-            }
-            
-            str.push(' ', k, '="', encodeHTML(item), '"');
-        }
-    }
-    
-    if (salign) {
-        str.push(' salign="', encodeHTML(salign), '"');
-    }
-    str.push('></embed></object>');
-    
-    return str.join('');
+	options = options || {};
+	var version = baidu.swf.version, 
+		needVersion = options['ver'] || '6.0.0', 
+		vUnit1, vUnit2, i, k, len, item, tmpOpt = {},
+		encodeHTML = baidu.string.encodeHTML;
+	for (k in options) {
+		tmpOpt[k] = options[k];
+	}
+	options = tmpOpt;
+	if (version) {
+		version = version.split('.');
+		needVersion = needVersion.split('.');
+		for (i = 0; i < 3; i++) {
+			vUnit1 = parseInt(version[i], 10);
+			vUnit2 = parseInt(needVersion[i], 10);
+			if (vUnit2 < vUnit1) {
+				break;
+			} else if (vUnit2 > vUnit1) {
+				return '';
+			}
+		}
+	} else {
+		return '';
+	}
+	
+	var vars = options['vars'],
+		objProperties = ['classid', 'codebase', 'id', 'width', 'height', 'align'];
+	options['align'] = options['align'] || 'middle';
+	options['classid'] = 'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000';
+	options['codebase'] = 'http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0';
+	options['movie'] = options['url'] || '';
+	delete options['vars'];
+	delete options['url'];
+	if ('string' == typeof vars) {
+		options['flashvars'] = vars;
+	} else {
+		var fvars = [];
+		for (k in vars) {
+			item = vars[k];
+			fvars.push(k + "=" + encodeURIComponent(item));
+		}
+		options['flashvars'] = fvars.join('&');
+	}
+	var str = ['<object '];
+	for (i = 0, len = objProperties.length; i < len; i++) {
+		item = objProperties[i];
+		str.push(' ', item, '="', encodeHTML(options[item]), '"');
+	}
+	str.push('>');
+	var params = {
+		'wmode'             : 1,
+		'scale'             : 1,
+		'quality'           : 1,
+		'play'              : 1,
+		'loop'              : 1,
+		'menu'              : 1,
+		'salign'            : 1,
+		'bgcolor'           : 1,
+		'base'              : 1,
+		'allowscriptaccess' : 1,
+		'allownetworking'   : 1,
+		'allowfullscreen'   : 1,
+		'seamlesstabbing'   : 1,
+		'devicefont'        : 1,
+		'swliveconnect'     : 1,
+		'flashvars'         : 1,
+		'movie'             : 1
+	};
+	
+	for (k in options) {
+		item = options[k];
+		k = k.toLowerCase();
+		if (params[k] && (item || item === false || item === 0)) {
+			str.push('<param name="' + k + '" value="' + encodeHTML(item) + '" />');
+		}
+	}
+	options['src']  = options['movie'];
+	options['name'] = options['id'];
+	delete options['id'];
+	delete options['movie'];
+	delete options['classid'];
+	delete options['codebase'];
+	options['type'] = 'application/x-shockwave-flash';
+	options['pluginspage'] = 'http://www.macromedia.com/go/getflashplayer';
+	str.push('<embed');
+	var salign;
+	for (k in options) {
+		item = options[k];
+		if (item || item === false || item === 0) {
+			if ((new RegExp("^salign\x24", "i")).test(k)) {
+				salign = item;
+				continue;
+			}
+			
+			str.push(' ', k, '="', encodeHTML(item), '"');
+		}
+	}
+	
+	if (salign) {
+		str.push(' salign="', encodeHTML(salign), '"');
+	}
+	str.push('></embed></object>');
+	
+	return str.join('');
 };
 
 
@@ -456,15 +456,15 @@ baidu.swf.createHTML = function (options) {
  * @see baidu.swf.createHTML,baidu.swf.getMovie
  */
 baidu.swf.create = function (options, target) {
-    options = options || {};
-    var html = baidu.swf.createHTML(options) 
-               || options['errorMessage'] 
-               || '';
-                
-    if (target && 'string' == typeof target) {
-        target = document.getElementById(target);
-    }
-    baidu.dom.insertHTML( target || document.body ,'beforeEnd',html );
+	options = options || {};
+	var html = baidu.swf.createHTML(options) 
+			   || options['errorMessage'] 
+			   || '';
+				
+	if (target && 'string' == typeof target) {
+		target = document.getElementById(target);
+	}
+	baidu.dom.insertHTML( target || document.body ,'beforeEnd',html );
 };
 /**
  * 判断是否为ie浏览器
@@ -488,14 +488,14 @@ baidu.browser.ie = baidu.ie = /msie (\d+\.\d+)/i.test(navigator.userAgent) ? (do
  * @returns {Array} 移除后的数组
  */
 baidu.array.remove = function (source, match) {
-    var len = source.length;
-        
-    while (len--) {
-        if (len in source && source[len] === match) {
-            source.splice(len, 1);
-        }
-    }
-    return source;
+	var len = source.length;
+		
+	while (len--) {
+		if (len in source && source[len] === match) {
+			source.splice(len, 1);
+		}
+	}
+	return source;
 };
 
 /**
@@ -510,7 +510,7 @@ baidu.array.remove = function (source, match) {
  * @returns {boolean} 类型判断结果
  */
 baidu.lang.isArray = function (source) {
-    return '[object Array]' == Object.prototype.toString.call(source);
+	return '[object Array]' == Object.prototype.toString.call(source);
 };
 
 
@@ -526,21 +526,21 @@ baidu.lang.isArray = function (source) {
  * @returns {array} 转换后的array
  */
 baidu.lang.toArray = function (source) {
-    if (source === null || source === undefined)
-        return [];
-    if (baidu.lang.isArray(source))
-        return source;
-    if (typeof source.length !== 'number' || typeof source === 'string' || baidu.lang.isFunction(source)) {
-        return [source];
-    }
-    if (source.item) {
-        var l = source.length, array = new Array(l);
-        while (l--)
-            array[l] = source[l];
-        return array;
-    }
+	if (source === null || source === undefined)
+		return [];
+	if (baidu.lang.isArray(source))
+		return source;
+	if (typeof source.length !== 'number' || typeof source === 'string' || baidu.lang.isFunction(source)) {
+		return [source];
+	}
+	if (source.item) {
+		var l = source.length, array = new Array(l);
+		while (l--)
+			array[l] = source[l];
+		return array;
+	}
 
-    return [].slice.call(source);
+	return [].slice.call(source);
 };
 
 /**
@@ -555,198 +555,198 @@ baidu.lang.toArray = function (source) {
  */
 baidu.swf.getMovie = function (name) {
 	var movie = document[name], ret;
-    return baidu.browser.ie == 9 ?
-    	movie && movie.length ? 
-    		(ret = baidu.array.remove(baidu.lang.toArray(movie),function(item){
-    			return item.tagName.toLowerCase() != "embed";
-    		})).length == 1 ? ret[0] : ret
-    		: movie
-    	: movie || window[name];
+	return baidu.browser.ie == 9 ?
+		movie && movie.length ? 
+			(ret = baidu.array.remove(baidu.lang.toArray(movie),function(item){
+				return item.tagName.toLowerCase() != "embed";
+			})).length == 1 ? ret[0] : ret
+			: movie
+		: movie || window[name];
 };
 
 
 baidu.flash._Base = (function(){
    
-    var prefix = 'bd__flash__';
+	var prefix = 'bd__flash__';
 
-    /**
-     * 创建一个随机的字符串
-     * @private
-     * @return {String}
-     */
-    function _createString(){
-        return  prefix + Math.floor(Math.random() * 2147483648).toString(36);
-    };
+	/**
+	 * 创建一个随机的字符串
+	 * @private
+	 * @return {String}
+	 */
+	function _createString(){
+		return  prefix + Math.floor(Math.random() * 2147483648).toString(36);
+	};
    
-    /**
-     * 检查flash状态
-     * @private
-     * @param {Object} target flash对象
-     * @return {Boolean}
-     */
-    function _checkReady(target){
-        if(typeof target !== 'undefined' && typeof target.flashInit !== 'undefined' && target.flashInit()){
-            return true;
-        }else{
-            return false;
-        }
-    };
+	/**
+	 * 检查flash状态
+	 * @private
+	 * @param {Object} target flash对象
+	 * @return {Boolean}
+	 */
+	function _checkReady(target){
+		if(typeof target !== 'undefined' && typeof target.flashInit !== 'undefined' && target.flashInit()){
+			return true;
+		}else{
+			return false;
+		}
+	};
 
-    /**
-     * 调用之前进行压栈的函数
-     * @private
-     * @param {Array} callQueue 调用队列
-     * @param {Object} target flash对象
-     * @return {Null}
-     */
-    function _callFn(callQueue, target){
-        var result = null;
-        
-        callQueue = callQueue.reverse();
-        baidu.each(callQueue, function(item){
-            result = target.call(item.fnName, item.params);
-            item.callBack(result);
-        });
-    };
+	/**
+	 * 调用之前进行压栈的函数
+	 * @private
+	 * @param {Array} callQueue 调用队列
+	 * @param {Object} target flash对象
+	 * @return {Null}
+	 */
+	function _callFn(callQueue, target){
+		var result = null;
+		
+		callQueue = callQueue.reverse();
+		baidu.each(callQueue, function(item){
+			result = target.call(item.fnName, item.params);
+			item.callBack(result);
+		});
+	};
 
-    /**
-     * 为传入的匿名函数创建函数名
-     * @private
-     * @param {String|Function} fun 传入的匿名函数或者函数名
-     * @return {String}
-     */
-    function _createFunName(fun){
-        var name = '';
+	/**
+	 * 为传入的匿名函数创建函数名
+	 * @private
+	 * @param {String|Function} fun 传入的匿名函数或者函数名
+	 * @return {String}
+	 */
+	function _createFunName(fun){
+		var name = '';
 
-        if(baidu.lang.isFunction(fun)){
-            name = _createString();
-            window[name] = function(){
-                fun.apply(window, arguments);
-            };
+		if(baidu.lang.isFunction(fun)){
+			name = _createString();
+			window[name] = function(){
+				fun.apply(window, arguments);
+			};
 
-            return name;
-        }else if(baidu.lang.isString){
-            return fun;
-        }
-    };
+			return name;
+		}else if(baidu.lang.isString){
+			return fun;
+		}
+	};
 
-    /**
-     * 绘制flash
-     * @private
-     * @param {Object} options 创建参数
-     * @return {Object} 
-     */
-    function _render(options){
-        if(!options.id){
-            options.id = _createString();
-        }
-        
-        var container = options.container || '';
-        delete(options.container);
-        
-        baidu.swf.create(options, container);
-        
-        return baidu.swf.getMovie(options.id);
-    };
+	/**
+	 * 绘制flash
+	 * @private
+	 * @param {Object} options 创建参数
+	 * @return {Object} 
+	 */
+	function _render(options){
+		if(!options.id){
+			options.id = _createString();
+		}
+		
+		var container = options.container || '';
+		delete(options.container);
+		
+		baidu.swf.create(options, container);
+		
+		return baidu.swf.getMovie(options.id);
+	};
 
-    return function(options, callBack){
-        var me = this,
-            autoRender = (typeof options.autoRender !== 'undefined' ? options.autoRender : true),
-            createOptions = options.createOptions || {},
-            target = null,
-            isReady = false,
-            callQueue = [],
-            timeHandle = null,
-            callBack = callBack || [];
+	return function(options, callBack){
+		var me = this,
+			autoRender = (typeof options.autoRender !== 'undefined' ? options.autoRender : true),
+			createOptions = options.createOptions || {},
+			target = null,
+			isReady = false,
+			callQueue = [],
+			timeHandle = null,
+			callBack = callBack || [];
 
-        /**
-         * 将flash文件绘制到页面上
-         * @public
-         * @return {Null}
-         */
-        me.render = function(){
-            target = _render(createOptions);
-            
-            if(callBack.length > 0){
-                baidu.each(callBack, function(funName, index){
-                    callBack[index] = _createFunName(options[funName] || new Function());
-                });    
-            }
-            me.call('setJSFuncName', [callBack]);
-        };
+		/**
+		 * 将flash文件绘制到页面上
+		 * @public
+		 * @return {Null}
+		 */
+		me.render = function(){
+			target = _render(createOptions);
+			
+			if(callBack.length > 0){
+				baidu.each(callBack, function(funName, index){
+					callBack[index] = _createFunName(options[funName] || new Function());
+				});    
+			}
+			me.call('setJSFuncName', [callBack]);
+		};
 
-        /**
-         * 返回flash状态
-         * @return {Boolean}
-         */
-        me.isReady = function(){
-            return isReady;
-        };
+		/**
+		 * 返回flash状态
+		 * @return {Boolean}
+		 */
+		me.isReady = function(){
+			return isReady;
+		};
 
-        /**
-         * 调用flash接口的统一入口
-         * @param {String} fnName 调用的函数名
-         * @param {Array} params 传入的参数组成的数组,若不许要参数，需传入空数组
-         * @param {Function} [callBack] 异步调用后将返回值作为参数的调用回调函数，如无返回值，可以不传入此参数
-         * @return {Null}
-        */
-        me.call = function(fnName, params, callBack){
-            if(!fnName) return null;
-            callBack = callBack || new Function();
+		/**
+		 * 调用flash接口的统一入口
+		 * @param {String} fnName 调用的函数名
+		 * @param {Array} params 传入的参数组成的数组,若不许要参数，需传入空数组
+		 * @param {Function} [callBack] 异步调用后将返回值作为参数的调用回调函数，如无返回值，可以不传入此参数
+		 * @return {Null}
+		*/
+		me.call = function(fnName, params, callBack){
+			if(!fnName) return null;
+			callBack = callBack || new Function();
 
-            var result = null;
-    
-            if(isReady){
-                result = target.call(fnName, params);
-                callBack(result);
-            }else{
-                callQueue.push({
-                    fnName: fnName,
-                    params: params,
-                    callBack: callBack
-                });
-    
-                (!timeHandle) && (timeHandle = setInterval(_check, 200));
-            }
-        };
-    
-        /**
-         * 为传入的匿名函数创建函数名
-         * @public
-         * @param {String|Function} fun 传入的匿名函数或者函数名
-         * @return {String}
-         */
-        me.createFunName = function(fun){
-            return _createFunName(fun);    
-        };
+			var result = null;
+	
+			if(isReady){
+				result = target.call(fnName, params);
+				callBack(result);
+			}else{
+				callQueue.push({
+					fnName: fnName,
+					params: params,
+					callBack: callBack
+				});
+	
+				(!timeHandle) && (timeHandle = setInterval(_check, 200));
+			}
+		};
+	
+		/**
+		 * 为传入的匿名函数创建函数名
+		 * @public
+		 * @param {String|Function} fun 传入的匿名函数或者函数名
+		 * @return {String}
+		 */
+		me.createFunName = function(fun){
+			return _createFunName(fun);    
+		};
 
-        /**
-         * 检查flash是否ready， 并进行调用
-         * @private
-         * @return {Null}
-         */
-        function _check(){
-            if(_checkReady(target)){
-                clearInterval(timeHandle);
-                timeHandle = null;
-                _call();
+		/**
+		 * 检查flash是否ready， 并进行调用
+		 * @private
+		 * @return {Null}
+		 */
+		function _check(){
+			if(_checkReady(target)){
+				clearInterval(timeHandle);
+				timeHandle = null;
+				_call();
 
-                isReady = true;
-            }               
-        };
+				isReady = true;
+			}               
+		};
 
-        /**
-         * 调用之前进行压栈的函数
-         * @private
-         * @return {Null}
-         */
-        function _call(){
-            _callFn(callQueue, target);
-            callQueue = [];
-        }
+		/**
+		 * 调用之前进行压栈的函数
+		 * @private
+		 * @return {Null}
+		 */
+		function _call(){
+			_callFn(callQueue, target);
+			callQueue = [];
+		}
 
-        autoRender && me.render(); 
-    };
+		autoRender && me.render(); 
+	};
 })();
 
 
@@ -784,38 +784,38 @@ baidu.flash._Base = (function(){
  */ 
 baidu.flash.imageUploader = baidu.flash.imageUploader || function(options){
    
-    var me = this,
-        options = options || {},
-        _flash = new baidu.flash._Base(options, [
-            'selectFileCallback', 
-            'exceedFileCallback', 
-            'deleteFileCallback', 
-            'startUploadCallback',
-            'uploadCompleteCallback',
-            'uploadErrorCallback',
-            'allCompleteCallback',
-            'changeFlashHeight'
-        ]);
-    /**
-     * 开始或回复上传图片
-     * @public
-     * @return {Null}
-     */
-    me.upload = function(){
-        _flash.call('upload');
-    };
+	var me = this,
+		options = options || {},
+		_flash = new baidu.flash._Base(options, [
+			'selectFileCallback', 
+			'exceedFileCallback', 
+			'deleteFileCallback', 
+			'startUploadCallback',
+			'uploadCompleteCallback',
+			'uploadErrorCallback',
+			'allCompleteCallback',
+			'changeFlashHeight'
+		]);
+	/**
+	 * 开始或回复上传图片
+	 * @public
+	 * @return {Null}
+	 */
+	me.upload = function(){
+		_flash.call('upload');
+	};
 
-    /**
-     * 暂停上传图片
-     * @public
-     * @return {Null}
-     */
-    me.pause = function(){
-        _flash.call('pause');
-    };
-    me.addCustomizedParams = function(index,obj){
-        _flash.call('addCustomizedParams',[index,obj]);
-    }
+	/**
+	 * 暂停上传图片
+	 * @public
+	 * @return {Null}
+	 */
+	me.pause = function(){
+		_flash.call('pause');
+	};
+	me.addCustomizedParams = function(index,obj){
+		_flash.call('addCustomizedParams',[index,obj]);
+	}
 };
 
 /**
@@ -846,13 +846,13 @@ baidu.object = baidu.object || {};
  */
 baidu.extend =
 baidu.object.extend = function (target, source) {
-    for (var p in source) {
-        if (source.hasOwnProperty(p)) {
-            target[p] = source[p];
-        }
-    }
-    
-    return target;
+	for (var p in source) {
+		if (source.hasOwnProperty(p)) {
+			target[p] = source[p];
+		}
+	}
+	
+	return target;
 };
 
 
@@ -877,170 +877,170 @@ baidu.object.extend = function (target, source) {
  * @config {Function|String} uploadProgress
  */
 baidu.flash.fileUploader = baidu.flash.fileUploader || function(options){
-    var me = this,
-        options = options || {};
-    
-    options.createOptions = baidu.extend({
-        wmod: 'transparent'
-    },options.createOptions || {});
-    
-    var _flash = new baidu.flash._Base(options, [
-        'selectFile',
-        'exceedMaxSize',
-        'deleteFile',
-        'uploadStart',
-        'uploadComplete',
-        'uploadError', 
-        'uploadProgress'
-    ]);
+	var me = this,
+		options = options || {};
+	
+	options.createOptions = baidu.extend({
+		wmod: 'transparent'
+	},options.createOptions || {});
+	
+	var _flash = new baidu.flash._Base(options, [
+		'selectFile',
+		'exceedMaxSize',
+		'deleteFile',
+		'uploadStart',
+		'uploadComplete',
+		'uploadError', 
+		'uploadProgress'
+	]);
 
-    _flash.call('setMaxNum', options.maxNum ? [options.maxNum] : [1]);
+	_flash.call('setMaxNum', options.maxNum ? [options.maxNum] : [1]);
 
-    /**
-     * 设置当鼠标移动到flash上时，是否变成手型
-     * @public
-     * @param {Boolean} isCursor
-     * @return {Null}
-     */
-    me.setHandCursor = function(isCursor){
-        _flash.call('setHandCursor', [isCursor || false]);
-    };
+	/**
+	 * 设置当鼠标移动到flash上时，是否变成手型
+	 * @public
+	 * @param {Boolean} isCursor
+	 * @return {Null}
+	 */
+	me.setHandCursor = function(isCursor){
+		_flash.call('setHandCursor', [isCursor || false]);
+	};
 
-    /**
-     * 设置鼠标相应函数名
-     * @param {String|Function} fun
-     */
-    me.setMSFunName = function(fun){
-        _flash.call('setMSFunName',[_flash.createFunName(fun)]);
-    }; 
+	/**
+	 * 设置鼠标相应函数名
+	 * @param {String|Function} fun
+	 */
+	me.setMSFunName = function(fun){
+		_flash.call('setMSFunName',[_flash.createFunName(fun)]);
+	}; 
 
-    /**
-     * 执行上传操作
-     * @param {String} url 上传的url
-     * @param {String} fieldName 上传的表单字段名
-     * @param {Object} postData 键值对，上传的POST数据
-     * @param {Number|Array|null|-1} [index]上传的文件序列
-     *                            Int值上传该文件
-     *                            Array一次串行上传该序列文件
-     *                            -1/null上传所有文件
-     * @return {Null}
-     */
-    me.upload = function(url, fieldName, postData, index){
+	/**
+	 * 执行上传操作
+	 * @param {String} url 上传的url
+	 * @param {String} fieldName 上传的表单字段名
+	 * @param {Object} postData 键值对，上传的POST数据
+	 * @param {Number|Array|null|-1} [index]上传的文件序列
+	 *                            Int值上传该文件
+	 *                            Array一次串行上传该序列文件
+	 *                            -1/null上传所有文件
+	 * @return {Null}
+	 */
+	me.upload = function(url, fieldName, postData, index){
 
-        if(typeof url !== 'string' || typeof fieldName !== 'string') return null;
-        if(typeof index === 'undefined') index = -1;
+		if(typeof url !== 'string' || typeof fieldName !== 'string') return null;
+		if(typeof index === 'undefined') index = -1;
 
-        _flash.call('upload', [url, fieldName, postData, index]);
-    };
+		_flash.call('upload', [url, fieldName, postData, index]);
+	};
 
-    /**
-     * 取消上传操作
-     * @public
-     * @param {Number|-1} index
-     */
-    me.cancel = function(index){
-        if(typeof index === 'undefined') index = -1;
-        _flash.call('cancel', [index]);
-    };
+	/**
+	 * 取消上传操作
+	 * @public
+	 * @param {Number|-1} index
+	 */
+	me.cancel = function(index){
+		if(typeof index === 'undefined') index = -1;
+		_flash.call('cancel', [index]);
+	};
 
-    /**
-     * 删除文件
-     * @public
-     * @param {Number|Array} [index] 要删除的index，不传则全部删除
-     * @param {Function} callBack
-     * */
-    me.deleteFile = function(index, callBack){
+	/**
+	 * 删除文件
+	 * @public
+	 * @param {Number|Array} [index] 要删除的index，不传则全部删除
+	 * @param {Function} callBack
+	 * */
+	me.deleteFile = function(index, callBack){
 
-        var callBackAll = function(list){
-                callBack && callBack(list);
-            };
+		var callBackAll = function(list){
+				callBack && callBack(list);
+			};
 
-        if(typeof index === 'undefined'){
-            _flash.call('deleteFilesAll', [], callBackAll);
-            return;
-        };
-        
-        if(typeof index === 'Number') index = [index];
-        index.sort(function(a,b){
-            return b-a;
-        });
-        baidu.each(index, function(item){
-            _flash.call('deleteFileBy', item, callBackAll);
-        });
-    };
+		if(typeof index === 'undefined'){
+			_flash.call('deleteFilesAll', [], callBackAll);
+			return;
+		};
+		
+		if(typeof index === 'Number') index = [index];
+		index.sort(function(a,b){
+			return b-a;
+		});
+		baidu.each(index, function(item){
+			_flash.call('deleteFileBy', item, callBackAll);
+		});
+	};
 
-    /**
-     * 添加文件类型，支持macType
-     * @public
-     * @param {Object|Array[Object]} type {description:String, extention:String}
-     * @return {Null};
-     */
-    me.addFileType = function(type){
-        var type = type || [[]];
-        
-        if(type instanceof Array) type = [type];
-        else type = [[type]];
-        _flash.call('addFileTypes', type);
-    };
-    
-    /**
-     * 设置文件类型，支持macType
-     * @public
-     * @param {Object|Array[Object]} type {description:String, extention:String}
-     * @return {Null};
-     */
-    me.setFileType = function(type){
-        var type = type || [[]];
-        
-        if(type instanceof Array) type = [type];
-        else type = [[type]];
-        _flash.call('setFileTypes', type);
-    };
+	/**
+	 * 添加文件类型，支持macType
+	 * @public
+	 * @param {Object|Array[Object]} type {description:String, extention:String}
+	 * @return {Null};
+	 */
+	me.addFileType = function(type){
+		var type = type || [[]];
+		
+		if(type instanceof Array) type = [type];
+		else type = [[type]];
+		_flash.call('addFileTypes', type);
+	};
+	
+	/**
+	 * 设置文件类型，支持macType
+	 * @public
+	 * @param {Object|Array[Object]} type {description:String, extention:String}
+	 * @return {Null};
+	 */
+	me.setFileType = function(type){
+		var type = type || [[]];
+		
+		if(type instanceof Array) type = [type];
+		else type = [[type]];
+		_flash.call('setFileTypes', type);
+	};
 
-    /**
-     * 设置可选文件的数量限制
-     * @public
-     * @param {Number} num
-     * @return {Null}
-     */
-    me.setMaxNum = function(num){
-        _flash.call('setMaxNum', [num]);
-    };
+	/**
+	 * 设置可选文件的数量限制
+	 * @public
+	 * @param {Number} num
+	 * @return {Null}
+	 */
+	me.setMaxNum = function(num){
+		_flash.call('setMaxNum', [num]);
+	};
 
-    /**
-     * 设置可选文件大小限制，以兆M为单位
-     * @public
-     * @param {Number} num,0为无限制
-     * @return {Null}
-     */
-    me.setMaxSize = function(num){
-        _flash.call('setMaxSize', [num]);
-    };
+	/**
+	 * 设置可选文件大小限制，以兆M为单位
+	 * @public
+	 * @param {Number} num,0为无限制
+	 * @return {Null}
+	 */
+	me.setMaxSize = function(num){
+		_flash.call('setMaxSize', [num]);
+	};
 
-    /**
-     * @public
-     */
-    me.getFileAll = function(callBack){
-        _flash.call('getFileAll', [], callBack);
-    };
+	/**
+	 * @public
+	 */
+	me.getFileAll = function(callBack){
+		_flash.call('getFileAll', [], callBack);
+	};
 
-    /**
-     * @public
-     * @param {Number} index
-     * @param {Function} [callBack]
-     */
-    me.getFileByIndex = function(index, callBack){
-        _flash.call('getFileByIndex', [], callBack);
-    };
+	/**
+	 * @public
+	 * @param {Number} index
+	 * @param {Function} [callBack]
+	 */
+	me.getFileByIndex = function(index, callBack){
+		_flash.call('getFileByIndex', [], callBack);
+	};
 
-    /**
-     * @public
-     * @param {Number} index
-     * @param {function} [callBack]
-     */
-    me.getStatusByIndex = function(index, callBack){
-        _flash.call('getStatusByIndex', [], callBack);
-    };
+	/**
+	 * @public
+	 * @param {Number} index
+	 * @param {function} [callBack]
+	 */
+	me.getStatusByIndex = function(index, callBack){
+		_flash.call('getStatusByIndex', [], callBack);
+	};
 };
 
 /**
@@ -1056,10 +1056,10 @@ baidu.sio = baidu.sio || {};
  * @param {String} [charset] 编码
  */
 baidu.sio._createScriptTag = function(scr, url, charset){
-    scr.setAttribute('type', 'text/javascript');
-    charset && scr.setAttribute('charset', charset);
-    scr.setAttribute('src', url);
-    document.getElementsByTagName('head')[0].appendChild(scr);
+	scr.setAttribute('type', 'text/javascript');
+	charset && scr.setAttribute('charset', charset);
+	scr.setAttribute('src', url);
+	document.getElementsByTagName('head')[0].appendChild(scr);
 };
 
 /**
@@ -1068,19 +1068,19 @@ baidu.sio._createScriptTag = function(scr, url, charset){
  * @param {HTMLElement} src script节点
  */
 baidu.sio._removeScriptTag = function(scr){
-    if (scr.clearAttributes) {
-        scr.clearAttributes();
-    } else {
-        for (var attr in scr) {
-            if (scr.hasOwnProperty(attr)) {
-                delete scr[attr];
-            }
-        }
-    }
-    if(scr && scr.parentNode){
-        scr.parentNode.removeChild(scr);
-    }
-    scr = null;
+	if (scr.clearAttributes) {
+		scr.clearAttributes();
+	} else {
+		for (var attr in scr) {
+			if (scr.hasOwnProperty(attr)) {
+				delete scr[attr];
+			}
+		}
+	}
+	if(scr && scr.parentNode){
+		scr.parentNode.removeChild(scr);
+	}
+	scr = null;
 };
 
 
@@ -1102,42 +1102,42 @@ baidu.sio._removeScriptTag = function(scr){
  * @see baidu.sio.callByServer
  */
 baidu.sio.callByBrowser = function (url, opt_callback, opt_options) {
-    var scr = document.createElement("SCRIPT"),
-        scriptLoaded = 0,
-        options = opt_options || {},
-        charset = options['charset'],
-        callback = opt_callback || function(){},
-        timeOut = options['timeOut'] || 0,
-        timer;
-    scr.onload = scr.onreadystatechange = function () {
-        if (scriptLoaded) {
-            return;
-        }
-        
-        var readyState = scr.readyState;
-        if ('undefined' == typeof readyState
-            || readyState == "loaded"
-            || readyState == "complete") {
-            scriptLoaded = 1;
-            try {
-                callback();
-                clearTimeout(timer);
-            } finally {
-                scr.onload = scr.onreadystatechange = null;
-                baidu.sio._removeScriptTag(scr);
-            }
-        }
-    };
+	var scr = document.createElement("SCRIPT"),
+		scriptLoaded = 0,
+		options = opt_options || {},
+		charset = options['charset'],
+		callback = opt_callback || function(){},
+		timeOut = options['timeOut'] || 0,
+		timer;
+	scr.onload = scr.onreadystatechange = function () {
+		if (scriptLoaded) {
+			return;
+		}
+		
+		var readyState = scr.readyState;
+		if ('undefined' == typeof readyState
+			|| readyState == "loaded"
+			|| readyState == "complete") {
+			scriptLoaded = 1;
+			try {
+				callback();
+				clearTimeout(timer);
+			} finally {
+				scr.onload = scr.onreadystatechange = null;
+				baidu.sio._removeScriptTag(scr);
+			}
+		}
+	};
 
-    if( timeOut ){
-        timer = setTimeout(function(){
-            scr.onload = scr.onreadystatechange = null;
-            baidu.sio._removeScriptTag(scr);
-            options.onfailure && options.onfailure();
-        }, timeOut);
-    }
-    
-    baidu.sio._createScriptTag(scr, url, charset);
+	if( timeOut ){
+		timer = setTimeout(function(){
+			scr.onload = scr.onreadystatechange = null;
+			baidu.sio._removeScriptTag(scr);
+			options.onfailure && options.onfailure();
+		}, timeOut);
+	}
+	
+	baidu.sio._createScriptTag(scr, url, charset);
 };
 
 /**
@@ -1158,60 +1158,60 @@ baidu.sio.callByBrowser = function (url, opt_callback, opt_options) {
  * @see baidu.sio.callByBrowser
  */
 baidu.sio.callByServer = /**@function*/function(url, callback, opt_options) {
-    var scr = document.createElement('SCRIPT'),
-        prefix = 'bd__cbs__',
-        callbackName,
-        callbackImpl,
-        options = opt_options || {},
-        charset = options['charset'],
-        queryField = options['queryField'] || 'callback',
-        timeOut = options['timeOut'] || 0,
-        timer,
-        reg = new RegExp('(\\?|&)' + queryField + '=([^&]*)'),
-        matches;
+	var scr = document.createElement('SCRIPT'),
+		prefix = 'bd__cbs__',
+		callbackName,
+		callbackImpl,
+		options = opt_options || {},
+		charset = options['charset'],
+		queryField = options['queryField'] || 'callback',
+		timeOut = options['timeOut'] || 0,
+		timer,
+		reg = new RegExp('(\\?|&)' + queryField + '=([^&]*)'),
+		matches;
 
-    if (baidu.lang.isFunction(callback)) {
-        callbackName = prefix + Math.floor(Math.random() * 2147483648).toString(36);
-        window[callbackName] = getCallBack(0);
-    } else if(baidu.lang.isString(callback)){
-        callbackName = callback;
-    } else {
-        if (matches = reg.exec(url)) {
-            callbackName = matches[2];
-        }
-    }
+	if (baidu.lang.isFunction(callback)) {
+		callbackName = prefix + Math.floor(Math.random() * 2147483648).toString(36);
+		window[callbackName] = getCallBack(0);
+	} else if(baidu.lang.isString(callback)){
+		callbackName = callback;
+	} else {
+		if (matches = reg.exec(url)) {
+			callbackName = matches[2];
+		}
+	}
 
-    if( timeOut ){
-        timer = setTimeout(getCallBack(1), timeOut);
-    }
-    url = url.replace(reg, '\x241' + queryField + '=' + callbackName);
-    
-    if (url.search(reg) < 0) {
-        url += (url.indexOf('?') < 0 ? '?' : '&') + queryField + '=' + callbackName;
-    }
-    baidu.sio._createScriptTag(scr, url, charset);
+	if( timeOut ){
+		timer = setTimeout(getCallBack(1), timeOut);
+	}
+	url = url.replace(reg, '\x241' + queryField + '=' + callbackName);
+	
+	if (url.search(reg) < 0) {
+		url += (url.indexOf('?') < 0 ? '?' : '&') + queryField + '=' + callbackName;
+	}
+	baidu.sio._createScriptTag(scr, url, charset);
 
-    /*
-     * 返回一个函数，用于立即（挂在window上）或者超时（挂在setTimeout中）时执行
-     */
-    function getCallBack(onTimeOut){
-        /*global callbackName, callback, scr, options;*/
-        return function(){
-            try {
-                if( onTimeOut ){
-                    options.onfailure && options.onfailure();
-                }else{
-                    callback.apply(window, arguments);
-                    clearTimeout(timer);
-                }
-                window[callbackName] = null;
-                delete window[callbackName];
-            } catch (exception) {
-            } finally {
-                baidu.sio._removeScriptTag(scr);
-            }
-        }
-    }
+	/*
+	 * 返回一个函数，用于立即（挂在window上）或者超时（挂在setTimeout中）时执行
+	 */
+	function getCallBack(onTimeOut){
+		/*global callbackName, callback, scr, options;*/
+		return function(){
+			try {
+				if( onTimeOut ){
+					options.onfailure && options.onfailure();
+				}else{
+					callback.apply(window, arguments);
+					clearTimeout(timer);
+				}
+				window[callbackName] = null;
+				delete window[callbackName];
+			} catch (exception) {
+			} finally {
+				baidu.sio._removeScriptTag(scr);
+			}
+		}
+	}
 };
 
 /**
@@ -1223,15 +1223,15 @@ baidu.sio.callByServer = /**@function*/function(url, callback, opt_options) {
  */
 baidu.sio.log = function(url) {
   var img = new Image(),
-      key = 'tangram_sio_log_' + Math.floor(Math.random() *
-            2147483648).toString(36);
+	  key = 'tangram_sio_log_' + Math.floor(Math.random() *
+			2147483648).toString(36);
   window[key] = img;
 
   img.onload = img.onerror = img.onabort = function() {
-    img.onload = img.onerror = img.onabort = null;
+	img.onload = img.onerror = img.onabort = null;
 
-    window[key] = null;
-    img = null;
+	window[key] = null;
+	img = null;
   };
   img.src = url;
 };
@@ -1280,8 +1280,8 @@ baidu.json = baidu.json || {};
  * @returns {JSON} 解析结果json对象
  */
 baidu.json.parse = function (data) {
-    //2010/12/09：更新至不使用原生parse，不检测用户输入是否正确
-    return (new Function("return (" + data + ")"))();
+	//2010/12/09：更新至不使用原生parse，不检测用户输入是否正确
+	return (new Function("return (" + data + ")"))();
 };
 /*
  * Tangram
@@ -1333,141 +1333,141 @@ baidu.json.decode = baidu.json.parse;
  * @returns {string} 序列化后的字符串
  */
 baidu.json.stringify = (function () {
-    /**
-     * 字符串处理时需要转义的字符表
-     * @private
-     */
-    var escapeMap = {
-        "\b": '\\b',
-        "\t": '\\t',
-        "\n": '\\n',
-        "\f": '\\f',
-        "\r": '\\r',
-        '"' : '\\"',
-        "\\": '\\\\'
-    };
-    
-    /**
-     * 字符串序列化
-     * @private
-     */
-    function encodeString(source) {
-        if (/["\\\x00-\x1f]/.test(source)) {
-            source = source.replace(
-                /["\\\x00-\x1f]/g, 
-                function (match) {
-                    var c = escapeMap[match];
-                    if (c) {
-                        return c;
-                    }
-                    c = match.charCodeAt();
-                    return "\\u00" 
-                            + Math.floor(c / 16).toString(16) 
-                            + (c % 16).toString(16);
-                });
-        }
-        return '"' + source + '"';
-    }
-    
-    /**
-     * 数组序列化
-     * @private
-     */
-    function encodeArray(source) {
-        var result = ["["], 
-            l = source.length,
-            preComma, i, item;
-            
-        for (i = 0; i < l; i++) {
-            item = source[i];
-            
-            switch (typeof item) {
-            case "undefined":
-            case "function":
-            case "unknown":
-                break;
-            default:
-                if(preComma) {
-                    result.push(',');
-                }
-                result.push(baidu.json.stringify(item));
-                preComma = 1;
-            }
-        }
-        result.push("]");
-        return result.join("");
-    }
-    
-    /**
-     * 处理日期序列化时的补零
-     * @private
-     */
-    function pad(source) {
-        return source < 10 ? '0' + source : source;
-    }
-    
-    /**
-     * 日期序列化
-     * @private
-     */
-    function encodeDate(source){
-        return '"' + source.getFullYear() + "-" 
-                + pad(source.getMonth() + 1) + "-" 
-                + pad(source.getDate()) + "T" 
-                + pad(source.getHours()) + ":" 
-                + pad(source.getMinutes()) + ":" 
-                + pad(source.getSeconds()) + '"';
-    }
-    
-    return function (value) {
-        switch (typeof value) {
-        case 'undefined':
-            return 'undefined';
-            
-        case 'number':
-            return isFinite(value) ? String(value) : "null";
-            
-        case 'string':
-            return encodeString(value);
-            
-        case 'boolean':
-            return String(value);
-            
-        default:
-            if (value === null) {
-                return 'null';
-            } else if (value instanceof Array) {
-                return encodeArray(value);
-            } else if (value instanceof Date) {
-                return encodeDate(value);
-            } else {
-                var result = ['{'],
-                    encode = baidu.json.stringify,
-                    preComma,
-                    item;
-                    
-                for (var key in value) {
-                    if (Object.prototype.hasOwnProperty.call(value, key)) {
-                        item = value[key];
-                        switch (typeof item) {
-                        case 'undefined':
-                        case 'unknown':
-                        case 'function':
-                            break;
-                        default:
-                            if (preComma) {
-                                result.push(',');
-                            }
-                            preComma = 1;
-                            result.push(encode(key) + ':' + encode(item));
-                        }
-                    }
-                }
-                result.push('}');
-                return result.join('');
-            }
-        }
-    };
+	/**
+	 * 字符串处理时需要转义的字符表
+	 * @private
+	 */
+	var escapeMap = {
+		"\b": '\\b',
+		"\t": '\\t',
+		"\n": '\\n',
+		"\f": '\\f',
+		"\r": '\\r',
+		'"' : '\\"',
+		"\\": '\\\\'
+	};
+	
+	/**
+	 * 字符串序列化
+	 * @private
+	 */
+	function encodeString(source) {
+		if (/["\\\x00-\x1f]/.test(source)) {
+			source = source.replace(
+				/["\\\x00-\x1f]/g, 
+				function (match) {
+					var c = escapeMap[match];
+					if (c) {
+						return c;
+					}
+					c = match.charCodeAt();
+					return "\\u00" 
+							+ Math.floor(c / 16).toString(16) 
+							+ (c % 16).toString(16);
+				});
+		}
+		return '"' + source + '"';
+	}
+	
+	/**
+	 * 数组序列化
+	 * @private
+	 */
+	function encodeArray(source) {
+		var result = ["["], 
+			l = source.length,
+			preComma, i, item;
+			
+		for (i = 0; i < l; i++) {
+			item = source[i];
+			
+			switch (typeof item) {
+			case "undefined":
+			case "function":
+			case "unknown":
+				break;
+			default:
+				if(preComma) {
+					result.push(',');
+				}
+				result.push(baidu.json.stringify(item));
+				preComma = 1;
+			}
+		}
+		result.push("]");
+		return result.join("");
+	}
+	
+	/**
+	 * 处理日期序列化时的补零
+	 * @private
+	 */
+	function pad(source) {
+		return source < 10 ? '0' + source : source;
+	}
+	
+	/**
+	 * 日期序列化
+	 * @private
+	 */
+	function encodeDate(source){
+		return '"' + source.getFullYear() + "-" 
+				+ pad(source.getMonth() + 1) + "-" 
+				+ pad(source.getDate()) + "T" 
+				+ pad(source.getHours()) + ":" 
+				+ pad(source.getMinutes()) + ":" 
+				+ pad(source.getSeconds()) + '"';
+	}
+	
+	return function (value) {
+		switch (typeof value) {
+		case 'undefined':
+			return 'undefined';
+			
+		case 'number':
+			return isFinite(value) ? String(value) : "null";
+			
+		case 'string':
+			return encodeString(value);
+			
+		case 'boolean':
+			return String(value);
+			
+		default:
+			if (value === null) {
+				return 'null';
+			} else if (value instanceof Array) {
+				return encodeArray(value);
+			} else if (value instanceof Date) {
+				return encodeDate(value);
+			} else {
+				var result = ['{'],
+					encode = baidu.json.stringify,
+					preComma,
+					item;
+					
+				for (var key in value) {
+					if (Object.prototype.hasOwnProperty.call(value, key)) {
+						item = value[key];
+						switch (typeof item) {
+						case 'undefined':
+						case 'unknown':
+						case 'function':
+							break;
+						default:
+							if (preComma) {
+								result.push(',');
+							}
+							preComma = 1;
+							result.push(encode(key) + ':' + encode(item));
+						}
+					}
+				}
+				result.push('}');
+				return result.join('');
+			}
+		}
+	};
 })();
 /*
  * Tangram

@@ -539,13 +539,7 @@ UE.I18N['en'] = {
 	},
 	emotion:{
 		'static':{
-			'lang_input_choice':'Choice',
-			'lang_input_Tuzki':'Tuzki',
-			'lang_input_lvdouwa':'LvDouWa',
-			'lang_input_BOBO':'BOBO',
-			'lang_input_babyCat':'BabyCat',
-			'lang_input_bubble':'Bubble',
-			'lang_input_youa':'YouA'
+			'lang_input_choice':'Bubble'
 		}
 	},
 	gmap:{

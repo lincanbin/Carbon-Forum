@@ -22,15 +22,15 @@ wordImage.init = function(opt, callbacks) {
 };
 
 function hideFlash(){
-    flashObj = null;
-    flashContainer.innerHTML = "";
+	flashObj = null;
+	flashContainer.innerHTML = "";
 }
 function addOkListener() {
 	dialog.onok = function() {
 		if (!imageUrls.length) return;
 		var urlPrefix = editor.getOpt('imageUrlPrefix'),
-            images = domUtils.getElementsByTagName(editor.document,"img");
-        editor.fireEvent('saveScene');
+			images = domUtils.getElementsByTagName(editor.document,"img");
+		editor.fireEvent('saveScene');
 		for (var i = 0,img; img = images[i++];) {
 			var src = img.getAttribute("word_img");
 			if (!src) continue;
@@ -39,18 +39,18 @@ function addOkListener() {
 					img.src = urlPrefix + url.url;
 					img.setAttribute("_src", urlPrefix + url.url);  //同时修改"_src"属性
 					img.setAttribute("title",url.title);
-                    domUtils.removeAttributes(img, ["word_img","style","width","height"]);
+					domUtils.removeAttributes(img, ["word_img","style","width","height"]);
 					editor.fireEvent("selectionchange");
 					break;
 				}
 			}
 		}
-        editor.fireEvent('saveScene');
-        hideFlash();
+		editor.fireEvent('saveScene');
+		hideFlash();
 	};
-    dialog.oncancel = function(){
-        hideFlash();
-    }
+	dialog.oncancel = function(){
+		hideFlash();
+	}
 }
 
 /**
@@ -64,32 +64,32 @@ function addUploadListener() {
 }
 
 function showLocalPath(id) {
-    //单张编辑
-    var img = editor.selection.getRange().getClosedNode();
-    var images = editor.execCommand('wordimage');
-    if(images.length==1 || img && img.tagName == 'IMG'){
-        g(id).value = images[0];
-        return;
-    }
+	//单张编辑
+	var img = editor.selection.getRange().getClosedNode();
+	var images = editor.execCommand('wordimage');
+	if(images.length==1 || img && img.tagName == 'IMG'){
+		g(id).value = images[0];
+		return;
+	}
 	var path = images[0];
-    var leftSlashIndex  = path.lastIndexOf("/")||0,  //不同版本的doc和浏览器都可能影响到这个符号，故直接判断两种
-        rightSlashIndex = path.lastIndexOf("\\")||0,
-        separater = leftSlashIndex > rightSlashIndex ? "/":"\\" ;
+	var leftSlashIndex  = path.lastIndexOf("/")||0,  //不同版本的doc和浏览器都可能影响到这个符号，故直接判断两种
+		rightSlashIndex = path.lastIndexOf("\\")||0,
+		separater = leftSlashIndex > rightSlashIndex ? "/":"\\" ;
 
 	path = path.substring(0, path.lastIndexOf(separater)+1);
 	g(id).value = path;
 }
 
 function createFlashUploader(opt, callbacks) {
-    //由于lang.flashI18n是静态属性，不可以直接进行修改，否则会影响到后续内容
-    var i18n = utils.extend({},lang.flashI18n);
-    //处理图片资源地址的编码，补全等问题
-    for(var i in i18n){
-        if(!(i in {"lang":1,"uploadingTF":1,"imageTF":1,"textEncoding":1}) && i18n[i]){
-            i18n[i] = encodeURIComponent(editor.options.langPath + editor.options.lang + "/images/" + i18n[i]);
-        }
-    }
-    opt = utils.extend(opt,i18n,false);
+	//由于lang.flashI18n是静态属性，不可以直接进行修改，否则会影响到后续内容
+	var i18n = utils.extend({},lang.flashI18n);
+	//处理图片资源地址的编码，补全等问题
+	for(var i in i18n){
+		if(!(i in {"lang":1,"uploadingTF":1,"imageTF":1,"textEncoding":1}) && i18n[i]){
+			i18n[i] = encodeURIComponent(editor.options.langPath + editor.options.lang + "/images/" + i18n[i]);
+		}
+	}
+	opt = utils.extend(opt,i18n,false);
 	var option = {
 		createOptions:{
 			id:'flash',
@@ -106,7 +106,7 @@ function createFlashUploader(opt, callbacks) {
 
 	option = extendProperty(callbacks, option);
 	flashObj = new baidu.flash.imageUploader(option);
-    flashContainer = $G(opt.container);
+	flashContainer = $G(opt.container);
 }
 
 function extendProperty(fromObj, toObj) {
