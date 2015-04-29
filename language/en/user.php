@@ -6,6 +6,8 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Unfollow' => 'Unfollow',
 	'Follow' => 'Follow',
+	'Block_User' => 'Block User',
+	'Unblock_User' => 'Unblock User',
 	'Registered_In' => 'Registered in',
 	'Topics_Number' => 'Topics Number',
 	'Posts_Number' => 'Posts Number',

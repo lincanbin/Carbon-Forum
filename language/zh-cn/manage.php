@@ -17,6 +17,9 @@ $Lang = array_merge($Lang, array(
 	'Lock' => '锁定',
 	'Unlock' => '解锁',
 
+	'Block_User' => '封禁用户',
+	'Unblock_User' => '解禁用户',
+
 	'Follow' => '关注',
 	'Unfollow' => '取消关注',
 

@@ -17,6 +17,9 @@ $Lang = array_merge($Lang, array(
 	'Lock' => 'Zablokuj',
 	'Unlock' => 'Odblokuj',
 
+	'Block_User' => 'Zablokuj tego użytkownika',
+	'Unblock_User' => 'Odblokuj użytkownika',
+
 	'Follow' => 'Śledź',
 	'Unfollow' => 'Przestań śledzić',
 
