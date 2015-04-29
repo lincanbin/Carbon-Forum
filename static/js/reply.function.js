@@ -2,7 +2,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2014, Lin Canbin
+ * Copyright 2015, Lin Canbin
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -206,6 +206,11 @@ function Reply(UserName, PostFloor, PostID) {
 	UE.getEditor('editor').focus(true);
 }
 
+//引用某人
+function Quote(UserName, PostFloor, PostID) {
+	UE.getEditor('editor').setContent('<p></p><blockquote><a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br />'+PostContentLists['p' + PostID] + '<blockquote>');
+	UE.getEditor('editor').focus(false);
+}
 
 //Save Draft
 function SaveDraft() {

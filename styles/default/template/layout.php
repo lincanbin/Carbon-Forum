@@ -50,10 +50,10 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 				<a href="<?php echo $Config['WebsitePath']; ?>/tags/following"<?php echo $UrlPath=='favorite_tags'?' class="buttons-active"':''; ?>><?php echo $Lang['Tags_Followed']; ?></a>
 				<a href="<?php echo $Config['WebsitePath']; ?>/users/following"<?php echo $UrlPath=='favorite_users'?' class="buttons-active"':''; ?>><?php echo $Lang['Users_Followed']; ?></a>
 
-				<a href="<?php echo $Config['WebsitePath']; ?>/settings"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?> title="<?php echo $Lang['Settings']; ?>" style="float:right;"><span class="icon icon-action-settings"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> title="<?php echo $Lang['Notifications']; ?>" style="float:right;"><span style="position: relative;"><span class="icon icon-action-newmessages"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $CurUserInfo['NewMessage']?'<span style="color:#FFFFFF;position: absolute;left: 60%;margin-left: 1px;top: -8px;font-size: 10px;line-height: 1.4;background-color: #ff3b30;padding: 1px 5px !important;border-radius: 50%;">'.$CurUserInfo['NewMessage'].'</span>':'';?></span></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/settings"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?> title="<?php echo $Lang['Settings']; ?>" class="float-right"><div class="icon icon-settings"></div></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> title="<?php echo $Lang['Notifications']; ?>" class="float-right"><div class="icon icon-notifications"></div><?php echo $CurUserInfo['NewMessage']?'<span class="icon-messages-num">'.$CurUserInfo['NewMessage'].'</span>':'';?></a>
 				<?php if($CurUserRole==5){?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?> title="<?php echo $Lang['System_Settings']; ?>" style="float:right;"><span class="icon icon-action-dashboard"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?> title="<?php echo $Lang['System_Settings']; ?>" class="float-right"><div class="icon icon-dashboard"></div></a>
 				<?php }
 				} ?>
 				</div>

@@ -2,7 +2,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2014, Lin Canbin
+ * Copyright 2015, Lin Canbin
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -156,15 +156,14 @@ label {
 }
 /* quote*/
 blockquote {
-	border-right: #cccccc 1px dotted;
-	padding-right: 4px;
-	border-top: #cccccc 1px dotted;
-	padding-left: 4px;
-	padding-bottom: 4px;
-	margin: 16px;
-	border-left: #cccccc 1px dotted;
-	padding-top: 4px;
-	border-bottom: #cccccc 1px dotted;
+	margin-left: 10px;
+	border-left: 3px solid #D0E5F2;
+	font-style: normal;
+	padding: 0 0 0 10px;
+	display: block;
+	line-height: 22px;
+	vertical-align: baseline;
+	font-size: 100%;
 }
 /* tag*/
 .tags-list {
@@ -342,7 +341,7 @@ h2.resp-accordion {
 	float:left;
 }
 .float-right {
-	float:right;
+	float:right !important;
 }
 .text-center {
 	text-align:center;
@@ -389,7 +388,7 @@ h2.resp-accordion {
 .c666 {
 	color:#666;
 }
-img.avatar {
+img .avatar {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 }
@@ -663,6 +662,7 @@ img.avatar {
 	margin-bottom:4px;
 }
 .comment-button {
+	border-top: 1px solid #e5e5e5;
 	position: relative;
 	height:24px;
 	padding: 4px 36px 4px 2px;
@@ -838,17 +838,8 @@ img.avatar {
 	color: #33b5e5;
 }
 /* FORM end*/
-.tall {
-	height: 350px;
-}
-.w50 {
-	width:50px;
-}
 .w100 {
 	width:100px;
-}
-.w150 {
-	width:150px;
 }
 .w200 {
 	width:200px;
@@ -859,42 +850,50 @@ img.avatar {
 .w400 {
 	width:400px;
 }
-.w450 {
-	width:450px;
-}
-.w500 {
-	width:500px;
-}
-.h60 {
-	height:60px;
-}
 .h160 {
 	height:160px;
 }
 
 .icon {
+	display: inline-block;
+	background-image: url('img/icon.png');
+	background-size: 28px 280px;
+	width: 24px;
+	height: 24px;
+}
+.icon-messages-num {
+	color:#FFFFFF;
 	position: absolute;
-	background-image: url('img/material_design.png');
+	left: 60%;
+	margin-left: 1px;
+	top: 5px;
+	font-size: 10px;
+	line-height: 1.4;
+	background-color: #ff3b30;
+	padding: 1px 5px !important;
+	border-radius: 50%;
 }
-.icon-action-settings {
-	background-position: -345px -141px;
-	width: 24px;
-	height: 24px;
+.icon-settings {
+	background-position: -2px -170px;
 }
-.icon-action-newmessages {
-	background-position: -107px -5px;
-	width: 24px;
-	height: 24px;
+.icon-notifications {
+	background-position: -2px -114px;
 }
-.icon-action-dashboard {
-	background-position: -5px -5px;
-	width: 24px;
-	height: 24px;
+.icon-dashboard {
+	background-position: -2px -2px;
 }
-.icon-action-reply {
-	background-position: -311px -277px;
-	width: 24px;
-	height: 24px;
+
+.icon-edit {
+	background-position: -2px -86px;
+}
+.icon-quote {
+	background-position: -2px -58px;
+}
+.icon-delete {
+	background-position: -2px -30px;
+}
+.icon-reply {
+	background-position: -2px -142px;
 }
 
 #go-to-top {

@@ -7,6 +7,7 @@ $Lang = array_merge($Lang, array(
 	'People_Collection' => ' collector',
 	'People_Have_Seen' => ' odwiedzeń strony',
 	'Edit' => 'Edytuj',
+	'Quote' => 'cytować',
 	'Delete' => 'Usuń',
 	'Recover' => 'Odzyskaj',
 	'Permanently_Delete' => 'Usuń trwale',

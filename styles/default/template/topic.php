@@ -114,11 +114,13 @@ foreach($PostsArray as $key => $Post)
 			<?php if($CurUserID){ ?>
 			<div class="comment-button">
 				<div class="float-left">
-				<?php if($CurUserRole>=4 || $Post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);"><?php echo $Lang['Edit']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
-				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);"><?php echo $Lang['Delete']; ?></a><?php } ?>
-			</div>
+				<?php if($CurUserRole>=4 || $Post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);" title="<?php echo $Lang['Edit']; ?>"><div class="icon icon-edit"></div></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
+				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);" title="<?php echo $Lang['Delete']; ?>"><div class="icon icon-delete"></div></a><?php } ?>
+				</div>
 				<div class="float-right">
-					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" class="icon icon-action-reply" onclick="JavaScript:Reply('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"></a>
+					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"><div class="icon icon-reply"></div></a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#reply" title="<?php echo $Lang['Quote']; ?>" onclick="JavaScript:Quote('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"><div class="icon icon-quote"></div></a>
 				</div>
 				<div class="c"></div>
 			</div>
