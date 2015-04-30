@@ -84,11 +84,13 @@ function CtrlAndEnter(Event) {
 
 //可以去除tab的trim
 function trim3(str) {
-	str = str.replace(/^(\s|\u00A0)+/, '');
-	for (var i = str.length - 1; i >= 0; i--) {
-		if (/\S/.test(str.charAt(i))) {
-			str = str.substring(0, i + 1);
-			break;
+	if(str){
+		str = str.replace(/^(\s|\u00A0)+/, '');
+		for (var i = str.length - 1; i >= 0; i--) {
+			if (/\S/.test(str.charAt(i))) {
+				str = str.substring(0, i + 1);
+				break;
+			}
 		}
 	}
 	return str;

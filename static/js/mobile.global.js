@@ -197,7 +197,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 					success: function(Result) {
 						HideToast();
 						if (Result.Status == 1) {
-							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID, false, false, "slide");
+							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID + (Result.Page > 1 ? "-" + Result.Page: ""), false, false, "slide");
 						} else {
 							CarbonAlert(Result.ErrorMessage);
 						}
@@ -213,25 +213,45 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 }
 
 
+//可以去除tab的trim
+function trim3(str) {
+	if(str){
+		str = str.replace(/^(\s|\u00A0)+/, '');
+		for (var i = str.length - 1; i >= 0; i--) {
+			if (/\S/.test(str.charAt(i))) {
+				str = str.substring(0, i + 1);
+				break;
+			}
+		}
+	}
+	return str;
+}
+
+//渲染主题
 function TopicParse() {
-	loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function() {
-		uParse('.card-content',{
-			'rootPath': WebsitePath + '/static/editor/',
-			'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
-		});
-		/*
+	loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function(){
 		//强制所有链接在新窗口中打开
 		var AllPosts = document.getElementsByClassName("card-content");
+		PostContentLists = {};//Global
+		//console.log(PostContentLists);
 		for (var j=0; j<AllPosts.length; j++) {
+			PostContentLists[document.getElementsByClassName("card-content")[j].id] = trim3(document.getElementsByClassName("card-content")[j].childNodes[0].innerHTML);
+			//console.log(PostContentLists);
 			var AllLinks = AllPosts[j].getElementsByTagName("a");
 			for(var i=0; i<AllLinks.length; i++)
 			{
 				var a = AllLinks[i];
 				//console.log(a);
-				a.target="_blank";
+				if(a.host != location.host){
+					a.target="_blank";
+				}
 			};
 		};
-		*/
+		//样式渲染需最后进行
+		uParse('.main-content',{
+			'rootPath': WebsitePath + '/static/editor/',
+			'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		});
 	});
 }
 /*

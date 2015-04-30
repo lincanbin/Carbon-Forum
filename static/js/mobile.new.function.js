@@ -110,13 +110,13 @@ function GetTags() {
 }
 
 function TagsListAppend(TagName, id) {
-	$("#TagsList").append('<a class="button" href="#" onclick="javascript:AddTag(\'' + TagName + '\',' + id + ');" id="TagsList' + id + '">' + TagName + '<span style="float:right;">+&nbsp;&nbsp;</span></a>&nbsp;');
+	$("#TagsList").append('<a class="button" onclick="javascript:AddTag(\'' + TagName + '\',' + id + ');" id="TagsList' + id + '">' + TagName + '<span style="float:right;">+&nbsp;&nbsp;</span></a>&nbsp;');
 	//document.NewForm.AlternativeTag.focus();
 }
 
 function AddTag(TagName, id) {
 	if (CheckTag(TagName, 1)) {
-		$("#SelectTags").append('<li id="Tag' + id + '"><a href="#" onclick="javascript:TagRemove(\'' + TagName + '\',' + id + ');">' + TagName + '<span style="float:right;">×&nbsp;&nbsp;</span><input type="hidden" name="Tag[]" value="' + TagName + '" /></a></li>');
+		$("#SelectTags").append('<li id="Tag' + id + '"><a onclick="javascript:TagRemove(\'' + TagName + '\',' + id + ');">' + TagName + '<span style="float:right;">×&nbsp;&nbsp;</span><input type="hidden" name="Tag[]" value="' + TagName + '" /></a></li>');
 		$("#TagsList" + id).remove();
 	}
 	//document.NewForm.AlternativeTag.focus();

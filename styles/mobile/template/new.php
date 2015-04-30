@@ -26,7 +26,7 @@ if(!$IsAjax){
 				<textarea name="Content" id="Content" rows="10" placeholder="<?php echo $Lang['Content']; ?>"></textarea>
 			</p>
 			<p>
-				<input type="text" name="AlternativeTag" id="AlternativeTag" value="" onfocus="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
+				<input type="text" name="AlternativeTag" id="AlternativeTag" value="" onclick="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
 				<ul id="SelectTags" class="list">
 					<li class="divider"><?php echo $Lang['Tags']; ?></li>
 				</ul>

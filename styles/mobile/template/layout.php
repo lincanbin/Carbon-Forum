@@ -13,6 +13,9 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="full-screen" content="yes" />
+<meta name="browsermode" content="application"/>
+<meta name="x5-fullscreen" content="true" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/appframework.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/icons.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/style.css?version=<?php echo $Config['Version']; ?>" />
@@ -28,9 +31,11 @@ var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/mobile.global.js?version=<?php echo $Config['Version']; ?>"></script>
 <script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/lang/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>"></script>
 <?php
+/*
 if ($Config['PageHeadContent']) {
 	echo $Config['PageHeadContent'];
 }
+*/
 if (isset($PageMetaKeyword) && $PageMetaKeyword) {
 	echo '<meta name="keywords" content="', $PageMetaKeyword, '" />
 ';

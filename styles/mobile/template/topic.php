@@ -20,7 +20,7 @@ if($Page==1){
 ?>
 <div class="card">
 	<div class="card-header"><?php echo $Topic['Topic']; ?></div>
-	<div class="card-content">
+	<div class="card-content" id="p<?php echo $PostsArray[0]['ID']; ?>">
 		<div class="card-content-inner">
 			<p class="color-gray">By <a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>"><?php echo $Topic['UserName']; ?></a>
  at <?php echo FormatTime($Topic['PostTime']); ?><br /><?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($Topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
@@ -92,7 +92,7 @@ foreach($PostsArray as $key => $Post)
 		<div class="carbonforum-date"><?php echo FormatTime($Post['PostTime']); ?></div>
 		<div class="carbonforum-floor">#<?php echo $PostFloor; ?></div>
 	</div>
-	<div class="card-content"><p><?php echo $Post['Content']; ?></p></div>
+	<div class="card-content" id="p<?php echo $Post['ID']; ?>"><p><?php echo $Post['Content']; ?></p></div>
 	<div class="card-footer no-border">
 <?php if($CurUserID){
 	if($CurUserRole>=4){
