@@ -119,8 +119,14 @@ foreach($PostsArray as $key => $Post)
 				</div>
 				<div class="float-right">
 					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"><div class="icon icon-reply"></div></a>
+<?php
+if($EnableQuote){
+?>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#reply" title="<?php echo $Lang['Quote']; ?>" onclick="JavaScript:Quote('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"><div class="icon icon-quote"></div></a>
+<?php
+}
+?>	
 				</div>
 				<div class="c"></div>
 			</div>

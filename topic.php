@@ -28,13 +28,17 @@ if ($CurUserID) {
 		'UserID' => $CurUserID,
 		'FavoriteID' => $ID
 	));
-//只有注册用户才更新访问数据，Spider实在太烦。
-$DB->query("UPDATE " . $Prefix . "topics force index(PRI) SET Views = Views+1,LastViewedTime = :LastViewedTime Where ID=:id", array(
-	"LastViewedTime" => $TimeStamp,
-	"id" => $ID
-));
+	//只有注册用户才更新访问数据，Spider实在太烦。
+	$DB->query("UPDATE " . $Prefix . "topics force index(PRI) SET Views = Views+1,LastViewedTime = :LastViewedTime Where ID=:id", array(
+		"LastViewedTime" => $TimeStamp,
+		"id" => $ID
+	));
 }
-
+if($Page != $TotalPage || ($Topic['Replies'] + 1) % $Config['PostsPerPage'] == 0){
+	$EnableQuote = true;
+}else{
+	$EnableQuote = false;
+}
 $DB->CloseConnection();
 $PageTitle = $Topic['Topic'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
