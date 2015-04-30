@@ -3,7 +3,7 @@
  * PHP-Image-Resize-Class
  * https://github.com/lincanbin/PHP-Image-Resize-Class/tree/master
  *
- * Copyright 2014, Lin Canbin
+ * Copyright 2015, Lin Canbin
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:

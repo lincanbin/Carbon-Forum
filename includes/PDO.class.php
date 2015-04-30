@@ -3,7 +3,7 @@
  * PHP-PDO-MySQL-Class
  * https://github.com/lincanbin/PHP-PDO-MySQL-Class
  *
- * Copyright 2014, Lin Canbin
+ * Copyright 2015, Lin Canbin
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
