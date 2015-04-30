@@ -28,5 +28,7 @@ $Lang = array_merge($Lang, array(
 
 	'Do_Not_Modify' => '未修改',
 	'Edited' => '编辑成功',
-	'Failure_Edit' => '编辑失败'
+	'Failure_Edit' => '编辑失败',
+
+	'Reset_Avatar_Successfully' => '重置头像成功，请刷新页面！'
 	));

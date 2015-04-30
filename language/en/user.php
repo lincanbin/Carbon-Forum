@@ -8,6 +8,7 @@ $Lang = array_merge($Lang, array(
 	'Follow' => 'Follow',
 	'Block_User' => 'Block User',
 	'Unblock_User' => 'Unblock User',
+	'Reset_Avatar' => 'Reset Avatar',
 	'Registered_In' => 'Registered in',
 	'Topics_Number' => 'Topics Number',
 	'Posts_Number' => 'Posts Number',

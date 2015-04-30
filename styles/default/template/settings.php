@@ -23,7 +23,10 @@ $(document).ready(function(){
 		<div class="resp-tabs-container main-box">
 			<div>
 				<div>
-					<div class="float-left w300 img-center"><img id="CurAvatar" src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" /></div>
+					<div class="float-left w300 img-center">
+						<img id="CurAvatar" src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
+						<p><a href="###" onclick="javascript:Manage(<?php echo $CurUserID; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
+					</div>
 					
 					<div class="float-right w300">
 						<p class="grey">
@@ -36,7 +39,6 @@ $(document).ready(function(){
 								<br />
 								<input type="file" id="Avatar" name="Avatar" accept="image/*" />
 								<br />
-								
 							<hr /><br />
 							<div class="grey"><?php echo $Lang['Max_Avatar_Size_Limit']; ?></div>
 							<br />

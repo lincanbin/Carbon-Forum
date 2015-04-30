@@ -28,5 +28,7 @@ $Lang = array_merge($Lang, array(
 
 	'Do_Not_Modify' => 'Nie modyfikuj',
 	'Edited' => 'Edytowany',
-	'Failure_Edit' => 'Wystąpił błąd podczas edycji'
+	'Failure_Edit' => 'Wystąpił błąd podczas edycji',
+
+	'Reset_Avatar_Successfully' => 'Zresetować awatar powodzeniem! '
 	));

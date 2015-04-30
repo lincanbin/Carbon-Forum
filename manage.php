@@ -191,12 +191,29 @@ switch ($Type) {
 				Auth(4);
 				# code...
 				break;
+			//屏蔽用户
 			case 'Block':
 				Auth(4);
 				$NewUserAccountStatus = $UserInfo['UserAccountStatus'] ? 0 : 1;
 				if(UpdateUserInfo(array('UserAccountStatus' => $NewUserAccountStatus), $ID)){
 					$Message = $NewUserAccountStatus ? $Lang['Block_User'] : $Lang['Unblock_User'];
 				}
+				break;
+			//重置头像
+			case 'ResetAvatar':
+				Auth(4, $ID);
+				if(extension_loaded('gd')){
+					require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
+					$Avatar = new MDAvtars(mb_substr($UserInfo['UserName'], 0, 1, "UTF-8"), 256);
+					$Avatar->Save('upload/avatar/large/' . $ID . '.png', 256);
+					$Avatar->Save('upload/avatar/middle/' . $ID . '.png', 48);
+					$Avatar->Save('upload/avatar/small/' . $ID . '.png', 24);
+					$Avatar->Free();
+					$Message = $Lang['Reset_Avatar_Successfully'];
+				}else{
+					$Message = $Lang['Reset_Avatar_Successfully'];//Failure
+				}
+				
 				break;
 			default:
 				AlertMsg('Bad Request', 'Bad Request');

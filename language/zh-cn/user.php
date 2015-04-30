@@ -8,6 +8,7 @@ $Lang = array_merge($Lang, array(
 	'Follow' => '关注他',
 	'Block_User' => '封禁用户',
 	'Unblock_User' => '解禁用户',
+	'Reset_Avatar' => '重置头像',
 	'Registered_In' => '注册于',
 	'Topics_Number' => '主题数',
 	'Posts_Number' => '回贴数',

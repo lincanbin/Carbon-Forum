@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 								$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
 								$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);
 								$Avatar->Save('upload/avatar/small/' . $CurUserID . '.png', 24);
+								$Avatar->Free();
 							}
 							header('location: ' . $Config['WebsitePath'] . '/');
 						} else {

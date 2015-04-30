@@ -28,5 +28,7 @@ $Lang = array_merge($Lang, array(
 
 	'Do_Not_Modify' => 'Do Not Modify',
 	'Edited' => 'Edited',
-	'Failure_Edit' => 'Failure Edit'
+	'Failure_Edit' => 'Failure Edit',
+
+	'Reset_Avatar_Successfully' => 'Reset avatar successfully! '
 	));
