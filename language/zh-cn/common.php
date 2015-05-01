@@ -4,7 +4,7 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Language' => 'www',
+	'Language' => 'zh-cmn-Hans',
 	'RolesDict' => array('游客','注册会员','VIP会员','版主','超级版主','管理员'),
 	'Error_Message' => '错误信息',
 	'Error_Unknown_Referer' => '来源错误(unknown referer)',

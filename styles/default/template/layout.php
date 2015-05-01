@@ -1,41 +1,41 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ob_start();
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $Lang['Language']; ?>" lang="<?php echo $Lang['Language']; ?>">
 <head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta content="True" name="HandheldFriendly" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit" />
 <?php
 if($Config['MobileDomainName']){
 ?>
-<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
-<?php } ?>
-<title><?php
-echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
-echo $PageTitle;
-echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
-<script type="text/javascript">
-var Prefix="<?php echo $Prefix; ?>";
-var WebsitePath="<?php echo $Config['WebsitePath'];?>";
-</script>
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
-<link href="<?php echo $Config['WebsitePath']; ?>/styles/default/theme/style.css?version=<?php echo $Config['Version']; ?>" rel="stylesheet" type="text/css" />
+	<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
 <?php
-if ($Config['PageHeadContent']) {
-	echo $Config['PageHeadContent'];
 }
 if (isset($PageMetaKeyword) && $PageMetaKeyword) {
-	echo '<meta name="keywords" content="', $PageMetaKeyword, '" />
+	echo '	<meta name="keywords" content="', $PageMetaKeyword, '" />
 ';
 }
 if (isset($PageMetaDesc) && $PageMetaDesc) {
-	echo '<meta name="description" content="', $PageMetaDesc, '" />
+	echo '	<meta name="description" content="', $PageMetaDesc, '" />
 ';
 }
 ?>
+
+	<title><?php
+echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
+echo $PageTitle;
+echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
+	<script type="text/javascript">
+	var Prefix="<?php echo $Prefix; ?>";
+	var WebsitePath="<?php echo $Config['WebsitePath'];?>";
+	</script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
+	<link href="<?php echo $Config['WebsitePath']; ?>/styles/default/theme/style.css?version=<?php echo $Config['Version']; ?>" rel="stylesheet" type="text/css" />
+	<?php echo $Config['PageHeadContent']; ?>
 </head>
 <body>
 	<!-- content wrapper start -->
@@ -76,7 +76,7 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://<?php echo $Lang['Language']; ?>.94cb.com" target="_blank">Carbon Forum V<?php echo $Config['Version']; ?></a> © 2006-2015
+			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015
 			<?php
 			if ($IsMobie && $Config['MobileDomainName']) {
 			?>

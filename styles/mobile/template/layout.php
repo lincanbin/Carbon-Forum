@@ -4,7 +4,7 @@ ob_start();
 $IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')?true:false;
 if(!$IsAjax){
 ?><!DOCTYPE html>
-<html>
+<html lang="<?php echo $Lang['Language']; ?>">
 <head>
 <title><?php
 echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
@@ -14,8 +14,10 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="full-screen" content="yes" />
-<meta name="browsermode" content="application"/>
+<meta name="browsermode" content="application" />
 <meta name="x5-fullscreen" content="true" />
+<meta name="msapplication-TileColor" content="#F9F9F9" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/appframework.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/icons.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/style.css?version=<?php echo $Config['Version']; ?>" />
