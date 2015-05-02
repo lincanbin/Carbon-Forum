@@ -396,10 +396,13 @@ h2.resp-accordion {
 	text-align:center;
 }
 .grey {
-	color: #999;
+	color: #9E9E9E;
 }
 .red {
-	color: #bd0a01;
+	color: #E51C23;
+}
+.yl {
+	color: #DDEB3B;
 }
 .fs12 {
 	font-size:12px;
@@ -411,15 +414,6 @@ h2.resp-accordion {
 }
 .textbtn {
 	cursor: pointer;
-}
-.yl {
-	color:yellow;
-}
-.c999 {
-	color:#999;
-}
-.c666 {
-	color:#666;
 }
 img .avatar {
 	-moz-border-radius: 4px;

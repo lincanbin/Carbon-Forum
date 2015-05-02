@@ -52,7 +52,7 @@ function PageAjaxLoad (Title, URL) {
 		};
 		$("#content")[0].children[0].style.overflowX = "hidden";
 		if (document.getElementById("ReturnUrl") != null) {
-			document.getElementById("ReturnUrl") = URL;
+			document.getElementById("ReturnUrl").value = URL;
 		};
 	}, 1);
 }
@@ -206,6 +206,24 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 						CarbonAlert(Lang['Submit_Failure']);
 					}
 				});
+			}
+		},
+		cancelOnly: false
+	});
+}
+
+//回复某人
+function Search() {
+	$.ui.popup({
+		title: "Search",
+		message: '<input type="text" id="SearchInput" />',
+		cancelText: Lang['Cancel'],
+		cancelCallback: function() {
+		},
+		doneText: Lang['Confirm'],
+		doneCallback: function() {
+			if(document.getElementById("SearchInput").value.length) {
+				$.ui.loadContent(WebsitePath + '/search/'+document.getElementById("SearchInput").value,false,false,'slide');
 			}
 		},
 		cancelOnly: false

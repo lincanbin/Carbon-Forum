@@ -7,6 +7,9 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <li>
 	<a class="icon home" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Home']; ?></a>
 </li>
+<li>
+	<a class="icon question" href="JavaScript:Search();" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Search']; ?></a>
+</li>
 <?php
 if($CurUserID){
 ?>

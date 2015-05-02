@@ -7,7 +7,7 @@ function KeywordHighlight($Content)
 	if ($KeywordArray) {
 		$KeywordHighlightArray = array();
 		foreach ($KeywordArray as $Value) {
-			$KeywordHighlightArray[] = '<font color="red">' . $Value . '</font>';
+			$KeywordHighlightArray[] = '<span class="red">' . $Value . '</span>';
 		}
 		return str_ireplace($KeywordArray, $KeywordHighlightArray, $Content);
 	} else {

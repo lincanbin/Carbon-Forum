@@ -1,7 +1,7 @@
 <?php
 define('FullTableScanTopicLimit', 50000);//当全站主题数量小于该值将会使用更消耗资源的全表扫描搜索
 require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/tag.php');
+require(dirname(__FILE__) . '/language/' . ForumLanguage . '/home.php');
 $Page         = Request('Get', 'page');
 $Keyword      = Request('Get', 'keyword');
 $KeywordArray = explode(" ", $Keyword);
@@ -61,7 +61,7 @@ if($Page == 1 && !$TopicsArray){
 }
 */
 $DB->CloseConnection();
-$PageTitle = $Lang['Search'].'\''.$Keyword.'\'';
+$PageTitle = $Lang['Search'].' '.$Keyword.' ';
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $ContentFile  = $TemplatePath . 'search.php';
 include($TemplatePath . 'layout.php');

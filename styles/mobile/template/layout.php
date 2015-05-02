@@ -32,6 +32,7 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/icons.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/style.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/appframework.popup.css?version=<?php echo $Config['Version']; ?>" />
+<link rel="search" type="application/opensearchdescription+xml" title="<?php echo mb_substr($Config['SiteName'], 0, 15, 'utf-8'); ?>" href="<?php echo $Config['WebsitePath']; ?>/search.xml" />
 <script type="text/javascript">
 var Prefix="<?php echo $Prefix; ?>";
 var WebsitePath="<?php echo $Config['WebsitePath'];?>";
