@@ -23,6 +23,8 @@ class DB
 	private $bConnected = false;
 	private $log;
 	private $parameters;
+	public $rowCount   = 0;
+	public $columnCount   = 0;
 	public $querycount = 0;
 	
 	
@@ -137,17 +139,22 @@ class DB
 	public function column($query, $params = null)
 	{
 		$this->Init($query, $params);
-		return $this->sQuery->fetchAll(PDO::FETCH_COLUMN);
-		
+		$resultColumn = $this->sQuery->fetchAll(PDO::FETCH_COLUMN);
+		//$this->rowCount = $this->sQuery->rowCount();
+		//$this->columnCount = $this->sQuery->columnCount();
+		$this->sQuery->closeCursor();
+		return $resultColumn;
 	}
-	
-	
+
+
 	public function row($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
 	{
 		$this->Init($query, $params);
-		$resuleRow = $this->sQuery->fetch($fetchmode);
+		$resultRow = $this->sQuery->fetch($fetchmode);
+		//$this->rowCount = $this->sQuery->rowCount();
+		//$this->columnCount = $this->sQuery->columnCount();
 		$this->sQuery->closeCursor();
-		return $resuleRow;
+		return $resultRow;
 	}
 	
 	

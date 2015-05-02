@@ -62,21 +62,6 @@ p {
 	margin: 5px 0px 10px 0px;
 	padding: 0px;
 }
-td, th {
-	font-size: 100%;
-	line-height: 150%;
-}
-ul {
-	margin: 0px;
-	padding: 0px;
-	list-style: square;
-}
-li {
-	margin: 0px 0px 5px 0px;
-	padding: 0px;
-	margin-left: 2em;
-	list-style: outside;
-}
 /* links*/
 a, a:link, a:visited, a:active {
 	color: #555555;
@@ -98,7 +83,7 @@ hr {
 	margin: 3px 0 12px;
 	border-top: 1px dashed #CCCCCC;
 }
-/* inputs*/
+/* inputs */
 form {
 	display: inline;
 	margin: 0;
@@ -112,7 +97,7 @@ input[type="text"], input[type="password"] , textarea, .tags-list {
 	border: none;
 	border-bottom: 1px solid #CCC;
 	padding: 6px 12px;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.428571429;
 	color: #A6A6A6;
 	vertical-align: middle;
@@ -120,7 +105,7 @@ input[type="text"], input[type="password"] , textarea, .tags-list {
 }
 input[type="text"]:focus, .input[type="text"]:hover,input[type="password"]:focus, .input[type="password"]:hover, textarea:hover, textarea:focus, .tags-list:focus, .tags-list:hover {
 	color:#676767;
-	border-bottom: 1px solid #33B5E5;
+	border-bottom-color: #33B5E5;
 }
 input.textbtn {
 	color: #3C3C3C;
@@ -154,7 +139,7 @@ input.textbtn:hover {
 label {
 	cursor: pointer;
 }
-/* quote*/
+/* quote */
 blockquote {
 	margin-left: 10px;
 	border-left: 3px solid #D0E5F2;
@@ -165,7 +150,7 @@ blockquote {
 	vertical-align: baseline;
 	font-size: 100%;
 }
-/* tag*/
+/* tag */
 .tags-list {
 	padding: 6px 12px 0 12px;
 }
@@ -189,7 +174,7 @@ blockquote {
 	margin-bottom:6px;
 	width: 20%;
 }
-/* tabs*/
+/* tabs */
 ul.resp-tabs-list {
 	margin: 0px;
 	padding: 0px;
@@ -277,20 +262,40 @@ h2.resp-accordion {
 	width:960px;
 	margin:0px auto;
 }
-/* buttons*/
+/* logo */
+.logo {
+	padding: 0;
+	width: 60px;
+	float: left;
+}
+.logo img{
+	border-radius: 50%;
+	margin: 6px 10px;
+	width: 40px;
+	height: 40px;
+}
+.logo img:hover {
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+	transition: box-shadow 0.5s ease-in-out;
+	-moz-transition: border-bottom 0.5s; /* Firefox 4 */
+	-webkit-transition: border-bottom 0.5s; /* Safari and Chrome */
+	-o-transition: border-bottom 0.5s; /* Opera */
+}
+/* menus */
 .buttons {
+	float: left;
 	line-height: 200%;
 	white-space: nowrap;
-	width: 100%;
+	width: 900px;
 	/* ie6 fix*/
 	overflow: hidden;
 }
 .buttons a:link, .buttons a:visited{
+	float: right;
 	position: relative;
 	margin: 0 4px;
 	height: 24px;
 	border-bottom: 4px solid #f9f9f9;
-	float: left;
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 24px;
@@ -317,6 +322,34 @@ h2.resp-accordion {
 	-moz-transition: border-bottom 0.5s; /* Firefox 4 */
 	-webkit-transition: border-bottom 0.5s; /* Safari and Chrome */
 	-o-transition: border-bottom 0.5s; /* Opera */
+}
+/* searchbox */
+.buttons .searchbox{
+	float: left;
+	width: 219px;
+	margin: 0 4px;
+}
+.buttons .searchbox input{
+	background-color: #F9F9F9;
+	margin: 14px 0 13px 0;
+	padding: 2px 0 2px 16px;
+	border-bottom-color: #F9F9F9;
+	width: 123px;/*219-(56+4*2)-16*2*/
+	border-bottom-color: #F9F9F9;
+	border-bottom-width: 1px;
+}
+.buttons .searchbox a{
+	position: relative;
+	top: 0;
+	right: 0;
+}
+.buttons .searchbox input:hover,.buttons .searchbox input:focus{
+	border-bottom-color: #F9F9F9;
+	border-bottom-width: 1px;
+	transition: border-bottom-color,background-color 0.5s ease-in-out;
+	-moz-transition: border-bottom-color,background-color 0.5s; /* Firefox 4 */
+	-webkit-transition: border-bottom-color,background-color 0.5s; /* Safari and Chrome */
+	-o-transition: border-bottom-color,background-color 0.5s; /* Opera */
 }
 /* sorry for this ie6 hack*/
  * html .buttons img {
@@ -471,7 +504,7 @@ img .avatar {
 	font-weight: 500;
 	line-height: 150%;
 	color:#333;
-	WORD-WRAP: break-word;
+	word-wrap: break-word;
 }
 .topic-title-date {
 	font-size:12px;
@@ -527,10 +560,10 @@ img .avatar {
 	height:58px;
 	float:left;
 }
-.item-avatar img {
+.item-avatar img, .comment-avatar img {
 	max-height:48px;
 	max-width:48px;
-	border-radius: 4px;
+	border-radius: 50%;
 }
 .item-content {
 	width:525px;
@@ -632,11 +665,6 @@ img .avatar {
 	width:58px;
 	height:58px;
 	float:left;
-}
-.comment-avatar img {
-	max-height:48px;
-	max-width:48px;
-	border-radius: 4px;
 }
 .comment-data {
 	float:left;
@@ -769,10 +797,10 @@ img .avatar {
 	color: #000;
 }
 .sider-box-content {
-	margin-bottom:10px;
-	padding:10px 10px 0 10px;
+	padding:10px;
 }
 .sider-box-content ul {
+	padding: 0 20px;
 	list-style:none !important;
 }
 .sider-box-content ul li {
@@ -806,6 +834,7 @@ img .avatar {
 	height: 42px !important;
 	overflow: hidden !important;
 	margin: 10px 0 0 0 !important;
+	padding: 0 !important;
 	list-style: none !important;
 	font-size: 18px !important;
 	display: block !important;
@@ -858,7 +887,7 @@ img .avatar {
 .icon {
 	display: inline-block;
 	background-image: url('img/icon.png');
-	background-size: 28px 280px;
+	background-size: 28px 308px;
 	width: 24px;
 	height: 24px;
 }
@@ -874,8 +903,11 @@ img .avatar {
 	padding: 1px 5px !important;
 	border-radius: 50%;
 }
-.icon-settings {
+.icon-search {
 	background-position: -2px -170px;
+}
+.icon-settings {
+	background-position: -2px -198px;
 }
 .icon-notifications {
 	background-position: -2px -114px;
@@ -883,7 +915,6 @@ img .avatar {
 .icon-dashboard {
 	background-position: -2px -2px;
 }
-
 .icon-edit {
 	background-position: -2px -86px;
 }

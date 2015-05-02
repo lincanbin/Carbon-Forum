@@ -32,6 +32,12 @@ $(function(){
 	$(window).resize(function() {
 		$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
 	});
+	//Search box
+	$("#SearchButton").click(function() {
+		if($("#SearchInput").val()){
+			location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
+		}
+	});
 })
 
 

@@ -27,6 +27,7 @@ $Lang = array_merge($Lang, array(
 	'Log_Out' => 'Log out',
 	'Information_Bar' =>'Information Bar',
 	'Home' => 'Home',
+	'Search' => 'Search',
 	'Create_New_Topic' => 'Create New Topic',
 	'Tags_Followed' => 'Tags Followed',
 	'Favorite_Topics' => 'Favorites',

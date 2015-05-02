@@ -11,20 +11,20 @@ echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $Cur
 echo $PageTitle;
 echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="full-screen" content="yes" />
 <meta name="browsermode" content="application" />
 <meta name="x5-fullscreen" content="true" />
 <meta name="msapplication-TileColor" content="#F9F9F9" />
-<meta name="msapplication-TileImage" content="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/apple-touch-icon-144x144-precomposed.png" />
+<meta name="msapplication-TileImage" content="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
 <meta name="theme-color" content="#F9F9F9" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="apple-touch-icon-precomposed" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/apple-touch-icon-57x57-precomposed.png" />
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/apple-touch-icon-72x72-precomposed.png" />
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/apple-touch-icon-114x114-precomposed.png" />
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/apple-touch-icon-144x144-precomposed.png" />
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/retinahd_icon.png" />
+<link rel="apple-touch-icon-precomposed" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-57x57-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-72x72-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-114x114-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-144x144-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
 <link rel="shortcut icon" type="image/ico" href="<?php echo $Config['WebsitePath']; ?>/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/appframework.css?version=<?php echo $Config['Version']; ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $Config['WebsitePath']; ?>/styles/mobile/theme/icons.css?version=<?php echo $Config['Version']; ?>" />

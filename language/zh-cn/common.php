@@ -27,6 +27,7 @@ $Lang = array_merge($Lang, array(
 	'Log_Out' => '退出',
 	'Information_Bar' =>'信息栏',
 	'Home' => '首页',
+	'Search' => '搜索',
 	'Create_New_Topic' => '发新帖',
 	'Tags_Followed' => '关注的话题',
 	'Favorite_Topics' => '收藏的帖子',
