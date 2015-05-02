@@ -29,6 +29,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^reply$ reply.php [L]
 	RewriteRule ^robots.txt$ robots.php [L]
 	RewriteRule ^settings$ settings.php [L]
+	RewriteRule ^search.xml$ open_search.php [L]
 	RewriteRule ^search/(.*?)(/page/([0-9]*))?$ search.php?keyword=$1&page=$3 {{RedirectionType}}
 	RewriteRule ^sitemap-(topics|pages|tags|users|index)(-([0-9]+))?.xml$ sitemap.php?action=$1&page=$3 [L]
 	RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L]
