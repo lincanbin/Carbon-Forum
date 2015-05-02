@@ -38,6 +38,13 @@ $(function(){
 			location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
 		}
 	});
+	loadScript(WebsitePath + "/static/js/jquery.autocomplete.min.js",function(){
+		$("#SearchInput").autocomplete({
+			serviceUrl: WebsitePath + '/json/tag_autocomplete',
+			minChars: 2,
+			type: 'post'
+		});
+	});
 })
 
 

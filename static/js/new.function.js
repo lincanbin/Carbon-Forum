@@ -74,6 +74,7 @@ $(function() {
 	// Initialize ajax autocomplete:
 	$("#AlternativeTag").autocomplete({
 		serviceUrl: WebsitePath + '/json/tag_autocomplete',
+		minChars: 2,
 		type: 'post'
 		/*,
 		lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
