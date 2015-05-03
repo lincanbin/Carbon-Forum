@@ -58,11 +58,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($Htaccess);
 
 	//rewrite文件配置
-	$Message = '安装成功，安装完成后请马上删除install文件夹。<br />Please delete the install folder. <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
+	$Message = '安装成功，安装完成后请马上删除install与update文件夹。<br />Please delete the install folder and the update folder. <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
 
 	//安全起见，修改为不可执行文件
 	if (file_exists('index.php')) {  
 		rename ("index.php", "index.txt");
+	}
+	if (file_exists('../update/index.php')) {  
+		rename ("../update/index.php", "../update/index.txt");
 	}
 	
 }else{
