@@ -3,6 +3,7 @@ set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
 $Version = '3.3.0';
+$Prefix = 'carbon_';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Language = $_POST['Language'];
@@ -21,11 +22,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//初始化数据库操作类
 	require('../includes/PDO.class.php');
 	$DB = new Db($DBHost, $DBName, $DBUser, $DBPassword);
-	$OldVersion = $DB->single("SELECT ConfigValue FROM `carbon_config` WHERE `ConfigName`='Version'");
+	$OldVersion = $DB->single("SELECT ConfigValue FROM `".$Prefix."config` WHERE `ConfigName`='Version'");
 	//数据处理
-	$DB->query("UPDATE `carbon_config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
-	$DB->query("UPDATE `carbon_config` SET `ConfigValue`='".$WebsitePath."' WHERE `ConfigName`='WebsitePath'");
-	$DB->query("UPDATE `carbon_config` SET `ConfigValue`='".$WebsitePath."/static/js/jquery.js' WHERE `ConfigName`='LoadJqueryUrl'");
+	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
+	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$WebsitePath."' WHERE `ConfigName`='WebsitePath'");
+	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$WebsitePath."/static/js/jquery.js' WHERE `ConfigName`='LoadJqueryUrl'");
 	
 	//写入config文件
 	$ConfigPointer = fopen('../install/config.tpl','r');
@@ -59,10 +60,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Message = '升级成功，升级完成后请马上删除install和update文件夹。<br />Please delete the install folder and the update floder. ';
 	//当前版本低于3.3.0，需要进行的升级到3.3.0的升级操作
 	if(VersionCompare('3.3.0' ,$OldVersion)){
+		require("../includes/MaterialDesign.Avatars.class.php");
 		$UserIDArray = $DB->query('SELECT UserName, ID FROM '.$Prefix.'users');
 		foreach ($UserIDArray as $UserInfo) {
 			if(!is_file('../upload/avatar/small/' . $UserInfo['ID'] . '.png')){
-				echo $UserInfo['UserName'].'<br />';
+				//echo $UserInfo['UserName'].'<br />';
 				if(extension_loaded('gd')){
 					$Avatar = new MDAvtars(mb_substr($UserInfo['UserName'], 0, 1, "UTF-8"), 256);
 					$Avatar->Save('../upload/avatar/large/' . $UserInfo['ID'] . '.png', 256);
