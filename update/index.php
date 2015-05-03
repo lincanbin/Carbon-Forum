@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//初始化数据库操作类
 	require('../includes/PDO.class.php');
 	$DB = new Db($DBHost, $DBName, $DBUser, $DBPassword);
-	$OldVersion = $DB->single("SELECT ConfigValue `carbon_config` WHERE `ConfigName`='Version'");
+	$OldVersion = $DB->single("SELECT ConfigValue FROM `carbon_config` WHERE `ConfigName`='Version'");
 	//数据处理
 	$DB->query("UPDATE `carbon_config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
 	$DB->query("UPDATE `carbon_config` SET `ConfigValue`='".$WebsitePath."' WHERE `ConfigName`='WebsitePath'");
@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	
 	//写入config文件
 	$ConfigPointer = fopen('../install/config.tpl','r');
-	$ConfigBuffer = fread($ConfigPointer, filesize(dirname(__FILE__).'/config.tpl'));
+	$ConfigBuffer = fread($ConfigPointer, filesize('../install/config.tpl'));
 	$ConfigBuffer = str_replace("{{Language}}",$Language,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBHost}}",$DBHost,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
