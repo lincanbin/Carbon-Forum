@@ -65,7 +65,8 @@ if (!$Config) {
 
 $PHPSelf = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
 $UrlPath = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
-
+//For IIS ISAPI_Rewrite
+$RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
 //消除低版本中魔术引号的影响
 if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	function StripslashesDeep($var)
@@ -129,7 +130,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 //提示信息
 function AlertMsg($PageTitle, $error, $status_code = 200)
 {
-	global $Lang, $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $RequestURI, $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors = array();
 	if (!$IsApp && !$IsMobie) {
 		switch ($status_code) {
@@ -187,7 +188,7 @@ function ArrayColumn($Input, $ColumnKey)
 //鉴权
 function Auth($MinRoleRequire, $AuthorizedUserID = 0, $StatusRequire = false)
 {
-	global $CurUserRole, $CurUserID, $CurUserInfo, $Lang;
+	global $CurUserRole, $CurUserID, $CurUserInfo, $Lang, $RequestURI;
 	$error = '';
 	if ($CurUserRole < $MinRoleRequire) {
 		$error = str_replace('{{RoleDict}}', $Lang['RolesDict'][$MinRoleRequire], $Lang['Error_Insufficient_Permissions']);
@@ -350,11 +351,10 @@ function PaginationSimplified($PageUrl, $PageCount, $IsLastPage)
 	global $Config, $Lang;
 	$PageUrl = $Config['WebsitePath'] . $PageUrl;
 	if ($PageCount != 1)
-		echo '<a href="' . $PageUrl . ($PageCount - 1) . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a>';
-	echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '</span>';
+		echo '<div class="float-left"><a class="previous-next" href="' . $PageUrl . ($PageCount - 1) . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
+	echo '<span class="currentpage">' . $PageCount . '</span>';
 	if (!$IsLastPage)
-		echo '<a href="' . $PageUrl . ($PageCount + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a>';
-	echo '</span>';
+		echo '<div class="float-right"><a href="' . $PageUrl . ($PageCount + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
 }
 
 
@@ -367,26 +367,25 @@ function Pagination($PageUrl, $PageCount, $TotalPage)
 	$PageUrl  = $Config['WebsitePath'] . $PageUrl;
 	$PageLast = $PageCount - 1;
 	$PageNext = $PageCount + 1;
-	
-	echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '/' . $TotalPage . '</span>';
+	//echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '/' . $TotalPage . '</span>';
 	if ($PageCount != 1)
-		echo '<a href="' . $PageUrl . $PageLast . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a>';
-	if (($PageCount - 6) > 1)
+		echo '<div class="float-left"><a href="' . $PageUrl . $PageLast . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
+	if (($PageCount - 4) > 1)
 		echo '<a href="' . $PageUrl . '1">1</a>';
-	if (($PageCount - 5) <= 1) {
+	if (($PageCount - 3) <= 1) {
 		$PageiStart = 1;
-	} else if ($PageCount >= ($TotalPage - 5)) {
-		$PageiStart = $TotalPage - 9;
+	} else if ($PageCount >= ($TotalPage - 3)) {
+		$PageiStart = $TotalPage - 7;
 	} else {
-		$PageiStart = $PageCount - 5;
+		$PageiStart = $PageCount - 3;
 	}
 	
-	if ($PageCount + 5 >= $TotalPage) {
+	if ($PageCount + 3 >= $TotalPage) {
 		$PageiEnd = $TotalPage;
-	} else if ($PageCount <= 5 && $TotalPage >= 10) {
-		$PageiEnd = 10;
+	} else if ($PageCount <= 3 && $TotalPage >= 8) {
+		$PageiEnd = 8;
 	} else {
-		$PageiEnd = $PageCount + 5;
+		$PageiEnd = $PageCount + 3;
 	}
 	for ($Pagei = $PageiStart; $Pagei <= $PageiEnd; $Pagei++) {
 		if ($PageCount == $Pagei) {
@@ -395,14 +394,14 @@ function Pagination($PageUrl, $PageCount, $TotalPage)
 			echo '<a href="' . $PageUrl . $Pagei . '">' . $Pagei . '</a>';
 		}
 	}
-	if ($PageCount + 5 < $TotalPage) {
+	if ($PageCount + 3 < $TotalPage) {
 		echo '<a href="' . $PageUrl . $TotalPage . '">' . $TotalPage . '</a>';
 	}
 	if ($PageCount != $TotalPage) {
-		echo '<a href="' . $PageUrl . $PageNext . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a>';
+		echo '<div class="float-right"><a href="' . $PageUrl . $PageNext . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
 	}
 	//echo '&nbsp;&nbsp;&nbsp;<input type="text" onkeydown="JavaScript:if((event.keyCode==13)&&(this.value!=\'\')){window.location=\''.$PageUrl.'\'+this.value;}" onkeyup="JavaScript:if(isNaN(this.value)){this.value=\'\';}" size=4 title="请输入要跳转到第几页,然后按下回车键">';
-	echo '</span>';
+	//echo '</span>';
 }
 
 
@@ -721,8 +720,6 @@ if ($IsApp) {
 	//X-XSS-Protection may cause some issues in dashboard
 }
 $CurView = GetCookie('View', $IsMobie ? 'mobile' : 'desktop');
-//For IIS ISAPI_Rewrite
-$RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"];
 if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp) {
 	//如果是手机，则跳转到移动版，暂时关闭
 	header("HTTP/1.1 302 Moved Temporarily");

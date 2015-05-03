@@ -622,27 +622,25 @@ img .avatar {
 }
 /* pagination */
 .pagination {
-	margin-top:15px;
-	padding:0 10px 0 10px;
+	font-size:14px;
+	line-height:1.5em;
+	margin-top:20px;
+	padding:0 10px;
 	text-align:center;
 }
 .pagination a {
-	font-size:14px;
-	line-height:1.5em;
-	padding:2px 4px;
-	margin:0 1px;
+	padding:4px 8px;
+	margin:0 2px;
 	color:#262626;
-	border: 1px solid #bfbfbf;
-	background-color:#fff;
+	border: 1px solid #BFBFBF;
+	background-color:#FFF;
 	text-decoration: none;
 	font-weight: bold;
 }
 .currentpage{
-	font-size:14px;
-	line-height:1.5em;
 	border: 1px solid #bfbfbf;
-	padding:2px 6px;
-	margin:0 3px;
+	padding:4px 8px;
+	margin:0 2px;
 	font-weight: bold;
 }
 .pagination a:hover, .pagination a:active,.currentpage {
