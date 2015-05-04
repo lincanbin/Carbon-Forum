@@ -330,6 +330,7 @@ h2.resp-accordion {
 	margin: 0 4px;
 }
 .buttons .searchbox input{
+	float: left;
 	background-color: #F9F9F9;
 	margin: 14px 0 13px 0;
 	padding: 2px 0 2px 16px;
