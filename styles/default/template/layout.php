@@ -116,7 +116,7 @@ if($CurUserRole==5){
 			<p>
 			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015
 			<?php
-			if ($IsMobie && $Config['MobileDomainName']) {
+			if ($IsMobile && $Config['MobileDomainName']) {
 			?>
 			&nbsp;&nbsp;<a href="http://<?php echo $Config['MainDomainName']; ?>/view-mobile?cookie_prefix=<?php echo urlencode($Config['CookiePrefix']); ?>&website_path=<?php echo urlencode($Config['WebsitePath']); ?>&callback=<?php echo urlencode($Config['MobileDomainName'].$RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
 			<?php

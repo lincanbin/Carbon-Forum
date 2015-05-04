@@ -130,9 +130,9 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 //提示信息
 function AlertMsg($PageTitle, $error, $status_code = 200)
 {
-	global $Lang, $RequestURI, $UrlPath, $IsMobie, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $RequestURI, $UrlPath, $IsMobile, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors = array();
-	if (!$IsApp && !$IsMobie) {
+	if (!$IsApp && !$IsMobile) {
 		switch ($status_code) {
 			case 404:
 				header("HTTP/1.1 404 Not Found");
@@ -693,17 +693,17 @@ function dhtmlspecialchars($string, $flags = null)
 $UserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
 if ($UserAgent) {
 	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
-	$IsMobie  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
+	$IsMobile  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
 } else {
 	//exit('error: 400 no agent');
 	$IsSpider = false;
-	$IsMobie  = false;
+	$IsMobile  = false;
 }
 $IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName'] ? true : false;
-/* 设置要调用的模板
- * default: PC端模板
- * mobile: 手机端模板
- * api: 客户端要调用的模板
+/* Set current template
+ * default: PC Version
+ * mobile: Mobile Version
+ * api: API
  */
 if ($IsApp) {
 	$TemplatePath = dirname(__FILE__) . '/styles/api/template/';
@@ -719,7 +719,7 @@ if ($IsApp) {
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard
 }
-$CurView = GetCookie('View', $IsMobie ? 'mobile' : 'desktop');
+$CurView = GetCookie('View', $IsMobile ? 'mobile' : 'desktop');
 if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp) {
 	//如果是手机，则跳转到移动版，暂时关闭
 	header("HTTP/1.1 302 Moved Temporarily");
@@ -756,7 +756,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserID && $CurUserCode) {
 			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600);
 		}
 	}
-	
+	//Using hash_equals() in the future
 	if ($TempUserInfo && $CurUserCode === md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
