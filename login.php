@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"UserName" => $UserName
 			));
 			if ($DBUser) {
-				if (md5($Password . $DBUser['Salt']) == $DBUser['Password']) {
+				if (md5($Password . $DBUser['Salt']) === $DBUser['Password']) {
 					UpdateUserInfo(array(
 						'LastLoginTime' => $TimeStamp,
 						'UserLastIP' => CurIP()

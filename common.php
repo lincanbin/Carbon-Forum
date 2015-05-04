@@ -757,7 +757,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserID && $CurUserCode) {
 		}
 	}
 	
-	if ($TempUserInfo && $CurUserCode == md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT)) {
+	if ($TempUserInfo && $CurUserCode === md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;
