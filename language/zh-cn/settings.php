@@ -39,5 +39,5 @@ $Lang = array_merge($Lang, array(
 	'Password_Do_Not_Modify' => '输入的新密码不能与原密码相同',
 	'Current_Password_Is_Uncorrect' => '输入的当前密码不正确',
 	'Passwords_Inconsistent' => '新密码、重复新密码不一致',
-	'Forms_Can_Not_Be_Empty' => '请填写完整，当前当前密码、新密码、重复新密码'
+	'Forms_Can_Not_Be_Empty' => '请填写完整：当前密码、新密码、重复新密码'
 	));
