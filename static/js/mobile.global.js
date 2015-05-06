@@ -17,7 +17,7 @@ var UE = {
 /* Init Appframework*/
 if (! ((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
 	var script = document.createElement("script");
-	script.src = WebsitePath + "/static/appframework.desktopBrowsers.js";
+	script.src = WebsitePath + "/static/js/appframework.desktopBrowsers.js";
 	var tag = $("head").append(script);
 }
 $.ui.overlayStatusbar = true; // for ios7 only to add header padding to overlay the statusbar
