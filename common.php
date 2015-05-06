@@ -96,14 +96,13 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 		$ExceptionUser[] = $FilterUser;
 	}
 	// 正则跟用户注册、登录保持一致
-	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_.]{4,20})/', $Content, $out, PREG_PATTERN_ORDER);
+	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', $Content, $out, PREG_PATTERN_ORDER);
 	$TemporaryUserList = array_unique($out[1]); //排重
 	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
 	if ($TemporaryUserList) {
 		$UserList = $DB->row('SELECT ID FROM `' . $Prefix . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
-		if ($UserList && count($UserList) <= 20)
+		if ($UserList && count($UserList) <= 20) {
 		//最多@ 20人，防止骚扰
-			{
 			foreach ($UserList as $UserID) {
 				$DB->query('INSERT INTO `' . $Prefix . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (null,?,?,?,?,?,?,?)', array(
 					$UserID,
@@ -342,7 +341,7 @@ function IsEmail($email)
 //判断是否为合法用户名
 function IsName($string)
 {
-	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_.]{4,20}$/i', $string);
+	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_]{4,20}$/i', $string);
 }
 
 //只有上一页下一页的分页
@@ -465,7 +464,7 @@ function TagsDiff($Arr1, $Arr2)
 	global $Config;
 	$Arr2 = array_change_key_case(array_flip($Arr2), CASE_LOWER); //flip，排重，Key有Hash索引，速度更快
 	foreach ($Arr1 as $Key => $Item) {
-		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || array_key_exists(strtolower(trim($Item)), $Arr2) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_. ]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
+		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || array_key_exists(strtolower(trim($Item)), $Arr2) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_ ]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
 			unset($Arr1[$Key]);
 		} else {
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
