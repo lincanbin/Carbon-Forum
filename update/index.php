@@ -139,6 +139,7 @@ function VersionCompare($Version, $OldVersion)
 						<td width="auto" align="left">
 							<select name="Language">
 								<option value="zh-cn">简体中文</option>
+								<option value="zh-tw">繁體中文</option>
 								<option value="en">English</option>
 								<option value="pl">polski</option>
 							</select>
