@@ -187,7 +187,7 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 			InitEditor();
 			</script>
 		</p>
-		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
+		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
 		<p></p>
 	</form>

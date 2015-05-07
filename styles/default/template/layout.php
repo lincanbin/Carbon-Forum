@@ -114,7 +114,7 @@ if($CurUserRole==5){
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015
+			Powered By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015
 			<?php
 			if ($IsMobile && $Config['MobileDomainName']) {
 			?>

@@ -35,7 +35,7 @@ var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多�
 				<div id="TagsList" class="btn">
 				</div>
 			</p>
-			<p><div class="text-center"><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="textbtn" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></div><div class="c"></div></p>
+			<p><div class="text-center"><input type="button" value="<?php echo $Lang['Submit']; ?>(Ctrl+Enter)" name="submit" class="textbtn" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></div><div class="c"></div></p>
 			</form>
 	</div>
 </div>

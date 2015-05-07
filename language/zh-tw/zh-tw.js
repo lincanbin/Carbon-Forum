@@ -43,7 +43,7 @@ var Lang = {
 	'Reply_To':'回復'
 };
 
-UE.I18N['zh-cn'] = {
+UE.I18N['zh-tw'] = {
 	'labelMap':{
 		'anchor':'錨點', 'undo':'撤銷', 'redo':'重做', 'bold':'加粗', 'indent':'首行縮進', 'snapscreen':'截圖',
 		'italic':'斜體', 'underline':'底線', 'strikethrough':'刪除線', 'subscript':'下標','fontborder':'字元邊框',
@@ -180,7 +180,7 @@ UE.I18N['zh-cn'] = {
 		'tablecenter':'居中顯示',
 		'tableright':'右浮動',
 		'edittd':"儲存格屬性",
-		'setbordervisible':'設置表格邊線可見',
+		'setbordervisible':'設定表格邊線可見',
 		'justifyleft':'左對齊',
 		'justifyright':'右對齊',
 		'justifycenter':'居中對齊',
@@ -212,7 +212,7 @@ UE.I18N['zh-cn'] = {
 		'splittocols':"拆分成列",
 		'splittorows':"拆分成行",
 		'tablesort':'表格排序',
-		'enablesort':'設置表格可排序',
+		'enablesort':'設定表格可排序',
 		'disablesort':'取消表格可排序',
 		'reversecurrent':'逆序當前',
 		'orderbyasc':'按ASCII字元昇冪',
@@ -248,7 +248,7 @@ UE.I18N['zh-cn'] = {
 	'anchorMsg':'錨點',
 	'delete':'刪除',
 	'clickToUpload':"點擊上傳",
-	'unset':'尚未設置語言檔',
+	'unset':'尚未設定語言檔',
 	't_row':'行',
 	't_col':'列',
 	'more':'更多',
@@ -275,12 +275,12 @@ UE.I18N['zh-cn'] = {
 
 	'background':{
 		'static':{
-			'lang_background_normal':'背景設置',
+			'lang_background_normal':'背景設定',
 			'lang_background_local':'線上圖片',
 			'lang_background_set':'選項',
 			'lang_background_none':'無背景色',
 			'lang_background_colored':'有背景色',
-			'lang_background_color':'顏色設置',
+			'lang_background_color':'顏色設定',
 			'lang_background_netimg':'網路圖片',
 			'lang_background_align':'對齊方式',
 			'lang_background_position':'精確定位',
@@ -559,13 +559,13 @@ UE.I18N['zh-cn'] = {
 			'lang_input_introduction':'UEditor是由百度web前端研發部開發的所見即所得富文本web編輯器，具有輕量，可定制，注重用戶體驗等特點。開源基於BSD協定，允許自由使用和修改代碼。',
 			'lang_Txt_shortcuts':'快速鍵',
 			'lang_Txt_func':'功能',
-			'lang_Txt_bold':'給選中字設置為加粗',
+			'lang_Txt_bold':'給選中字設定為加粗',
 			'lang_Txt_copy':'複製選中內容',
 			'lang_Txt_cut':'剪切選中內容',
 			'lang_Txt_Paste':'粘貼',
 			'lang_Txt_undo':'重新執行上次操作',
 			'lang_Txt_redo':'撤銷上一次操作',
-			'lang_Txt_italic':'給選中字設置為斜體',
+			'lang_Txt_italic':'給選中字設定為斜體',
 			'lang_Txt_underline':'給選中字加底線',
 			'lang_Txt_selectAll':'全部選中',
 			'lang_Txt_visualEnter':'軟回車',

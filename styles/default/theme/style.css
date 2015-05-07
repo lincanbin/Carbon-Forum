@@ -756,6 +756,7 @@ img .avatar {
 .member-detail {
 	float:left;
 	margin:10px;
+	max-width: 462px;
 }
 .member-detail p {
 	color:#666;
