@@ -43,7 +43,7 @@ var Lang = {
 	'Reply_To':'Reply to '
 };
 
-UE.I18N['en'] = {
+UE.I18N['pl'] = {
 	'labelMap':{
 		'anchor':'Anchor', 'undo':'Undo', 'redo':'Redo', 'bold':'Bold', 'indent':'Indent', 'snapscreen':'SnapScreen',
 		'italic':'Italic', 'underline':'Underline', 'strikethrough':'Strikethrough', 'subscript':'SubScript','fontborder':'text border',
