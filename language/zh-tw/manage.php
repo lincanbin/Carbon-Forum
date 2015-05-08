@@ -30,5 +30,5 @@ $Lang = array_merge($Lang, array(
 	'Edited' => '編輯成功',
 	'Failure_Edit' => '編輯失敗',
 
-	'Reset_Avatar_Successfully' => '重置肖像成功，請刷新頁面。'
+	'Reset_Avatar_Successfully' => '重設肖像成功，請重新整理頁面。'
 	));
