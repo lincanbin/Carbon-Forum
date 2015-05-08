@@ -9,5 +9,5 @@ $Lang = array_merge($Lang, array(
 	'Password_Error' => '密碼錯誤',
 	'User_Does_Not_Exist' => '使用者不存在',
 	'Verification_Code_Error' => '認證碼錯誤',
-	'Forms_Can_Not_Be_Empty' => '使用者名/密碼/認證碼必填'
+	'Forms_Can_Not_Be_Empty' => '使用者名稱/密碼/認證碼必填'
 	));
