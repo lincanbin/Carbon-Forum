@@ -23,8 +23,8 @@ var Lang = {
 	'Title_Can_Not_Be_Empty':'標題不能為空！',
 	'Title_Too_Long':'標題長度不能超過 {{MaxTitleChars}} 位元組，當前標題長度為 {{Current_Title_Length}} 個位元組',
 	'Tags_Empty':'標籤不能為空！',
-	'Submitting':' 發表中 ',
-	'Submit_Success':' 發表成功 ',
+	'Submitting':' 發佈中 ',
+	'Submit_Success':' 發佈成功 ',
 	'Submit_Failure':'發表失敗，請再次送出！',
 	'Submit_Again':' 再次送出 ',
 	'Tags_Too_Much':'最多只能插入 {{MaxTagNum}} 個標籤！',
@@ -686,7 +686,7 @@ UE.I18N['zh-tw'] = {
 			lang_resave:"轉存步驟",
 			uploadBtn:{src:"upload.png",alt:"上傳"},
 			clipboard:{style:"background: url(copy.png) -153px -1px no-repeat;"},
-			lang_step:"1、點選頂部複製按鈕，將位址複製到剪貼板；2、點選新增相片按鈕，在彈出的對話方塊中使用 Ctrl+V 貼上位址；3、點選開啟後選擇圖片上傳流程。"
+			lang_step:"1、點選頂部複製按鈕，將網址複製到剪貼板；2、點選新增相片按鈕，在彈出的對話方塊中使用 Ctrl+V 貼上網址；3、點選開啟後選擇圖片上傳流程。"
 		},
 		'fileType':"圖片",
 		'flashError':"Flash 初始化失敗，請檢查 Flash 外掛程式是否正確安裝！",
