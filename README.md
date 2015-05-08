@@ -7,7 +7,7 @@ Demo/Official Website
 ------------
 
 * [项目简体中文官网: www.94cb.com](http://www.94cb.com/)
-
+* [項目繁體中文官網: tw.94cb.com](http://tw.94cb.com/)
 * [Project's English Official Website: en.94cb.com](http://en.94cb.com/)
 
 Requirements
