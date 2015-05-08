@@ -3,7 +3,7 @@
  * https://github.com/lincanbin/Carbon-Forum
  *
  * Copyright 2015, Lin Canbin
- * http://www.94cb.com/
+ * http://tw.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
  * http://www.apache.org/licenses/LICENSE-2.0
