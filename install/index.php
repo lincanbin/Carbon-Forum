@@ -58,7 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($Htaccess);
 
 	//rewrite文件配置
-	$Message = '安装成功，安装完成后请马上删除install与update文件夹。<br />Please delete the install folder and the update folder. <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
+	$Message = '安装成功，安装完成后请马上删除install和update文件夹。<br />安裝成功，安裝完成後請立即刪除install與update資料夾。<br />Please delete the install folder and the update folder. <br /><a href="../register">点我马上注册管理员账号。<br />點我立即註冊管理員帳號。<br />The first registered users will become administrators.</a>';
 
 	//安全起见，修改为不可执行文件
 	if (file_exists('index.php')) {  
@@ -70,10 +70,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	
 }else{
 	if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-		$Message = '你的PHP版本过低，可能会无法正常使用！<br />Your PHP version is too low, it may not work properly!';
+		$Message = '你的PHP版本过低，可能会无法正常使用！<br />您的PHP版本太低，可能會無法正常使用！<br />Your PHP version is too low, it may not work properly!';
 	}
 	if (! extension_loaded('pdo_mysql')) {
-		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
+		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作！<br />你的PHP不支援pdo_mysql擴充套件，此程式無法正常運作！<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
 	}
 }
 //从文件中逐条取SQL
@@ -121,7 +121,7 @@ function GetNextSQL() {
 			<!-- main-content start -->
 <div class="main-content">
 	<div class="title">
-		Carbon Forum &raquo; 安装&nbsp;&nbsp;/&nbsp;&nbsp;Install
+		Carbon Forum &raquo; 安装&nbsp;&nbsp;/&nbsp;&nbsp;安裝&nbsp;&nbsp;/&nbsp;&nbsp;Install
 	</div>
 	<div class="main-box">
 			<form action="?" method="post">
@@ -132,35 +132,35 @@ function GetNextSQL() {
 					</tr>
 					<?php if(!$Message) {?>
 					<tr>
-						<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
+						<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;安裝語言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 						<td width="auto" align="left">
 							<select name="Language">
-								<option value="zh-cn">简体中文</option>
-								<option value="zh-tw">繁體中文</option>
+								<option value="zh-cn">简体中文（中国）</option>
+								<option value="zh-tw">繁體中文（台灣）</option>
 								<option value="en">English</option>
-								<option value="pl">polski</option>
+								<option value="pl">Polski</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
+						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;資料庫主機的位址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
 						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="127.0.0.1" /></td>
 					</tr>
 					<tr>
-						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
+						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;資料庫名稱&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
 						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="" /></td>
 					</tr>
 					<tr>
-						<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
+						<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;資料庫登入帳號&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
 						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="root" /></td>
 					</tr>
 					<tr>
-						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
+						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;資料庫密碼&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
 						<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="安 装 / Install " name="submit" class="textbtn" /></td>
+						<td width="auto" align="left"><input type="submit" value="安 装 / 安裝 / Install " name="submit" class="textbtn" /></td>
 					</tr>
 					<?php } ?>
 				</tbody>
@@ -171,13 +171,13 @@ function GetNextSQL() {
 	<!-- main-content end -->
 	<div class="main-sider">
 		<div class="sider-box">
-			<div class="sider-box-title">安装说明</div>
+			<div class="sider-box-title">安装说明 / 安裝提示</div>
 			<div class="sider-box-content">
 				<p>
-				如果出现“Access denied”错误，说明填写不正确，请返回重新填写。
+				如果出现“Access denied”错误，说明填写不正确，请返回重新填写。<br />若出現Access denied錯誤，表明輸入有誤，請回到上一頁重新輸入。
 				</p>
 				<p>
-				安装完毕后，第一个注册的用户将会自动成为管理员。
+				安装完毕后，第一个注册的用户将会自动成为管理员。<br />安裝完成後，第一位註冊的使用者將會自動成爲管理員。
 				</p>
 			</div>
 		</div>
