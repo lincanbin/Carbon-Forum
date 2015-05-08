@@ -20,6 +20,6 @@ $Lang = array_merge($Lang, array(
 	'Replies' => '个回复',
 	'Last_Updated_In' => '最后更新于',
 	'Reply' => ' 回 复 ',
-	'Requirements_For_Login' => '登陆后方可回帖',
+	'Requirements_For_Login' => '登录后方可回帖',
 	'Topic_Has_Been_Locked' => '此帖已被锁定，禁止回复'
 	));
