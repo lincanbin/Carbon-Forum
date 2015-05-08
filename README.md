@@ -6,7 +6,7 @@ A high performance open-source forum software written in PHP.
 Demo/Official Website
 ------------
 
-* [项目中文官网: www.94cb.com](http://www.94cb.com/)
+* [项目简体中文官网: www.94cb.com](http://www.94cb.com/)
 
 * [Project's English Official Website: en.94cb.com](http://en.94cb.com/)
 
