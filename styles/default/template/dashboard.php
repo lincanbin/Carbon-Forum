@@ -160,7 +160,7 @@ $(document).ready(function(){
 						<td width="auto" align="left"><input type="text" class="w300" name="MobileDomainName" value="<?php echo $Config['MobileDomainName']; ?>" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right"><?php echo $Lang['API_Domainname']; ?><br >(Example:&nbsp;&nbsp;app.94cb.com)</td>
+						<td width="180" align="right"><?php echo $Lang['API_Domainname']; ?><br >(Example:&nbsp;&nbsp;api.94cb.com)</td>
 						<td width="auto" align="left"><input type="text" class="w300" name="AppDomainName" value="<?php echo $Config['AppDomainName']; ?>" /></td>
 					</tr>
 					<tr>
