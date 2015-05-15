@@ -34,7 +34,7 @@ var Lang = {
 	'Cancel':' 取 消 ',
 
 	'Confirm_Operation':'確認執行該操作？',
-	'Confirm':'確定',
+	'Confirm':'確認',
 
 	'Reply':' 回 覆 ',
 	'Content_Empty':'內容不能為空！',
@@ -247,7 +247,7 @@ UE.I18N['zh-tw'] = {
 	'clear':'清除',
 	'anchorMsg':'錨點',
 	'delete':'刪除',
-	'clickToUpload':"點擊上傳",
+	'clickToUpload':"點選上傳",
 	'unset':'尚未設定語言檔',
 	't_row':'行',
 	't_col':'列',
@@ -265,7 +265,7 @@ UE.I18N['zh-tw'] = {
 		'imageFloat':"圖片浮動",
 		'removeFontsize':"清除字型大小",
 		'removeFontFamily':"清除字型",
-		'removeHtml':"清理多餘 HTML 代碼",
+		'removeHtml':"清除多餘 HTML 代碼",
 		'pasteFilter':"貼上篩選",
 		'run':"執行",
 		'symbol':'符號轉換',
@@ -488,7 +488,7 @@ UE.I18N['zh-tw'] = {
 		'static':{
 			'lang_input_previousStep':"上一步",
 			'lang_input_nextsStep':"下一步",
-			'lang_input_clear':'清理',
+			'lang_input_clear':'清除',
 			'lang_input_addPic':'新增背景',
 			'lang_input_ScalePic':'縮放背景',
 			'lang_input_removePic':'刪除背景',
