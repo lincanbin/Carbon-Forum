@@ -31,14 +31,14 @@ $Lang = array_merge($Lang, array(
 
 	'Html_Between_Head' => '&lt;Head&gt;標籤之間的內容',
 	'Html_Before_Body' => '&lt;/Body&gt;標籤之前的內容<br />一般放置統計用代碼',
-	'Html_SiderBar' => '側邊列的內容',
+	'Html_SiderBar' => '資訊列的內容',
 
 	'jQuery_CDN' => 'jQuery庫網址',
 	'Main_Domainname' => '主站桌面網域名稱',
 	'Mobile_Domainname' => '行動版網域名稱',
 	'API_Domainname' => '用戶端 API 網域名稱',
 
-	'Refresh_Cache_Notice' => '更新快取的操作可能會比較久，請耐心等待<br />倘若資料正確，則無清理快取之必要',
+	'Refresh_Cache_Notice' => '更新快取的操作可能會比較久，請耐心等待<br />倘若資料正確，則無清除快取之必要',
 	'Refresh_All_Cache' => '更新全站快取',
 
 	'Successfully_Refreshed' => '快取更新成功',
