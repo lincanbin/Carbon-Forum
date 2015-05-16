@@ -96,13 +96,12 @@ foreach($PostsArray as $key => $Post)
 			</a>
 		</div>
 		<div class="comment-data">
-			<div class="comment-content" id="div-p<?php echo $Post['ID']; ?>">
+			<div class="comment-content">
 				<div>
 					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>"><?php echo $Post['UserName'];?></a></div>
 					<span class="float-right grey fs12">
 						<?php echo FormatTime($Post['PostTime']); ?>&nbsp;&nbsp;
-						<span class="commonet-count"><a href="#div-p<?php echo $Post['ID']; ?>">#<?php echo $PostFloor; ?></a></span>
-						
+						<a href="#Post<?php echo $Post['ID']; ?>"><span class="commonet-count">#<?php echo $PostFloor; ?></span></a>
 					</span>
 				</div>
 				<div class="c"></div>
