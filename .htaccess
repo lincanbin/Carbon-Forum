@@ -12,7 +12,6 @@ ErrorDocument 404 /404.php
 
 	RewriteBase /
 	#RewriteRule ^includes - [F,L]
-	#RewriteRule ^language - [F,L]
 	#RewriteRule ^styles/default/template - [F,L]
 	#RewriteRule ^styles/mobile/template - [F,L]
 	#RewriteRule ^styles/api/template - [F,L]
