@@ -741,7 +741,7 @@ $CurUserID   = intval(GetCookie('UserID'));
 $CurUserExpirationTime   = intval(GetCookie('UserExpirationTime'));
 $CurUserCode = GetCookie('UserCode');
 
-if ($CurUserExpirationTime > $TimeStamp && $CurUserID && $CurUserCode) {
+if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp + 2678400) && $CurUserID && $CurUserCode) {
 	$TempUserInfo = array();
 	if ($MCache) {
 		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
