@@ -224,8 +224,9 @@ function CharsFilter($String)
 // 获得IP地址
 function CurIP()
 {
+	$IsCDN = false;//未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
 	$IP = false;
-	if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+	if ($IsCDN && !empty($_SERVER["HTTP_CLIENT_IP"])) {
 		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
 	}
 	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -242,7 +243,6 @@ function CurIP()
 			}
 		}
 	}
-	//未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
 	return htmlspecialchars($IP ? $IP : $_SERVER['REMOTE_ADDR']);
 }
 
