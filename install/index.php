@@ -2,6 +2,9 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
+if(is_file('install.lock')){
+	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
+}
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$fp = fopen(dirname(__FILE__).'/database.sql', "r") or die("不能打开SQL文件");
 	$Language = $_POST['Language'];
@@ -60,12 +63,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//rewrite文件配置
 	$Message = '安装成功，安装完成后请马上删除install与update文件夹。<br />Please delete the install folder and the update folder. <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
 
-	//安全起见，修改为不可执行文件
-	if (file_exists('index.php')) {  
-		rename ("index.php", "index.txt");
+	if (!file_exists('install.lock')) {  
+		touch('install.lock');
 	}
-	if (file_exists('../update/index.php')) {  
-		rename ("../update/index.php", "../update/index.txt");
+	if (!file_exists('../update/update.lock')) {  
+		touch("../update/update.lock");
 	}
 	
 }else{
