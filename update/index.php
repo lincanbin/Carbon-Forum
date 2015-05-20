@@ -79,7 +79,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//3.3.0
 	//关闭数据库连接
 	$DB->CloseConnection();
-	//安全起见，修改为不可执行文件
 	if (!file_exists('update.lock')) {  
 		touch('update.lock');
 	}
