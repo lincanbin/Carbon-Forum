@@ -9,3 +9,10 @@
 /static/js/jquery.autocomplete.js
 /static/editor/ueditor.all.js
 /static/editor/ueditor.parse.js
+#Server related files and data files
+*.lock
+/includes/logs
+/upload
+#These files will be created automatically after install
+/.htaccess
+/config.php

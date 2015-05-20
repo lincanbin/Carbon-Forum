@@ -4,7 +4,9 @@ date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
 $Version = '3.3.0';
 $Prefix = 'carbon_';
-
+if(is_file('update.lock')){
+	die("请删除 update/update.lock 文件后再进行操作！<br>Please Remove update/update.lock before update!");
+}
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Language = $_POST['Language'];
 	$DBHost = $_POST['DBHost'];
@@ -78,11 +80,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//关闭数据库连接
 	$DB->CloseConnection();
 	//安全起见，修改为不可执行文件
-	if (file_exists('index.php')) {  
-		rename("index.php", "index.txt");
+	if (!file_exists('update.lock')) {  
+		touch('update.lock');
 	}
-	if (file_exists('../install/index.php')) {  
-		rename("../install/index.php", "../install/index.txt");
+	if (file_exists('../install/install.lock')) {  
+		touch("../install/install.lock");
 	}
 }else{
 	if (version_compare(PHP_VERSION, '5.3.0') < 0) {
