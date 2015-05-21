@@ -64,6 +64,12 @@ switch ($_GET['action']) {
 		
 		break;
 	
+	case 'get_post':
+		$PostId = intval($_POST['PostId']);
+		$row = $DB->row("SELECT UserName, Content FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array('PostId' => $PostId));
+		echo json_encode($row);
+		break;
+	
 	default:
 		# code...
 		break;
