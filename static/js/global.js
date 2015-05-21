@@ -71,10 +71,10 @@ function ManageCallback(TargetTag) {
 	this.Success = function(Json) {
 		if (Json.Status == 1) {
 			//alert(Json.Message);
-			TargetTag.innerText = Json.Message;
+			$(TargetTag).text(Json.Message);
 			//window.location.reload();
 		} else {
-			TargetTag.innerText = Json.ErrorMessage;
+			$(TargetTag).text(Json.ErrorMessage);
 			//alert(Json.ErrorMessage);
 		}
 	}
@@ -84,7 +84,7 @@ function ManageCallback(TargetTag) {
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 	var Lang = Lang || window.Lang ||  {Confirm_Operation : 'Confirm_Operation'};
 	if (NeedToConfirm ? confirm(Lang['Confirm_Operation']) : true) {
-		TargetTag.innerText = "Loading";
+		$(TargetTag).text("Loading");
 		var CallbackObj = new ManageCallback(TargetTag);
 		$.ajax({
 			url: WebsitePath + "/manage",
