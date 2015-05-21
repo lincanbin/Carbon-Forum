@@ -241,3 +241,40 @@ function RecoverContents() {
 		UE.getEditor('editor').setContent(DraftContent);
 	}
 }
+
+$(document).ready(function () {
+	// 回帖内容鼠标提示
+	if (TopicID) {
+		var postA = $('a[href*="t/' + TopicID + '#Post"]');
+		var posts = {};
+		var showTip = function (ele, data) {
+			if (!data) {
+				return false;
+			}
+			console.log(data);
+		};
+		var attach = function (ele, postId) {
+			ele.hover(function () {
+				if (postId in posts) {
+					showTip(ele, posts[postId]);
+				} else {
+					$.post(WebsitePath + "/json/get_post", { PostId: postId })
+						.success(function (data) {
+						posts[postId] = data;
+						showTip(ele, data);
+					});
+				}
+			}, function () {
+				
+			});
+		};
+		for (var index = 0; index < postA.length; index++) {
+			var $element = $(postA[index]);
+			var postId = $element.attr("href").match(/#Post([0-9]+)/)
+			if (postId) {
+				postId = postId[1];
+				attach($element, postId);
+			}
+		}
+	}
+});
