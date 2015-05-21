@@ -246,7 +246,7 @@ function RecoverContents() {
 $(document).ready(function () {
 	// 回帖内容鼠标提示
 	if (TopicID) {
-		var postA = $('a[href*="t/' + TopicID + '#Post"]');
+		var postA = $('a[href*="#Post"]');
 		var posts = {};
 		var tip = $("#reply-mouse-tip");
 		var tipAuthor = tip.find("a.author");
