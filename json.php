@@ -2,9 +2,9 @@
 include(dirname(__FILE__) . '/common.php');
 SetStyle('api', 'API');
 
-Auth(1);
 switch ($_GET['action']) {
 	case 'get_tags':
+		Auth(1);
 		require(dirname(__FILE__) . "/includes/PHPAnalysis.class.php");
 		$str                   = $_POST['Title'] . "/r/n" . $_POST['Content'];
 		$do_fork               = $do_unit = true;
@@ -43,6 +43,7 @@ switch ($_GET['action']) {
 	
 	
 	case 'tag_autocomplete':
+		Auth(1);
 		$Keyword           = $_POST['query'];
 		$Response          = array();
 		$Response['query'] = 'Unit';
@@ -66,7 +67,15 @@ switch ($_GET['action']) {
 	
 	case 'get_post':
 		$PostId = intval($_POST['PostId']);
-		$row = $DB->row("SELECT UserName, Content FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array('PostId' => $PostId));
+		$row = $DB->row("SELECT UserName, Content, TopicID FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array('PostId' => $PostId));
+		if($CurUserRole < 4){
+			// 对超级管理员以下的用户需要检查整个主题是否被删除了
+			$TopicID = $row['TopicID'];
+			$TopicRow = $DB->single("SELECT COUNT(*) FROM {$Prefix}topics WHERE ID = :TopicID AND IsDel = 0", array('TopicID' => $TopicID));
+			if($TopicRow < 1){
+				$row = false;
+			}
+		}
 		echo json_encode($row);
 		break;
 	
