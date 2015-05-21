@@ -202,3 +202,8 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 	<?php include($TemplatePath.'sider.php'); ?>
 </div>
 <!-- main-sider end -->
+<?php // reply mouse tip start?>
+<div class="reply-mouse-tip sider-box" id="reply-mouse-tip">
+	<a class="author" href="javascript:;"></a>
+	<div class="content">Loading...</div>
+</div>

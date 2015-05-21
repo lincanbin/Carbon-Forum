@@ -1,3 +1,4 @@
+/* global $ */
 /*
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
@@ -247,14 +248,24 @@ $(document).ready(function () {
 	if (TopicID) {
 		var postA = $('a[href*="t/' + TopicID + '#Post"]');
 		var posts = {};
+		var tip = $("#reply-mouse-tip");
+		var tipAuthor = tip.find("a.author");
+		var tipContent = tip.find("div.content");
 		var showTip = function (ele, data) {
 			if (!data) {
 				return false;
 			}
-			console.log(data);
+			tipAuthor.text(data.UserName);
+			tipAuthor.attr("href", WebsitePath + "/u/" + data.UserName);
+			tipContent.html(data.Content);
 		};
 		var attach = function (ele, postId) {
 			ele.hover(function () {
+				var pos = ele.position();
+				pos.top += ele.height();
+				tip.css(pos).show();
+				tipAuthor.text("");
+				tipContent.text("Loading...");
 				if (postId in posts) {
 					showTip(ele, posts[postId]);
 				} else {
@@ -265,7 +276,7 @@ $(document).ready(function () {
 					});
 				}
 			}, function () {
-				
+					$("#reply-mouse-tip").hide();
 			});
 		};
 		for (var index = 0; index < postA.length; index++) {

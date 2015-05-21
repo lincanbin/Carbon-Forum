@@ -941,3 +941,13 @@ img .avatar {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
+/* reply mouse tip */
+.reply-mouse-tip {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #fff;
+	width: 260px;
+	padding: 20px;
+}
