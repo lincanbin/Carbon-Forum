@@ -253,6 +253,7 @@ $(document).ready(function () {
 		var tipContent = tip.find("div.content");
 		var showTip = function (ele, data) {
 			if (!data) {
+				$("#reply-mouse-tip").hide();
 				return false;
 			}
 			tipAuthor.text(data.UserName);
