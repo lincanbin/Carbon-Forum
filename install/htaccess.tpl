@@ -18,7 +18,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 
 	RewriteRule ^dashboard$ dashboard.php [L]
 	RewriteRule ^favorites(/page/([0-9]*))?$ favorites.php?page=$2 [L]
-	RewriteRule ^json/(get_tags|tag_autocomplete|check_username)$ json.php?action=$1 [L]
+	RewriteRule ^json/([0-9a-z_\-]+)$ json.php?action=$1 [L]
 	RewriteRule ^login$ login.php [L]
 	RewriteRule ^manage$ manage.php [L]
 	RewriteRule ^new$ new.php [L]

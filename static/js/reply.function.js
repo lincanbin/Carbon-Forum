@@ -1,3 +1,4 @@
+/* global $ */
 /*
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
@@ -241,3 +242,51 @@ function RecoverContents() {
 		UE.getEditor('editor').setContent(DraftContent);
 	}
 }
+
+$(document).ready(function () {
+	// 回帖内容鼠标提示
+	if (TopicID) {
+		var postA = $('a[href*="t/' + TopicID + '#Post"]');
+		var posts = {};
+		var tip = $("#reply-mouse-tip");
+		var tipAuthor = tip.find("a.author");
+		var tipContent = tip.find("div.content");
+		var showTip = function (ele, data) {
+			if (!data) {
+				$("#reply-mouse-tip").hide();
+				return false;
+			}
+			tipAuthor.text(data.UserName);
+			tipAuthor.attr("href", WebsitePath + "/u/" + data.UserName);
+			tipContent.html(data.Content);
+		};
+		var attach = function (ele, postId) {
+			ele.hover(function () {
+				var pos = ele.position();
+				pos.top += ele.height();
+				tip.css(pos).show();
+				tipAuthor.text("");
+				tipContent.text("Loading...");
+				if (postId in posts) {
+					showTip(ele, posts[postId]);
+				} else {
+					$.post(WebsitePath + "/json/get_post", { PostId: postId })
+						.success(function (data) {
+						posts[postId] = data;
+						showTip(ele, data);
+					});
+				}
+			}, function () {
+					$("#reply-mouse-tip").hide();
+			});
+		};
+		for (var index = 0; index < postA.length; index++) {
+			var $element = $(postA[index]);
+			var postId = $element.attr("href").match(/#Post([0-9]+)/)
+			if (postId) {
+				postId = postId[1];
+				attach($element, postId);
+			}
+		}
+	}
+});
