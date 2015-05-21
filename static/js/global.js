@@ -11,7 +11,6 @@
  * A high performance open-source forum software written in PHP. 
  */
 
-
 //Button go to top
 $(function(){
 	//Initialize position of button
@@ -83,9 +82,7 @@ function ManageCallback(TargetTag) {
 
 //管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
-	if (!Lang) {
-　　　　var Lang = {Confirm_Operation : 'Confirm_Operation'};
-　　}
+	var Lang = Lang || window.Lang ||  {Confirm_Operation : 'Confirm_Operation'};
 	if (NeedToConfirm ? confirm(Lang['Confirm_Operation']) : true) {
 		TargetTag.innerText = "Loading";
 		var CallbackObj = new ManageCallback(TargetTag);
