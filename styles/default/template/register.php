@@ -4,14 +4,14 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-content start -->
 <div class="main-content">
 	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $Lang['Sign_Up']; ?>
+		<?php echo $Lang['Sign_Up']; ?>
 	</div>
 	<div class="main-box">
 		<?php if($Message){ ?>
 		<p class="red fs14" style="margin-left:60px;">
 		› <?php echo $Message; ?> <br/></p>
 		<?php } ?>
-		<form action="?" method="post">
+		<form action="?" class="kirameki" style="padding-top:20px" method="post">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 				<tbody>

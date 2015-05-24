@@ -18,7 +18,7 @@ if($Page==1)
 		<h1><?php  echo $Topic['Topic']; ?></h1>
 		<div class="topic-title-date">
 		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>"><?php echo $Topic['UserName']; ?></a>
- at <?php echo FormatTime($Topic['PostTime']); ?> • <?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($Topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
+ at <?php echo FormatTime($Topic['PostTime']); ?>&nbsp;&nbsp;•&nbsp;&nbsp;<?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?>&nbsp;&nbsp;•&nbsp;&nbsp;<?php echo ($Topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 		</div>
 	</div>
 	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>">
@@ -80,7 +80,7 @@ if($Topic['Replies']!=0)
 ?>
 <!-- comment list start -->
 <div class="title">
-	<?php echo $Topic['Replies']; ?> <?php echo $Lang['Replies']; ?>  |  <?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($Topic['LastTime']); ?>
+	<?php echo $Topic['Replies']; ?> <?php echo $Lang['Replies']; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#999"><?php echo $Lang['Last_Updated_In']; ?> <?php echo FormatTime($Topic['LastTime']); ?></span>
 </div>
 <div class="main-box home-box-list">
 <?php
@@ -97,26 +97,22 @@ foreach($PostsArray as $key => $Post)
 		</div>
 		<div class="comment-data">
 			<div class="comment-content">
-				<div>
+				<div class="clearfix">
 					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>"><?php echo $Post['UserName'];?></a></div>
 					<span class="float-right grey fs12">
 						<?php echo FormatTime($Post['PostTime']); ?>&nbsp;&nbsp;
 						<a href="#Post<?php echo $Post['ID']; ?>"><span class="commonet-count">#<?php echo $PostFloor; ?></span></a>
 					</span>
 				</div>
-				<div class="c"></div>
-				<div id="p<?php echo $Post['ID']; ?>" style="visibility:visible;">
+				<div class="commmmmment" id="p<?php echo $Post['ID']; ?>" style="visibility:visible;">
 					<?php echo $Post['Content']; ?>
 				</div>
 				<div id="edit<?php echo $Post['ID']; ?>" style="width:588px;height:auto;visibility:hidden;"></div>
 			</div>
 			<?php if($CurUserID){ ?>
-			<div class="comment-button">
-				<div class="float-left">
+			<div class="comment-button clearfix">
 				<?php if($CurUserRole>=4 || $Post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);" title="<?php echo $Lang['Edit']; ?>"><div class="icon icon-edit"></div></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
 				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);" title="<?php echo $Lang['Delete']; ?>"><div class="icon icon-delete"></div></a><?php } ?>
-				</div>
-				<div class="float-right">
 					<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $Post['UserName'];?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID'];?>);"><div class="icon icon-reply"></div></a>
 <?php
 if($EnableQuote){
@@ -126,8 +122,6 @@ if($EnableQuote){
 <?php
 }
 ?>	
-				</div>
-				<div class="c"></div>
 			</div>
 			<?php } ?>
 			<div class="c"></div>
@@ -168,7 +162,7 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 	<div class="float-right"><a href="#">↑ Top</a></div>
 	<div class="c"></div>    
 </div>
-<div class="main-box">
+<div class="main-box without-title">
 	<script>
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
 	</script>
@@ -186,9 +180,7 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 			InitEditor();
 			</script>
 		</p>
-		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
-		<div class="c"></div> 
-		<p></p>
+		<input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/>
 	</form>
 </div>
 <?php

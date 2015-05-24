@@ -15,40 +15,37 @@ $(document).ready(function(){
 </script>
 <div class="main-content">
 	<div id="settings" class="tab-container">
-		<ul class='resp-tabs-list'>
+		<ul class='resp-tabs-list clearfix'>
 			<li><?php echo $Lang['Avatar_Settings']; ?></li>
 			<li><?php echo $Lang['Profile_Settings']; ?></li>
 			<li><?php echo $Lang['Security_Settings']; ?></li>
 		</ul>
 		<div class="resp-tabs-container main-box">
 			<div>
-				<div>
+				<div style="padding-top:40px" class="clearfix">
 					<div class="float-left w300 img-center">
 						<img id="CurAvatar" src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
 						<p><a href="###" onclick="javascript:Manage(<?php echo $CurUserID; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
 					</div>
 					
 					<div class="float-right w300">
-						<p class="grey">
+						<p class="grey" style="line-height:1">
 							<?php echo $Lang['You_Can_Replace_Your_Avatar_Here']; ?>
 						</p>
-						<hr /><br />
+						<hr />
 						<form method="post" enctype="multipart/form-data" action="<?php echo $Config['WebsitePath']; ?>/settings#settings1">
 							<input type="hidden" name="Action" value="UploadAvatar">
 								<span class="red"><?php echo $UploadAvatarMessage; ?></span>
-								<br />
 								<input type="file" id="Avatar" name="Avatar" accept="image/*" />
-								<br />
-							<hr /><br />
+							<hr />
 							<div class="grey"><?php echo $Lang['Max_Avatar_Size_Limit']; ?></div>
-							<br />
 							<input type="submit" value="<?php echo $Lang['Upload_Avatar']; ?>" name="submit" class="textbtn" />
 						</form>
 					</div>
 					<div class="c"></div>
 				</div>
 			</div>
-			<div>
+			<div class="kirameki">
 				<p class="red text-center"><?php echo $UpdateUserInfoMessage; ?></p>
 				<form method="post" action="<?php echo $Config['WebsitePath']; ?>/settings#settings2">
 				<input type="hidden" name="Action" value="UpdateUserInfo" />
@@ -89,7 +86,7 @@ $(document).ready(function(){
 				</tbody></table>
 				</form>
 			</div>
-			<div>
+			<div class="kirameki">
 				<p class="red text-center"><?php echo $ChangePasswordMessage; ?></p>
 				<form method="post" action="<?php echo $Config['WebsitePath']; ?>/settings#settings3">
 				<input type="hidden" name="Action" value="ChangePassword" />

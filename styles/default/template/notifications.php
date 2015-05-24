@@ -15,11 +15,11 @@ $(document).ready(function(){
 </script>
 <div class="main-content">
 	<div id="notifications" class="tab-container">
-		<ul class='resp-tabs-list'>
+		<ul class='resp-tabs-list clearfix'>
 			<li><?php echo $Lang['Notifications_Replied_To_Me']; ?></li>
 			<li><?php echo $Lang['Notifications_Mentioned_Me']; ?></li>
 		</ul>
-		<div class="resp-tabs-container main-box home-box-list">
+		<div class="resp-tabs-container main-box">
 			<div>
 				<!-- posts list start -->
 				<?php

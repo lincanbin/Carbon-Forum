@@ -13,42 +13,38 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
 					</a>
 				</div>
-				<div class="item-content">
+				<div class="item-content clearfix">
 					<h2>
 						<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>">
 							<?php echo $Topic['Topic']; ?>
 						</a>
 					</h2>
+
+					<span class="item-date">
+						<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>"><?php echo $Topic['UserName']; ?></a>&nbsp;&nbsp;•&nbsp;&nbsp;
+						<?php echo FormatTime($Topic['LastTime']); 
+							if($Topic['Replies']) {
+						?>&nbsp;&nbsp;•&nbsp;&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>"><?php echo $Topic['LastName']; ?></a><?php } ?>
+					</span>
+					
 					<span class="item-tags">
-						<?php
-						if($Topic['Tags']){
-							foreach (explode("|", $Topic['Tags']) as $Tag) {
-						?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
-							<?php
-							}
-						}
-						?></span><span class="item-date float-right"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;<?php echo FormatTime($Topic['LastTime']); 
-							if($Topic['Replies']){
-						?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['LastName'] ?>"><?php echo $Topic['LastName']; ?></a><?php } ?>
+						<?php if($Topic['Tags']) { foreach (explode("|", $Topic['Tags']) as $Tag) { ?>
+							<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
+						<?php } } ?>
 					</span>
 				</div>
-							<?php if($Topic['Replies']){ ?>
-							<div class="item-count">
-							<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" target="_blank"><?php echo $Topic['Replies']; ?></a>
-							</div>
-							<?php } ?>
-							<div class="c"></div>
-							</div>
+				
+				<?php if($Topic['Replies']){ ?>
+					<div class="item-count">
+						<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" target="_blank"><?php echo $Topic['Replies']; ?></a>
+					</div>
+				<?php } ?>
+			</div>
 							
-		<?php
-		}
-		?>
-								<div class="pagination">
-								<?php Pagination("/page/",$Page,$TotalPage);
-								?>
-									<div class="c">
-									</div>
-								</div>
+			<?php }	?>
+					<div class="pagination clearfix">
+						<?php Pagination("/page/", $Page, $TotalPage); ?>
+					</div>
 				</div>
 			</div>
 			<!-- main-content end -->

@@ -16,3 +16,4 @@
 #These files will be created automatically after install
 /.htaccess
 /config.php
+*-tmp
