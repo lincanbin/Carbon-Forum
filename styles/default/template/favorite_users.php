@@ -4,10 +4,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-content start -->
 <div class="main-content">
 	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/">
-			<?php echo $Config['SiteName']; ?>
-		</a>
-		&raquo; <?php echo $Lang['My_Following_Users']; ?>
+		<?php echo $Lang['My_Following_Users']; ?>
 	</div>
 	<div class="main-box home-box-list">
 		<?php

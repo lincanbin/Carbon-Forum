@@ -12,13 +12,12 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <?php
 if($CurUserID){
 ?>
-	<p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a></p>
+	<p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a>
 <?php
 	if($CurUserRole>=4){
 ?>
-	<div class="c"></div>
-	<p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);"><?php echo $UserInfo['UserAccountStatus']?$Lang['Block_User']:$Lang['Unblock_User']; ?></a></p>
-	<p><a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
+	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);"><?php echo $UserInfo['UserAccountStatus']?$Lang['Block_User']:$Lang['Unblock_User']; ?></a>
+	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a>
 <?php
 	}
 }

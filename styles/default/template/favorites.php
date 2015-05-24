@@ -5,10 +5,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-content start -->
 <div class="main-content">
 	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/">
-			<?php echo $Config['SiteName']; ?>
-		</a>
-		&raquo; <?php echo $Lang['My_Favorites']; ?>
+		<?php echo $Lang['My_Favorites']; ?>
 	</div>
 	<div class="main-box home-box-list">
 		<?php
@@ -21,11 +18,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							<?php echo $Topic['Title']; ?>
 						</a>
 					</h2>
+					<span class="item-date">
+						<?php echo $Lang['Collected_In'].FormatTime($Topic['DateCreated']); ?>
+					</span>
 					<span class="item-tags">
 						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
-					</span>
-					<span class="item-date float-right">
-						<?php echo $Lang['Collected_In'].FormatTime($Topic['DateCreated']); ?>
 					</span>
 				</div>
 				<div class="c"></div>

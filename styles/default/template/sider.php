@@ -6,7 +6,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<div class="sider-box-title"><?php echo $Lang['Log_In']; ?></div>
 	<div class="sider-box-content">
 		<div class="center-align" style="width:226px;">
-			<form action="<?php echo $Config['WebsitePath']; ?>/login" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
+			<form action="<?php echo $Config['WebsitePath']; ?>/login" class="kirameki" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
 				<input type="hidden" value="<?php echo $RequestURI; ?>" name="ReturnUrl" />
 				<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 				<input type="hidden" name="Expires" value="30" />
@@ -14,8 +14,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<p><label><input type="password" name="Password" style="width:200px;" value="" placeholder="<?php echo $Lang['Password']; ?>" /></label></p>
 				<p><label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> 
 				<img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" /></p>
-				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" style="margin:0 78px;" /></p>
-				<p class="fs14 text-center"><a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a></p>
+				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" /><a style="text-decoration: none;margin-left: 20px;"href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a></p>
 			</form>
 		</div>
 	</div>

@@ -4,14 +4,14 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-content start -->
 <div class="main-content">
 	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $Lang['Log_In']; ?>
+		<?php echo $Lang['Log_In']; ?>
 	</div>
 	<div class="main-box">
 		<?php if($error){ ?>
 		<p class="red fs12" style="margin-left:60px;">
 		› <?php echo $error; ?> <br/></p>
 		<?php } ?>
-		<form action="?" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
+		<form action="?" class="kirameki" style="padding-top:20px;" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
 			<input type="hidden" value="<?php echo $ReturnUrl; ?>" name="ReturnUrl" />
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">

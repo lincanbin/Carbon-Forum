@@ -15,13 +15,13 @@ $(document).ready(function(){
 </script>
 <div class="main-content">
 	<div id="dashboard" class="tab-container">
-		<ul class='resp-tabs-list'>
+		<ul class='resp-tabs-list clearfix'>
 			<li><?php echo $Lang['Basic_Settings']; ?></li>
 			<li><?php echo $Lang['Page_Settings']; ?></li>
 			<li><?php echo $Lang['Advanced_Settings']; ?></li>
 			<li><?php echo $Lang['Refresh_Cache']; ?></li>
 		</ul>
-		<div class="resp-tabs-container main-box">
+		<div class="resp-tabs-container main-box kirameki">
 
 			<div>
 				<p class="red text-center"><?php echo $BasicMessage; ?></p>
