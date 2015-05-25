@@ -5,7 +5,7 @@ $error     = '';
 $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 
-if (array_key_exists('logout', $_GET)) {
+if (isset($_GET['logout']) && $_GET['logout'] == $CurUserCode) {
 	SetCookies(array(
 		'UserID' => '',
 		'CurUserExpirationTime' => '',
@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"UserName" => $UserName
 			));
 			if ($DBUser) {
+				//Using hash_equals() in the future
 				if (md5($Password . $DBUser['Salt']) === $DBUser['Password']) {
 					UpdateUserInfo(array(
 						'LastLoginTime' => $TimeStamp,

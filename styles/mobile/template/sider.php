@@ -73,7 +73,7 @@ if(!$CurUserID && $UrlPath!='login'){
 </li>
 
 <li>
-	<a class="icon close" href="<?php echo $Config['WebsitePath']; ?>/login?logout=1" data-ignore="True"><?php echo $Lang['Log_Out']; ?></a>
+	<a class="icon close" href="<?php echo $Config['WebsitePath']; ?>/login?logout=<?php echo $CurUserCode; ?>" data-ignore="True"><?php echo $Lang['Log_Out']; ?></a>
 </li>
 <?php }
 ?>
