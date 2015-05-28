@@ -105,7 +105,7 @@ CREATE TABLE `carbon_dict` (
   `Title` varchar(512) NOT NULL,
   `Abstract` mediumtext NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `title` (`Title`(333)) USING HASH
+  KEY `title` (`Title`(200)) USING HASH
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
