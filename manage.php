@@ -69,7 +69,7 @@ switch ($Type) {
 				break;
 			//永久删除主题（需要先将主题移动至回收站）
 			case 'PermanentlyDelete':
-				Auth(4);
+				Auth(5);
 				if ($TopicInfo['IsDel'] == 1) {
 					$DB->query('DELETE FROM `' . $Prefix . 'posttags` WHERE TopicID=?', array(
 						$ID
