@@ -45,6 +45,21 @@ $(function(){
 })
 
 
+//HTML5的Notification API，用来进行消息提示
+if(window.Notification && Notification.permission !== "denied") {
+	Notification.requestPermission(function(status) {    // 请求权限
+		if(status === 'granted') {
+			// 弹出一个通知
+			var n = new Notification(NewMessage + ' New Message', {
+				icon : WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png'
+			});
+			// 20秒后关闭通知
+			setTimeout(function() {
+				n.close();
+			}, 20000);
+		}
+	});
+}
 
 //异步非阻塞加载JavaScript脚本文件
 function loadScript(url, callback) {
