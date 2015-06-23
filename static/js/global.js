@@ -46,7 +46,7 @@ $(function(){
 
 
 //HTML5的Notification API，用来进行消息提示
-if(window.Notification && Notification.permission !== "denied") {
+if(window.Notification && Notification.permission !== "denied" && NewMessage > 0) {
 	Notification.requestPermission(function(status) {    // 请求权限
 		if(status === 'granted') {
 			// 弹出一个通知

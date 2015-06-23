@@ -39,7 +39,7 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	<script type="text/javascript">
 	var Prefix="<?php echo $Prefix; ?>";
 	var WebsitePath="<?php echo $Config['WebsitePath'];?>";
-	var NewMessage="<?php echo $CurUserID?$CurUserInfo['NewMessage']:'0'; ?>";
+	var NewMessage=<?php echo $CurUserID?$CurUserInfo['NewMessage']:'0'; ?>;
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
