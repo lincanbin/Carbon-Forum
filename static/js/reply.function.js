@@ -186,7 +186,7 @@ function ReplyToTopic() {
 						//清空草稿箱
 						StopAutoSave();
 					}
-					location.href = WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "#Post" + data.PostID;
+					location.href = WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?Nocache=true#Post" + data.PostID;
 				} else {
 					alert(data.ErrorMessage);
 					UE.getEditor('editor').setEnabled();
