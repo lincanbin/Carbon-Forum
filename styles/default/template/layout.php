@@ -42,14 +42,9 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
-	<script type="text/javascript">
-	$(function(){
-		ShowNotification(<?php echo $CurUserID?$CurUserInfo['NewMessage']:'0'; ?>);
-	});
 <?php if($CurUserID){
-	echo '		GetNotification();'; }
+	echo '<script type="text/javascript">GetNotification();</script>'; }
 ?>
-	</script>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
 <body>
