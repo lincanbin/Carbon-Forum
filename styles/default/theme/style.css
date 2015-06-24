@@ -884,6 +884,7 @@ img .avatar {
 	height: 24px;
 }
 .icon-messages-num {
+	visibility:hidden;
 	color:#FFFFFF;
 	position: absolute;
 	left: 60%;
