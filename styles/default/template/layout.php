@@ -39,10 +39,17 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	<script type="text/javascript">
 	var Prefix="<?php echo $Prefix; ?>";
 	var WebsitePath="<?php echo $Config['WebsitePath'];?>";
-	var NewMessage=<?php echo $CurUserID?$CurUserInfo['NewMessage']:'0'; ?>;
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
+	<script type="text/javascript">
+	$(function(){
+		ShowNotification(<?php echo $CurUserID?$CurUserInfo['NewMessage']:'0'; ?>);
+	});
+<?php if($CurUserID){
+	echo '		GetNotification();'; }
+?>
+	</script>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
 <body>
@@ -70,7 +77,7 @@ if($CurUserID){
 				
 
 				<a href="<?php echo $Config['WebsitePath']; ?>/settings" title="<?php echo $Lang['Settings']; ?>"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?>><div class="icon icon-settings"></div></a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?>><div class="icon icon-notifications"></div><?php echo $CurUserInfo['NewMessage']?'<span class="icon-messages-num">'.$CurUserInfo['NewMessage'].'</span>':'';?></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?>><div class="icon icon-notifications"></div><span class="icon-messages-num" id="MessageNumber">0</span></a>
 <?php
 if($CurUserRole==5){
 ?>

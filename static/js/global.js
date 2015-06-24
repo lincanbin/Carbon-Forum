@@ -11,8 +11,9 @@
  * A high performance open-source forum software written in PHP. 
  */
 
-//Button go to top
+
 $(function(){
+	//Button go to top
 	//Initialize position of button
 	$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
 	$("#go-to-top").click(function(){
@@ -42,25 +43,64 @@ $(function(){
 		minChars: 2,
 		type: 'post'
 	});
-})
+});
+
+
+//获取实时信息通知
+function GetNotification( ){
+	var NotificationSettings = {
+		type:"post",
+		url: WebsitePath + '/json/get_notifications',
+		dataType:'json',
+		success:function(Data){
+			if(Data.Status == 1){
+				if (Data.NewMessage>0) {
+					ShowNotification(Data.NewMessage);
+				}else{
+					setTimeout(function(){$.ajax(NotificationSettings);},3000);
+				}
+			}
+		},
+		error:function(){
+			//遇见错误30秒后重试
+			setTimeout(function(){$.ajax(NotificationSettings);},30000);
+		},
+	};
+	$.ajax(NotificationSettings);
+	console.log('start getting notification.');
+}
 
 
 //HTML5的Notification API，用来进行消息提示
-if(window.Notification && Notification.permission !== "denied" && NewMessage > 0) {
-	Notification.requestPermission(function(status) {    // 请求权限
-		if(status === 'granted') {
-			// 弹出一个通知
-			var n = new Notification(NewMessage + ' New Message', {
-				icon : WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png'
+function ShowNotification(NewMessageNumber) {
+	if(NewMessageNumber > 0){
+		$("#MessageNumber").css("visibility","visible");
+		$("#MessageNumber").html(NewMessageNumber);
+		if(window.Notification && Notification.permission !== "denied") {
+			Notification.requestPermission(function(Status) {// 请求权限
+				if(Status === 'granted') {
+					// 弹出一个通知
+					var CarbonNotification = new Notification(NewMessageNumber + ' New Message', {
+						icon : WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
+						body: "",
+					});
+					CarbonNotification.onclick = function () {
+						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");      
+					};
+					// 20秒后关闭通知
+					setTimeout(function() {
+						CarbonNotification.close();
+					}, 10000);
+				}
 			});
-			// 20秒后关闭通知
-			setTimeout(function() {
-				n.close();
-			}, 20000);
-		}
-	});
-}
 
+		}
+	}else{
+		$("#MessageNumber").html("0");
+		$("#MessageNumber").css("visibility","hidden");
+	}
+	return NewMessageNumber;
+}
 //异步非阻塞加载JavaScript脚本文件
 function loadScript(url, callback) {
 	var script = document.createElement("script");

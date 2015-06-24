@@ -3,6 +3,41 @@ include(dirname(__FILE__) . '/common.php');
 SetStyle('api', 'API');
 
 switch ($_GET['action']) {
+	case 'get_notifications':
+		Auth(1);
+		header("Cache-Control: no-cache, must-revalidate");
+
+		while( (time() - $TimeStamp) < 22 ){
+			if ($MCache) {
+				$CurUserInfo = $MCache -> get(MemCachePrefix . 'UserInfo_' . $CurUserID);
+				if($CurUserInfo){
+					$CurNewMessage = $CurUserInfo['NewMessage'];
+				}else{
+					$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+						"UserID" => $CurUserID
+					));
+					$MCache->set( MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600 );
+					$CurNewMessage = $TempUserInfo['NewMessage'];
+				}
+			}else{
+				$CurNewMessage = $DB->single("SELECT NewMessage FROM " . $Prefix . "users WHERE ID = :UserID", array(
+						"UserID" => $CurUserID
+				));
+			}
+
+			if($CurNewMessage > 0){
+				break;
+			}
+			sleep(3);
+		}
+		echo json_encode(
+			array(  'Status' => 1,
+				'NewMessage' => $CurNewMessage
+			)
+		);
+		break;
+
+
 	case 'get_tags':
 		Auth(1);
 		require(dirname(__FILE__) . "/includes/PHPAnalysis.class.php");
