@@ -25,8 +25,8 @@ if($IsGoogleBot){
 	$XMLNameSpace = ' xmlns:mobile="http://www.baidu.com/schemas/sitemap-mobile/1/"';
 }
 ob_start();
-?><?xml version="1.0" encoding="UTF-8" ?>
-<?php
+echo '<?xml version="1.0" encoding="UTF-8" ?>
+';
 $MobileTag = '';
 if($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'])
 {
