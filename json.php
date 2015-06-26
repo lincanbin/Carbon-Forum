@@ -6,7 +6,8 @@ switch ($_GET['action']) {
 	case 'get_notifications':
 		Auth(1);
 		header("Cache-Control: no-cache, must-revalidate");
-
+		set_time_limit(0);
+		//如果是自己的服务器，建议调大超时时间，然后把下面的长连接时长调大，以节约服务器资源
 		while( (time() - $TimeStamp) < 22 ){
 			if ($MCache) {
 				$CurUserInfo = $MCache -> get(MemCachePrefix . 'UserInfo_' . $CurUserID);

@@ -53,13 +53,11 @@ function GetNotification( ){
 		url: WebsitePath + '/json/get_notifications',
 		dataType:'json',
 		success:function(Data){
-			if(Data.Status == 1){
-				if (Data.NewMessage>0) {
-					ShowNotification(Data.NewMessage);
-				}else{
-					setTimeout(function(){$.ajax(NotificationSettings);},3000);
-				}
+			if(Data.Status != 0){
+				ShowNotification(Data.NewMessage);
 			}
+			//获取到新消息，60秒后再请求
+			setTimeout(function(){$.ajax(NotificationSettings);},60000);
 		},
 		error:function(){
 			//遇见错误30秒后重试
@@ -87,10 +85,10 @@ function ShowNotification(NewMessageNumber) {
 					CarbonNotification.onclick = function () {
 						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");      
 					};
-					// 20秒后关闭通知
+					// 30秒后关闭通知
 					setTimeout(function() {
 						CarbonNotification.close();
-					}, 10000);
+					}, 30000);
 				}
 			});
 
