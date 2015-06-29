@@ -76,7 +76,7 @@ if($Config['MobileDomainName']){
 	//Pjax
 ?>
 <script>
-PageAjaxLoad("<?php echo $PageTitle; ?>", "http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>");
+PageAjaxLoad("<?php echo $PageTitle; ?>", "//<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>");
 </script>
 <?php
 }
