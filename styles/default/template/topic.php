@@ -17,11 +17,11 @@ if($Page==1)
 	<div class="topic-title-main float-left">
 		<h1><?php  echo $Topic['Topic']; ?></h1>
 		<div class="topic-title-date">
-		By <a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>"><?php echo $Topic['UserName']; ?></a>
+		By <a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Topic['UserName']); ?>"><?php echo $Topic['UserName']; ?></a>
  at <?php echo FormatTime($Topic['PostTime']); ?> • <?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($Topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 		</div>
 	</div>
-	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>">
+	<div class="detail-avatar"><a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Topic['UserName']); ?>">
 <?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'large'); ?>
 
 	</a></div>
@@ -91,14 +91,14 @@ foreach($PostsArray as $key => $Post)
 	<div class="comment-item">
 		<a name="Post<?php echo $Post['ID'];?>"></a>
 		<div class="comment-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>" target="_blank">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Post['UserName']); ?>" target="_blank">
 			<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'middle'); ?>
 			</a>
 		</div>
 		<div class="comment-data">
 			<div class="comment-content">
 				<div>
-					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>"><?php echo $Post['UserName'];?></a></div>
+					<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Post['UserName']); ?>"><?php echo $Post['UserName'];?></a></div>
 					<span class="float-right grey fs12">
 						<?php echo FormatTime($Post['PostTime']); ?>&nbsp;&nbsp;
 						<a href="#Post<?php echo $Post['ID']; ?>"><span class="commonet-count">#<?php echo $PostFloor; ?></span></a>

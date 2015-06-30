@@ -25,13 +25,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<div class="sider-box-title"><?php echo $Lang['User_Panel']; ?><span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=<?php echo $CurUserCode; ?>"><?php echo $Lang['Log_Out']; ?></a></span></div>
 	<div class="sider-box-content">
 		<div class="User-Pannel-Avatar">
-			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>">
+			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($CurUserName); ?>">
 				<?php echo GetAvatar($CurUserID, $CurUserName, 'large'); ?>
 			</a>
 		</div>
 		<div class="User-Pannel">
 			<div class="User-Pannel-Name">
-				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>"><?php echo $CurUserName; ?></a>
+				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($CurUserName); ?>"><?php echo $CurUserName; ?></a>
 			</div>
 			<ul>
 				<li>

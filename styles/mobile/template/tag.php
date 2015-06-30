@@ -36,7 +36,7 @@ if($Page>1){
 		?>
 			<li>
 				<div class="avatar">
-					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $Topic['UserName'] ?>" data-transition="slide" data-persist-ajax="true">
+					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>" data-transition="slide" data-persist-ajax="true">
 							<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
 					</a>
 				</div>

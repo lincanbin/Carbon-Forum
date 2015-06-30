@@ -38,7 +38,7 @@ if(!$CurUserID && $UrlPath!='login'){
 <?php }else if($CurUserID){ ?>
 <li class="divider"><?php echo $Lang['User_Panel']; ?></li>
 <li>
-	<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $CurUserName; ?>">
+	<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($CurUserName); ?>">
 		<?php echo GetAvatar($CurUserID, $CurUserName, 'small'); ?>&nbsp;&nbsp;<span style="line-height:24px;vertical-align: top;font-size:20px;font-weight:bold;"><?php echo $CurUserName; ?></span>
 	</a>
 </li>

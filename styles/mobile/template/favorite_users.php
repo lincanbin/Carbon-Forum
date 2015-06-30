@@ -30,7 +30,7 @@ foreach($PostsArray as $key => $Post) {
 <div class="card carbonforum-card">
 	<div class="card-header">
 		<div class="carbonforum-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Post['UserName']); ?>">
 				<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'small'); ?>
 			</a>
 		</div>

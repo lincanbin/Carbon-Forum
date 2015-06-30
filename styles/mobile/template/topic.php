@@ -22,7 +22,7 @@ if($Page==1){
 	<div class="card-header"><?php echo $Topic['Topic']; ?></div>
 	<div class="card-content" id="p<?php echo $PostsArray[0]['ID']; ?>">
 		<div class="card-content-inner">
-			<p class="color-gray">By <a href="<?php echo $Config['WebsitePath'].'/u/'.$Topic['UserName']; ?>"><?php echo $Topic['UserName']; ?></a>
+			<p class="color-gray">By <a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Topic['UserName']); ?>"><?php echo $Topic['UserName']; ?></a>
  at <?php echo FormatTime($Topic['PostTime']); ?><br /><?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?> • <?php echo ($Topic['Views']+1); ?><?php echo $Lang['People_Have_Seen']; ?>
 			</p>
 			<p><?php echo $PostsArray[0]['Content']; ?></p>
@@ -84,7 +84,7 @@ foreach($PostsArray as $key => $Post)
 <div class="card carbonforum-card">
 	<div class="card-header no-border">
 		<div class="carbonforum-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.$Post['UserName']; ?>">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Post['UserName']); ?>">
 				<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'small'); ?>
 			</a>
 		</div>
