@@ -177,8 +177,7 @@ function ReplyToTopic() {
 			type: 'post',
 			cache: false,
 			dataType: 'json',
-			async: false,
-			//阻塞防止干扰
+			async: true,
 			success: function(data) {
 				if (data.Status == 1) {
 					$("#ReplyButton").val(Lang['Reply_Success']);
@@ -205,7 +204,7 @@ function ReplyToTopic() {
 
 //回复某人
 function Reply(UserName, PostFloor, PostID) {
-	UE.getEditor('editor').setContent('<p>' + Lang['Reply_To'] + '<a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br /></p>', false);
+	UE.getEditor('editor').setContent('<p>' + Lang['Reply_To'] + '<a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br /></p><p></p>', false);
 	UE.getEditor('editor').focus(true);
 }
 
