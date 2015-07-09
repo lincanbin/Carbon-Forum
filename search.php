@@ -16,7 +16,8 @@ if ($Page < 0 || $Page == 1) {
 if ($Page == 0)
 	$Page = 1;
 
-if($CurUserID && $Config['NumTopics'] <= FullTableScanTopicLimit){
+//if($CurUserID && $Config['NumTopics'] <= FullTableScanTopicLimit){
+if($Config['NumTopics'] <= FullTableScanTopicLimit){
 	$QueryString = str_repeat('or Topic LIKE ? or Tags LIKE ? ', $KeywordNum-1);
 	$SQLKeywordArray = array();
 	foreach ($KeywordArray as $Value) {
