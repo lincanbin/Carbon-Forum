@@ -7,10 +7,10 @@ class Log
 		$this->path = dirname(__FILE__) . $this->path;
 	}
 	
-	public function write($message)
+	public function write($message, $fileSalt)
 	{
 		$date = new DateTime();
-		$log  = $this->path . $date->format('Y-m-d') . ".txt";
+		$log  = $this->path . $date->format('Y-m-d') . "-" . md5($date->format('Y-m-d') . $fileSalt) . ".txt";
 		if (is_dir($this->path)) {
 			if (!file_exists($log)) {
 				$fh = fopen($log, 'a+') or die("Fatal Error !");

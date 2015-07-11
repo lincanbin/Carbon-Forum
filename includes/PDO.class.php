@@ -43,16 +43,31 @@ class DB
 	private function Connect()
 	{
 		try {
-			$this->pdo = new PDO('mysql:dbname=' . $this->DBName . ';host=' . $this->Host, $this->DBUser, $this->DBPassword, array(
-				PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
-				PDO::ATTR_EMULATE_PREPARES => false,
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-				//PDO::ATTR_PERSISTENT => true,//长连接
-				PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
-				
-				
-			));
+			$this->pdo = new PDO('mysql:dbname=' . $this->DBName . ';host=' . $this->Host . ';charset=utf8', 
+				$this->DBUser, 
+				$this->DBPassword,
+				array(
+					//For PHP 5.3.6 or lower
+					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+					PDO::ATTR_EMULATE_PREPARES => false,
+
+					//长连接
+					//PDO::ATTR_PERSISTENT => true,
+					
+					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+				)
+			);
+			/*
+			//For PHP 5.3.6 or lower
+			$this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
+			$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			//$this->pdo->setAttribute(PDO::ATTR_PERSISTENT, true);//长连接
+			$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+			*/
 			$this->bConnected = true;
+			
 		}
 		catch (PDOException $e) {
 			echo $this->ExceptionLog($e->getMessage());
@@ -174,7 +189,7 @@ class DB
 		if (!empty($sql)) {
 			$message .= "\r\nRaw SQL : " . $sql;
 		}
-		$this->log->write($message);
+		$this->log->write($message, $this->DBName . md5($this->DBPassword));
 		//Prevent search engines to crawl
 		header("HTTP/1.1 500 Internal Server Error");
 		header("Status: 500 Internal Server Error");
