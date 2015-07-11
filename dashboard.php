@@ -10,6 +10,8 @@ $Action          = Request('POST', 'Action', false);
 
 switch ($Action) {
 	case 'Cache':
+		set_time_limit(0);
+		
 		UpdateConfig(array(
 			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'upload')),
 			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
@@ -17,9 +19,74 @@ switch ($Action) {
 			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'users')),
 			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'tags'))
 		));
-		$DB->query('UPDATE ' . $Prefix . 'users u SET u.Topics=(SELECT count(*) FROM ' . $Prefix . 'topics t WHERE t.UserName=u.UserName and IsDel=0),u.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p WHERE p.UserName=u.UserName and p.IsTopic=0),u.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=u.ID and Type=3)');
-		$DB->query('UPDATE ' . $Prefix . 'topics t SET t.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p WHERE p.TopicID=t.ID and p.IsTopic=0 and p.IsDel=0),t.Favorites=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=t.ID and Type=1)');
-		$DB->query('UPDATE ' . $Prefix . 'tags t SET t.TotalPosts=(SELECT count(*) FROM ' . $Prefix . 'posttags p WHERE p.TagID=t.ID),t.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f WHERE f.FavoriteID=t.ID and Type=2)');
+		$DB->query('UPDATE ' . $Prefix . 'users u 
+			SET u.Topics=(SELECT count(*) FROM ' . $Prefix . 'topics t 
+				WHERE t.UserName=u.UserName and IsDel=0),
+			u.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p 
+				WHERE p.UserName=u.UserName and p.IsTopic=0),
+			u.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
+				WHERE f.FavoriteID=u.ID and Type=3)
+		');
+		$DB->query('UPDATE ' . $Prefix . 'topics t 
+			SET t.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p 
+				WHERE p.TopicID=t.ID and p.IsTopic=0 and p.IsDel=0),
+			t.Favorites=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
+				WHERE f.FavoriteID=t.ID and Type=1)
+		');
+		$DB->query('UPDATE ' . $Prefix . 'tags t 
+			SET t.TotalPosts=(SELECT count(*) FROM ' . $Prefix . 'posttags p 
+				WHERE p.TagID=t.ID),
+			t.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
+				WHERE f.FavoriteID=t.ID and Type=2)
+		');
+
+
+		$DB->query('DELETE FROM ' . $Prefix . 'statistics');
+		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT PostTime FROM ' . $Prefix . 'topics ORDER BY ID LIMIT 1')));
+		while ( $StatisticsTime < time()) {
+			$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
+			//echo date('Y-m-d', $StatisticsTime);
+			//echo '<br />';
+			$DB->query('INSERT INTO `' . $Prefix . 'statistics` 
+				(
+					`DaysUsers`, 
+					`DaysPosts`, 
+					`DaysTopics`, 
+					`TotalUsers`, 
+					`TotalPosts`, 
+					`TotalTopics`, 
+					`DaysDate`, 
+					`DateCreated`
+				) 
+				VALUES 
+				(
+					(SELECT count(*) FROM ' . $Prefix . 'users u 
+						WHERE u.UserRegTime 
+							BETWEEN ' . $StatisticsTime . ' AND  ' . $StatisticsTimeAddOneDay . ' ), 
+					(SELECT count(*) FROM ' . $Prefix . 'posts p 
+						WHERE p.PostTime 
+							BETWEEN  ' . $StatisticsTime . '  AND ' . $StatisticsTimeAddOneDay . ' ), 
+					(SELECT count(*) FROM ' . $Prefix . 'topics t 
+						WHERE t.PostTime 
+							BETWEEN  ' . $StatisticsTime . '  AND ' . $StatisticsTimeAddOneDay . '  
+							and IsDel = 0), 
+					(SELECT count(*) FROM ' . $Prefix . 'users u 
+						WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
+					(SELECT count(*) FROM ' . $Prefix . 'posts p 
+						WHERE p.PostTime  < ' . $StatisticsTimeAddOneDay . '  and IsTopic = 0), 
+					(SELECT count(*) FROM ' . $Prefix . 'topics t 
+						WHERE t.PostTime   < ' . $StatisticsTimeAddOneDay . '  and IsDel = 0), 
+					:DaysDate,
+					:DateCreated
+				)',
+				array(
+					'DaysDate' => date('Y-m-d', $StatisticsTime),
+					'DateCreated' => $StatisticsTimeAddOneDay-1
+				)
+			);
+			$StatisticsTime = $StatisticsTimeAddOneDay;
+		}
+
 		if($MCache){
 			if (extension_loaded('memcached') || extension_loaded('memcache')) {
 				//MemCached or MemCache
@@ -30,6 +97,7 @@ switch ($Action) {
 				$MCache -> flushAll();
 			}
 		}
+
 		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;
 	
