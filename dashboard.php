@@ -61,21 +61,24 @@ switch ($Action) {
 				VALUES 
 				(
 					(SELECT count(*) FROM ' . $Prefix . 'users u 
-						WHERE u.UserRegTime 
-							BETWEEN ' . $StatisticsTime . ' AND  ' . $StatisticsTimeAddOneDay . ' ), 
+						WHERE u.UserRegTime >= ' . $StatisticsTime . ' 
+							AND u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
 					(SELECT count(*) FROM ' . $Prefix . 'posts p 
-						WHERE p.PostTime 
-							BETWEEN  ' . $StatisticsTime . '  AND ' . $StatisticsTimeAddOneDay . ' ), 
+						WHERE p.PostTime >= ' . $StatisticsTime . ' 
+							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+							AND IsTopic = 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'topics t 
-						WHERE t.PostTime 
-							BETWEEN  ' . $StatisticsTime . '  AND ' . $StatisticsTimeAddOneDay . '  
-							and IsDel = 0), 
+						WHERE t.PostTime >= ' . $StatisticsTime . ' 
+							AND t.PostTime < ' . $StatisticsTimeAddOneDay . '  
+							AND IsDel = 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'users u 
 						WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
 					(SELECT count(*) FROM ' . $Prefix . 'posts p 
-						WHERE p.PostTime  < ' . $StatisticsTimeAddOneDay . '  and IsTopic = 0), 
+						WHERE p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+							AND IsTopic = 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'topics t 
-						WHERE t.PostTime   < ' . $StatisticsTimeAddOneDay . '  and IsDel = 0), 
+						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+							AND IsDel = 0), 
 					:DaysDate,
 					:DateCreated
 				)',
