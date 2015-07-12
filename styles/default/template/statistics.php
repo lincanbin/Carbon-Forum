@@ -119,18 +119,21 @@ require(
 		// 基于准备好的dom，初始化echarts图表
 		option = {
 			title : {
-				text : '<?php echo $Lang['Topics_Statistics']; ?>',
-				subtext : 'Carbon Forum'
+				text : '<?php echo $Config['SiteName'].'    '.$Lang['Topics_Statistics']; ?>'
 			},
+			color : [ 
+				'#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', 
+				'#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0', 
+				'#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', 
+				'#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' 
+			],
 			tooltip : {
 				trigger: 'item',
 				formatter : function (params) {
 					var date = new Date(params.value[0]);
 					data = date.getFullYear() + '-'
 						   + (date.getMonth() + 1) + '-'
-						   + date.getDate() + ' '
-						   + date.getHours() + ':'
-						   + date.getMinutes();
+						   + date.getDate()
 					return data + '<br/>'
 						   + params.value[1]
 				}
@@ -146,7 +149,7 @@ require(
 			},
 			dataZoom: {
 				show: true,
-				start : 70
+				start : TotalTopicsStatisticsData.length <= 45 ? 0 : (100 * (TotalTopicsStatisticsData.length - 45) / TotalTopicsStatisticsData.length)
 			},
 			legend : {
 				data : [
@@ -165,6 +168,11 @@ require(
 			],
 			yAxis : [
 				{
+					name : '<?php echo $Lang['TotalTopics_Statistics']; ?>',
+					type : 'value'
+				},
+				{
+					name : '<?php echo $Lang['DaysTopics_Statistics']; ?>',
 					type : 'value'
 				}
 			],
@@ -172,12 +180,17 @@ require(
 				{
 					name: '<?php echo $Lang['TotalTopics_Statistics']; ?>',
 					type: 'line',
+					smooth:true,
+					itemStyle: {normal: {areaStyle: {type: 'default'}}},
 					showAllSymbol: true,
 					data: TotalTopicsStatisticsData
 				},
 				{
 					name: '<?php echo $Lang['DaysTopics_Statistics']; ?>',
 					type: 'line',
+					yAxisIndex: 1,
+					smooth:true,
+					itemStyle: {normal: {areaStyle: {type: 'default'}}},
 					showAllSymbol: true,
 					data: DaysTopicsStatisticsData
 				}
@@ -186,30 +199,38 @@ require(
 
 		// 为echarts对象加载数据 
 		var TopicsStatistics = ec.init(document.getElementById('TopicsStatistics'));
+		option.color.sort(function(){return Math.random()>0.5?-1:1;});
 		TopicsStatistics.setOption(option);
 
-		option.title.text = '<?php echo $Lang['Posts_Statistics']; ?>';
+		option.title.text = '<?php echo $Config['SiteName'].'    '.$Lang['Posts_Statistics']; ?>';
 		option.legend.data = [
 			'<?php echo $Lang['TotalPosts_Statistics']; ?>',
 			'<?php echo $Lang['DaysPosts_Statistics']; ?>'
 		];
+		option.yAxis[0].name = '<?php echo $Lang['TotalPosts_Statistics']; ?>';
+		option.yAxis[1].name = '<?php echo $Lang['DaysPosts_Statistics']; ?>';
 		option.series[0].name = '<?php echo $Lang['TotalPosts_Statistics']; ?>';
 		option.series[0].data = TotalPostsStatisticsData;
 		option.series[1].name = '<?php echo $Lang['DaysPosts_Statistics']; ?>';
 		option.series[1].data = DaysUsersStatisticsData;
 		var PostsStatistics = ec.init(document.getElementById('PostsStatistics'));
+		option.color.sort(function(){return Math.random()>0.5?-1:1;});
 		PostsStatistics.setOption(option);
 
-		option.title.text = '<?php echo $Lang['Users_Statistics']; ?>';
+		
+		option.title.text = '<?php echo $Config['SiteName'].'    '.$Lang['Users_Statistics']; ?>';
 		option.legend.data = [
 			'<?php echo $Lang['TotalUsers_Statistics']; ?>',
 			'<?php echo $Lang['DaysUsers_Statistics']; ?>'
 		];
+		option.yAxis[0].name = '<?php echo $Lang['TotalUsers_Statistics']; ?>';
+		option.yAxis[1].name = '<?php echo $Lang['DaysUsers_Statistics']; ?>';
 		option.series[0].name = '<?php echo $Lang['TotalUsers_Statistics']; ?>';
 		option.series[0].data = TotalUsersStatisticsData;
 		option.series[1].name = '<?php echo $Lang['DaysUsers_Statistics']; ?>';
 		option.series[1].data = DaysUsersStatisticsData;
 		var UsersStatistics = ec.init(document.getElementById('UsersStatistics'));
+		option.color.sort(function(){return Math.random()>0.5?-1:1;});
 		UsersStatistics.setOption(option);
 	}
 );
