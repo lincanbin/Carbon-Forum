@@ -36,5 +36,6 @@ $Lang = array_merge($Lang, array(
 	'Settings' => 'Ustawienia',
 	'System_Settings' => 'Ustawienia systemowe',
 	'Desktop_Version' => 'Wersja na pulpicie',
-	'Mobile_Version' => 'Wersja mobilna'
+	'Mobile_Version' => 'Wersja mobilna',
+	'Statistics' => 'Statystyki'
 ));

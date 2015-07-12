@@ -36,5 +36,6 @@ $Lang = array_merge($Lang, array(
 	'Settings' => '個人設定',
 	'System_Settings' => '系統設定',
 	'Desktop_Version' => '桌面模式',
-	'Mobile_Version' => '行動模式'
+	'Mobile_Version' => '行動模式',
+	'Statistics' => '論壇統計'
 ));
