@@ -9,6 +9,24 @@
 /static/js/jquery.autocomplete.js
 /static/editor/ueditor.all.js
 /static/editor/ueditor.parse.js
+#Echarts
+/static/echarts/.DS_Store
+/static/echarts/echarts-all.js
+/static/echarts/chart/bar.js
+/static/echarts/chart/chord.js
+/static/echarts/chart/eventRiver.js
+/static/echarts/chart/force.js
+/static/echarts/chart/funnel.js
+/static/echarts/chart/gauge.js
+/static/echarts/chart/k.js
+/static/echarts/chart/map.js
+/static/echarts/chart/pie.js
+/static/echarts/chart/radar.js
+/static/echarts/chart/scatter.js
+/static/echarts/chart/tree.js
+/static/echarts/chart/treemap.js
+/static/echarts/chart/venn.js
+/static/echarts/chart/wordCloud.js
 #Server related files and data files
 *.lock
 /includes/logs
