@@ -43,7 +43,7 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
 <?php if($CurUserID){
-	echo '<script type="text/javascript">GetNotification();</script>'; }
+	echo '<script type="text/javascript">setTimeout(function() {GetNotification();}, 1);</script>'; }
 ?>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
@@ -117,11 +117,12 @@ if($CurUserRole==5){
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Powered By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015
+			Powered By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015 
+			<a href="<?php echo $Config['WebsitePath']; ?>/statistics" target="_blank"><?php echo $Lang['Statistics']; ?></a>
 			<?php
 			if ($IsMobile && $Config['MobileDomainName']) {
 			?>
-			&nbsp;&nbsp;<a href="http://<?php echo $Config['MainDomainName']; ?>/view-mobile?cookie_prefix=<?php echo urlencode($Config['CookiePrefix']); ?>&website_path=<?php echo urlencode($Config['WebsitePath']); ?>&callback=<?php echo urlencode($Config['MobileDomainName'].$RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
+			&nbsp;&nbsp;<a href="//<?php echo $Config['MainDomainName']; ?>/view-mobile?cookie_prefix=<?php echo urlencode($Config['CookiePrefix']); ?>&website_path=<?php echo urlencode($Config['WebsitePath']); ?>&callback=<?php echo urlencode($Config['MobileDomainName'].$RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
 			<?php
 			}
 			?>
