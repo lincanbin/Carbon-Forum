@@ -43,7 +43,7 @@ switch ($Action) {
 
 		$DB->query('DELETE FROM ' . $Prefix . 'statistics');
 		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT PostTime FROM ' . $Prefix . 'topics ORDER BY ID LIMIT 1')));
-		while ( $StatisticsTime < time()) {
+		while ( $StatisticsTime < ($TimeStamp-86400) ) {
 			$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
 			//echo date('Y-m-d', $StatisticsTime);
 			//echo '<br />';

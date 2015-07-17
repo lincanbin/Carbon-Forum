@@ -68,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 							$CurUserID      = $DB->lastInsertId();
 							//更新全站统计数据
 							$NewConfig      = array(
-								"NumUsers" => $Config["NumUsers"] + 1
+								"NumUsers" => $Config["NumUsers"] + 1,
+								"DaysUsers" => $Config["DaysUsers"] + 1
 							);
 							UpdateConfig($NewConfig);
 							$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态

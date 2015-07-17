@@ -3,7 +3,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2015, Lin Canbin
+ * Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -41,9 +41,9 @@ if (EnableMemcache) {
 		//MemCache
 		$MCache = new Memcache;
 		$MCache->pconnect(MemCacheHost, MemCachePort);
+	} elseif (extension_loaded('redis')) {
 		//Redis
 		//https://github.com/phpredis/phpredis
-	} elseif (extension_loaded('redis')) {
 		$MCache = new Redis();
 		$MCache->pconnect(MemCacheHost, MemCachePort);
 	}
@@ -369,9 +369,9 @@ function Pagination($PageUrl, $PageCount, $TotalPage)
 	//echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '/' . $TotalPage . '</span>';
 	if ($PageCount != 1)
 		echo '<div class="float-left"><a href="' . $PageUrl . $PageLast . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
-	if (($PageCount - 4) > 1)
+	if ($PageCount >= 6)
 		echo '<a href="' . $PageUrl . '1">1</a>';
-	if (($PageCount - 3) <= 1) {
+	if ($PageCount <= 4) {
 		$PageiStart = 1;
 	} else if ($PageCount >= ($TotalPage - 3)) {
 		$PageiStart = $TotalPage - 7;
@@ -734,6 +734,44 @@ if (strpos($RequestURI, '.php')) {
 	AlertMsg('404', '404 NOT FOUND', 404);
 }
 
+
+
+$CurrentDate = date('Y-m-d');
+if ($Config['DaysDate'] != $CurrentDate) {
+	if( !strtotime($Config['DaysDate']) ){
+		$Config['DaysDate'] = $CurrentDate;
+	}
+	$DB->query('INSERT INTO `' . $Prefix . 'statistics` 
+		(`DaysUsers`, `DaysPosts`, `DaysTopics`, `TotalUsers`, `TotalPosts`, `TotalTopics`, `DaysDate`, `DateCreated`) 
+		SELECT 
+		:DaysUsers, :DaysPosts, :DaysTopics, :TotalUsers, :TotalPosts, :TotalTopics, :DaysDate, :DateCreated 
+		FROM dual  
+			WHERE NOT EXISTS(  
+				SELECT *  FROM `' . $Prefix . 'statistics`  
+				WHERE DaysDate = :DaysDate2
+			)
+		',
+		array(
+			'DaysUsers' => $Config['DaysUsers'], 
+			'DaysPosts' => $Config['DaysPosts'], 
+			'DaysTopics' => $Config['DaysTopics'], 
+			'TotalUsers' => $Config['NumUsers'], 
+			'TotalPosts' => $Config['NumPosts'], 
+			'TotalTopics' => $Config['NumTopics'], 
+			'DaysDate' => $Config['DaysDate'], 
+			'DateCreated' => $TimeStamp,
+			'DaysDate2' => $Config['DaysDate']
+		)
+	);
+	UpdateConfig(
+		array(
+			'DaysDate' => $CurrentDate,
+			'DaysTopics' => 0,
+			'DaysPosts' => 0,
+			'DaysUsers' => 0
+		)
+	);
+}
 // Get the infomation of current user
 $CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
 $CurUserRole = 0;

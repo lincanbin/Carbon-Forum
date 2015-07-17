@@ -100,7 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				if ($NewTopicResult && $NewPostResult) {
 					//更新全站统计数据
 					$NewConfig = array(
-						"NumTopics" => $Config["NumTopics"] + 1
+						"NumTopics" => $Config["NumTopics"] + 1,
+						"DaysTopics" => $Config["DaysTopics"] + 1
 					);
 					UpdateConfig($NewConfig);
 					//更新用户自身统计数据

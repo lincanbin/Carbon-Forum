@@ -47,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if ($NewPostResult) {
 				//更新全站统计数据
 				$NewConfig = array(
-					"NumPosts" => $Config["NumPosts"] + 1
+					"NumPosts" => $Config["NumPosts"] + 1,
+					"DaysPosts" => $Config["DaysPosts"] + 1
 				);
 				UpdateConfig($NewConfig);
 				//更新主题统计数据
