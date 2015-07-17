@@ -119,7 +119,7 @@ require(
 		// 基于准备好的dom，初始化echarts图表
 		option = {
 			title : {
-				text : '<?php echo $Config['SiteName'].'    '.$Lang['Topics_Statistics']; ?>'
+				text : '    <?php echo $Config['SiteName'].'    '.$Lang['Topics_Statistics']; ?>'
 			},
 			color : [ 
 				'#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', 
@@ -202,7 +202,7 @@ require(
 		option.color.sort(function(){return Math.random()>0.5?-1:1;});
 		TopicsStatistics.setOption(option);
 
-		option.title.text = '<?php echo $Config['SiteName'].'    '.$Lang['Posts_Statistics']; ?>';
+		option.title.text = '    <?php echo $Config['SiteName'].'    '.$Lang['Posts_Statistics']; ?>';
 		option.legend.data = [
 			'<?php echo $Lang['TotalPosts_Statistics']; ?>',
 			'<?php echo $Lang['DaysPosts_Statistics']; ?>'
@@ -212,13 +212,13 @@ require(
 		option.series[0].name = '<?php echo $Lang['TotalPosts_Statistics']; ?>';
 		option.series[0].data = TotalPostsStatisticsData;
 		option.series[1].name = '<?php echo $Lang['DaysPosts_Statistics']; ?>';
-		option.series[1].data = DaysUsersStatisticsData;
+		option.series[1].data = DaysPostsStatisticsData;
 		var PostsStatistics = ec.init(document.getElementById('PostsStatistics'));
 		option.color.sort(function(){return Math.random()>0.5?-1:1;});
 		PostsStatistics.setOption(option);
 
 		
-		option.title.text = '<?php echo $Config['SiteName'].'    '.$Lang['Users_Statistics']; ?>';
+		option.title.text = '    <?php echo $Config['SiteName'].'    '.$Lang['Users_Statistics']; ?>';
 		option.legend.data = [
 			'<?php echo $Lang['TotalUsers_Statistics']; ?>',
 			'<?php echo $Lang['DaysUsers_Statistics']; ?>'
