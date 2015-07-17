@@ -10,7 +10,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 define('ForumLanguage', '{{Language}}');
 //MemCache(d) / Redis
 define('EnableMemcache', false);
-define('MemCacheHost', '127.0.0.1');
+define('MemCacheHost', 'localhost');
 define('MemCachePort', 11211);
 define('MemCachePrefix', 'carbon_');
 //Database
