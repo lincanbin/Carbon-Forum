@@ -110,10 +110,10 @@ function GetNextSQL() {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta content="True" name="HandheldFriendly" />
-<title>Install - Carbon Forum</title>
-<link href="../styles/default/theme/style.css" rel="stylesheet" type="text/css" />
+	<meta charset="UTF-8" />
+	<meta content="True" name="HandheldFriendly" />
+	<title>Install - Carbon Forum</title>
+	<link href="../styles/default/theme/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<!-- content wrapper start -->
@@ -121,70 +121,70 @@ function GetNextSQL() {
 		<!-- main start -->
 		<div class="main">
 			<!-- main-content start -->
-<div class="main-content">
-	<div class="title">
-		Carbon Forum &raquo; 安装&nbsp;&nbsp;/&nbsp;&nbsp;Install
-	</div>
-	<div class="main-box">
-			<form action="?" method="post">
-			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
-				<tbody>
-					<tr>
-						<td width="auto" align="center" colspan="2"><span class="red"><?php echo $Message; ?></span></td>
-					</tr>
-					<?php if(!$Message) {?>
-					<tr>
-						<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
-						<td width="auto" align="left">
-							<select name="Language">
-								<option value="zh-cn">简体中文</option>
-								<option value="zh-tw">繁體中文</option>
-								<option value="en">English</option>
-								<option value="pl">polski</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
-						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="127.0.0.1" /></td>
-					</tr>
-					<tr>
-						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
-						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="" /></td>
-					</tr>
-					<tr>
-						<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
-						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="root" /></td>
-					</tr>
-					<tr>
-						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
-						<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
-					</tr>
-					<tr>
-						<td width="280" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="安 装 / Install " name="submit" class="textbtn" /></td>
-					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-		</form>
-	</div>
-</div>
-	<!-- main-content end -->
-	<div class="main-sider">
-		<div class="sider-box">
-			<div class="sider-box-title">安装说明</div>
-			<div class="sider-box-content">
-				<p>
-				如果出现“Access denied”错误，说明填写不正确，请返回重新填写。
-				</p>
-				<p>
-				安装完毕后，第一个注册的用户将会自动成为管理员。
-				</p>
+			<div class="main-content">
+				<div class="title">
+					Carbon Forum &raquo; 安装&nbsp;&nbsp;/&nbsp;&nbsp;Install
+				</div>
+				<div class="main-box">
+					<form action="?" method="post">
+						<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
+							<tbody>
+								<tr>
+									<td width="auto" align="center" colspan="2"><span class="red"><?php echo $Message; ?></span></td>
+								</tr>
+								<?php if(!$Message) {?>
+								<tr>
+									<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
+									<td width="auto" align="left">
+										<select name="Language">
+											<option value="zh-cn">简体中文</option>
+											<option value="zh-tw">繁體中文</option>
+											<option value="en">English</option>
+											<option value="pl">polski</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
+									<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="localhost" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
+									<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
+									<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="root" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
+									<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right"></td>
+									<td width="auto" align="left"><input type="submit" value="安 装 / Install " name="submit" class="textbtn" /></td>
+								</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					</form>
+				</div>
 			</div>
-		</div>
-	</div>
-		<div class="c"></div>
+			<!-- main-content end -->
+			<div class="main-sider">
+				<div class="sider-box">
+					<div class="sider-box-title">安装说明</div>
+					<div class="sider-box-content">
+						<p>
+							如果出现“Access denied”错误，说明填写不正确，请返回重新填写。
+						</p>
+						<p>
+							安装完毕后，第一个注册的用户将会自动成为管理员。
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="c"></div>
 		</div>
 		<!-- main end -->
 		<div class="c"></div>
@@ -192,7 +192,7 @@ function GetNextSQL() {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2015
+				Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2015
 			</p>
 		</div>
 		<!-- footer end -->

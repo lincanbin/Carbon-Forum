@@ -148,7 +148,7 @@ function VersionCompare($Version, $OldVersion)
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
-						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="127.0.0.1" /></td>
+						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="localhost" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
