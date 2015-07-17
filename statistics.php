@@ -1,8 +1,8 @@
 <?php
 require(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/statistics.php');
-
-$StatisticsData   = $DB->query('SELECT * FROM  ' . $Prefix . 'statistics');
+//数据没问题的情况下不需要排序，拿出来顺序就是好的，并且顺序可以通过刷新缓存修复
+$StatisticsData            = $DB->query('SELECT * FROM  ' . $Prefix . 'statistics');
 $TotalTopicsStatisticsData = array();
 foreach ($StatisticsData as $Key => $Value) {
 	$TotalTopicsStatisticsData[] = array(
@@ -17,9 +17,8 @@ foreach ($StatisticsData as $Key => $Value) {
 }
 unset($StatisticsData);
 $DataJsonString = json_encode($TotalTopicsStatisticsData);
-//$StatisticsDataStringLength = strlen($DataJsonString);
-//$DataArrayString = substr($DataJsonString, 1, $StatisticsDataStringLength -2);
-//var_dump(json_encode($TotalTopicsStatisticsData));
+unset($TotalTopicsStatisticsData);
+
 $DB->CloseConnection();
 // 页面变量
 $PageTitle   = $Lang['Statistics'];
