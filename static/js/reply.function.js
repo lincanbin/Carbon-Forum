@@ -118,6 +118,7 @@ function DestoryEditor(PostID) {
 	UE.getEditor('edit' + PostID).destroy();
 	document.getElementById('p' + PostID).style.visibility = "visible";
 	document.getElementById('p' + PostID).style.height = "auto";
+	$("#edit" + PostID).html("");
 	document.getElementById('edit' + PostID).style.height = "0";
 	document.getElementById('edit' + PostID).style.padding = "0";
 	document.getElementById('edit' + PostID).style.visibility = "hidden";
