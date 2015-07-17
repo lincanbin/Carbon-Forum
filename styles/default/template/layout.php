@@ -11,7 +11,7 @@ ob_start();
 <?php
 if($Config['MobileDomainName']){
 ?>
-	<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
+	<meta http-equiv="mobile-agent" content="format=xhtml; url=//<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
 <?php
 }
 if (isset($PageMetaKeyword) && $PageMetaKeyword) {
@@ -28,6 +28,8 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 echo $PageTitle;
 echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
+	<link rel="dns-prefetch" href="//<?php echo $Config['MainDomainName']; ?>" />
+	<link rel="prefetch" href="//<?php echo $Config['MainDomainName']; ?>" />  
 	<link rel="apple-touch-icon-precomposed" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-57x57-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-72x72-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-114x114-precomposed.png" />
