@@ -66,19 +66,19 @@ switch ($Action) {
 					(SELECT count(*) FROM ' . $Prefix . 'posts p 
 						WHERE p.PostTime >= ' . $StatisticsTime . ' 
 							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-							AND IsTopic = 0), 
+							AND p.IsTopic = 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'topics t 
 						WHERE t.PostTime >= ' . $StatisticsTime . ' 
 							AND t.PostTime < ' . $StatisticsTimeAddOneDay . '  
-							AND IsDel = 0), 
+							AND t.IsDel = 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'users u 
 						WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
-					(SELECT count(*) FROM ' . $Prefix . 'posts p 
-						WHERE p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-							AND IsTopic = 0), 
+					 ifnull((SELECT sum(Replies) FROM ' . $Prefix . 'topics t 
+						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . '  
+							AND t.IsDel = 0), 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'topics t 
 						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-							AND IsDel = 0), 
+							AND t.IsDel = 0), 
 					:DaysDate,
 					:DateCreated
 				)',
