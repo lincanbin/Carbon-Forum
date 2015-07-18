@@ -73,9 +73,11 @@ switch ($Action) {
 							AND t.IsDel = 0), 
 					(SELECT count(*) FROM ' . $Prefix . 'users u 
 						WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
-					 ifnull((SELECT sum(Replies) FROM ' . $Prefix . 'topics t 
-						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . '  
-							AND t.IsDel = 0), 0), 
+					 (SELECT count(*) FROM ' . $Prefix . 'posts p 
+						WHERE p.TopicID NOT IN (SELECT ID FROM ' . $Prefix . 'topics t 
+							WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+								AND t.IsDel = 1)
+							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' ), 
 					(SELECT count(*) FROM ' . $Prefix . 'topics t 
 						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
 							AND t.IsDel = 0), 
