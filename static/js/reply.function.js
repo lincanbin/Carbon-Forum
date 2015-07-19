@@ -36,7 +36,11 @@ function RenderTopic(){
 		};
 	};
 	//样式渲染需最后进行
-	uParse('.main-content',{
+	uParse('.topic-content',{
+		'rootPath': WebsitePath + '/static/editor/',
+		'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+	});
+	uParse('.comment-content',{
 		'rootPath': WebsitePath + '/static/editor/',
 		'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 	});
