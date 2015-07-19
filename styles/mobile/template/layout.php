@@ -1,7 +1,7 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ob_start();
-$IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')?true:false;
+$IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 if(!$IsAjax){
 ?><!DOCTYPE html>
 <html lang="<?php echo $Lang['Language']; ?>">

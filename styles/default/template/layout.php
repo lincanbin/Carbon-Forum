@@ -1,6 +1,8 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ob_start();
+$IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+if(!$IsAjax){
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $Lang['Language']; ?>" lang="<?php echo $Lang['Language']; ?>">
 <head>
@@ -106,13 +108,19 @@ if($CurUserRole==5){
 		</div>
 		<div class="shadowStrip">&nbsp;</div>
 		<!-- main start -->
-		<div class="main">
+<?php
+}
+?>
+		<div class="main" id="main">
 			<?php
 			include($ContentFile);
 			?>
 			<div class="c"></div>
 			<a style="display: none; " rel="nofollow" href="#top" id="go-to-top">▲</a>
 		</div>
+<?php 
+if(!$IsAjax){
+?>
 		<!-- main end -->
 		<div class="c"></div>
 
@@ -149,5 +157,6 @@ if ($Config['PageBottomContent']) {
 </body>
 </html>
 <?php
+}
 ob_end_flush();
 ?>
