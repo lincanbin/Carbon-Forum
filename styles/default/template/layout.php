@@ -106,7 +106,11 @@ if($CurUserRole==5){
 				<div class="c"></div>
 			</div>
 		</div>
-		<div class="shadowStrip">&nbsp;</div>
+		<div class="emptyProgressBar">
+			<div class="progressBar" id="progressBar">
+				<div class="bar1" id="progressBar1"></div>
+			</div>
+		</div>
 		<!-- main start -->
 <?php
 }

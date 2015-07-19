@@ -14,12 +14,16 @@
 
 $(function(){
 	//Button go to top
+	function SetButtonToTop () {
+		//Force to refresh under pjax
+		$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
+		$("#go-to-top").click(function(){
+			$("html, body").animate({"scrollTop": 0}, 400);
+			return false;
+		});
+	}
 	//Initialize position of button
-	$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
-	$("#go-to-top").click(function(){
-		$("html, body").animate({"scrollTop": 0}, 400);
-		return false;
-	});
+	SetButtonToTop();
 	$(window).scroll(function() {
 		var top = $(document).scrollTop();
 		var g = $("#go-to-top");
@@ -44,7 +48,20 @@ $(function(){
 		type: 'post'
 	});
 	//Pjax
-	$(document).pjax('a', '#main', {fragment:'#main', timeout:10000})
+	$(document).pjax('a', '#main', {
+		fragment : '#main', 
+		timeout :10000,
+		maxCacheLength : 40
+	})
+	$(document).on('pjax:send', function() {
+	 	$('#progressBar').show();
+	 	$("#progressBar1").css('width',0);
+	 	$('#progressBar1').animate({width:"100%"}, 800, "linear");
+	})
+	$(document).on('pjax:complete', function() {
+	 	$('#progressBar').hide();
+	 	SetButtonToTop();
+	});
 	//$(document).pjax('a', 'body');
 });
 
