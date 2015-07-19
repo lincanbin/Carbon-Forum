@@ -13,7 +13,7 @@
  */
 
 
-loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function(){
+function RenderTopic(){
 	//强制所有链接在新窗口中打开
 	var AllPosts = document.getElementsByClassName("comment-content");
 	PostContentLists = {};//Global
@@ -40,7 +40,7 @@ loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function(){
 		'rootPath': WebsitePath + '/static/editor/',
 		'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 	});
-});
+}
 
 function InitEditor(){
 	//Initialize editor
@@ -66,12 +66,13 @@ function InitEditor(){
 			//console.log(EditorIframe[i].contentWindow.document);
 		};
 	}});
+	//编辑器外Ctrl + Enter提交回复
+	document.body.onkeydown = function(Event){
+		CtrlAndEnter(Event);
+	};
 }
 
-//编辑器外Ctrl + Enter提交回复
-document.body.onkeydown = function(Event){
-	CtrlAndEnter(Event);
-};
+
 
 //Ctrl + Enter操作接收函数
 function CtrlAndEnter(Event) {

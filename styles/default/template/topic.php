@@ -1,7 +1,6 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>"></script>
 <script type="text/javascript">
 	var TopicID = <?php echo $ID; ?>;
 </script>
@@ -152,13 +151,19 @@ if($TotalPage>1){
 ?>
 <!-- editor start -->
 <?php
-if(!$Topic['IsLocked'] && !$CurUserInfo){
+if($Topic['IsLocked'] || (!$Topic['IsLocked'] && !$CurUserInfo)){
 ?>
-<div class="ad"><p><?php echo $Lang['Requirements_For_Login']; ?></p></div>
-<?php
-}else if($Topic['IsLocked']){
-?>
-<div class="ad"><p><?php echo $Lang['Topic_Has_Been_Locked']; ?></p></div>
+<script type="text/javascript">
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>",function() {
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>", function(){
+		RenderTopic();
+	});
+});
+</script>
+<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>"></script>
+<div class="ad">
+	<p><?php echo $Topic['IsLocked']?$Lang['Topic_Has_Been_Locked']:$Lang['Requirements_For_Login'];; ?></p>
+</div>
 <?php
 }else{
 ?>
@@ -169,22 +174,28 @@ if(!$Topic['IsLocked'] && !$CurUserInfo){
 	<div class="c"></div>    
 </div>
 <div class="main-box">
-	<script>
+	<script type="text/javascript">
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>",function() {
+		loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>", function(){
+			RenderTopic();
+			setTimeout(function(){
+				loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>",function() {
+					loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>",function(){
+						loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>",function(){
+							InitEditor();
+						});
+					});
+				})
+			},300);
+		});
+	});
 	</script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>"> </script>
-	<!--建议手动加载语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>"></script>
 	<form name="reply">
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
 		<input type="hidden" name="TopicID" value="<?php echo $ID; ?>">
 		<p>
 			<div id="editor" style="width:648px;height:160px;"></div>
-			<script type="text/javascript">
-			InitEditor();
-			</script>
 		</p>
 		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
