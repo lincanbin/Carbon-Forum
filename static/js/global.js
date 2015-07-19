@@ -39,7 +39,11 @@ $(function(){
 	//Search box
 	$("#SearchButton").click(function() {
 		if($("#SearchInput").val()){
-			location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
+			$.pjax({
+				url: WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val()), 
+				container: '#main'
+			});
+			//location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
 		}
 	});
 	$("#SearchInput").autocomplete({
@@ -100,12 +104,12 @@ function ShowNotification(NewMessageNumber) {
 			Notification.requestPermission(function(Status) {// 请求权限
 				if(Status === 'granted') {
 					// 弹出一个通知
-					var CarbonNotification = new Notification(NewMessageNumber + ' New Message', {
+					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
 						icon : WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
 						body: "",
 					});
 					CarbonNotification.onclick = function () {
-						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");      
+						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");
 					};
 					// 30秒后关闭通知
 					setTimeout(function() {
@@ -163,7 +167,7 @@ function ManageCallback(TargetTag) {
 
 //管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
-	var Lang = Lang || window.Lang ||  {Confirm_Operation : 'Confirm_Operation'};
+	var Lang = Lang || window.Lang;
 	if (NeedToConfirm ? confirm(Lang['Confirm_Operation']) : true) {
 		$(TargetTag).text("Loading");
 		var CallbackObj = new ManageCallback(TargetTag);

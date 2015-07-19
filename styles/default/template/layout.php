@@ -46,9 +46,12 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
+	<script type="text/javascript">
 <?php if($CurUserID){
-	echo '<script type="text/javascript">setTimeout(function() {GetNotification();}, 1);</script>'; }
+	echo 'setTimeout(function() {GetNotification();}, 1);'; }
 ?>
+	loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo $Config['Version']; ?>",function(){});
+	</script>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
 <body>
