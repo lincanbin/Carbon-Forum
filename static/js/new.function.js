@@ -121,8 +121,7 @@ function CreateNewTopic() {
 			type: 'post',
 			cache: false,
 			dataType: 'json',
-			async: false,
-			//阻塞防止干扰
+			async: true,
 			success: function(data) {
 				if (data.Status == 1) {
 					$("#PublishButton").val(Lang['Submit_Success']);
