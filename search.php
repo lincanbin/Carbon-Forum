@@ -7,7 +7,7 @@ $Keyword      = Request('Get', 'keyword');
 $KeywordArray = explode(" ", $Keyword);
 $KeywordNum   = count($KeywordArray);
 if(!$KeywordNum){
-	AlertMsg('404 Not Found', '404 Not Found', 404);
+	AlertMsg('404 Not Found', '404 Not Found');
 }
 if ($Page < 0 || $Page == 1) {
 	header('location: ' . $Config['WebsitePath'] . '/search/' . $Keyword);
@@ -41,7 +41,7 @@ if($Config['NumTopics'] <= FullTableScanTopicLimit){
 		$SQLKeywordArray
 	);
 	if (!$TagIDList)
-		AlertMsg('404 Not Found', '404 Not Found', 404);
+		AlertMsg('404 Not Found', '404 Not Found');
 	$TagIDArray = $DB->column('SELECT TopicID FROM ' . $Prefix . 'posttags 
 		WHERE TagID in (?) 
 		ORDER BY TopicID DESC 
