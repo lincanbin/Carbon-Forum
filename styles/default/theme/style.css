@@ -361,19 +361,19 @@ h2.resp-accordion {
 	
 }
 .emptyProgressBar{
-	height: 4px;
+	height: 3px;
 }
 .progressBar {
 	display: none;
-	height: 4px;
-	background-color: #4fc3f7;
-	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+	height: 3px;
+	background-color: #F9F9F9;
+
 }
 
 .progressBar .bar1{
 	width: 0%;
-	height: 4px;
-	background-color: #01579b;
+	height: 3px;
+	background-color: #4fc3f7;
 }
 
 .Copyright {
