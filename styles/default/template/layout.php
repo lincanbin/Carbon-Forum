@@ -132,7 +132,7 @@ if(!$IsAjax){
 		<div class="Copyright">
 			<p>
 			Powered By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?> © 2006-2015 
-			<a href="<?php echo $Config['WebsitePath']; ?>/statistics" target="_blank"><?php echo $Lang['Statistics']; ?></a>
+			<a href="<?php echo $Config['WebsitePath']; ?>/statistics"><?php echo $Lang['Statistics']; ?></a>
 			<?php
 			if ($IsMobile && $Config['MobileDomainName']) {
 			?>

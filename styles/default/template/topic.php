@@ -37,7 +37,7 @@ if($Page==1)
 <?php
 if($Topic['Tags']){
 	foreach (explode("|", $Topic['Tags']) as $Tag) {
-?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
+?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>"><?php echo $Tag; ?></a>
 <?php
 	}
 }?></div>
@@ -90,7 +90,7 @@ foreach($PostsArray as $key => $Post)
 	<div class="comment-item">
 		<a name="Post<?php echo $Post['ID'];?>"></a>
 		<div class="comment-avatar">
-			<a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Post['UserName']); ?>" target="_blank">
+			<a href="<?php echo $Config['WebsitePath'].'/u/'.urlencode($Post['UserName']); ?>">
 			<?php echo GetAvatar($Post['UserID'], $Post['UserName'], 'middle'); ?>
 			</a>
 		</div>

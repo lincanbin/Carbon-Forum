@@ -256,7 +256,7 @@ h2.resp-accordion {
 	min-width:960px;
 	background: #f9f9f9;
 	padding: 0px 10px 0px 10px;
-	border-bottom: 1px solid #33b5e5;
+	border-bottom: 1px solid #4fc3f7;
 }
 .innerNavPanel {
 	width:960px;
@@ -306,7 +306,7 @@ h2.resp-accordion {
 }
 .buttons a:hover {
 	color: #7aa1b0 !important;
-	border-bottom: 4px solid #33b5e5 !important;
+	border-bottom: 4px solid #4fc3f7 !important;
 	transition: border-bottom 0.5s ease-in-out;
 	-moz-transition: border-bottom 0.5s; /* Firefox 4 */
 	-webkit-transition: border-bottom 0.5s; /* Safari and Chrome */
@@ -316,8 +316,8 @@ h2.resp-accordion {
 	font-weight: bold;
 }
 .buttons-active {
-	color: #33b5e5 !important;
-	border-bottom: 4px solid #33b5e5 !important;
+	color: #4fc3f7 !important;
+	border-bottom: 4px solid #4fc3f7 !important;
 	transition: border-bottom 0.5s ease-in-out;
 	-moz-transition: border-bottom 0.5s; /* Firefox 4 */
 	-webkit-transition: border-bottom 0.5s; /* Safari and Chrome */
@@ -366,14 +366,14 @@ h2.resp-accordion {
 .progressBar {
 	display: none;
 	height: 4px;
-	background-color: #b3d4fc;
+	background-color: #4fc3f7;
 	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .progressBar .bar1{
 	width: 0%;
 	height: 4px;
-	background-color: #3f51b5;
+	background-color: #01579b;
 }
 
 .Copyright {
@@ -872,7 +872,7 @@ img .avatar {
 	color:#808080;
 }
 .User-Pannel li strong:hover{
-	color: #33b5e5;
+	color: #4fc3f7;
 }
 /* FORM end*/
 .w100 {

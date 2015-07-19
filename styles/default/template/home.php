@@ -9,7 +9,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		?>
 			<div class="post-list">
 				<div class="item-avatar">
-					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>" target="_blank">
+					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>">
 						<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
 					</a>
 				</div>
@@ -23,7 +23,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<?php
 						if($Topic['Tags']){
 							foreach (explode("|", $Topic['Tags']) as $Tag) {
-						?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
+						?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>"><?php echo $Tag; ?></a>
 							<?php
 							}
 						}
@@ -34,7 +34,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				</div>
 							<?php if($Topic['Replies']){ ?>
 							<div class="item-count">
-							<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" target="_blank"><?php echo $Topic['Replies']; ?></a>
+							<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
 							</div>
 							<?php } ?>
 							<div class="c"></div>
