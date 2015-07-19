@@ -15,6 +15,15 @@ foreach ($StatisticsData as $Key => $Value) {
 		$Value['DaysUsers']
 	);
 }
+$TotalTopicsStatisticsData[] = array(
+	date('Y-m-d'),
+	$Config['NumTopics'],
+	$Config['NumPosts'],
+	$Config['NumUsers'],
+	$Config['DaysTopics'],
+	$Config['DaysPosts'],
+	$Config['DaysUsers']
+);
 unset($StatisticsData);
 $DataJsonString = json_encode($TotalTopicsStatisticsData);
 unset($TotalTopicsStatisticsData);
