@@ -52,7 +52,7 @@ $(function(){
 		fragment : '#main', 
 		timeout :10000,
 		maxCacheLength : 40
-	})
+	});
 	$(document).on('pjax:send', function() {
 	 	$('#progressBar').show();
 	 	$("#progressBar1").css('width',0);

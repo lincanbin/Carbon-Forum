@@ -56,8 +56,27 @@ function InitNewTopicEditor(){
 			//AddTag(document.NewForm.AlternativeTag.value, Math.round(new Date().getTime()/1000));
 		}, 
 		onHint: function (hint) {
-            alert(hint);
-        },*/
+			alert(hint);
+		},
+		*/
+	});
+	$("#AlternativeTag").keydown(function(e) {
+		var e = e || event;
+		switch (e.keyCode) {
+		case 13:
+			if ($("#AlternativeTag").val().length != 0) {
+				AddTag($("#AlternativeTag").val(), Math.round(new Date().getTime() / 1000));
+			}
+			break;
+		case 8:
+			if ($("#AlternativeTag").val().length == 0) {
+				var LastTag = $("#SelectTags").children().last();
+				TagRemove(LastTag.children().attr("value"), LastTag.attr("id").replace("Tag", ""));
+			}
+			break;
+		default:
+			return true;
+		}
 	});
 }
 
@@ -100,9 +119,13 @@ function CreateNewTopic() {
 		document.NewForm.Title.focus();
 		return false;
 	} else if (!$("#SelectTags").html()) {
-		alert(Lang['Tags_Empty']);
-		document.NewForm.AlternativeTag.focus();
-		return false;
+		if ($("#AlternativeTag").val().length != 0) {
+			AddTag($("#AlternativeTag").val(), Math.round(new Date().getTime() / 1000));
+		}else{
+			alert(Lang['Tags_Empty']);
+			document.NewForm.AlternativeTag.focus();
+			return false;
+		}
 	} else {
 		$("#PublishButton").val(Lang['Submitting']);
 		UE.getEditor('editor').setDisabled('fullscreen');
@@ -123,7 +146,11 @@ function CreateNewTopic() {
 			success: function(data) {
 				if (data.Status == 1) {
 					$("#PublishButton").val(Lang['Submit_Success']);
-					location.href = WebsitePath + "/t/" + data.TopicID;
+					$.pjax({
+						url: WebsitePath + "/t/" + data.TopicID, 
+						container: '#main'
+					});
+					//location.href = WebsitePath + "/t/" + data.TopicID;
 					if (window.localStorage) {
 						//清空草稿箱
 						StopAutoSave();
@@ -207,26 +234,6 @@ function AddTag(TagName, id) {
 	}
 }
 
-$(function() {
-	$("#AlternativeTag").keydown(function(e) {
-		var e = e || event;
-		switch (e.keyCode) {
-		case 13:
-			if ($("#AlternativeTag").val().length != 0) {
-				AddTag($("#AlternativeTag").val(), Math.round(new Date().getTime() / 1000));
-			}
-			break;
-		case 8:
-			if ($("#AlternativeTag").val().length == 0) {
-				var LastTag = $("#SelectTags").children().last();
-				TagRemove(LastTag.children().attr("value"), LastTag.attr("id").replace("Tag", ""));
-			}
-			break;
-		default:
-			return true;
-		}
-	});
-});
 
 function TagRemove(TagName, id) {
 	$("#Tag" + id).remove();
