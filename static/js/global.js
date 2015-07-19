@@ -70,7 +70,7 @@ function GetNotification( ){
 		},
 	};
 	$.ajax(NotificationSettings);
-	console.log('start getting notification.');
+	console.log('start getting notification at '+new Date().toLocaleString());
 }
 
 
@@ -125,8 +125,8 @@ function loadScript(url, callback) {
 	if(document.getElementById(script.id) == undefined){
 		document.getElementsByTagName("head")[0].appendChild(script);
 	}else{
-		//console.log(callback);
 		callback();
+		//console.log(url);
 	}
 }
 

@@ -11,8 +11,9 @@
  * A high performance open-source forum software written in PHP. 
  */
 
-$(document).ready(function(){
-	//实例化编辑器
+function InitNewTopicEditor(){
+	UE.delEditor('editor');
+	//Initialize editor
 	//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 	window.UEDITOR_CONFIG['textarea'] = 'Content';
 	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', 'paragraph', 'fontsize', 'fontfamily', 'forecolor', '|', 'justifyleft','justifycenter', 'justifyright', 'justifyjustify', '|','undo', 'redo'],['insertcode', 'link','inserttable', 'blockquote', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
@@ -35,12 +36,32 @@ $(document).ready(function(){
 			CtrlAndEnter(Event, false);
 		};
 	}});
-});
+	//编辑器外Ctrl + Enter提交回复
+	document.body.onkeydown = function(Event){
+		CtrlAndEnter(Event, true);
+	};
 
-//编辑器外Ctrl + Enter提交回复
-document.body.onkeydown = function(Event){
-	CtrlAndEnter(Event, true);
-};
+	//话题自动补全
+	// Initialize ajax autocomplete:
+	$("#AlternativeTag").autocomplete({
+		serviceUrl: WebsitePath + '/json/tag_autocomplete',
+		minChars: 2,
+		type: 'post'
+		/*,
+		lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
+			var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
+			return re.test(suggestion.value);
+		},
+		onSelect: function(suggestion) {
+			//AddTag(document.NewForm.AlternativeTag.value, Math.round(new Date().getTime()/1000));
+		}, 
+		onHint: function (hint) {
+            alert(hint);
+        },*/
+	});
+}
+
+
 
 //Ctrl + Enter操作接收函数
 function CtrlAndEnter(Event, IsPreventDefault) {
@@ -67,29 +88,6 @@ $(document).ready(function(){
 	} 
 });
 */
-
-//话题自动补全
-$(function() {
-	//'use strict';
-	// Initialize ajax autocomplete:
-	$("#AlternativeTag").autocomplete({
-		serviceUrl: WebsitePath + '/json/tag_autocomplete',
-		minChars: 2,
-		type: 'post'
-		/*,
-		lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
-			var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
-			return re.test(suggestion.value);
-		},
-		onSelect: function(suggestion) {
-			//AddTag(document.NewForm.AlternativeTag.value, Math.round(new Date().getTime()/1000));
-		}, 
-		onHint: function (hint) {
-            alert(hint);
-        },*/
-	});
-
-});
 
 //提交前的检查
 function CreateNewTopic() {

@@ -44,13 +44,14 @@ function RenderTopic(){
 
 function InitEditor(){
 	//Initialize editor
+	UE.delEditor('editor');
 	window.UEDITOR_CONFIG['textarea'] = 'Content';
 	window.UEDITOR_CONFIG['elementPathEnabled'] = false;
 	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
 	UE.getEditor('editor',{onready:function(){
 		if(window.localStorage){
-			SaveDraftTimer = setInterval(function() {//Global
-				SaveDraft();
+			SavePostDraftTimer = setInterval(function() {//Global
+				SavePostDraft();
 			},
 			1000); //每隔N秒保存一次
 			//Try to recover previous article from draft
@@ -70,6 +71,7 @@ function InitEditor(){
 	document.body.onkeydown = function(Event){
 		CtrlAndEnter(Event);
 	};
+	console.log('editor loaded.');
 }
 
 
@@ -217,7 +219,7 @@ function Quote(UserName, PostFloor, PostID) {
 }
 
 //Save Draft
-function SaveDraft() {
+function SavePostDraft() {
 	try{
 		if (UE.getEditor('editor').getContent().length >= 10) {
 			localStorage.setItem(Prefix + "PostContent" + TopicID, UE.getEditor('editor').getContent());
@@ -226,13 +228,13 @@ function SaveDraft() {
 		if(oException.name == 'QuotaExceededError'){
 			console.log('Draft Overflow! ');
 			localStorage.clear();//Clear all draft
-			SaveDraft();//Save draft again
+			SavePostDraft();//Save draft again
 		}
 	}
 }
 
 function StopAutoSave() {
-	clearInterval(SaveDraftTimer); //停止保存
+	clearInterval(SavePostDraftTimer); //停止保存
 	localStorage.removeItem(Prefix + "PostContent" + TopicID); //清空内容
 	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
 }
