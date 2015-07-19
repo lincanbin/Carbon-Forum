@@ -113,6 +113,12 @@ if($CurUserRole==5){
 		</div>
 		<!-- main start -->
 <?php
+}else{
+echo '<title>';
+echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
+echo $PageTitle;
+echo $UrlPath=='index'?'':' - '.$Config['SiteName'];
+echo '</title>';
 }
 ?>
 		<div class="main" id="main">
