@@ -2,7 +2,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2015, Lin Canbin
+ * Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
