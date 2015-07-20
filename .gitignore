@@ -9,6 +9,7 @@
 /static/js/jquery.autocomplete.js
 /static/editor/ueditor.all.js
 /static/editor/ueditor.parse.js
+/static/editor/themes/default/css/ueditor.css
 #Echarts
 /static/echarts/.DS_Store
 /static/echarts/echarts-all.js
