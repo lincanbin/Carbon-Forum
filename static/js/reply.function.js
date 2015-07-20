@@ -193,7 +193,8 @@ function ReplyToTopic() {
 					}
 					$.pjax({
 						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID, 
-						container: '#main'
+						container: '#main',
+						scrollTo: false
 					});
 					//location.href = WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID;
 				} else {
