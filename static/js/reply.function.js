@@ -164,7 +164,7 @@ function EditPostCallback(PostID) {
 	};
 }
 
-//回复帖子提交前的检查
+//回复帖子
 function ReplyToTopic() {
 	if (!UE.getEditor('editor').getContent().length) {
 		alert(Lang['Content_Empty']);
@@ -189,6 +189,7 @@ function ReplyToTopic() {
 					if (window.localStorage) {
 						//清空草稿箱
 						StopAutoSave();
+						UE.getEditor('editor').execCommand('cleardoc');
 					}
 					$.pjax({
 						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID, 
