@@ -11,13 +11,16 @@
  * 
  * A high performance open-source forum software written in PHP. 
  */
-//逐渐替换为帕斯卡命名法
-//数据库从设计上避免使用Join多表联查
+/*
+逐渐替换为帕斯卡命名法
+数据库从设计上避免使用Join多表联查
+*/
+//输出所有错误信息，调试用
+//error_reporting(E_ALL); 
+//ini_set('display_errors', 'On');
+//关闭错误报告，生产环境用
+ini_set('display_errors', 'Off');
 
-error_reporting(0);//不输出任何错误信息
-//error_reporting(E_ALL ^ E_NOTICE);//除了 E_NOTICE，报告其他所有错误
-//error_reporting(E_ALL); //输出所有错误信息，调试用
-ini_set('display_errors', '0'); //不显示错误
 //Initialize timer
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -63,8 +66,8 @@ if (!$Config) {
 	}
 }
 
-$PHPSelf = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
-$UrlPath = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
+$PHPSelf    = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
+$UrlPath    = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
 //For IIS ISAPI_Rewrite
 $RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
 //消除低版本中魔术引号的影响
@@ -102,7 +105,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	if ($TemporaryUserList) {
 		$UserList = $DB->row('SELECT ID FROM `' . $Prefix . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
 		if ($UserList && count($UserList) <= 20) {
-		//最多@ 20人，防止骚扰
+			//最多@ 20人，防止骚扰
 			foreach ($UserList as $UserID) {
 				$DB->query('INSERT INTO `' . $Prefix . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (null,?,?,?,?,?,?,?)', array(
 					$UserID,
@@ -224,8 +227,8 @@ function CharsFilter($String)
 // 获得IP地址
 function CurIP()
 {
-	$IsCDN = false;//未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
-	$IP = false;
+	$IsCDN = false; //未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
+	$IP    = false;
 	if ($IsCDN && !empty($_SERVER["HTTP_CLIENT_IP"])) {
 		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
 	}
@@ -324,8 +327,18 @@ function GetCookie($Key, $DefaultValue = false)
 }
 
 
-//长整数intval，防止溢出
-function int($s)
+//Hash值校验，防止时序攻击法
+function HashEquals($KnownString, $UserString)
+{
+	if (version_compare(PHP_VERSION, '5.6.0') < 0) {
+		return ($KnownString === $UserString);
+	} else {
+		return hash_equals($KnownString, $UserString);
+	}
+}
+
+//长整数intval，防止溢出，目前暂未用到
+function Int($s)
 {
 	return ($a = preg_replace('/[^\-\d]*(\-?\d*).*/', '$1', $s)) ? $a : '0';
 }
@@ -541,10 +554,10 @@ function XssEscape($html)
 		foreach ($ms[1] as $value) {
 			$searchs[] = "&lt;" . $value . "&gt;";
 			
-			$value = str_replace('&', '_uch_tmp_str_', $value);
-			$value = dhtmlspecialchars($value);
-			$value = str_replace('_uch_tmp_str_', '&', $value);
-			$value = str_replace(array(
+			$value    = str_replace('&', '_uch_tmp_str_', $value);
+			$value    = dhtmlspecialchars($value);
+			$value    = str_replace('_uch_tmp_str_', '&', $value);
+			$value    = str_replace(array(
 				'\\',
 				'/*'
 			), array(
@@ -692,11 +705,11 @@ function dhtmlspecialchars($string, $flags = null)
 $UserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
 if ($UserAgent) {
 	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
-	$IsMobile  = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
+	$IsMobile = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
 } else {
 	//exit('error: 400 no agent');
 	$IsSpider = false;
-	$IsMobile  = false;
+	$IsMobile = false;
 }
 $IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName'] ? true : false;
 /* Set current template
@@ -738,7 +751,7 @@ if (strpos($RequestURI, '.php')) {
 
 $CurrentDate = date('Y-m-d');
 if ($Config['DaysDate'] != $CurrentDate) {
-	if( !strtotime($Config['DaysDate']) ){
+	if (!strtotime($Config['DaysDate'])) {
 		$Config['DaysDate'] = $CurrentDate;
 	}
 	$DB->query('INSERT INTO `' . $Prefix . 'statistics` 
@@ -750,34 +763,30 @@ if ($Config['DaysDate'] != $CurrentDate) {
 				SELECT *  FROM `' . $Prefix . 'statistics`  
 				WHERE DaysDate = :DaysDate2
 			)
-		',
-		array(
-			'DaysUsers' => $Config['DaysUsers'], 
-			'DaysPosts' => $Config['DaysPosts'], 
-			'DaysTopics' => $Config['DaysTopics'], 
-			'TotalUsers' => $Config['NumUsers'], 
-			'TotalPosts' => $Config['NumPosts'], 
-			'TotalTopics' => $Config['NumTopics'], 
-			'DaysDate' => $Config['DaysDate'], 
-			'DateCreated' => $TimeStamp,
-			'DaysDate2' => $Config['DaysDate']
-		)
-	);
-	UpdateConfig(
-		array(
-			'DaysDate' => $CurrentDate,
-			'DaysTopics' => 0,
-			'DaysPosts' => 0,
-			'DaysUsers' => 0
-		)
-	);
+		', array(
+		'DaysUsers' => $Config['DaysUsers'],
+		'DaysPosts' => $Config['DaysPosts'],
+		'DaysTopics' => $Config['DaysTopics'],
+		'TotalUsers' => $Config['NumUsers'],
+		'TotalPosts' => $Config['NumPosts'],
+		'TotalTopics' => $Config['NumTopics'],
+		'DaysDate' => $Config['DaysDate'],
+		'DateCreated' => $TimeStamp,
+		'DaysDate2' => $Config['DaysDate']
+	));
+	UpdateConfig(array(
+		'DaysDate' => $CurrentDate,
+		'DaysTopics' => 0,
+		'DaysPosts' => 0,
+		'DaysUsers' => 0
+	));
 }
 // Get the infomation of current user
-$CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
-$CurUserRole = 0;
-$CurUserID   = intval(GetCookie('UserID'));
-$CurUserExpirationTime   = intval(GetCookie('UserExpirationTime'));
-$CurUserCode = GetCookie('UserCode');
+$CurUserInfo           = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
+$CurUserRole           = 0;
+$CurUserID             = intval(GetCookie('UserID'));
+$CurUserExpirationTime = intval(GetCookie('UserExpirationTime'));
+$CurUserCode           = GetCookie('UserCode');
 
 if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp + 2678400) && $CurUserID && $CurUserCode) {
 	$TempUserInfo = array();
@@ -794,7 +803,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		}
 	}
 	//Using hash_equals() in the future
-	if ($TempUserInfo && $CurUserCode === md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT)) {
+	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT), $CurUserCode)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;

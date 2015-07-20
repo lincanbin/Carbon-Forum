@@ -2,7 +2,7 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
-$Version = '3.3.0';
+$Version = '3.3.6';
 $Prefix = 'carbon_';
 if(is_file('update.lock')){
 	die("请删除 update/update.lock 文件后再进行操作！<br>Please Remove update/update.lock before update!");

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$ReturnUrl  = htmlspecialchars(trim($_POST["ReturnUrl"]));
 	$UserName   = strtolower(trim($_POST["UserName"]));
 	$Password   = trim($_POST["Password"]);
-	$Expires    = min(intval(trim($_POST["Expires"])), 30);//最多保持登陆30天
+	$Expires    = min(intval(trim($_POST["Expires"])), 30); //最多保持登陆30天
 	$VerifyCode = intval(trim($_POST["VerifyCode"]));
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			));
 			if ($DBUser) {
 				//Using hash_equals() in the future
-				if (md5($Password . $DBUser['Salt']) === $DBUser['Password']) {
+				if (HashEquals($DBUser['Password'], md5($Password . $DBUser['Salt']))) {
 					UpdateUserInfo(array(
 						'LastLoginTime' => $TimeStamp,
 						'UserLastIP' => CurIP()

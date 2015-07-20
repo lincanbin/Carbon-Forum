@@ -39,11 +39,11 @@ switch ($Action) {
 			t.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
 				WHERE f.FavoriteID=t.ID and Type=2)
 		');
-
-
+		
+		
 		$DB->query('DELETE FROM ' . $Prefix . 'statistics');
 		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT PostTime FROM ' . $Prefix . 'topics ORDER BY ID LIMIT 1')));
-		while ( $StatisticsTime < ($TimeStamp-86400) ) {
+		while ($StatisticsTime < ($TimeStamp - 86400)) {
 			$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
 			//echo date('Y-m-d', $StatisticsTime);
 			//echo '<br />';
@@ -84,33 +84,31 @@ switch ($Action) {
 							AND t.IsDel = 0), 
 					:DaysDate,
 					:DateCreated
-				)',
-				array(
-					'DaysDate' => date('Y-m-d', $StatisticsTime),
-					'DateCreated' => $StatisticsTimeAddOneDay-1
-				)
-			);
+				)', array(
+				'DaysDate' => date('Y-m-d', $StatisticsTime),
+				'DateCreated' => $StatisticsTimeAddOneDay - 1
+			));
 			$StatisticsTime = $StatisticsTimeAddOneDay;
 		}
-
-		if($MCache){
+		
+		if ($MCache) {
 			if (extension_loaded('memcached') || extension_loaded('memcache')) {
 				//MemCached or MemCache
-				$MCache -> flush();
+				$MCache->flush();
 			} elseif (extension_loaded('redis')) {
 				//Redis
 				//https://github.com/phpredis/phpredis
-				$MCache -> flushAll();
+				$MCache->flushAll();
 			}
 		}
-
+		
 		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;
 	
 	default:
 		$NewConfig = $_POST;
 		//Fool-proofing
-		if($Action == 'Basic'){
+		if ($Action == 'Basic') {
 			$NewConfig['TopicsPerPage'] = intval(Request('Post', 'TopicsPerPage', 20));
 			$NewConfig['PostsPerPage']  = intval(Request('Post', 'PostsPerPage', 20));
 			$NewConfig['MaxTagsNum']    = intval(Request('Post', 'MaxTagsNum', 5));
@@ -118,11 +116,11 @@ switch ($Action) {
 			$NewConfig['MaxPostChars']  = intval(Request('Post', 'MaxPostChars', 65536));
 		}
 		//Fool-proofing
-		if($Action == 'Advanced'){
-			if($NewConfig['MobileDomainName'] == $_SERVER ['HTTP_HOST']){
+		if ($Action == 'Advanced') {
+			if ($NewConfig['MobileDomainName'] == $_SERVER['HTTP_HOST']) {
 				$NewConfig['MobileDomainName'] = $Config['MobileDomainName'];
 			}
-			if($NewConfig['AppDomainName'] == $_SERVER ['HTTP_HOST']){
+			if ($NewConfig['AppDomainName'] == $_SERVER['HTTP_HOST']) {
 				$NewConfig['AppDomainName'] = $Config['AppDomainName'];
 			}
 		}
