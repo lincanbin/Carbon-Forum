@@ -1,11 +1,9 @@
 Carbon-Forum
 ============
-
 A high performance open-source forum software written in PHP.
 
 Demo/Official Website
 ------------
-
 * [项目简体中文官网: www.94cb.com](http://www.94cb.com/)
 * [Project's English Official Website: en.94cb.com](http://en.94cb.com/)
 * [專案繁體中文官網: tw.94cb.com](http://tw.94cb.com/)
@@ -22,20 +20,26 @@ Install
 ------------
 
 1. Ensure that the entire directory are writable.
-
 2. Open http://www.yourdomain.com/install and install.
-
 3. Open the Forum, and register. The first registered users will become administrators. 
+
+Upgrade
+------------
+1. Backup files( ```/upload/*``` ) and databases. 
+2. Delete all files except ```/upload/*```, and upload the new version files that extract from the the latest vesion packet. 
+3. Ensure that the entire directory are writable.
+4. Open http://www.yourdomain.com/update and update. 
 
 Features
 ------------
-* Mobile version.
-* Discussions Tags based, Quora/StackOverflow like.
-* High performance. 
-* Reasonable asynchronous design, improve the loading speed. 
+* Mobile version. 
+* Real-time notifications push. 
+* Discussions Tags based, Quora/StackOverflow like. 
+* High FE&BE performance. 
+* Full asynchronous design, improve the loading speed. 
+* Excellent search engine optimization (mobile adaptation Sitemap support) .
 * Perfect draft saving mechanism. 
 * The modern Notification Center (currently supported and @ replies). 
-
 
 License
 ------------
