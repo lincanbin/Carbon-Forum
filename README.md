@@ -20,7 +20,7 @@ Install
 ------------
 
 1. Ensure that the entire directory are writable.
-2. Open http://www.yourdomain.com/install and install.
+2. Open ```http://www.yourdomain.com/install``` and install.
 3. Open the Forum, and register. The first registered users will become administrators. 
 
 Upgrade
@@ -28,7 +28,7 @@ Upgrade
 1. Backup files( ```/upload/*``` ) and databases. 
 2. Delete all files except ```/upload/*```, and upload the new version files that extract from the the latest vesion packet. 
 3. Ensure that the entire directory are writable.
-4. Open http://www.yourdomain.com/update and update. 
+4. Open ```http://www.yourdomain.com/update``` and update. 
 
 Features
 ------------
