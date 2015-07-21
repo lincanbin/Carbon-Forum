@@ -67,6 +67,12 @@ $(function(){
 	 	SetButtonToTop();
 	});
 	//$(document).pjax('a', 'body');
+	//改变导航栏的点击CSS
+	$(".buttons a").click(function(e) {
+		//console.log($(this));
+		$(".buttons a").removeClass();
+		$(this).attr("class", "buttons-active");
+	});
 });
 
 

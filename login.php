@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"UserName" => $UserName
 			));
 			if ($DBUser) {
-				//Using hash_equals() in the future
 				if (HashEquals($DBUser['Password'], md5($Password . $DBUser['Salt']))) {
 					UpdateUserInfo(array(
 						'LastLoginTime' => $TimeStamp,
