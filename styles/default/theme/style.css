@@ -188,7 +188,6 @@ ul.resp-tabs-list {
 	margin: 0 24px 0 0;
 	list-style: none;
 	cursor: pointer;
-	float: left;
 	font-weight:bold;
 	transition:border 0.8s ease-in-out, background-color 0.5s ease-in-out;
 	-moz-transition:border 0.8s, background-color 0.5s; /* Firefox 4 */
