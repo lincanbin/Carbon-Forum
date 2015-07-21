@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$VerifyCode = intval(trim($_POST["VerifyCode"]));
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
-		if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode == intval($_SESSION[$Prefix . 'VerificationCode'])) {
+		if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode === intval($_SESSION[$Prefix . 'VerificationCode'])) {
 			$DBUser = $DB->row("SELECT ID,UserName,Salt,Password FROM " . $Prefix . "users WHERE UserName = :UserName", array(
 				"UserName" => $UserName
 			));
