@@ -33,5 +33,5 @@ var Lang = {
 	'Reply_Success':' 回复成功 ',
 	'Reply_To':'回复',
 
-	'New_Message': '{{NewMessage}} 条消息'
+	'New_Message': '{{NewMessage}}条消息'
 };
