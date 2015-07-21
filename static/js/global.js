@@ -98,6 +98,8 @@ function GetNotification( ){
 //HTML5的Notification API，用来进行消息提示
 function ShowNotification(NewMessageNumber) {
 	if(NewMessageNumber > 0){
+		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewMessageNumber) + ')' + 
+		document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
 		$("#MessageNumber").css("visibility","visible");
 		$("#MessageNumber").html(NewMessageNumber);
 		if(window.Notification && Notification.permission !== "denied") {
@@ -120,6 +122,7 @@ function ShowNotification(NewMessageNumber) {
 
 		}
 	}else{
+		document.title = document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
 		$("#MessageNumber").html("0");
 		$("#MessageNumber").css("visibility","hidden");
 	}
