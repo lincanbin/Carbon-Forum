@@ -169,9 +169,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?ve
 ?>
 
 <div class="title">
-	<div class="float-left"><?php echo $Lang['Reply']; ?><a name="reply"></a></div>
-	<div class="float-right"><a href="#">↑ Top</a></div>
-	<div class="c"></div>    
+	<?php echo $Lang['Reply']; ?><a name="reply"></a> 
 </div>
 <div class="main-box">
 	<script type="text/javascript">

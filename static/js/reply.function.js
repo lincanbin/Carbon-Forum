@@ -235,6 +235,7 @@ function ReplyToTopic() {
 					if (window.localStorage) {
 						//清空草稿箱
 						StopAutoSave();
+						//清空编辑器
 						UE.getEditor('editor').execCommand('cleardoc');
 					}
 					$.pjax({
@@ -287,7 +288,7 @@ function SavePostDraft() {
 }
 
 function StopAutoSave() {
-	clearInterval(SavePostDraftTimer); //停止保存
+	clearInterval(SavePostDraftTimer); //停止定时保存
 	localStorage.removeItem(Prefix + "PostContent" + TopicID); //清空内容
 	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
 }

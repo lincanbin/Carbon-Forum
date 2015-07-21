@@ -58,8 +58,7 @@ switch ($Action) {
 					`DaysDate`, 
 					`DateCreated`
 				) 
-				VALUES 
-				(
+				SELECT 
 					(SELECT count(*) FROM ' . $Prefix . 'users u 
 						WHERE u.UserRegTime >= ' . $StatisticsTime . ' 
 							AND u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
@@ -83,9 +82,15 @@ switch ($Action) {
 						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
 							AND t.IsDel = 0), 
 					:DaysDate,
-					:DateCreated
-				)', array(
+					:DateCreated 
+					FROM dual  
+					WHERE NOT EXISTS(  
+						SELECT *  FROM `' . $Prefix . 'statistics`  
+						WHERE DaysDate = :DaysDate2
+					)
+				', array(
 				'DaysDate' => date('Y-m-d', $StatisticsTime),
+				'DaysDate2' => date('Y-m-d', $StatisticsTime),
 				'DateCreated' => $StatisticsTimeAddOneDay - 1
 			));
 			$StatisticsTime = $StatisticsTimeAddOneDay;
