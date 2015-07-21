@@ -82,12 +82,13 @@ function GetNotification( ){
 			if(Data.Status != 0){
 				ShowNotification(Data.NewMessage);
 			}
-			//获取到新消息，60秒后再请求
-			setTimeout(function(){$.ajax(NotificationSettings);},60000);
+			//获取到新消息，30秒后再请求
+			//没有则3秒后再开新线程
+			setTimeout(function(){$.ajax(NotificationSettings);}, (Data.NewMessage > 0) ? 30000 : 3000);
 		},
 		error:function(){
-			//遇见错误30秒后重试
-			setTimeout(function(){$.ajax(NotificationSettings);},30000);
+			//遇见错误15秒后重试
+			setTimeout(function(){$.ajax(NotificationSettings);},15000);
 		},
 	};
 	$.ajax(NotificationSettings);
