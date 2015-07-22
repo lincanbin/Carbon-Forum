@@ -41,10 +41,15 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^view-(desktop|mobile)$ view.php?view=$1 [L,QSA]
 </IfModule>
 
-# Image and Flash content Caching for One Month
+# Expire static files after a month in the client's cache
+# http://httpd.apache.org/docs/2.4/mod/mod_expires.html
 <IfModule mod_expires.c>
+	# enable expirations
 	ExpiresActive On
-	<FilesMatch ".(js|css|flv|gif|jpg|jpeg|png|bmp|ico|swf|)$">
-		Header set Cache-Control "max-age=604800"
-	</FilesMatch>
+	ExpiresByType text/javascript A604800
+	ExpiresByType text/css A604800
+	ExpiresByType image/png A2592000
+	ExpiresByType image/gif A2592000
+	ExpiresByType image/jpeg A2592000
+	ExpiresByType image/x-icon A2592000
 </IfModule>
