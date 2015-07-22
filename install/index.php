@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($Htaccess);
 
 	//rewrite文件配置
-	$Message = '安装成功，安装完成后请马上删除install与update文件夹。<br />Please delete the install folder and the update folder. <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
+	$Message = '安装成功。<br />Installed successfully! <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
 
 	if (!file_exists('install.lock')) {  
 		touch('install.lock');

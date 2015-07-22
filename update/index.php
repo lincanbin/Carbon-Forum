@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($Htaccess);
 
 	//rewrite文件配置
-	$Message = '升级成功，升级完成后请马上删除install和update文件夹。<br />Please delete the install folder and the update floder. ';
+	$Message = '升级成功。<br />Update successfully! ';
 	//当前版本低于3.3.0，需要进行的升级到3.3.0的升级操作
 	if(VersionCompare('3.3.0' ,$OldVersion)){
 		require("../includes/MaterialDesign.Avatars.class.php");
