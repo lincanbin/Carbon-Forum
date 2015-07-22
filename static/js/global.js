@@ -55,7 +55,7 @@ $(function(){
 	$(document).pjax('a', '#main', {
 		fragment : '#main', 
 		timeout :10000,
-		maxCacheLength : 40
+		maxCacheLength : 0
 	});
 	$(document).on('pjax:send', function() {
 	 	$('#progressBar').show();
