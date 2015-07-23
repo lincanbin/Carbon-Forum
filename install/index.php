@@ -2,6 +2,8 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
+$Version = '3.3.6';
+$Prefix = 'carbon_';
 if(is_file('install.lock')){
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
 }
@@ -27,8 +29,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	while($SQL=GetNextSQL()){
 		$DB->query($SQL);
 	}
-	$DB->query("INSERT INTO `carbon_config` VALUES ('WebsitePath', '".$WebsitePath."')");
-	$DB->query("INSERT INTO `carbon_config` VALUES ('LoadJqueryUrl', '".$WebsitePath."/static/js/jquery.js')");
+	$DB->query("INSERT INTO `".$Prefix."config` VALUES ('WebsitePath', '".$WebsitePath."')");
+	$DB->query("INSERT INTO `".$Prefix."config` VALUES ('LoadJqueryUrl', '".$WebsitePath."/static/js/jquery.js')");
+	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".date('Y-m-d')."' WHERE `ConfigName`='DaysDate'");
+	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
 	$DB->CloseConnection();
 	fclose($fp) or die("Can’t close file");
 
