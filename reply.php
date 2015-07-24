@@ -87,9 +87,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						$MCache->delete(MemCachePrefix . 'UserInfo_' . $Topic['UserID']);
 					}
 				}
-				//清理首页内存缓存
 				if ($MCache) {
+					//清理首页内存缓存
 					$MCache->delete(MemCachePrefix . 'Homepage');
+					//清理主题缓存
+					$MCache->delete(MemCachePrefix . 'Topic_' . $TopicID);
 				}
 				//跳转到主题页
 				//计算页数，跳转到准确页数

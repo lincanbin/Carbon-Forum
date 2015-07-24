@@ -117,9 +117,11 @@ switch ($Type) {
 				AlertMsg('Bad Request', 'Bad Request');
 				break;
 		}
-		//清理首页内存缓存
 		if ($MCache) {
+			//清理首页内存缓存
 			$MCache->delete(MemCachePrefix . 'Homepage');
+			//清理主题缓存
+			$MCache->delete(MemCachePrefix . 'Topic_' . $ID);
 		}
 		break;
 

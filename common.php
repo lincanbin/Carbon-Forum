@@ -759,10 +759,10 @@ if ($Config['DaysDate'] != $CurrentDate) {
 		SELECT 
 		:DaysUsers, :DaysPosts, :DaysTopics, :TotalUsers, :TotalPosts, :TotalTopics, :DaysDate, :DateCreated 
 		FROM dual  
-			WHERE NOT EXISTS(  
-				SELECT *  FROM `' . $Prefix . 'statistics`  
-				WHERE DaysDate = :DaysDate2
-			)
+		WHERE NOT EXISTS(  
+			SELECT *  FROM `' . $Prefix . 'statistics`  
+			WHERE DaysDate = :DaysDate2
+		)
 		', array(
 		'DaysUsers' => $Config['DaysUsers'],
 		'DaysPosts' => $Config['DaysPosts'],
@@ -799,7 +799,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		));
 		
 		if ($MCache && $TempUserInfo) {
-			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600);
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 7200);
 		}
 	}
 	//Using hash_equals() in the future
