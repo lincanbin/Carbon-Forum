@@ -161,6 +161,7 @@ function EditPost(PostID) {
 			UE.getEditor('edit' + PostID).setContent(PostContentLists['p' + PostID]); //将帖子内容放到编辑器里
 		}
 	});
+	$("#edit" + PostID).html("");
 	$("#edit" + PostID).append('<p></p><p><input type="button" value=" ' + Lang['Edit'] + ' " class="textbtn" id="EditButton' + PostID + '" onclick="JavaScript:SubmitEdit(' + PostID + ');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" ' + Lang['Cancel'] + ' " class="textbtn" onclick="JavaScript:DestoryEditor(' + PostID + ');"></p>');
 
 	document.getElementById('edit' + PostID).style.visibility = "visible";
