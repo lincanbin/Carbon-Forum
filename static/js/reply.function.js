@@ -155,15 +155,15 @@ function EditPost(PostID) {
 	//初始化编辑器
 	document.getElementById('p' + PostID).style.visibility = "hidden";
 	document.getElementById('p' + PostID).style.height = "0";
-	$("#edit" + PostID).html("");
 	window.UEDITOR_CONFIG['textarea'] = 'PostContent' + PostID;
 	UE.getEditor('edit' + PostID, {
 		onready: function() {
 			UE.getEditor('edit' + PostID).setContent(PostContentLists['p' + PostID]); //将帖子内容放到编辑器里
 		}
 	});
-	$("#edit" + PostID).append('<p></p><p><input type="button" value=" ' + Lang['Edit'] + ' " class="textbtn" id="EditButton' + PostID + '" onclick="JavaScript:SubmitEdit(' + PostID + ');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" ' + Lang['Cancel'] + ' " class="textbtn" onclick="JavaScript:DestoryEditor(' + PostID + ');"></p>');
-
+	if( $("#edit_button" + PostID) && $("#edit_button" + PostID).length == 0){
+		$("#edit" + PostID).append('<div id="edit_button'+ PostID +'"><p></p><p><input type="button" value=" ' + Lang['Edit'] + ' " class="textbtn" id="EditButton' + PostID + '" onclick="JavaScript:SubmitEdit(' + PostID + ');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" ' + Lang['Cancel'] + ' " class="textbtn" onclick="JavaScript:DestoryEditor(' + PostID + ');"></p>');
+	}
 	document.getElementById('edit' + PostID).style.visibility = "visible";
 }
 
