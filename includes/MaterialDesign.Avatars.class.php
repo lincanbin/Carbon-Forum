@@ -3,7 +3,7 @@
  * Material-Design-Avatars
  * https://github.com/lincanbin/Material-Design-Avatars
  *
- * Copyright 2015, Canbin Lin
+ * Copyright 2015 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -87,7 +87,9 @@ class MDAvtars
 		$BackgroundAlpha = imagecolorallocatealpha($this->Avatar, 255, 255, 255, 127);
 		imagefill($this->Avatar, 0, 0, $BackgroundAlpha);
 		//抗锯齿
-		imageantialias($this->Avatar, true);
+		if(function_exists('imageantialias')){
+			imageantialias($this->Avatar, true);
+		}
 		//Material Design参考颜色
 		//http://www.google.com/design/spec/style/color.html#color-color-palette
 		$MaterialDesignColor = array(
