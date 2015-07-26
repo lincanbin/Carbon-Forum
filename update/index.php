@@ -92,6 +92,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if (! extension_loaded('pdo_mysql')) {
 		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
 	}
+	if(is_file('../config.php')){
+		require("../config.php");
+	}else{
+		define('ForumLanguage', 'zh-cn');
+		define('DBHost', 'localhost');
+		define('DBName', 'carbon');
+		define('DBUser', 'root');
+		//define('DBPassword', '');
+	}
 }
 
 function VersionCompare($Version, $OldVersion)
@@ -139,6 +148,7 @@ function VersionCompare($Version, $OldVersion)
 						<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 						<td width="auto" align="left">
 							<select name="Language">
+								<option value="<?php echo ForumLanguage; ?>">Current Language: <?php echo ForumLanguage; ?></option>
 								<option value="zh-cn">简体中文</option>
 								<option value="zh-tw">繁體中文</option>
 								<option value="en">English</option>
@@ -148,15 +158,15 @@ function VersionCompare($Version, $OldVersion)
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
-						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="localhost" /></td>
+						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="<?php echo DBHost; ?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
-						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="" /></td>
+						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="<?php echo DBName; ?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
-						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="root" /></td>
+						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="<?php echo DBUser; ?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
