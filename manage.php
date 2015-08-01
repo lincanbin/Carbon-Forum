@@ -166,6 +166,11 @@ switch ($Type) {
 							$DB->query("INSERT INTO `" . $Prefix . "posttags` 
 								(`TagID`, `TopicID`, `PostID`) 
 								VALUES (".$TagID.", ".$ID.", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = ".$ID." AND IsTopic = 1 LIMIT 1))");
+							//更新全站统计数据
+							$NewConfig = array(
+								"NumTags" => $Config["NumTags"] + 1
+							);
+							UpdateConfig($NewConfig);
 						}
 					}else{
 						if($DB->query("INSERT INTO `" . $Prefix . "posttags` 
