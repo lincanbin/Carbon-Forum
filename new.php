@@ -31,17 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				//新建不存在的标签
 				if ($NewTags) {
 					foreach ($NewTags as $Name) {
-						$DB->query("INSERT INTO `" . $Prefix . "tags` (`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) VALUES (?,?,?,?,?,?,?,?,?)", array(
-							null,
-							htmlspecialchars(trim($Name)),
-							0,
-							0,
-							null,
-							1,
-							1,
-							$TimeStamp,
-							$TimeStamp
-						));
+						$DB->query("INSERT INTO `" . $Prefix . "tags` 
+							(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
+							VALUES (?,?,?,?,?,?,?,?,?)", 
+							array(
+								null,
+								htmlspecialchars(trim($Name)),
+								0,
+								0,
+								null,
+								1,
+								1,
+								$TimeStamp,
+								$TimeStamp
+							)
+						);
 						$TagsID[] = $DB->lastInsertId();
 					}
 					//更新全站统计数据
@@ -78,7 +82,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					"ListsTime" => $TimeStamp,
 					"Log" => ""
 				);
-				$NewTopicResult = $DB->query("INSERT INTO `" . $Prefix . "topics`(`ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `PostTime`, `LastTime`, `IsGood`, `IsTop`, `IsLocked`, `IsDel`, `IsVote`, `Views`, `Replies`, `Favorites`, `RatingSum`, `TotalRatings`, `LastViewedTime`, `PostsTableName`, `ThreadStyle`, `Lists`, `ListsTime`, `Log`) VALUES (:ID,:Topic,:Tags,:UserID,:UserName,:LastName,:PostTime,:LastTime,:IsGood,:IsTop,:IsLocked,:IsDel,:IsVote,:Views,:Replies,:Favorites,:RatingSum,:TotalRatings,:LastViewedTime,:PostsTableName,:ThreadStyle,:Lists,:ListsTime,:Log)", $TopicData);
+				$NewTopicResult = $DB->query("INSERT INTO `" . $Prefix . "topics` 
+					(
+						`ID`, 
+						`Topic`, 
+						`Tags`, 
+						`UserID`, 
+						`UserName`, 
+						`LastName`, 
+						`PostTime`, 
+						`LastTime`, 
+						`IsGood`, 
+						`IsTop`, 
+						`IsLocked`, 
+						`IsDel`, 
+						`IsVote`, 
+						`Views`, 
+						`Replies`, 
+						`Favorites`, 
+						`RatingSum`, 
+						`TotalRatings`, 
+						`LastViewedTime`, 
+						`PostsTableName`, 
+						`ThreadStyle`, 
+						`Lists`, 
+						`ListsTime`, 
+						`Log`
+					) 
+					VALUES 
+					(
+						:ID,
+						:Topic,
+						:Tags,
+						:UserID,
+						:UserName,
+						:LastName,
+						:PostTime,
+						:LastTime,
+						:IsGood,
+						:IsTop,
+						:IsLocked,
+						:IsDel,
+						:IsVote,
+						:Views,
+						:Replies,
+						:Favorites,
+						:RatingSum,
+						:TotalRatings,
+						:LastViewedTime,
+						:PostsTableName,
+						:ThreadStyle,
+						:Lists,
+						:ListsTime,
+						:Log
+					)", 
+					$TopicData
+				);
 				
 				$TopicID       = $DB->lastInsertId();
 				//往Posts表插入数据
@@ -93,7 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					"PostIP" => $CurIP,
 					"PostTime" => $TimeStamp
 				);
-				$NewPostResult = $DB->query("INSERT INTO `" . $Prefix . "posts`(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`) VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime)", $PostData);
+				$NewPostResult = $DB->query("INSERT INTO `" . $Prefix . "posts` 
+					(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`) 
+					VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime)", 
+					$PostData
+				);
 				
 				$PostID = $DB->lastInsertId();
 				
@@ -116,11 +179,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					));
 					//记录标签与TopicID的对应关系
 					foreach ($TagsID as $TagID) {
-						$DB->query("INSERT INTO `" . $Prefix . "posttags`(`TagID`, `TopicID`, `PostID`) VALUES (?,?,?)", array(
-							$TagID,
-							$TopicID,
-							$PostID
-						));
+						$DB->query("INSERT INTO `" . $Prefix . "posttags` 
+							(`TagID`, `TopicID`, `PostID`) 
+							VALUES (?,?,?)", 
+							array(
+								$TagID,
+								$TopicID,
+								$PostID
+							)
+						);
 					}
 					//更新标签统计数据
 					if ($TagsExist) {

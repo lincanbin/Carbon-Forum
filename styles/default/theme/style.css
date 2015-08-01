@@ -558,6 +558,13 @@ img .avatar {
 	text-align:left;
 	font-weight: bold;
 }
+.topic-tags .edittag{
+	vertical-align: center;
+	cursor:pointer;
+	font-style: italic;
+	border:none;
+	background-color: rgba(255,255,255,1);
+}
 .post-list {
 	border-bottom: 1px solid #EFEFEF;
 	padding:0 10px 0 10px;

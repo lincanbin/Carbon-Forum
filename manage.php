@@ -113,6 +113,79 @@ switch ($Type) {
 				));
 				$Message = $TopicInfo['IsLocked'] ? $Lang['Lock'] : $Lang['Unlock'];
 				break;
+			//删除标签
+			case 'DeleteTag':
+				Auth(4, $TopicInfo['UserID'], true);
+				$TagName     = Request('Post', 'TagName');
+				if($DB->query("DELETE FROM `" . $Prefix . "posttags` 
+					WHERE TopicID = ? AND TagID = (SELECT ID FROM `" . $Prefix . "tags` WHERE Name = ?)", 
+					array(
+						$ID,
+						$TagName	
+					)
+				)){
+					// 更新标签统计数据
+					$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts-1 WHERE `Name`=?", array($TagName));
+					// 更新Topics表里的Tags缓存
+					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", 
+						array(
+							implode('|', TagsDiff(explode('|', $TopicInfo['Tags']), array($TagName))),
+							$ID
+						)
+					);
+					$Message = 'Success';
+				}else{
+					AlertMsg('Bad Request', 'Bad Request');
+				}
+				break;
+			//添加标签
+			case 'AddTag':
+				Auth(4, $TopicInfo['UserID'], true);
+				$TagName = TagsDiff(array(Request('Post', 'TagName')), array());
+				if($TagName && !in_array($TagName[0], explode('|', $TopicInfo['Tags']))){
+					$TagName = $TagName[0];
+					$TagsExist = $DB->row("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` = ?", array($TagName));
+					if(!$TagsExist){
+						$DB->query("INSERT INTO `" . $Prefix . "tags` 
+							(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
+							VALUES (?,?,?,?,?,?,?,?,?)", 
+							array(
+								null,
+								htmlspecialchars(trim($TagName)),
+								0,
+								0,
+								null,
+								1,
+								1,
+								$TimeStamp,
+								$TimeStamp
+							)
+						);
+						$TagID = $DB->lastInsertId();
+						if($TagID){
+							$DB->query("INSERT INTO `" . $Prefix . "posttags` 
+								(`TagID`, `TopicID`, `PostID`) 
+								VALUES (".$TagID.", ".$ID.", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = ".$ID." AND IsTopic = 1 LIMIT 1))");
+						}
+					}else{
+						if($DB->query("INSERT INTO `" . $Prefix . "posttags` 
+							(`TagID`, `TopicID`, `PostID`) 
+							VALUES (".$TagsExist['ID'].", ".$ID.", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = ".$ID." AND IsTopic = 1 LIMIT 1))")){
+							// 更新标签统计数据
+							$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts+1 WHERE `Name`=?", array($TagName));
+						}
+					}
+					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", 
+						array(
+							implode('|', array_merge(explode('|', $TopicInfo['Tags']), array($TagName))),
+							$ID
+						)
+					);
+					$Message = 'Success';
+				}else{
+					AlertMsg('Bad Request', 'Bad Request');
+				}
+				break;
 			default:
 				AlertMsg('Bad Request', 'Bad Request');
 				break;

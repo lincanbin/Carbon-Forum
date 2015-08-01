@@ -33,17 +33,45 @@ if($Page==1)
 	<div id="edit<?php echo $PostsArray[0]['ID']; ?>" style="width:648px;height:auto;visibility:hidden;"></div>
 </div>
 <div class="topic-tags btn">
-<div class="w400">
 <?php
 if($Topic['Tags']){
+?>
+<div id="TagsList">
+<div id="TagsElements">
+<?php
 	foreach (explode("|", $Topic['Tags']) as $Tag) {
-?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>"><?php echo $Tag; ?></a>
+?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" id="Tag<?php echo md5($Tag); ?>"><?php echo $Tag; ?></a>
 <?php
 	}
-}?></div>
+?>
+</div>
+<?php
+	if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){ ?>
+<a href="###" class="edittag" onclick="javascript:EditTags();">EditTags</a>
+<?php
+	}
+?></div>
+
+<div id="EditTags" style="display:none;">
+<div id="EditTagsElements">
+<?php
+	foreach (explode("|", $Topic['Tags']) as $Tag) {
+?><a href="###"  onclick="javascript:DeleteTag(<?php echo $ID; ?>, this, '<?php echo $Tag; ?>');"><?php echo $Tag; ?>&nbsp;×</a>
+<?php
+	}
+?>
+</div>
+<div class="c"></div>
+<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="float-left w200" placeholder="<?php echo '$Lang[\'Add_Tags\']'; ?>" />
+<a href="###" class="edittag" onclick="javascript:CompletedEditingTags();">Complete</a>
+</div>
+
+<?php
+}
+?>
+<div style="float:right;">
 <?php
 if($CurUserRole>=4){
-
 	if($Topic['IsDel']==0){
 	?>
 <a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);" style="float:right;"><?php echo $Lang['Delete']; ?></a>
@@ -63,10 +91,15 @@ if($CurUserRole>=4){
 ?>
 <?php if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){ ?>
 <a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
-<?php } ?>
-<?php if($CurUserID){ ?>
+<?php
+}
+if($CurUserID){
+?>
 <a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 4, 1, false, this);" style="float:right;"><?php echo $IsFavorite?$Lang['Unsubscribe']:$Lang['Collect']; ?></a>
-<?php } ?>
+<?php
+}
+?>
+</div>
 <div class="c"></div>
 </div>
 </div>
@@ -174,7 +207,8 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?ve
 <div class="main-box">
 	<script type="text/javascript">
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>",function() {	
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>",function() {
+		InitNewTagsEditor();
 		loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>",function() {
 			loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>",function(){
 				loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>",function(){

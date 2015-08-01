@@ -150,6 +150,85 @@ function trim3(str) {
 	return str;
 }
 
+//标签编辑
+function InitNewTagsEditor(){
+	$("#AlternativeTag").keydown(function(e) {
+		var e = e || event;
+		switch (e.keyCode) {
+		case 13:
+			if ($("#AlternativeTag").val().length != 0) {
+					$.ajax({
+						url: WebsitePath + "/manage",
+						data: {
+							ID: TopicID,
+							Type: 1,
+							Action: 'AddTag',
+							TagName: $("#AlternativeTag").val()
+						},
+						cache: false,
+						dataType: "json",
+						type: "POST",
+						success: function(Data){
+							if(Data.Status == 1){
+								$("#TagsElements").append('<a href="'+ WebsitePath + '/tag/' + $("#AlternativeTag").val() + '" id="Tag' + md5($("#AlternativeTag").val()) + '">' + $("#AlternativeTag").val() + '</a>');
+								$("#EditTagsElements").append('<a href="###"  onclick="javascript:DeleteTag('+ TopicID +', this, \'' + $("#AlternativeTag").val() + '\');">' + $("#AlternativeTag").val() + '&nbsp;×</a>');
+							}
+							$("#AlternativeTag").val("");
+						}
+					});
+			}
+			break;
+		default:
+			return true;
+		}
+	});
+}
+
+
+//编辑标签
+function EditTags() {
+	$("#TagsList").hide();
+	$("#EditTags").show();
+}
+
+//完成标签编辑
+function CompletedEditingTags() {
+	$("#EditTags").hide();
+	$("#TagsList").show();
+}
+
+//管理函数的完成回调
+function DeleteTagCallback(TargetTag, TagName) {
+	this.Success = function(Json) {
+		if (Json.Status == 1) {
+			$(TargetTag).remove();
+			$("#Tag"+md5(TagName)).remove();
+		} else {
+			$(TargetTag).text(TagName+"&nbsp;×");
+		}
+	}
+}
+
+//管理
+function DeleteTag(TopicID, TargetTag, TagName) {
+	$(TargetTag).text("Loading");
+	var CallbackObj = new DeleteTagCallback(TargetTag, TagName);
+	$.ajax({
+		url: WebsitePath + "/manage",
+		data: {
+			ID: TopicID,
+			Type: 1,
+			Action: 'DeleteTag',
+			TagName: TagName
+		},
+		cache: false,
+		dataType: "json",
+		type: "POST",
+		success: CallbackObj.Success
+	});
+}
+
+
 //编辑帖子
 function EditPost(PostID) {
 	//初始化编辑器
@@ -236,9 +315,10 @@ function ReplyToTopic() {
 					if (window.localStorage) {
 						//清空草稿箱
 						StopAutoSave();
-						//清空编辑器
-						UE.getEditor('editor').execCommand('cleardoc');
 					}
+					//清空编辑器
+					UE.getEditor('editor').execCommand('cleardoc');
+					
 					$.pjax({
 						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID, 
 						container: '#main',
