@@ -21,7 +21,7 @@ $Lang = array_merge($Lang, array(
 	'Topic_Max' => '每个主题最多',
 	'Topic_Max_Tags' => '个话题',
 
-	'Tag_Max' => '单个标签最多',
+	'Tag_Max' => '单个话题最多',
 	'Tag_Max_Chars' => '个字符',
 
 	'Post_Max' => '每个帖子最多',

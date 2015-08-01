@@ -47,7 +47,7 @@ if($Topic['Tags']){
 </div>
 <?php
 	if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){ ?>
-<a href="###" class="edittag" onclick="javascript:EditTags();">EditTags</a>
+<a href="###" class="edittag" onclick="javascript:EditTags();"><?php echo $Lang['Edit_Tags']; ?></a>
 <?php
 	}
 ?></div>
@@ -62,8 +62,8 @@ if($Topic['Tags']){
 ?>
 </div>
 <div class="c"></div>
-<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="float-left w200" placeholder="<?php echo '$Lang[\'Add_Tags\']'; ?>" />
-<a href="###" class="edittag" onclick="javascript:CompletedEditingTags();">Complete</a>
+<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="float-left w200" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
+<a href="###" class="edittag" onclick="javascript:CompletedEditingTags();"><?php echo $Lang['Complete_Edit_Tags']; ?></a>
 </div>
 
 <?php

@@ -21,5 +21,8 @@ $Lang = array_merge($Lang, array(
 	'Last_Updated_In' => '最後更新於',
 	'Reply' => ' 回 覆 ',
 	'Requirements_For_Login' => '需登入，才可以回覆',
-	'Topic_Has_Been_Locked' => '該討論串已被鎖定，您無權回覆'
+	'Topic_Has_Been_Locked' => '該討論串已被鎖定，您無權回覆',
+	'Add_Tags' => '添加話題(按Enter添加)',
+	'Edit_Tags' => '編輯話題',
+	'Complete_Edit_Tags' => '完成'
 	));

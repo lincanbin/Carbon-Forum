@@ -21,5 +21,8 @@ $Lang = array_merge($Lang, array(
 	'Last_Updated_In' => 'Last updated in ',
 	'Reply' => ' Reply ',
 	'Requirements_For_Login' => 'Requirements for log in',
-	'Topic_Has_Been_Locked' => 'Topic has been locked. Prohibit replying. '
+	'Topic_Has_Been_Locked' => 'Topic has been locked. Prohibit replying. ',
+	'Add_Tags' => 'Add a tag (press Enter)',
+	'Edit_Tags' => 'Edit Tags',
+	'Complete_Edit_Tags' => 'Complete'
 	));

@@ -21,5 +21,8 @@ $Lang = array_merge($Lang, array(
 	'Last_Updated_In' => 'Ostatnia aktualizacja: ',
 	'Reply' => ' Odpowiedz ',
 	'Requirements_For_Login' => 'Wymaga zalogowania się',
-	'Topic_Has_Been_Locked' => 'Temat jest zablokowany.'
+	'Topic_Has_Been_Locked' => 'Temat jest zablokowany.',
+	'Add_Tags' => 'Dodaj tag (wciśnij ENTER)',
+	'Edit_Tags' => 'Edytuj Tagi',
+	'Complete_Edit_Tags' => 'kompletny'
 	));
