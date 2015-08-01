@@ -142,7 +142,7 @@ switch ($Type) {
 			case 'AddTag':
 				Auth(4, $TopicInfo['UserID'], true);
 				$TagName = TagsDiff(array(Request('Post', 'TagName')), array());
-				if($TagName && !in_array($TagName[0], explode('|', $TopicInfo['Tags']))){
+				if($TagName && !in_array($TagName[0], explode('|', $TopicInfo['Tags'])) && (count(explode('|', $TopicInfo['Tags']))+1) <= $Config["MaxTagsNum"]){
 					$TagName = $TagName[0];
 					$TagsExist = $DB->row("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` = ?", array($TagName));
 					if(!$TagsExist){
