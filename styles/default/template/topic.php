@@ -33,16 +33,16 @@ if($Page==1)
 	<div id="edit<?php echo $PostsArray[0]['ID']; ?>" style="width:648px;height:auto;visibility:hidden;"></div>
 </div>
 <div class="topic-tags btn">
-<?php
-if($Topic['Tags']){
-?>
+
 <div id="TagsList">
 <div id="TagsElements">
 <?php
+if($Topic['Tags']){
 	foreach (explode("|", $Topic['Tags']) as $Tag) {
 ?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" id="Tag<?php echo md5($Tag); ?>"><?php echo $Tag; ?></a>
 <?php
 	}
+}
 ?>
 </div>
 <?php
@@ -55,10 +55,12 @@ if($Topic['Tags']){
 <div id="EditTags" style="display:none;">
 <div id="EditTagsElements">
 <?php
+if($Topic['Tags']){
 	foreach (explode("|", $Topic['Tags']) as $Tag) {
 ?><a href="###"  onclick="javascript:DeleteTag(<?php echo $ID; ?>, this, '<?php echo $Tag; ?>');"><?php echo $Tag; ?>&nbsp;×</a>
 <?php
 	}
+}
 ?>
 </div>
 <div class="c"></div>
@@ -66,9 +68,7 @@ if($Topic['Tags']){
 <a href="###" class="edittag" onclick="javascript:CompletedEditingTags();"><?php echo $Lang['Complete_Edit_Tags']; ?></a>
 </div>
 
-<?php
-}
-?>
+
 <div style="float:right;">
 <?php
 if($CurUserRole>=4){

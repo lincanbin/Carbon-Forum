@@ -171,7 +171,7 @@ function InitNewTagsEditor(){
 						success: function(Data){
 							if(Data.Status == 1){
 								$("#TagsElements").append('<a href="'+ WebsitePath + '/tag/' + $("#AlternativeTag").val() + '" id="Tag' + md5($("#AlternativeTag").val()) + '">' + $("#AlternativeTag").val() + '</a>');
-								$("#EditTagsElements").append('<a href="###"  onclick="javascript:DeleteTag('+ TopicID +', this, \'' + $("#AlternativeTag").val() + '\');">' + $("#AlternativeTag").val() + '&nbsp;×</a>');
+								$("#EditTagsElements").append('<a href="###"  onclick="javascript:DeleteTag('+ TopicID +', this, \'' + $("#AlternativeTag").val() + '\');">' + $("#AlternativeTag").val() + ' ×</a>');
 							}
 							$("#AlternativeTag").val("");
 						}
@@ -204,7 +204,7 @@ function DeleteTagCallback(TargetTag, TagName) {
 			$(TargetTag).remove();
 			$("#Tag"+md5(TagName)).remove();
 		} else {
-			$(TargetTag).text(TagName+"&nbsp;×");
+			$(TargetTag).text(TagName+" ×");
 		}
 	}
 }

@@ -117,7 +117,7 @@ switch ($Type) {
 			case 'DeleteTag':
 				Auth(4, $TopicInfo['UserID'], true);
 				$TagName     = Request('Post', 'TagName');
-				if($DB->query("DELETE FROM `" . $Prefix . "posttags` 
+				if((count(explode('|', $TopicInfo['Tags']))-1) >= 1 && $DB->query("DELETE FROM `" . $Prefix . "posttags` 
 					WHERE TopicID = ? AND TagID = (SELECT ID FROM `" . $Prefix . "tags` WHERE Name = ?)", 
 					array(
 						$ID,
@@ -177,7 +177,7 @@ switch ($Type) {
 					}
 					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", 
 						array(
-							implode('|', array_merge(explode('|', $TopicInfo['Tags']), array($TagName))),
+							implode('|', $TopicInfo['Tags']?array_merge(explode('|', $TopicInfo['Tags']), array($TagName)):array($TagName)),
 							$ID
 						)
 					);
