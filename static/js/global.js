@@ -51,6 +51,8 @@ $(function(){
 		minChars: 2,
 		type: 'post'
 	});
+	//For IE
+	$.ajaxSetup({ cache: false });
 	//Pjax
 	$(document).pjax('a', '#main', {
 		fragment : '#main', 
