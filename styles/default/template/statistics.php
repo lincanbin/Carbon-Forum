@@ -3,8 +3,6 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <!-- main-content start -->
 <script type="text/javascript">
-
-
 $(document).ready(function(){
 	$("#statistics").easyResponsiveTabs({
 		type: 'default', //Types: default, vertical, accordion           

@@ -1,6 +1,9 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
+<script type="text/javascript">
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?version=<?php echo $Config['Version']; ?>",function() {});
+</script>
 <!-- main-content start -->
 <div class="main-content">
 	<div class="title">
@@ -17,7 +20,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<tbody>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['UserName']; ?></td>
-						<td width="auto" align="left"><input type="text" name="UserName" class="sl w200" value="<?php echo htmlspecialchars($UserName); ?>" /></td>
+						<td width="auto" align="left"><input type="text" name="UserName" id="UserName" class="sl w200" value="<?php echo htmlspecialchars($UserName); ?>" onblur="CheckUserName()" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Email']; ?></td>
@@ -25,11 +28,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Password']; ?></td>
-						<td width="auto" align="left"><input type="password" name="Password" class="sl w200" value="" /></td>
+						<td width="auto" align="left"><input type="password" name="Password" id="Password" class="sl w200" value="" onblur="CheckPassword()" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Confirm_Password']; ?></td>
-						<td width="auto" align="left"><input type="password" name="Password2" class="sl w200" value="" /></td>
+						<td width="auto" align="left"><input type="password" name="Password2" id="Password2" class="sl w200" value="" onblur="CheckPassword()" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Verification_Code']; ?></td>

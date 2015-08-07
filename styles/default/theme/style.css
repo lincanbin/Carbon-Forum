@@ -95,7 +95,8 @@ input, select, textarea {
 }
 input[type="text"], input[type="password"] , textarea, .tags-list {
 	border: none;
-	border-bottom: 1px solid #CCC;
+	border-bottom: 1px solid rgba(0,0,0,0.12);
+	margin-bottom: 1px;
 	padding: 6px 12px;
 	font-size: 14px;
 	line-height: 1.428571429;
@@ -105,7 +106,13 @@ input[type="text"], input[type="password"] , textarea, .tags-list {
 }
 input[type="text"]:focus, .input[type="text"]:hover,input[type="password"]:focus, .input[type="password"]:hover, textarea:hover, textarea:focus, .tags-list:focus, .tags-list:hover {
 	color:#676767;
-	border-bottom-color: #33B5E5;
+	margin-bottom: 0;
+	border-bottom: 2px solid #33B5E5;
+}
+.inputnotice {
+	color:#db4437 !important;
+	margin-bottom: 0 !important;
+	border-bottom: 2px solid #db4437 !important;
 }
 input.textbtn {
 	color: #3C3C3C;
