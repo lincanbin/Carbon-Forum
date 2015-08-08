@@ -24,7 +24,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Email']; ?></td>
-						<td width="auto" align="left"><input type="text" name="Email" class="sl w200" value="<?php echo htmlspecialchars($Email); ?>" /></td>
+						<td width="auto" align="left"><input type="text" name="Email" id="Email" class="sl w200" value="<?php echo htmlspecialchars($Email); ?>" onblur="CheckMail()" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Password']; ?></td>

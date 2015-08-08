@@ -31,26 +31,30 @@ function CheckUserName() {
 	}else{
 		$("#UserName").addClass("inputnotice");
 	}
-	
 }
 
 
 function CheckPassword() {
-	//if ($("#Password").val() != $("#Password2").val() || $("#Password").val().length < 6){
-	if ($("#Password").val() != $("#Password2").val()){
+	/*
+	if ($("#Password").val().length < 6){
 		$("#Password").addClass("inputnotice");
-		$("#Password2").addClass("inputnotice");
 	}else{
 		$("#Password").removeClass("inputnotice");
+	}
+	*/
+	if ($("#Password").val() != $("#Password2").val()){
+		$("#Password2").addClass("inputnotice");
+	}else{
 		$("#Password2").removeClass("inputnotice");
 	}
 }
 
 
 function CheckMail() {
-	if(Mail.indexOf("@") == -1 || Mail.indexOf(".") == -1) {
-		ShowCheckResult("CheckMail", "您没有输入Email或输入有误","0");
-		return;
+	var EmailReg = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+	if($("#Email").val().length >= 5 && EmailReg.test( $("#Email").val())){
+		$("#Email").removeClass("inputnotice");
+	}else{
+		$("#Email").addClass("inputnotice");
 	}
-
 }
