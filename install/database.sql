@@ -447,8 +447,14 @@ INSERT INTO `carbon_config` VALUES ('PostsPerPage', '25');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');
-INSERT INTO `carbon_config` VALUES ('Version', '3.3.6');
+INSERT INTO `carbon_config` VALUES ('Version', '3.5.0');
 
+INSERT INTO `carbon_config` VALUES ('PushConnectionTimeout', '22');
+INSERT INTO `carbon_config` VALUES ('SMTPHost', 'smtp1.example.com;');
+INSERT INTO `carbon_config` VALUES ('SMTPPort', '587');
+INSERT INTO `carbon_config` VALUES ('SMTPAuth', 'true');
+INSERT INTO `carbon_config` VALUES ('SMTPUsername', 'user@example.com');
+INSERT INTO `carbon_config` VALUES ('SMTPPassword', 'secret');
 -- ----------------------------
 -- Records of carbon_roles
 -- ----------------------------

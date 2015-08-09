@@ -2,7 +2,7 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
-$Version = '3.3.6';
+$Version = '3.5.0';
 $Prefix = 'carbon_';
 if(is_file('update.lock')){
 	die("请删除 update/update.lock 文件后再进行操作！<br>Please Remove update/update.lock before update!");
@@ -76,7 +76,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			}
 		}
 	}
-	//3.3.0
+	//当前版本低于3.5.0，需要进行的升级到3.5.0的升级操作
+	if(VersionCompare('3.5.0' ,$OldVersion)){
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('PushConnectionTimeout', '22')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPHost', 'smtp1.example.com;')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPort', '587')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPAuth', 'true')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPUsername', 'user@example.com')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPassword', 'secret')");
+	}
 	//关闭数据库连接
 	$DB->CloseConnection();
 	if (!file_exists('update.lock')) {  
