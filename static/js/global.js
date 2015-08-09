@@ -78,6 +78,30 @@ $(function(){
 });
 
 
+//登录前检查用户名是否存在
+function CheckUserNameExist() {
+	if($("#UserName").val()){
+		$.ajax({
+			url: WebsitePath + '/json/user_exist',
+			data: {
+				UserName: $("#UserName").val()
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function(Json) {
+				if (Json.Status == 0) {
+					$("#UserName").addClass("inputnotice");
+				}else{
+					$("#UserName").removeClass("inputnotice");
+				}
+			}
+		});
+	}else{
+		$("#UserName").addClass("inputnotice");
+	}
+}
+
+
 //获取实时信息通知
 function GetNotification( ){
 	var NotificationSettings = {

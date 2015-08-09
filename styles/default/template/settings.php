@@ -11,6 +11,7 @@ $(document).ready(function(){
 		closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
 		activate: function() {}  // Callback function, gets called if tab is switched
 	});
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?version=<?php echo $Config['Version']; ?>",function() {});
 });
 </script>
 <div class="main-content">
@@ -71,7 +72,7 @@ $(document).ready(function(){
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Email']; ?></td>
-						<td width="auto" align="left"><input type="text" class="w300" name="UserMail" value="<?php echo $CurUserInfo['UserMail']; ?>" /> <br /><?php echo $Lang['Ensure_That_Email_Is_Correct']; ?></td>
+						<td width="auto" align="left"><input type="text" class="w300" name="UserMail" id="Email" onblur="CheckMail()" value="<?php echo $CurUserInfo['UserMail']; ?>" /> <br /><?php echo $Lang['Ensure_That_Email_Is_Correct']; ?></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Homepage']; ?></td>
@@ -101,7 +102,7 @@ $(document).ready(function(){
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['New_Password']; ?></td>
-						<td width="auto" align="left"><input type="password" class="w300" name="NewPassword" value="" /></td>
+						<td width="auto" align="left"><input type="password" class="w300" name="NewPassword"  id="Password" value="" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Confirm_New_Password']; ?></td>

@@ -10,8 +10,8 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<input type="hidden" value="<?php echo $RequestURI; ?>" name="ReturnUrl" />
 				<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 				<input type="hidden" name="Expires" value="30" />
-				<p><label><input type="text" name="UserName" style="width:200px;" value="" placeholder="<?php echo $Lang['UserName']; ?>" /></label></p>
-				<p><label><input type="password" name="Password" style="width:200px;" value="" placeholder="<?php echo $Lang['Password']; ?>" /></label></p>
+				<p><label><input type="text" name="UserName" id="UserName" class="w200" value="" placeholder="<?php echo $Lang['UserName']; ?>" onblur="CheckUserNameExist()" /></label></p>
+				<p><label><input type="password" name="Password" class="w200" value="" placeholder="<?php echo $Lang['Password']; ?>" /></label></p>
 				<p><label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> 
 				<img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" /></p>
 				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" style="margin:0 78px;" /></p>

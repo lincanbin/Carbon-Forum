@@ -18,7 +18,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<tbody>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['UserName']; ?></td>
-						<td width="auto" align="left"><input type="text" name="UserName" class="sl w200" value="<?php echo htmlspecialchars($UserName); ?>" /></td>
+						<td width="auto" align="left"><input type="text" name="UserName" id="UserName" class="sl w200" value="<?php echo htmlspecialchars($UserName); ?>" onblur="CheckUserNameExist()" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Password']; ?></td>
