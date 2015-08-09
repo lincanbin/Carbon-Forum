@@ -174,7 +174,7 @@ function ManageCallback(TargetTag) {
 			$(TargetTag).text(Json.ErrorMessage);
 			//alert(Json.ErrorMessage);
 		}
-	}
+	};
 }
 
 //管理

@@ -21,18 +21,26 @@ function InitNewTopicEditor(){
 		//从草稿中恢复
 		if(window.localStorage){
 			SaveDraftTimer = setInterval(function() {//Global
-				SaveDraft();
+				SaveTopicDraft();
 			},
 			1000); //每隔N秒保存一次
 			//Try to recover previous article from draft
-			RecoverContents();
+			RecoverTopicContents();
 		}
 		//二次提交，恢复现场
 		if(Content){
 			this.setContent(Content);
 		}
 		//编辑器内Ctrl + Enter提交回复
-		document.getElementById("ueditor_0").contentWindow.document.body.onkeydown = function(Event){
+		var ueditor_id='ueditor_0';
+		var frames=document.getElementsByTagName('iframe');
+		for(var i=0;i<frames.length;i++){
+			if(frames[i].id.indexOf('ueditor_')>-1){
+				ueditor_id=frames[i].id;
+				break;
+			}
+		}
+		document.getElementById(ueditor_id).contentWindow.document.body.onkeydown = function(Event){
 			CtrlAndEnter(Event, false);
 		};
 	}});
@@ -153,7 +161,7 @@ function CreateNewTopic() {
 					//location.href = WebsitePath + "/t/" + data.TopicID;
 					if (window.localStorage) {
 						//清空草稿箱
-						StopAutoSave();
+						StopTopicAutoSave();
 					}
 				} else {
 					alert(data.ErrorMessage);
@@ -246,7 +254,7 @@ function TagRemove(TagName, id) {
 }
 
 //Save Draft
-function SaveDraft() {
+function SaveTopicDraft() {
 	try{
 		var TagsList = JSON.stringify($("input[name='Tag[]']").map(function() {
 			return $(this).val();
@@ -264,13 +272,13 @@ function SaveDraft() {
 		if(oException.name == 'QuotaExceededError'){
 			console.log('Draft Overflow! ');
 			localStorage.clear();//Clear all draft
-			SaveDraft();//Save draft again
+			SaveTopicDraft();//Save draft again
 		}
 	}
 	
 }
 
-function StopAutoSave() {
+function StopTopicAutoSave() {
 	clearInterval(SaveDraftTimer); //停止保存
 	localStorage.removeItem(Prefix + "TopicTitle"); //清空标题
 	localStorage.removeItem(Prefix + "TopicContent"); //清空内容
@@ -278,7 +286,7 @@ function StopAutoSave() {
 	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
 }
 
-function RecoverContents() {
+function RecoverTopicContents() {
 	var DraftTitle = localStorage.getItem(Prefix + "TopicTitle");
 	var DraftContent = localStorage.getItem(Prefix + "TopicContent");
 	var DraftTagsList = JSON.parse(localStorage.getItem(Prefix + "TopicTagsList"));
