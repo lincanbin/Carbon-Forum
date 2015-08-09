@@ -311,6 +311,7 @@ function ReplyToTopic() {
 			async: true,
 			success: function(data) {
 				if (data.Status == 1) {
+					console.log(SavePostDraftTimer);
 					$("#ReplyButton").val(Lang['Reply_Success']);
 					if (window.localStorage) {
 						//清空草稿箱
@@ -318,7 +319,7 @@ function ReplyToTopic() {
 					}
 					//清空编辑器
 					UE.getEditor('editor').execCommand('cleardoc');
-					
+					console.log(SavePostDraftTimer);
 					$.pjax({
 						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID, 
 						container: '#main',
