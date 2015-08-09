@@ -8,7 +8,7 @@ switch ($_GET['action']) {
 		header("Cache-Control: no-cache, must-revalidate");
 		set_time_limit(0);
 		//如果是自己的服务器，建议调大超时时间，然后把下面的长连接时长调大，以节约服务器资源
-		while( (time() - $TimeStamp) < 22 ){
+		while( (time() - $TimeStamp) < $Config['PushConnectionTimeout'] ){
 			if ($MCache) {
 				$CurUserInfo = $MCache -> get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 				if($CurUserInfo){
@@ -97,8 +97,12 @@ switch ($_GET['action']) {
 		echo json_encode($Response);
 		break;
 	
-	case 'check_username':
-		
+	case 'user_exist':
+		$UserName = strtolower(Request('Post', 'UserName'));
+		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+			'UserName' => $UserName
+		));
+		echo json_encode(array('Status' => $UserExist?1:0));
 		break;
 	
 	case 'get_post':
