@@ -7,6 +7,14 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]
 	RewriteRule ^(.*)$ http://www.94cb.com/$1 [L,R=301]
 
+	#For SSL 
+	#RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]
+	#RewriteCond %{SERVER_PORT} 80
+	#RewriteRule ^(.*)$ https://www.94cb.com/$1 [L,R=301]
+	#RewriteCond %{HTTP_HOST} ^m.94cb.com$ [NC]
+	#RewriteCond %{SERVER_PORT} 80
+	#RewriteRule ^(.*)$ https://m.94cb.com/$1 [L,R=301]
+
 	RewriteCond %{REQUEST_METHOD} ^TRACE
 	RewriteRule .* - [F]
 
@@ -18,6 +26,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 
 	RewriteRule ^dashboard$ dashboard.php [L]
 	RewriteRule ^favorites(/page/([0-9]*))?$ favorites.php?page=$2 [L]
+	RewriteRule ^forgot$ forgot.php [L]
 	RewriteRule ^json/([0-9a-z_\-]+)$ json.php?action=$1 [L]
 	RewriteRule ^login$ login.php [L]
 	RewriteRule ^manage$ manage.php [L]
@@ -26,6 +35,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^page/([0-9]+)$ index.php?page=$1 [L]
 	RewriteRule ^register$ register.php [L]
 	RewriteRule ^reply$ reply.php [L]
+	RewriteRule ^reset_password/(.*?)$ reset_password.php?access_token=$1 [L]
 	RewriteRule ^robots.txt$ robots.php [L]
 	RewriteRule ^search.xml$ open_search.php [L]
 	RewriteRule ^search/(.*?)(/page/([0-9]*))?$ search.php?keyword=$1&page=$3 {{RedirectionType}}
