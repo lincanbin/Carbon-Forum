@@ -44,9 +44,9 @@ $(function(){
 				container: '#main'
 			});
 			//location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
-			//preventDefault
-			return false;
 		}
+		//preventDefault
+		return false;
 	});
 	$("#SearchInput").autocomplete({
 		serviceUrl: WebsitePath + '/json/tag_autocomplete',
