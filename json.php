@@ -80,9 +80,9 @@ switch ($_GET['action']) {
 	
 	
 	case 'tag_autocomplete':
-		Auth(1);
+		//Auth(1);
 		$Keyword           = $_POST['query'];
-		$Response          = array();
+		$Response         = array();
 		$Response['query'] = 'Unit';
 		$Result            = $DB->column("SELECT Title FROM " . $Prefix . "dict WHERE Title LIKE :Keyword limit 10", array(
 			"Keyword" => $Keyword . "%"
@@ -94,6 +94,8 @@ switch ($_GET['action']) {
 					'data' => $val
 				);
 			}
+		}else{
+			$Response['suggestions'][]='';
 		}
 		echo json_encode($Response);
 		break;
