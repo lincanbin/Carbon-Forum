@@ -12,7 +12,7 @@ if(count($AccessTokenArray) === 3){
 	AlertMsg('Bad Request', 'Bad Request', 400);
 }
 if ($TokenExpirationTime < $TimeStamp || $TokenExpirationTime >= ($TimeStamp + 7200)) {
-	AlertMsg('Expired', 'Expired'.$TokenExpirationTime);
+	AlertMsg($Lang['Page_Has_Expired'], $Lang['Page_Has_Expired']);
 }
 $UserInfo = array();
 $UserInfo = $DB->row('SELECT * FROM ' . $Prefix . 'users Where UserName=:UserName', array(

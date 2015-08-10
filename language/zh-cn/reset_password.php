@@ -5,6 +5,7 @@ if (empty($Lang) || !is_array($Lang))
 
 $Lang = array_merge($Lang, array(
 	'Reset_Password' => '重置密码',
+	'Page_Has_Expired' => '页面已过期',
 	'New_Password' => '新密码',
 	'Confirm_New_Password' => '再次输入新密码',
 	'VerificationCode_Error' => '验证码错误',
