@@ -44,6 +44,8 @@ $(function(){
 				container: '#main'
 			});
 			//location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
+			//preventDefault
+			return false;
 		}
 	});
 	$("#SearchInput").autocomplete({
