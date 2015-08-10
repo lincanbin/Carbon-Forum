@@ -38,6 +38,13 @@ $Lang = array_merge($Lang, array(
 	'Mobile_Domainname' => '手机站域名',
 	'API_Domainname' => '客户端API域名',
 
+	'Push_Connection_Timeout_Period' => '推送超时时间<br />(如果你不知道这是什么请不要修改)',
+	'SMTP_Host' => 'SMTP 主机名',
+	'SMTP_Port' => 'SMTP 端口',
+	'SMTP_Auth' => 'SMTP 认证',
+	'SMTP_Username' => '邮箱地址',
+	'SMTP_Password' => '邮箱密码',
+
 	'Refresh_Cache_Notice' => '更新缓存的操作可能需要较长时间，请耐心等待<br />如果数据正确，则没有必要清理缓存',
 	'Refresh_All_Cache' => '更新全站缓存',
 

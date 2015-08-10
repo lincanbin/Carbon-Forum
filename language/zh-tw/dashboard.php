@@ -38,6 +38,13 @@ $Lang = array_merge($Lang, array(
 	'Mobile_Domainname' => '行動版網域名稱',
 	'API_Domainname' => '用戶端 API 網域名稱',
 
+	'Push_Connection_Timeout_Period' => '推送超時時間<br />(如果你不知道這是什麼請不要修改)',
+	'SMTP_Host' => 'SMTP 主機名稱',
+	'SMTP_Port' => 'SMTP 埠',
+	'SMTP_Auth' => 'SMTP 認證',
+	'SMTP_Username' => '郵箱地址',
+	'SMTP_Password' => '郵箱密碼',
+
 	'Refresh_Cache_Notice' => '更新快取的操作可能會比較久，請耐心等待<br />倘若資料正確，則無清除快取之必要',
 	'Refresh_All_Cache' => '更新全站快取',
 

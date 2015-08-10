@@ -38,6 +38,13 @@ $Lang = array_merge($Lang, array(
 	'Mobile_Domainname' => 'Nazwa domeny na telefonie(?)',
 	'API_Domainname' => 'Domena API',
 
+	'Push_Connection_Timeout_Period' => 'Limit czasu połączenia Push<br />(Nie należy modyfikować go, jeśli nie wiesz co to jest.)',
+	'SMTP_Host' => 'Nazwa hosta SMTP',
+	'SMTP_Port' => 'Port SMTP',
+	'SMTP_Auth' => 'Autoryzacja SMTP',
+	'SMTP_Username' => 'Adres email',
+	'SMTP_Password' => 'Email Hasło',
+
 	'Refresh_Cache_Notice' => 'Odświeżanie Cache może chwilę zająć, więc bądź cierpliwy. <br />Jeżeli statystyki są poprawne - nie musisz tego robić. ',
 	'Refresh_All_Cache' => 'Odśwież Cache',
 

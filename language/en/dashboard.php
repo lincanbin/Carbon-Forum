@@ -38,6 +38,13 @@ $Lang = array_merge($Lang, array(
 	'Mobile_Domainname' => 'Mobile Domainname',
 	'API_Domainname' => 'API Domainname',
 
+	'Push_Connection_Timeout_Period' => 'Push Connection Timeout Period<br />(Don\'t modify it if you don\'t know what\'s this.)',
+	'SMTP_Host' => 'SMTP Host Name',
+	'SMTP_Port' => 'SMTP Port',
+	'SMTP_Auth' => 'SMTP Auth',
+	'SMTP_Username' => 'Email Address',
+	'SMTP_Password' => 'Email Password',
+
 	'Refresh_Cache_Notice' => 'Refreshing cache may take a long time, so please be patient. <br />If the statistics are correct, there is no need to refresh the cache. ',
 	'Refresh_All_Cache' => 'Refresh Cache',
 
