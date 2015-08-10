@@ -45,7 +45,10 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a></td>
+						<td width="auto" align="left"><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" />&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="<?php echo $Config['WebsitePath']; ?>/forgot"><?php echo $Lang['Forgot_Password']; ?></a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

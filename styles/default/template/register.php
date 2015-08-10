@@ -43,7 +43,11 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>
-						<td width="auto" align="left"><input type="submit" value="<?php echo $Lang['Sign_Up']; ?>" name="submit" class="textbtn" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/login"><?php echo $Lang['Log_In']; ?></a></td>
+						<td width="auto" align="left">
+							<input type="submit" value="<?php echo $Lang['Sign_Up']; ?>" name="submit" class="textbtn" />&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="<?php echo $Config['WebsitePath']; ?>/login"><?php echo $Lang['Log_In']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="<?php echo $Config['WebsitePath']; ?>/forgot"><?php echo $Lang['Forgot_Password']; ?></a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
