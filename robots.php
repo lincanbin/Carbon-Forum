@@ -5,6 +5,7 @@ header("Content-Type: text/plain");
 Disallow: <?php echo $Config['WebsitePath']; ?>/dashboard/
 Disallow: <?php echo $Config['WebsitePath']; ?>/favorites
 Disallow: <?php echo $Config['WebsitePath']; ?>/favorites/
+Disallow: <?php echo $Config['WebsitePath']; ?>/forgot
 Disallow: <?php echo $Config['WebsitePath']; ?>/json/
 Disallow: <?php echo $Config['WebsitePath']; ?>/login
 Disallow: <?php echo $Config['WebsitePath']; ?>/manage
@@ -12,6 +13,7 @@ Disallow: <?php echo $Config['WebsitePath']; ?>/new
 Disallow: <?php echo $Config['WebsitePath']; ?>/notifications
 Disallow: <?php echo $Config['WebsitePath']; ?>/register
 Disallow: <?php echo $Config['WebsitePath']; ?>/reply
+Disallow: <?php echo $Config['WebsitePath']; ?>/reset_password/
 Disallow: <?php echo $Config['WebsitePath']; ?>/settings
 Disallow: <?php echo $Config['WebsitePath']; ?>/tags/following
 Disallow: <?php echo $Config['WebsitePath']; ?>/tags/following/
