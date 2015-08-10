@@ -202,7 +202,7 @@ $(document).ready(function(){
 					</tr>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['SMTP_Password']; ?><br >(your_password)</td>
-						<td width="auto" align="left"><input type="text" class="w300" name="SMTPPassword" value="<?php echo $Config['SMTPPassword']; ?>" /></td>
+						<td width="auto" align="left"><input type="password" class="w300" name="SMTPPassword" value="<?php echo $Config['SMTPPassword']; ?>" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>
