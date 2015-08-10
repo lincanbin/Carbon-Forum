@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					//$MailObject->SMTPDebug = 3;// Enable verbose debug output
 
 					$MailObject->isSMTP();// Set mailer to use SMTP
+					$MailObject->CharSet = "utf-8"; //设置字符集编码
 					$MailObject->Host = $Config['SMTPHost'];  // Specify main and backup SMTP servers
 					$MailObject->SMTPAuth = ($Config['SMTPAuth'] === 'true'?true:false);// $Config['SMTPAuth']           Enable SMTP authentication
 					$MailObject->Username = $Config['SMTPUsername'];// SMTP username
