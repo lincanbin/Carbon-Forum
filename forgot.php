@@ -13,7 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	if($UserName && $Email && $VerifyCode){
 		session_start();
-		if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode === intval($_SESSION[$Prefix . 'VerificationCode'])) {
+		$Session_VerifyCode = isset($_SESSION[$Prefix . 'VerificationCode'])?intval($_SESSION[$Prefix . 'VerificationCode']):'';
+		unset($_SESSION[$Prefix . 'VerificationCode']);
+		session_write_close();
+		if ($VerifyCode === $Session_VerifyCode) {
 			$UserInfo = $DB->row('SELECT * FROM ' . $Prefix . 'users 
 				Where UserName=:UserName', 
 				array(
@@ -73,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		} else {
 			$Message = $Lang['Verification_Code_Error'];
 		}
-		unset($_SESSION[$Prefix . 'VerificationCode']);
 	}else{
 		$Message = $Lang['Forms_Can_Not_Be_Empty'];
 	}
