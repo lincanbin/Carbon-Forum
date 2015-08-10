@@ -166,8 +166,8 @@ $(document).ready(function(){
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Push_Connection_Timeout_Period']; ?></td>
 						<td width="auto" align="left">
-							<select name="PushConnectionTimeout">
-								<option value="<?php echo $Config['PushConnectionTimeout']; ?>"><?php echo $Config['PushConnectionTimeoutPeriod']; ?> seconds (Current)</option>
+							<select name="PushConnectionTimeoutPeriod">
+								<option value="<?php echo $Config['PushConnectionTimeoutPeriod']; ?>"><?php echo $Config['PushConnectionTimeoutPeriod']; ?> seconds (Current)</option>
 								<option value="22">22 seconds</option>
 								<option value="53">53 seconds</option>
 								<option value="80">80 seconds</option>
