@@ -78,7 +78,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	//当前版本低于3.5.0，需要进行的升级到3.5.0的升级操作
 	if(VersionCompare('3.5.0' ,$OldVersion)){
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('PushConnectionTimeout', '22')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('PushConnectionTimeoutPeriod', '22')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPHost', 'smtp1.example.com;')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPort', '587')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPAuth', 'true')");

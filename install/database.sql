@@ -449,7 +449,7 @@ INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');
 INSERT INTO `carbon_config` VALUES ('Version', '3.5.0');
 
-INSERT INTO `carbon_config` VALUES ('PushConnectionTimeout', '22');
+INSERT INTO `carbon_config` VALUES ('PushConnectionTimeoutPeriod', '22');
 INSERT INTO `carbon_config` VALUES ('SMTPHost', 'smtp1.example.com;');
 INSERT INTO `carbon_config` VALUES ('SMTPPort', '587');
 INSERT INTO `carbon_config` VALUES ('SMTPAuth', 'true');

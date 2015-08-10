@@ -24,15 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					//生成有效期2小时的Access Token
 					$TokenExpirationTime = 7200 + $TimeStamp;
 					$AccessToken = base64_encode($UserName .'|' . $TokenExpirationTime . '|' . md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5($SALT)));
-					$ResetPasswordURL = 'http://'.$Config['Main_Domainname'].'/reset_password/'.$AccessToken;
+					$ResetPasswordURL = 'http://'.$Config['MainDomainName'].'/reset_password/'.$AccessToken;
 					//向数据库里的密保邮箱发送邮件
 					require(dirname(__FILE__) . '/includes/PHPMailer.smtp.class.php');
+					require(dirname(__FILE__) . '/includes/PHPMailer.class.php');
 					$MailObject = new PHPMailer;
 					//$MailObject->SMTPDebug = 3;// Enable verbose debug output
 
 					$MailObject->isSMTP();// Set mailer to use SMTP
 					$MailObject->Host = $Config['SMTPHost'];  // Specify main and backup SMTP servers
-					$MailObject->SMTPAuth = true;// $Config['SMTPAuth']           Enable SMTP authentication
+					$MailObject->SMTPAuth = ($Config['SMTPAuth'] === 'true'?true:false);// $Config['SMTPAuth']           Enable SMTP authentication
 					$MailObject->Username = $Config['SMTPUsername'];// SMTP username
 					$MailObject->Password = $Config['SMTPPassword'];// SMTP password
 					$MailObject->SMTPSecure = 'tls';// Enable TLS encryption, `ssl` also accepted

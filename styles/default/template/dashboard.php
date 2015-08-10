@@ -141,7 +141,7 @@ $(document).ready(function(){
 						<td width="180" align="right"><?php echo $Lang['jQuery_CDN']; ?></td>
 						<td width="auto" align="left">
 							<select name="LoadJqueryUrl">
-								<option value="<?php echo $Config['LoadJqueryUrl']; ?>"><?php echo $Config['LoadJqueryUrl']; ?></option>
+								<option value="<?php echo $Config['LoadJqueryUrl']; ?>"><?php echo $Config['LoadJqueryUrl']; ?> (Current)</option>
 								<option value="<?php echo $Config['WebsitePath']; ?>/static/js/jquery.js"><?php echo $Config['WebsitePath']; ?>/static/js/jquery.js(Local)</option>
 								<option value="//lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js">lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js(Sina CDN)</option>
 								<option value="//libs.baidu.com/jquery/1.10.2/jquery.min.js">libs.baidu.com/jquery/1.10.2/jquery.min.js(Baidu CDN)</option>
@@ -152,16 +152,57 @@ $(document).ready(function(){
 						</td>
 					</tr>
 					<tr>
-						<td width="180" align="right"><?php echo $Lang['Main_Domainname']; ?><br >(Example:&nbsp;&nbsp;www.94cb.com)</td>
+						<td width="180" align="right"><?php echo $Lang['Main_Domainname']; ?><br >(www.94cb.com)</td>
 						<td width="auto" align="left"><input type="text" class="w300" name="MainDomainName" value="<?php echo $Config['MainDomainName']; ?>" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right"><?php echo $Lang['Mobile_Domainname']; ?><br >(Example:&nbsp;&nbsp;m.94cb.com)</td>
+						<td width="180" align="right"><?php echo $Lang['Mobile_Domainname']; ?><br >(m.94cb.com)</td>
 						<td width="auto" align="left"><input type="text" class="w300" name="MobileDomainName" value="<?php echo $Config['MobileDomainName']; ?>" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right"><?php echo $Lang['API_Domainname']; ?><br >(Example:&nbsp;&nbsp;api.94cb.com)</td>
+						<td width="180" align="right"><?php echo $Lang['API_Domainname']; ?><br >(api.94cb.com)</td>
 						<td width="auto" align="left"><input type="text" class="w300" name="AppDomainName" value="<?php echo $Config['AppDomainName']; ?>" /></td>
+					</tr>
+					<tr>
+						<td width="180" align="right"><?php echo $Lang['Push_Connection_Timeout_Period']; ?></td>
+						<td width="auto" align="left">
+							<select name="PushConnectionTimeout">
+								<option value="<?php echo $Config['PushConnectionTimeout']; ?>"><?php echo $Config['PushConnectionTimeoutPeriod']; ?> seconds (Current)</option>
+								<option value="22">22 seconds</option>
+								<option value="53">53 seconds</option>
+								<option value="80">80 seconds</option>
+								<option value="110">110 seconds</option>
+								<option value="170">170 seconds</option>
+								<option value="235">235 seconds</option>
+								<option value="280">280 seconds</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="180" align="right"><?php echo $Lang['SMTP_Host']; ?><br >(smtp1.example.com)</td>
+						<td width="auto" align="left"><input type="text" class="w300" name="SMTPHost" value="<?php echo $Config['SMTPHost']; ?>" /></td>
+					</tr>
+					<tr>
+						<td width="180" align="right"><?php echo $Lang['SMTP_Port']; ?><br >(587)</td>
+						<td width="auto" align="left"><input type="text" class="w300" name="SMTPPort" value="<?php echo $Config['SMTPPort']; ?>" /></td>
+					</tr>
+					<tr>
+						<td width="180" align="right"><?php echo $Lang['SMTP_Auth']; ?></td>
+						<td width="auto" align="left">
+							<select name="SMTPAuth">
+								<option value="<?php echo $Config['SMTPAuth']; ?>"><?php echo $Config['SMTPAuth']; ?> (Current)</option>
+								<option value="true">true</option>
+								<option value="false">false</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td width="180" align="right"><?php echo $Lang['SMTP_Username']; ?><br >(user@example.com)</td>
+						<td width="auto" align="left"><input type="text" class="w300" name="SMTPUsername" value="<?php echo $Config['SMTPUsername']; ?>" /></td>
+					</tr>
+					<tr>
+						<td width="180" align="right"><?php echo $Lang['SMTP_Password']; ?><br >(your_password)</td>
+						<td width="auto" align="left"><input type="text" class="w300" name="SMTPPassword" value="<?php echo $Config['SMTPPassword']; ?>" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>
