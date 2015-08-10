@@ -2,12 +2,12 @@
 require(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/forgot.php');
 $Message = '';
+//var_dump(preg_replace('/([\w\-\.]{1})([\w\-\.]{0,})@([\w\-\.]+(\.\w+)+)$/', '\1*****@\3', 'lincanbin@hotmail.com'));
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$UserName   = strtolower(Request('Post', 'UserName'));
 	$Email      = strtolower(Request('Post', 'Email'));
 	$VerifyCode = intval(Request('Post', 'VerifyCode'));
 	$UserInfo = array();
-
 	if (!ReferCheck($_POST['FormHash'])) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$MailObject->isHTML(true);// Set email format to HTML
 
 					$MailObject->Subject = str_replace('{{UserName}}', $UserName, str_replace('{{SiteName}}', $Config['SiteName'], $Lang['Mail_Template_Subject']));
-					$MailObject->Body    = $MailObject->Subject = str_replace('{{UserName}}', $UserName, str_replace('{{ResetPasswordURL}}', $ResetPasswordURL, $Lang['Mail_Template_Body']));
+					$MailObject->Body     = str_replace('{{UserName}}', $UserName, str_replace('{{ResetPasswordURL}}', $ResetPasswordURL, $Lang['Mail_Template_Body']));
 					//$MailObject->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
 					if(!$MailObject->send()) {
@@ -63,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						$Message =  $Lang['Email_Has_Been_Sent'];
 					}
 				}else{
-					$Message = $Lang['Email_Error'];
+					$UserMail = preg_replace('/([\w\-\.]{1})([\w\-\.]{0,})@([\w\-\.]+(\.\w+)+)$/', '\1*****@\3', $UserInfo['UserMail']);
+					$Message = str_replace('{{UserMail}}', $UserMail, $Lang['Email_Error']);
 				}
 			}else{
 				$Message = $Lang['User_Does_Not_Exist'];
