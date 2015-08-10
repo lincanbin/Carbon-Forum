@@ -23,6 +23,7 @@ $Lang = array_merge($Lang, array(
 	'Verification_Code' =>'Kod weryfikacyjny',
 	'Log_In' => ' Logowanie ',
 	'Sign_Up' => 'Rejestracja',
+	'Forgot_Password' => 'Zapomniałeś hasła',
 	'User_Panel' => 'Panel Użytkownika',
 	'Log_Out' => 'Wyloguj',
 	'Information_Bar' =>'Informacje',

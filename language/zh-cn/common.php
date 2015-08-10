@@ -23,6 +23,7 @@ $Lang = array_merge($Lang, array(
 	'Verification_Code' =>'验证码',
 	'Log_In' => ' 登 录 ',
 	'Sign_Up' => '现在注册',
+	'Forgot_Password' => '忘记密码',
 	'User_Panel' => '用户面板',
 	'Log_Out' => '退出',
 	'Information_Bar' =>'信息栏',
