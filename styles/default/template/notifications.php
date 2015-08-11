@@ -29,7 +29,10 @@ $(document).ready(function(){
 					<div class="comment-item">
 						<div class="user-comment-data">
 							<div class="comment-content">
-							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($post['UserName']); ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></span>
+							<span class="user-activity-title">
+							<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($post['UserName']); ?>" target="_blank"><?php echo $post['UserName'];?></a>
+							&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;
+							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>#Post<?php echo $post['ID']; ?>"><?php echo $post['Subject'];?></a></span>
 							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
@@ -56,7 +59,9 @@ $(document).ready(function(){
 					<div class="comment-item">
 						<div class="user-comment-data">
 							<div class="comment-content">
-							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($post['UserName']); ?>" target="_blank"><?php echo $post['UserName'];?></a>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></span>
+							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($post['UserName']); ?>" target="_blank"><?php echo $post['UserName'];?></a>
+							&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;
+							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>#Post<?php echo $post['ID']; ?>"><?php echo $post['Subject'];?></a></span>
 							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
