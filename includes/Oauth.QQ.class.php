@@ -1,112 +1,119 @@
 <?php
 class Oauth{
-
 	const VERSION = "2.0";
 	const GET_AUTH_CODE_URL = "https://graph.qq.com/oauth2.0/authorize";
 	const GET_ACCESS_TOKEN_URL = "https://graph.qq.com/oauth2.0/token";
 	const GET_OPENID_URL = "https://graph.qq.com/oauth2.0/me";
+	const GET_USER_INFO_URL = "https://graph.qq.com/user/get_info";
+	private $WebsitePath;
+	private $AppID;
+	private $AppKey;
+	private $AppSecret;
+	private $Code;
+	public $AccessToken;
+	public $OpenID;
 
-	protected $recorder;
-	public $urlUtils;
-	protected $error;
-	
-
-	function __construct(){
-		$this->recorder = new Recorder();
-		$this->urlUtils = new URL();
-		$this->error = new ErrorCase();
+	function __construct($WebsitePath, $AppID, $AppKey, $AppSecret, $Code){
+		$this->WebsitePath = $WebsitePath;
+		$this->AppID = $AppID;
+		$this->AppKey = $AppKey;
+		$this->AppSecret = $AppSecret;
+		$this->Code = $Code;
+		$this->GetAccessToken();
+		$this->GetOpenID();
 	}
 
-	public function qq_login(){
-		$appid = $this->recorder->readInc("appid");
-		$callback = $this->recorder->readInc("callback");
-		$scope = $this->recorder->readInc("scope");
-
-		//-------生成唯一随机串防CSRF攻击
-		$state = md5(uniqid(rand(), TRUE));
-		$this->recorder->write('state',$state);
-
-		//-------构造请求参数列表
-		$keysArr = array(
-			"response_type" => "code",
-			"client_id" => $appid,
-			"redirect_uri" => $callback,
-			"state" => $state,
-			"scope" => $scope
+	static function AuthorizeURL($WebsitePath, $AppID, $AppKey, $SendState){
+		//http://wiki.connect.qq.com/%E4%BD%BF%E7%94%A8authorization_code%E8%8E%B7%E5%8F%96access_token
+		$RequestParameter = array(
+			'response_type' => 'code',
+			'client_id' => $AppKey,
+			'redirect_uri' => $WebsitePath.'/oauth-'.$AppID,
+			'state' => $SendState,
+			'scope' => 'get_user_info,get_info'
 		);
-
-		$login_url =  $this->urlUtils->combineURL(self::GET_AUTH_CODE_URL, $keysArr);
-
-		header("Location:$login_url");
+		return self::GET_AUTH_CODE_URL.'?'.http_build_query($RequestParameter);
 	}
 
-	public function qq_callback(){
-		$state = $this->recorder->read("state");
 
-		//--------验证state防止CSRF攻击
-		if($_GET['state'] != $state){
-			$this->error->showError("30001");
-		}
+	public function GetAccessToken(){
 
 		//-------请求参数列表
-		$keysArr = array(
+		$RequestParameter = array(
 			"grant_type" => "authorization_code",
-			"client_id" => $this->recorder->readInc("appid"),
-			"redirect_uri" => urlencode($this->recorder->readInc("callback")),
-			"client_secret" => $this->recorder->readInc("appkey"),
-			"code" => $_GET['code']
+			"client_id" => $this->AppKey,
+			"redirect_uri" => $this->WebsitePath.'/oauth-'.$this->AppID,
+			"client_secret" => $this->AppSecret,
+			"code" => $this->Code
 		);
-
 		//------构造请求access_token的url
-		$token_url = $this->urlUtils->combineURL(self::GET_ACCESS_TOKEN_URL, $keysArr);
-		$response = $this->urlUtils->get_contents($token_url);
+		$TokenURL = self::GET_ACCESS_TOKEN_URL.'?'.http_build_query($RequestParameter);
+		$Response = file_get_contents($TokenURL);
+		// Example:
+		// access_token=FE04************************CCE2&expires_in=7776000&refresh_token=88E4************************BE14
+		//--------检测错误是否发生
+		if(strpos($Response, "callback") !== false){
 
-		if(strpos($response, "callback") !== false){
-
-			$lpos = strpos($response, "(");
-			$rpos = strrpos($response, ")");
-			$response  = substr($response, $lpos + 1, $rpos - $lpos -1);
-			$msg = json_decode($response);
-
-			if(isset($msg->error)){
-				$this->error->showError($msg->error, $msg->error_description);
-			}
+			$LeftBracketPosition = strpos($Response, "(");
+			$RightBracketPosition = strrpos($Response, ")");
+			$Response  = substr($Response, $LeftBracketPosition + 1, $RightBracketPosition - $LeftBracketPosition -1);
+			$Msg = json_decode($Response);
+			//记录错误，这里没写Error Log模块
 		}
 
-		$params = array();
-		parse_str($response, $params);
-
-		$this->recorder->write("access_token", $params["access_token"]);
-		return $params["access_token"];
-
+		$Params = array();
+		parse_str($Response, $Params);
+		$this->AccessToken = $Params["access_token"];
+		return $Params["access_token"];
 	}
 
-	public function get_openid(){
-
+	public function GetOpenID(){
 		//-------请求参数列表
-		$keysArr = array(
-			"access_token" => $this->recorder->read("access_token")
+		$RequestParameter = array(
+			"access_token" => $this->AccessToken
 		);
 
-		$graph_url = $this->urlUtils->combineURL(self::GET_OPENID_URL, $keysArr);
-		$response = $this->urlUtils->get_contents($graph_url);
+		$GraphURL =  self::GET_OPENID_URL.'?'.http_build_query($RequestParameter);
+		$Response = file_get_contents($GraphURL);
 
 		//--------检测错误是否发生
-		if(strpos($response, "callback") !== false){
+		if(strpos($Response, "callback") !== false){
 
-			$lpos = strpos($response, "(");
-			$rpos = strrpos($response, ")");
-			$response = substr($response, $lpos + 1, $rpos - $lpos -1);
+			$LeftBracketPosition = strpos($Response, "(");
+			$RightBracketPosition = strrpos($Response, ")");
+			$Response  = substr($Response, $LeftBracketPosition + 1, $RightBracketPosition - $LeftBracketPosition -1);
 		}
-
-		$user = json_decode($response);
-		if(isset($user->error)){
-			$this->error->showError($user->error, $user->error_description);
+		// http://wiki.connect.qq.com/%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7openid_oauth2-0
+		// Example:
+		// callback( {"client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
+		$UserInfo = json_decode($Response);
+		if(isset($UserInfo->error)){
+			//记录错误，这里没写Error Log模块
 		}
-
 		//------记录openid
-		$this->recorder->write("openid", $user->openid);
-		return $user->openid;
+		$this->OpenID = $UserInfo['openid'];
+		return $UserInfo['openid'];
 
+	}
+	public function GetAvatarURL(){
+		//-------请求参数列表
+		$RequestParameter = array(
+			"access_token" => $this->AccessToken,
+			"oauth_consumer_key" => $this->AppKey,
+			"openid" => $this->OpenID,
+			"format" => "json"
+		);
+
+		$GraphURL =  self::GET_USER_INFO_URL.'?'.http_build_query($RequestParameter);
+		$Response = file_get_contents($GraphURL);
+
+		// http://wiki.connect.qq.com/get_info
+		$UserInfo = json_decode($Response);
+		if($UserInfo['ret'] != 0){
+			//记录错误，这里没写Error Log模块
+		}else{
+			// 返回头像
+			return $UserInfo['head'].'/100';
+		}
 	}
 }
