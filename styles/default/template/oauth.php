@@ -14,7 +14,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?
 		<p class="red fs14" style="margin-left:60px;">
 		› <?php echo $Message; ?> <br/></p>
 		<?php } ?>
-		<form action="?" method="post">
+		<form action="" method="post">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 				<tbody>
