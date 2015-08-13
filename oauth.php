@@ -21,7 +21,7 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 	$SendState = md5(uniqid(rand(), TRUE));
 	$_SESSION[$Prefix . 'OauthState'] = $SendState;
 	//默认跳转回首页，后面覆写此变量
-	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppInfo['AppKey'], $AppID, $SendState);
+	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppInfo['AppID'], $AppID, $SendState);
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Status: 301 Moved Permanently");
 	header("Location: " . $AuthorizeURL);
@@ -29,12 +29,12 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 }
 $Message = '';
 //下面是回调页面的处理
-$OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code);
+$OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppID'], $AppInfo['AppSecret'], $Code);
 if(!$OauthObject -> GetOpenID){
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
-$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_user 
-	WHERE AppKey=:AppID AND OpenID = :OpenID", 
+$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
+	WHERE AppID=:AppID AND OpenID = :OpenID", 
 	array(
 		'AppID' => $AppID,
 		'OpenID' => $OauthObject -> GetOpenID
@@ -104,12 +104,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				VALUES (:ID, :UserName, :Salt, :Password, :UserMail, :UserHomepage, :PasswordQuestion, :PasswordAnswer, :UserSex, :NumFavUsers, :NumFavTags, :NumFavTopics, :NewMessage, :Topics, :Replies, :Followers, :DelTopic, :GoodTopic, :UserPhoto, :UserMobile, :UserLastIP, :UserRegTime, :LastLoginTime, :LastPostTime, :BlackLists, :UserFriend, :UserInfo, :UserIntro, :UserIM, :UserRoleID, :UserAccountStatus, :Birthday)', $NewUserData);
 			$CurUserID      = $DB->lastInsertId();
 			//Insert App user
-			$DB->query('INSERT INTO `' . $Prefix . 'appuser`
-				 (`ID`, `AppKey`, `OpenID`, `UserID`, `TimeStamp`) 
-				VALUES (:ID, :AppKey, :OpenID, :UserID, :TimeStamp)', 
+			$DB->query('INSERT INTO `' . $Prefix . 'app_users`
+				 (`ID`, `AppID`, `OpenID`, `UserID`, `TimeStamp`) 
+				VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', 
 				array(
 					'ID' => null, 
-					'AppKey' => 'AppID',
+					'AppID' => 'AppID',
 					'OpenID' => $OauthObject -> GetOpenID,
 					'UserID' => $CurUserID,
 					'TimeStamp' => $TimeStamp

@@ -30,15 +30,15 @@ CREATE TABLE `carbon_app` (
 -- ----------------------------
 -- Table structure for carbon_app_user
 -- ----------------------------
-DROP TABLE IF EXISTS `carbon_app_user`;
-CREATE TABLE `carbon_app_user` (
+DROP TABLE IF EXISTS `carbon_app_users`;
+CREATE TABLE `carbon_app_users` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `AppKey` varchar(32) NOT NULL,
+  `AppID` int(10) unsigned NOT NULL,
   `OpenID` varchar(64) NOT NULL,
   `UserID` int(10) unsigned NOT NULL,
   `Time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `Index` (`AppKey`,`OpenID`)
+  KEY `Index` (`AppID`,`OpenID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

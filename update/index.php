@@ -26,7 +26,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$DB = new Db($DBHost, $DBName, $DBUser, $DBPassword);
 	$OldVersion = $DB->single("SELECT ConfigValue FROM `".$Prefix."config` WHERE `ConfigName`='Version'");
 	//数据处理
-	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
 	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$WebsitePath."' WHERE `ConfigName`='WebsitePath'");
 	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$WebsitePath."/static/js/jquery.js' WHERE `ConfigName`='LoadJqueryUrl'");
 	
@@ -42,7 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$ConfigPHP = fopen('../config.php',"w+");       
 	fwrite($ConfigPHP,$ConfigBuffer);
 	fclose($ConfigPHP);
-
+	//rewrite文件配置
 	//写入htaccess文件
 	$HtaccessPointer=fopen('../install/htaccess.tpl','r');
 	$HtaccessBuffer=fread($HtaccessPointer, filesize('../install/htaccess.tpl'));
@@ -57,9 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Htaccess = fopen("../.htaccess","w+");       
 	fwrite($Htaccess, $HtaccessBuffer );
 	fclose($Htaccess);
-
-	//rewrite文件配置
-	$Message = '升级成功。<br />Update successfully! ';
+	
 	//当前版本低于3.3.0，需要进行的升级到3.3.0的升级操作
 	if(VersionCompare('3.3.0' ,$OldVersion)){
 		require("../includes/MaterialDesign.Avatars.class.php");
@@ -79,12 +76,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//当前版本低于3.5.0，需要进行的升级到3.5.0的升级操作
 	if(VersionCompare('3.5.0' ,$OldVersion)){
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('PushConnectionTimeoutPeriod', '22')");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPHost', 'smtp1.example.com;')");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPHost', 'smtp1.example.com')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPort', '587')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPAuth', 'true')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPUsername', 'user@example.com')");
 		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPassword', 'secret')");
+
+		$DB->query("DROP TABLE IF EXISTS `".$Prefix."app_user`");
+		$DB->query("CREATE TABLE `".$Prefix."app_users` (
+			  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+			  `AppID` int(10) unsigned NOT NULL,
+			  `OpenID` varchar(64) NOT NULL,
+			  `UserID` int(10) unsigned NOT NULL,
+			  `Time` int(10) unsigned NOT NULL,
+			  PRIMARY KEY (`ID`),
+			  KEY `Index` (`AppID`,`OpenID`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	}
+	$Message = '升级成功。<br />Update successfully! ';
+	//版本修改
+	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
 	//关闭数据库连接
 	$DB->CloseConnection();
 	if (!file_exists('update.lock')) {  

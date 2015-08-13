@@ -8,38 +8,37 @@ switch ($_GET['action']) {
 		header("Cache-Control: no-cache, must-revalidate");
 		set_time_limit(0);
 		//如果是自己的服务器，建议调大超时时间，然后把长连接时长调大，以节约服务器资源
-		$Config['PushConnectionTimeoutPeriod'] = intval((intval($Config['PushConnectionTimeoutPeriod']) < 22)?22:$Config['PushConnectionTimeoutPeriod']);
-		while( (time() - $TimeStamp) < $Config['PushConnectionTimeoutPeriod'] ){
+		$Config['PushConnectionTimeoutPeriod'] = intval((intval($Config['PushConnectionTimeoutPeriod']) < 22) ? 22 : $Config['PushConnectionTimeoutPeriod']);
+		while ((time() - $TimeStamp) < $Config['PushConnectionTimeoutPeriod']) {
 			if ($MCache) {
-				$CurUserInfo = $MCache -> get(MemCachePrefix . 'UserInfo_' . $CurUserID);
-				if($CurUserInfo){
+				$CurUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
+				if ($CurUserInfo) {
 					$CurNewMessage = $CurUserInfo['NewMessage'];
-				}else{
+				} else {
 					$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
 						"UserID" => $CurUserID
 					));
-					$MCache->set( MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600 );
+					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600);
 					$CurNewMessage = $TempUserInfo['NewMessage'];
 				}
-			}else{
+			} else {
 				$CurNewMessage = $DB->single("SELECT NewMessage FROM " . $Prefix . "users WHERE ID = :UserID", array(
-						"UserID" => $CurUserID
+					"UserID" => $CurUserID
 				));
 			}
-
-			if($CurNewMessage > 0){
+			
+			if ($CurNewMessage > 0) {
 				break;
 			}
 			sleep(3);
 		}
-		echo json_encode(
-			array(  'Status' => 1,
-				'NewMessage' => $CurNewMessage
-			)
-		);
+		echo json_encode(array(
+			'Status' => 1,
+			'NewMessage' => $CurNewMessage
+		));
 		break;
-
-
+	
+	
 	case 'get_tags':
 		Auth(1);
 		require(dirname(__FILE__) . "/includes/PHPAnalysis.class.php");
@@ -82,7 +81,7 @@ switch ($_GET['action']) {
 	case 'tag_autocomplete':
 		//Auth(1);
 		$Keyword           = $_POST['query'];
-		$Response         = array();
+		$Response          = array();
 		$Response['query'] = 'Unit';
 		$Result            = $DB->column("SELECT Title FROM " . $Prefix . "dict WHERE Title LIKE :Keyword limit 10", array(
 			"Keyword" => $Keyword . "%"
@@ -94,28 +93,34 @@ switch ($_GET['action']) {
 					'data' => $val
 				);
 			}
-		}else{
-			$Response['suggestions'][]='';
+		} else {
+			$Response['suggestions'][] = '';
 		}
 		echo json_encode($Response);
 		break;
 	
 	case 'user_exist':
-		$UserName = strtolower(Request('Post', 'UserName'));
+		$UserName  = strtolower(Request('Post', 'UserName'));
 		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
 			'UserName' => $UserName
 		));
-		echo json_encode(array('Status' => $UserExist?1:0));
+		echo json_encode(array(
+			'Status' => $UserExist ? 1 : 0
+		));
 		break;
 	
 	case 'get_post':
 		$PostId = intval($_POST['PostId']);
-		$row = $DB->row("SELECT UserName, Content, TopicID FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array('PostId' => $PostId));
-		if($CurUserRole < 4){
+		$row    = $DB->row("SELECT UserName, Content, TopicID FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array(
+			'PostId' => $PostId
+		));
+		if ($CurUserRole < 4) {
 			// 对超级管理员以下的用户需要检查整个主题是否被删除了
-			$TopicID = $row['TopicID'];
-			$TopicRow = $DB->single("SELECT COUNT(*) FROM {$Prefix}topics WHERE ID = :TopicID AND IsDel = 0", array('TopicID' => $TopicID));
-			if($TopicRow < 1){
+			$TopicID  = $row['TopicID'];
+			$TopicRow = $DB->single("SELECT COUNT(*) FROM {$Prefix}topics WHERE ID = :TopicID AND IsDel = 0", array(
+				'TopicID' => $TopicID
+			));
+			if ($TopicRow < 1) {
 				$row = false;
 			}
 		}
