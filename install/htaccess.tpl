@@ -33,6 +33,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^manage$ manage.php [L]
 	RewriteRule ^new$ new.php [L]
 	RewriteRule ^notifications$ notifications.php [L]
+	RewriteRule ^oauth-([0-9]+)$ oauth.php?app_id=$1 [L,QSA]
 	RewriteRule ^page/([0-9]+)$ index.php?page=$1 [L]
 	RewriteRule ^register$ register.php [L]
 	RewriteRule ^reply$ reply.php [L]
