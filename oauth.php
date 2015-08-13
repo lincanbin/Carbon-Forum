@@ -14,10 +14,10 @@ if(file_exists(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.clas
 }else{
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
+session_start();
 //如果不是认证服务器跳转回的回调页，则跳转回授权服务页
 if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
 	//生成State值防止CSRF
-	session_start();
 	$SendState = md5(uniqid(rand(), TRUE));
 	$_SESSION[$Prefix . 'OauthState'] = $SendState;
 	//默认跳转回首页，后面覆写此变量
@@ -27,6 +27,8 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 	header("Location: " . $AuthorizeURL);
 	exit();
 }
+// 释放session防止阻塞
+session_write_close();
 $Message = '';
 //下面是回调页面的处理
 $OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code);
