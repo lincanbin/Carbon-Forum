@@ -18,13 +18,25 @@ class ImageResize
 	private $ImageSize;
 	private $ImageObject;
 	
-	public function __construct($PostField)
+	public function __construct($Source, $PostField)
 	{
 		$this->PostField = $PostField;
-		$this->GetImageObject();
+		if($Source == 'PostField'){
+			$this->GetImageObjectFromPostField();
+		}else{
+			$this->GetImageObjectFromString();
+		}
+		
 	}
-	
-	private function GetImageObject()
+	private function GetImageObjectFromString()
+	{
+		$this->ImageSize = getimagesizefromstring($this->PostField);
+		if($this->ImageSize){
+			$this->ImageObject = imagecreatefromstring($this->PostField);
+		}
+	}
+
+	private function GetImageObjectFromPostField()
 	{
 		if (stristr($_FILES[$this->PostField]['type'], "image")) {
 			$this->ImageSize = getimagesize($_FILES[$this->PostField]['tmp_name']);
@@ -77,34 +89,29 @@ class ImageResize
 		if (isset($this->ImageObject)) {
 			$MinImagePx = min($this->ImageSize[0], $this->ImageSize[1]);
 			//chmod($TargetPath, 0777);
-			if ($MinImagePx > $TargetMaxPx) {
-				$Percent = 1.0;
-				if($this->ImageSize[0] > $this->ImageSize[1]){
-					$SourceX = round(($this->ImageSize[0] - $this->ImageSize[1])/2);
-					$SourceY = 0;
-					$Percent = 1.0 * $TargetMaxPx / $this->ImageSize[0];
-				}else{
-					$SourceX = 0;
-					$SourceY = round(($this->ImageSize[1] - $this->ImageSize[0])/2);
-					$Percent = 1.0 * $TargetMaxPx / $this->ImageSize[1];
-				}
-				//一个正方形图像，用来临时保存原图像中间部分
-				$TempImageData = imagecreatetruecolor($MinImagePx, $MinImagePx);
-				//将原图像中间部分拷贝到正方形中
-				imagecopy($TempImageData, $this->ImageObject, 0, 0, $SourceX, $SourceY, $MinImagePx, $MinImagePx);
-				//目标图像
-				$TargetImageData = imagecreatetruecolor($TargetMaxPx, $TargetMaxPx);
-				$Background      = imagecolorallocate($TargetImageData, 255, 255, 255);
-				imagefill($TargetImageData, 0, 0, $Background);
-				//缩放
-				imagecopyresampled($TargetImageData, $TempImageData, 0, 0, 0, 0, $TargetMaxPx, $TargetMaxPx, $MinImagePx, $MinImagePx);
-				return imagejpeg($TargetImageData, $TargetPath, $Quality);
-			} else {
-				return imagejpeg($this->ImageObject, $TargetPath, $Quality);
+			$Percent = 1.0;
+			if($this->ImageSize[0] > $this->ImageSize[1]){
+				$SourceX = round(($this->ImageSize[0] - $this->ImageSize[1])/2);
+				$SourceY = 0;
+				$Percent = 1.0 * $TargetMaxPx / $this->ImageSize[0];
+			}else{
+				$SourceX = 0;
+				$SourceY = round(($this->ImageSize[1] - $this->ImageSize[0])/2);
+				$Percent = 1.0 * $TargetMaxPx / $this->ImageSize[1];
 			}
+			//一个正方形图像，用来临时保存原图像中间部分
+			$TempImageData = imagecreatetruecolor($MinImagePx, $MinImagePx);
+			//将原图像中间部分拷贝到正方形中
+			imagecopy($TempImageData, $this->ImageObject, 0, 0, $SourceX, $SourceY, $MinImagePx, $MinImagePx);
+			//目标图像
+			$TargetImageData = imagecreatetruecolor($TargetMaxPx, $TargetMaxPx);
+			$Background      = imagecolorallocate($TargetImageData, 255, 255, 255);
+			imagefill($TargetImageData, 0, 0, $Background);
+			//缩放
+			imagecopyresampled($TargetImageData, $TempImageData, 0, 0, 0, 0, $TargetMaxPx, $TargetMaxPx, $MinImagePx, $MinImagePx);
+			return imagejpeg($TargetImageData, $TargetPath, $Quality);
 		} else {
 			return false;
 		}
-		
 	}
 }
