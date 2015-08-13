@@ -28,7 +28,7 @@ CREATE TABLE `carbon_app` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for carbon_app_user
+-- Table structure for carbon_app_users
 -- ----------------------------
 DROP TABLE IF EXISTS `carbon_app_users`;
 CREATE TABLE `carbon_app_users` (
