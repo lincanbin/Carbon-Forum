@@ -21,7 +21,7 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 	$SendState = md5(uniqid(rand(), TRUE));
 	$_SESSION[$Prefix . 'OauthState'] = $SendState;
 	//默认跳转回首页，后面覆写此变量
-	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppInfo['AppID'], $AppID, $SendState);
+	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppInfo['AppKey'], $AppID, $SendState);
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Status: 301 Moved Permanently");
 	header("Location: " . $AuthorizeURL);
@@ -29,7 +29,7 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 }
 $Message = '';
 //下面是回调页面的处理
-$OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppID'], $AppInfo['AppSecret'], $Code);
+$OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code);
 if(!$OauthObject -> GetOpenID){
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
@@ -55,7 +55,9 @@ if($OauthUserID){
 	exit();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	
+	if (!ReferCheck(Request('Post', 'FormHash'))) {
+		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
+	}
 	$UserName   = strtolower(Request('Post', 'UserName'));
 	if ($UserName && IsName($UserName)) {
 		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
@@ -132,24 +134,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$CurUserID
 				));
 			}
-			if(extension_loaded('gd')){
-				require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
-				$Avatar = new MDAvtars(mb_substr($UserName, 0, 1, "UTF-8"), 256);
-				$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
-				$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);
-				$Avatar->Save('upload/avatar/small/' . $CurUserID . '.png', 24);
-				$Avatar->Free();
+			if($OauthObject -> GetAvatarURL){
+				//获取并缩放头像
+				require(dirname(__FILE__) . "/includes/ImageResize.class.php");
+				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject -> GetAvatarURL));
+				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/' . $CurUserID . '.png', 80);
+				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/' . $CurUserID . '.png', 90);
+				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/' . $CurUserID . '.png', 90);
 			}
 			header('location: ' . $Config['WebsitePath'] . '/');
 		} else {
-			$Message = 'This_User_Name_Already_Exists';
+			$Message = $Lang['This_User_Name_Already_Exists'];
 		}
 	}else{
-		$Message = 'Invalid_Username';
+		$Message = $Lang['UserName_Error'];
 	}
 }
 
 $DB->CloseConnection();
-$PageTitle   = 'Set your name';
+$PageTitle   = $Lang['Set_Your_Username'];
 $ContentFile = $TemplatePath . 'oauth.php';
 include($TemplatePath . 'layout.php');

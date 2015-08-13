@@ -49,7 +49,7 @@ class Oauth{
 		);
 		// 构造请求access_token的url
 		$TokenURL = self::GET_ACCESS_TOKEN_URL.'?'.http_build_query($RequestParameter);
-		$Response = URL::get($TokenURL);
+		$Response = URL::Get($TokenURL);
 		// Example:
 		// access_token=FE04************************CCE2&expires_in=7776000&refresh_token=88E4************************BE14
 		// 检测错误是否发生
@@ -75,7 +75,7 @@ class Oauth{
 		);
 
 		$GraphURL =  self::GET_OPENID_URL.'?'.http_build_query($RequestParameter);
-		$Response = URL::get($GraphURL);
+		$Response = URL::Get($GraphURL);
 
 		// 检测错误是否发生
 		if(strpos($Response, "callback") !== false){
@@ -88,12 +88,17 @@ class Oauth{
 		// Example:
 		// callback( {"client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
 		$UserInfo = json_decode($Response);
-		if(isset($UserInfo->error)){
+		if(isset($UserInfo['code'])){
 			//记录错误，这里没写Error Log模块
+			// 记录openid
+			$this->OpenID = null;
+			return null;
+		}else{
+			// 记录openid
+			$this->OpenID = $UserInfo['openid'];
+			return $UserInfo['openid'];
 		}
-		// 记录openid
-		$this->OpenID = $UserInfo['openid'];
-		return $UserInfo['openid'];
+		
 
 	}
 	public function GetAvatarURL(){
@@ -106,12 +111,13 @@ class Oauth{
 		);
 
 		$GraphURL =  self::GET_USER_INFO_URL.'?'.http_build_query($RequestParameter);
-		$Response = URL::get($GraphURL);
+		$Response = URL::Get($GraphURL);
 
 		// http://wiki.connect.qq.com/get_info
 		$UserInfo = json_decode($Response);
 		if($UserInfo['ret'] != 0){
 			//记录错误，这里没写Error Log模块
+			return null;
 		}else{
 			// 返回头像
 			return $UserInfo['head'].'/100';
