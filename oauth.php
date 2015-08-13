@@ -14,6 +14,7 @@ if(!file_exists(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.cla
 }else{
 	require(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php');
 }
+
 session_start();
 //如果不是认证服务器跳转回的回调页，则跳转回授权服务页
 if (!$Code || !$State || !isset($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
@@ -29,17 +30,18 @@ if (!$Code || !$State || !isset($_SESSION[$Prefix . 'OauthState']) || $State != 
 }
 // 释放session防止阻塞
 session_write_close();
+
 $Message = '';
 //下面是回调页面的处理
 $OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code);
-if(!$OauthObject -> GetOpenID){
+if(!$OauthObject -> OpenID){
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
 $OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
 	WHERE AppID=:AppID AND OpenID = :OpenID", 
 	array(
 		'AppID' => $AppID,
-		'OpenID' => $OauthObject -> GetOpenID
+		'OpenID' => $OauthObject -> OpenID
 		)
 );
 // 当前openid已存在，直接登陆
@@ -114,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				array(
 					'ID' => null, 
 					'AppID' => 'AppID',
-					'OpenID' => $OauthObject -> GetOpenID,
+					'OpenID' => $OauthObject -> OpenID,
 					'UserID' => $CurUserID,
 					'TimeStamp' => $TimeStamp
 				)

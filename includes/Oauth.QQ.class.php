@@ -37,7 +37,7 @@ class Oauth{
 	}
 
 
-	public function GetAccessToken(){
+	private function GetAccessToken(){
 
 		// 请求参数列表
 		$RequestParameter = array(
@@ -54,21 +54,22 @@ class Oauth{
 		// access_token=FE04************************CCE2&expires_in=7776000&refresh_token=88E4************************BE14
 		// 检测错误是否发生
 		if(strpos($Response, "callback") !== false){
-
 			$LeftBracketPosition = strpos($Response, "(");
 			$RightBracketPosition = strrpos($Response, ")");
 			$Response  = substr($Response, $LeftBracketPosition + 1, $RightBracketPosition - $LeftBracketPosition -1);
-			$Msg = json_decode($Response);
+			$Msg = json_decode($Response, true);
 			//记录错误，这里没写Error Log模块
+			$this->AccessToken = null;
+			return false;
+		}else{
+			$Params = array();
+			parse_str($Response, $Params);
+			$this->AccessToken = $Params["access_token"];
+			return true;
 		}
-
-		$Params = array();
-		parse_str($Response, $Params);
-		$this->AccessToken = $Params["access_token"];
-		return $Params["access_token"];
 	}
 
-	public function GetOpenID(){
+	private function GetOpenID(){
 		// 请求参数列表
 		$RequestParameter = array(
 			"access_token" => $this->AccessToken
@@ -76,10 +77,8 @@ class Oauth{
 
 		$GraphURL =  self::GET_OPENID_URL.'?'.http_build_query($RequestParameter);
 		$Response = URL::Get($GraphURL);
-
 		// 检测错误是否发生
 		if(strpos($Response, "callback") !== false){
-
 			$LeftBracketPosition = strpos($Response, "(");
 			$RightBracketPosition = strrpos($Response, ")");
 			$Response  = substr($Response, $LeftBracketPosition + 1, $RightBracketPosition - $LeftBracketPosition -1);
@@ -87,8 +86,8 @@ class Oauth{
 		// http://wiki.connect.qq.com/%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7openid_oauth2-0
 		// Example:
 		// callback( {"client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
-		$UserInfo = json_decode($Response);
-		if(isset($UserInfo['code'])){
+		$UserInfo = json_decode($Response, true);
+		if(isset($UserInfo['error'])){
 			//记录错误，这里没写Error Log模块
 			// 记录openid
 			$this->OpenID = null;
@@ -114,7 +113,7 @@ class Oauth{
 		$Response = URL::Get($GraphURL);
 
 		// http://wiki.connect.qq.com/get_info
-		$UserInfo = json_decode($Response);
+		$UserInfo = json_decode($Response, true);
 		if($UserInfo['ret'] != 0){
 			//记录错误，这里没写Error Log模块
 			return null;
