@@ -102,6 +102,8 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', $Content, $out, PREG_PATTERN_ORDER);
 	$TemporaryUserList = array_unique($out[1]); //排重
 	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
+	//对数组重新分配下标
+	sort($TemporaryUserList);
 	if ($TemporaryUserList) {
 		$UserList = $DB->row('SELECT ID FROM `' . $Prefix . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
 		if ($UserList && count($UserList) <= 20) {
