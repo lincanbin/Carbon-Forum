@@ -21,7 +21,7 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 	$SendState = md5(uniqid(rand(), TRUE));
 	$_SESSION[$Prefix . 'OauthState'] = $SendState;
 	//默认跳转回首页，后面覆写此变量
-	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppInfo['AppKey'], $AppID, $SendState);
+	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Status: 301 Moved Permanently");
 	header("Location: " . $AuthorizeURL);
