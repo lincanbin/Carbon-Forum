@@ -9,14 +9,14 @@ $AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID',
 		'ID' => $AppID
 	)
 );
-if(file_exists(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php')){
-	require(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php');
-}else{
+if(!file_exists(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php') || !$AppInfo){
 	AlertMsg('404 Not Found', '404 Not Found', 404);
+}else{
+	require(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php');
 }
 session_start();
 //如果不是认证服务器跳转回的回调页，则跳转回授权服务页
-if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
+if (!$Code || !$State || !isset($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
 	//生成State值防止CSRF
 	$SendState = md5(uniqid(rand(), TRUE));
 	$_SESSION[$Prefix . 'OauthState'] = $SendState;
