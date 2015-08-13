@@ -116,78 +116,84 @@ switch ($Type) {
 			//删除标签
 			case 'DeleteTag':
 				Auth(4, $TopicInfo['UserID'], true);
-				$TagName     = Request('Post', 'TagName');
-				if((count(explode('|', $TopicInfo['Tags']))-1) >= 1 && $DB->query("DELETE FROM `" . $Prefix . "posttags` 
-					WHERE TopicID = ? AND TagID = (SELECT ID FROM `" . $Prefix . "tags` WHERE Name = ?)", 
-					array(
-						$ID,
-						$TagName	
-					)
-				)){
+				$TagName = Request('Post', 'TagName');
+				if ((count(explode('|', $TopicInfo['Tags'])) - 1) >= 1 && $DB->query("DELETE FROM `" . $Prefix . "posttags` 
+					WHERE TopicID = ? AND TagID = (SELECT ID FROM `" . $Prefix . "tags` WHERE Name = ?)", array(
+					$ID,
+					$TagName
+				))) {
 					// 更新标签统计数据
-					$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts-1 WHERE `Name`=?", array($TagName));
+					$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts-1 WHERE `Name`=?", array(
+						$TagName
+					));
 					// 更新Topics表里的Tags缓存
-					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", 
-						array(
-							implode('|', TagsDiff(explode('|', $TopicInfo['Tags']), array($TagName))),
-							$ID
-						)
-					);
+					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", array(
+						implode('|', TagsDiff(explode('|', $TopicInfo['Tags']), array(
+							$TagName
+						))),
+						$ID
+					));
 					$Message = 'Success';
-				}else{
+				} else {
 					AlertMsg('Bad Request', 'Bad Request');
 				}
 				break;
 			//添加标签
 			case 'AddTag':
 				Auth(4, $TopicInfo['UserID'], true);
-				$TagName = TagsDiff(array(Request('Post', 'TagName')), array());
-				if($TagName && !in_array($TagName[0], explode('|', $TopicInfo['Tags'])) && (count(explode('|', $TopicInfo['Tags']))+1) <= $Config["MaxTagsNum"]){
-					$TagName = $TagName[0];
-					$TagsExist = $DB->row("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` = ?", array($TagName));
-					if(!$TagsExist){
+				$TagName = TagsDiff(array(
+					Request('Post', 'TagName')
+				), array());
+				if ($TagName && !in_array($TagName[0], explode('|', $TopicInfo['Tags'])) && (count(explode('|', $TopicInfo['Tags'])) + 1) <= $Config["MaxTagsNum"]) {
+					$TagName   = $TagName[0];
+					$TagsExist = $DB->row("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` = ?", array(
+						$TagName
+					));
+					if (!$TagsExist) {
 						$DB->query("INSERT INTO `" . $Prefix . "tags` 
 							(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
-							VALUES (?,?,?,?,?,?,?,?,?)", 
-							array(
-								null,
-								htmlspecialchars(trim($TagName)),
-								0,
-								0,
-								null,
-								1,
-								1,
-								$TimeStamp,
-								$TimeStamp
-							)
-						);
+							VALUES (?,?,?,?,?,?,?,?,?)", array(
+							null,
+							htmlspecialchars(trim($TagName)),
+							0,
+							0,
+							null,
+							1,
+							1,
+							$TimeStamp,
+							$TimeStamp
+						));
 						$TagID = $DB->lastInsertId();
-						if($TagID){
+						if ($TagID) {
 							$DB->query("INSERT INTO `" . $Prefix . "posttags` 
 								(`TagID`, `TopicID`, `PostID`) 
-								VALUES (".$TagID.", ".$ID.", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = ".$ID." AND IsTopic = 1 LIMIT 1))");
+								VALUES (" . $TagID . ", " . $ID . ", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = " . $ID . " AND IsTopic = 1 LIMIT 1))");
 							//更新全站统计数据
 							$NewConfig = array(
 								"NumTags" => $Config["NumTags"] + 1
 							);
 							UpdateConfig($NewConfig);
 						}
-					}else{
-						if($DB->query("INSERT INTO `" . $Prefix . "posttags` 
+					} else {
+						if ($DB->query("INSERT INTO `" . $Prefix . "posttags` 
 							(`TagID`, `TopicID`, `PostID`) 
-							VALUES (".$TagsExist['ID'].", ".$ID.", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = ".$ID." AND IsTopic = 1 LIMIT 1))")){
+							VALUES (" . $TagsExist['ID'] . ", " . $ID . ", (SELECT ID FROM `" . $Prefix . "posts` WHERE TopicID = " . $ID . " AND IsTopic = 1 LIMIT 1))")) {
 							// 更新标签统计数据
-							$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts+1 WHERE `Name`=?", array($TagName));
+							$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts+1 WHERE `Name`=?", array(
+								$TagName
+							));
 						}
 					}
-					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", 
-						array(
-							implode('|', $TopicInfo['Tags']?array_merge(explode('|', $TopicInfo['Tags']), array($TagName)):array($TagName)),
-							$ID
-						)
-					);
+					$DB->query("UPDATE `" . $Prefix . "topics` SET Tags=? WHERE `ID`=?", array(
+						implode('|', $TopicInfo['Tags'] ? array_merge(explode('|', $TopicInfo['Tags']), array(
+							$TagName
+						)) : array(
+							$TagName
+						)),
+						$ID
+					));
 					$Message = 'Success';
-				}else{
+				} else {
 					AlertMsg('Bad Request', 'Bad Request');
 				}
 				break;
@@ -202,7 +208,7 @@ switch ($Type) {
 			$MCache->delete(MemCachePrefix . 'Topic_' . $ID);
 		}
 		break;
-
+	
 	//Post
 	case 2:
 		$PostInfo = $DB->row("SELECT * FROM " . $Prefix . "posts force index(PRI) Where ID=:ID", array(
@@ -260,7 +266,7 @@ switch ($Type) {
 				break;
 		}
 		break;
-
+	
 	//User
 	case 3:
 		$UserInfo = $DB->row("SELECT * FROM " . $Prefix . "users force index(PRI) Where ID=:ID", array(
@@ -275,14 +281,16 @@ switch ($Type) {
 			case 'Block':
 				Auth(4);
 				$NewUserAccountStatus = $UserInfo['UserAccountStatus'] ? 0 : 1;
-				if(UpdateUserInfo(array('UserAccountStatus' => $NewUserAccountStatus), $ID)){
+				if (UpdateUserInfo(array(
+					'UserAccountStatus' => $NewUserAccountStatus
+				), $ID)) {
 					$Message = $NewUserAccountStatus ? $Lang['Block_User'] : $Lang['Unblock_User'];
 				}
 				break;
 			//重置头像
 			case 'ResetAvatar':
 				Auth(4, $ID);
-				if(extension_loaded('gd')){
+				if (extension_loaded('gd')) {
 					require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
 					$Avatar = new MDAvtars(mb_substr($UserInfo['UserName'], 0, 1, "UTF-8"), 256);
 					$Avatar->Save('upload/avatar/large/' . $ID . '.png', 256);
@@ -290,8 +298,8 @@ switch ($Type) {
 					$Avatar->Save('upload/avatar/small/' . $ID . '.png', 24);
 					$Avatar->Free();
 					$Message = $Lang['Reset_Avatar_Successfully'];
-				}else{
-					$Message = $Lang['Reset_Avatar_Successfully'];//Failure
+				} else {
+					$Message = $Lang['Reset_Avatar_Successfully']; //Failure
 				}
 				
 				break;
@@ -409,7 +417,7 @@ switch ($Type) {
 			AlertMsg('404 Not Found', '404 Not Found');
 		}
 		break;
-
+	
 	//Error
 	default:
 		AlertMsg('Bad Request', 'Bad Request');

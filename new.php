@@ -33,19 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					foreach ($NewTags as $Name) {
 						$DB->query("INSERT INTO `" . $Prefix . "tags` 
 							(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
-							VALUES (?,?,?,?,?,?,?,?,?)", 
-							array(
-								null,
-								htmlspecialchars(trim($Name)),
-								0,
-								0,
-								null,
-								1,
-								1,
-								$TimeStamp,
-								$TimeStamp
-							)
-						);
+							VALUES (?,?,?,?,?,?,?,?,?)", array(
+							null,
+							htmlspecialchars(trim($Name)),
+							0,
+							0,
+							null,
+							1,
+							1,
+							$TimeStamp,
+							$TimeStamp
+						));
 						$TagsID[] = $DB->lastInsertId();
 					}
 					//更新全站统计数据
@@ -135,9 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						:Lists,
 						:ListsTime,
 						:Log
-					)", 
-					$TopicData
-				);
+					)", $TopicData);
 				
 				$TopicID       = $DB->lastInsertId();
 				//往Posts表插入数据
@@ -154,9 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				);
 				$NewPostResult = $DB->query("INSERT INTO `" . $Prefix . "posts` 
 					(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`) 
-					VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime)", 
-					$PostData
-				);
+					VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime)", $PostData);
 				
 				$PostID = $DB->lastInsertId();
 				
@@ -181,13 +175,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					foreach ($TagsID as $TagID) {
 						$DB->query("INSERT INTO `" . $Prefix . "posttags` 
 							(`TagID`, `TopicID`, `PostID`) 
-							VALUES (?,?,?)", 
-							array(
-								$TagID,
-								$TopicID,
-								$PostID
-							)
-						);
+							VALUES (?,?,?)", array(
+							$TagID,
+							$TopicID,
+							$PostID
+						));
 					}
 					//更新标签统计数据
 					if ($TagsExist) {
