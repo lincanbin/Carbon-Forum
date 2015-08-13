@@ -27,8 +27,127 @@ if (!$AppInfo || !$Code || $State || !isset($_SESSION[$Prefix . 'OauthState']) |
 	header("Location: " . $AuthorizeURL);
 	exit();
 }
+$Message = '';
 //下面是回调页面的处理
-
+$OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code);
+if(!$OauthObject -> GetOpenID){
+	AlertMsg('404 Not Found', '404 Not Found', 404);
+}
+$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_user 
+	WHERE AppKey=:AppID AND OpenID = :OpenID", 
+	array(
+		'AppID' => $AppID,
+		'OpenID' => $OauthObject -> GetOpenID
+		)
+);
+// 当前openid已存在，直接登陆
+if($OauthUserID){
+	$OauthUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+		"UserID" => $OauthUserID
+	));
+	$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
+	SetCookies(array(
+		'UserID' => $OauthUserID,
+		'UserExpirationTime' => $TemporaryUserExpirationTime,
+		'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
+	), 30);
+	header('location: ' . $Config['WebsitePath'] . '/');
+	exit();
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	
+	$UserName   = strtolower(Request('Post', 'UserName'));
+	if ($UserName && IsName($UserName)) {
+		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+			'UserName' => $UserName
+		));
+		if (!$UserExist) {
+			$NewUserSalt     = mt_rand(100000, 999999);
+			$NewUserPassword = 'zzz'.substr(md5(md5(mt_rand(1000000000, 2147483647)) . $NewUserSalt), 0 , -3);
+			$NewUserData     = array(
+				'ID' => null,
+				'UserName' => $UserName,
+				'Salt' => $NewUserSalt,
+				'Password' => $NewUserPassword,
+				'UserMail' => '',
+				'UserHomepage' => '',
+				'PasswordQuestion' => '',
+				'PasswordAnswer' => '',
+				'UserSex' => 0,
+				'NumFavUsers' => 0,
+				'NumFavTags' => 0,
+				'NumFavTopics' => 0,
+				'NewMessage' => 0,
+				'Topics' => 0,
+				'Replies' => 0,
+				'Followers' => 0,
+				'DelTopic' => 0,
+				'GoodTopic' => 0,
+				'UserPhoto' => '',
+				'UserMobile' => '',
+				'UserLastIP' => $CurIP,
+				'UserRegTime' => $TimeStamp,
+				'LastLoginTime' => $TimeStamp,
+				'LastPostTime' => $TimeStamp,
+				'BlackLists' => '',
+				'UserFriend' => '',
+				'UserInfo' => '',
+				'UserIntro' => '',
+				'UserIM' => '',
+				'UserRoleID' => 1,
+				'UserAccountStatus' => 1,
+				'Birthday' => date("Y-m-d", $TimeStamp)
+			);
+			
+			$DB->query('INSERT INTO `' . $Prefix . 'users`
+				(`ID`, `UserName`, `Salt`, `Password`, `UserMail`, `UserHomepage`, `PasswordQuestion`, `PasswordAnswer`, `UserSex`, `NumFavUsers`, `NumFavTags`, `NumFavTopics`, `NewMessage`, `Topics`, `Replies`, `Followers`, `DelTopic`, `GoodTopic`, `UserPhoto`, `UserMobile`, `UserLastIP`, `UserRegTime`, `LastLoginTime`, `LastPostTime`, `BlackLists`, `UserFriend`, `UserInfo`, `UserIntro`, `UserIM`, `UserRoleID`, `UserAccountStatus`, `Birthday`) 
+				VALUES (:ID, :UserName, :Salt, :Password, :UserMail, :UserHomepage, :PasswordQuestion, :PasswordAnswer, :UserSex, :NumFavUsers, :NumFavTags, :NumFavTopics, :NewMessage, :Topics, :Replies, :Followers, :DelTopic, :GoodTopic, :UserPhoto, :UserMobile, :UserLastIP, :UserRegTime, :LastLoginTime, :LastPostTime, :BlackLists, :UserFriend, :UserInfo, :UserIntro, :UserIM, :UserRoleID, :UserAccountStatus, :Birthday)', $NewUserData);
+			$CurUserID      = $DB->lastInsertId();
+			//Insert App user
+			$DB->query('INSERT INTO `' . $Prefix . 'appuser`
+				 (`ID`, `AppKey`, `OpenID`, `UserID`, `TimeStamp`) 
+				VALUES (:ID, :AppKey, :OpenID, :UserID, :TimeStamp)', 
+				array(
+					'ID' => null, 
+					'AppKey' => 'AppID',
+					'OpenID' => $OauthObject -> GetOpenID,
+					'UserID' => $CurUserID,
+					'TimeStamp' => $TimeStamp
+				)
+			);
+			//更新全站统计数据
+			$NewConfig      = array(
+				"NumUsers" => $Config["NumUsers"] + 1,
+				"DaysUsers" => $Config["DaysUsers"] + 1
+			);
+			UpdateConfig($NewConfig);
+			$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
+			SetCookies(array(
+				'UserID' => $CurUserID,
+				'UserExpirationTime' => $TemporaryUserExpirationTime,
+				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
+			), 30);
+			if ($CurUserID == 1) {
+				$DB->query("UPDATE `" . $Prefix . "users` SET UserRoleID=5 WHERE `ID`=?", array(
+					$CurUserID
+				));
+			}
+			if(extension_loaded('gd')){
+				require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
+				$Avatar = new MDAvtars(mb_substr($UserName, 0, 1, "UTF-8"), 256);
+				$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
+				$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);
+				$Avatar->Save('upload/avatar/small/' . $CurUserID . '.png', 24);
+				$Avatar->Free();
+			}
+			header('location: ' . $Config['WebsitePath'] . '/');
+		} else {
+			$Message = 'This_User_Name_Already_Exists';
+		}
+	}else{
+		$Message = 'Invalid_Username';
+	}
+}
 
 $DB->CloseConnection();
 $PageTitle   = 'Set your name';
