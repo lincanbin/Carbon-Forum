@@ -6,23 +6,15 @@ class Oauth{
 	const GET_ACCESS_TOKEN_URL = "https://graph.qq.com/oauth2.0/token";
 	const GET_OPENID_URL = "https://graph.qq.com/oauth2.0/me";
 	const GET_USER_INFO_URL = "https://graph.qq.com/user/get_info";
-	private $WebsitePath;
-	private $AppID;
-	private $AppKey;
-	private $AppSecret;
-	private $Code;
+
 	public $AccessToken;
 	public $OpenID;
-
-	function __construct($WebsitePath, $AppID, $AppKey, $AppSecret, $Code){
-		$this->WebsitePath = $WebsitePath;
-		$this->AppID = $AppID;
-		$this->AppKey = $AppKey;
-		$this->AppSecret = $AppSecret;
-		$this->Code = $Code;
-		$this->GetAccessToken();
-		$this->GetOpenID();
+	/*
+	function __construct(){
+		//$this->GetAccessToken();
+		//$this->GetOpenID();
 	}
+	*/
 
 	public static function AuthorizeURL($WebsitePath, $AppID, $AppKey, $SendState){
 		//http://wiki.connect.qq.com/%E4%BD%BF%E7%94%A8authorization_code%E8%8E%B7%E5%8F%96access_token
@@ -37,15 +29,15 @@ class Oauth{
 	}
 
 
-	private function GetAccessToken(){
+	public function GetAccessToken($WebsitePath, $AppID, $AppKey, $AppSecret, $Code){
 
 		// 请求参数列表
 		$RequestParameter = array(
 			"grant_type" => "authorization_code",
-			"client_id" => $this->AppKey,
-			"redirect_uri" => $this->WebsitePath.'/oauth-'.$this->AppID,
-			"client_secret" => $this->AppSecret,
-			"code" => $this->Code
+			"client_id" => $AppKey,
+			"redirect_uri" => $WebsitePath.'/oauth-'.$this->AppID,
+			"client_secret" => $AppSecret,
+			"code" => $Code
 		);
 		// 构造请求access_token的url
 		$TokenURL = self::GET_ACCESS_TOKEN_URL.'?'.http_build_query($RequestParameter);
@@ -69,7 +61,7 @@ class Oauth{
 		}
 	}
 
-	private function GetOpenID(){
+	public function GetOpenID(){
 		// 请求参数列表
 		$RequestParameter = array(
 			"access_token" => $this->AccessToken

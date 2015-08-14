@@ -13,55 +13,73 @@ if(!file_exists(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.cla
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }else{
 	require(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php');
+	$OauthObject = new Oauth();
 }
-
 session_start();
-//如果不是认证服务器跳转回的回调页，则跳转回授权服务页
-if (!$Code || !$State || !isset($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
-	//生成State值防止CSRF
-	$SendState = md5(uniqid(rand(), TRUE));
-	$_SESSION[$Prefix . 'OauthState'] = $SendState;
-	//默认跳转回首页，后面覆写此变量
-	$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
-	header("HTTP/1.1 301 Moved Permanently");
-	header("Status: 301 Moved Permanently");
-	header("Location: " . $AuthorizeURL);
-	exit();
-}
-// 释放session防止阻塞
-session_write_close();
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+	//如果不是认证服务器跳转回的回调页，则跳转回授权服务页
+	if (!$Code || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
+		//生成State值防止CSRF
+		$SendState = md5(uniqid(rand(), TRUE));
+		$_SESSION[$Prefix . 'OauthState'] = $SendState;
+		// 释放session防止阻塞
+		session_write_close();
+		//默认跳转回首页，后面覆写此变量
+		$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
+		header("HTTP/1.1 301 Moved Permanently");
+		header("Status: 301 Moved Permanently");
+		header("Location: " . $AuthorizeURL);
+		exit();
+	}
 
-$Message = '';
-//下面是回调页面的处理
-$OauthObject = new Oauth('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code);
-if(!$OauthObject -> OpenID){
-	AlertMsg('404 Not Found', '404 Not Found', 404);
-}
-$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
-	WHERE AppID=:AppID AND OpenID = :OpenID", 
-	array(
-		'AppID' => $AppID,
-		'OpenID' => $OauthObject -> OpenID
-		)
-);
-// 当前openid已存在，直接登陆
-if($OauthUserID){
-	$OauthUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
-		"UserID" => $OauthUserID
-	));
-	$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
-	SetCookies(array(
-		'UserID' => $OauthUserID,
-		'UserExpirationTime' => $TemporaryUserExpirationTime,
-		'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
-	), 30);
-	header('location: ' . $Config['WebsitePath'] . '/');
-	exit();
+	$Message = '';
+	//下面是回调页面的处理
+	if(!$OauthObject -> GetAccessToken('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code)){
+		AlertMsg('400 Bad Request', '400 Bad Request', 400);
+	}
+	if(!$OauthObject -> GetOpenID()){
+		AlertMsg('400 Bad Request', '400 Bad Request', 400);
+	}
+	$OpenID = $OauthObject -> OpenID;
+	// 非Post页，储存AccessToken
+	session_start();
+	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject -> AccessToken;
+	session_write_close();
+
+	$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
+		WHERE AppID=:AppID AND OpenID = :OpenID", 
+		array(
+			'AppID' => $AppID,
+			'OpenID' => $OauthObject -> OpenID
+			)
+	);
+	// 当前openid已存在，直接登陆
+	if($OauthUserID){
+		$OauthUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+			"UserID" => $OauthUserID
+		));
+		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
+		SetCookies(array(
+			'UserID' => $OauthUserID,
+			'UserExpirationTime' => $TemporaryUserExpirationTime,
+			'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
+		), 30);
+		header('location: ' . $Config['WebsitePath'] . '/');
+		exit();
+	}
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck(Request('Post', 'FormHash'))) {
+	if (!ReferCheck(Request('Post', 'FormHash')) || empty($_SESSION[$Prefix . 'OauthAccessToken']) || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
+	// 读入Access Token
+	$OauthObject -> AccessToken = $_SESSION[$Prefix . 'OauthAccessToken'];
+	// 释放session防止阻塞
+	session_write_close();
+	if(!$OauthObject -> GetOpenID()){
+		AlertMsg('400 Bad Request', '400 Bad Request', 400);
+	}
+	$OpenID = $OauthObject -> OpenID;
 	$UserName   = strtolower(Request('Post', 'UserName'));
 	if ($UserName && IsName($UserName)) {
 		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
