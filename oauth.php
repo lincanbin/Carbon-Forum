@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			 (`ID`, `AppID`, `OpenID`, `UserID`, `Time`) 
 			VALUES (:ID, :AppID, :OpenID, :UserID, :Time)', array(
 			'ID' => null,
-			'AppID' => 'AppID',
+			'AppID' => $AppID,
 			'OpenID' => $OauthObject->OpenID,
 			'UserID' => $CurUserID,
 			'Time' => $TimeStamp
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				 (`ID`, `AppID`, `OpenID`, `UserID`, `Time`) 
 				VALUES (:ID, :AppID, :OpenID, :UserID, :Time)', array(
 				'ID' => null,
-				'AppID' => 'AppID',
+				'AppID' => $AppID,
 				'OpenID' => $OauthObject->OpenID,
 				'UserID' => $CurUserID,
 				'Time' => $TimeStamp
