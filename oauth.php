@@ -1,18 +1,16 @@
 <?php
 require(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/oauth.php');
-$AppID  = intval(Request('Get', 'app_id'));
-$Code   = Request('Get', 'code');
+$AppID   = intval(Request('Get', 'app_id'));
+$Code    = Request('Get', 'code');
 $State   = Request('Get', 'state');
-$AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID',
-	array(
-		'ID' => $AppID
-	)
-);
-if(!file_exists(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php') || !$AppInfo){
+$AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID', array(
+	'ID' => $AppID
+));
+if (!file_exists(dirname(__FILE__) . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php') || !$AppInfo) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
-}else{
-	require(dirname(__FILE__) . '/includes/Oauth.'.$AppInfo['AppName'].'.class.php');
+} else {
+	require(dirname(__FILE__) . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php');
 	$OauthObject = new Oauth();
 }
 session_start();
@@ -20,45 +18,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	//如果不是认证服务器跳转回的回调页，则跳转回授权服务页
 	if (!$Code || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
 		//生成State值防止CSRF
-		$SendState = md5(uniqid(rand(), TRUE));
+		$SendState                        = md5(uniqid(rand(), TRUE));
 		$_SESSION[$Prefix . 'OauthState'] = $SendState;
 		// 释放session防止阻塞
 		session_write_close();
 		//默认跳转回首页，后面覆写此变量
-		$AuthorizeURL = Oauth::AuthorizeURL('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
+		$AuthorizeURL = Oauth::AuthorizeURL('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Status: 301 Moved Permanently");
 		header("Location: " . $AuthorizeURL);
 		exit();
 	}
-
+	
 	$Message = '';
 	//下面是回调页面的处理
-	if(!$OauthObject -> GetAccessToken('http://'.$_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code)){
+	if (!$OauthObject->GetAccessToken('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code)) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
-	if(!$OauthObject -> GetOpenID()){
+	if (!$OauthObject->GetOpenID()) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
-	$OpenID = $OauthObject -> OpenID;
+	$OpenID = $OauthObject->OpenID;
 	// 非Post页，储存AccessToken
 	session_start();
-	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject -> AccessToken;
+	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject->AccessToken;
 	session_write_close();
-
+	
 	$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
-		WHERE AppID=:AppID AND OpenID = :OpenID", 
-		array(
-			'AppID' => $AppID,
-			'OpenID' => $OauthObject -> OpenID
-			)
-	);
+		WHERE AppID=:AppID AND OpenID = :OpenID", array(
+		'AppID' => $AppID,
+		'OpenID' => $OauthObject->OpenID
+	));
 	// 当前openid已存在，直接登陆
-	if($OauthUserID){
-		$OauthUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+	if ($OauthUserID) {
+		$OauthUserInfo               = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
 			"UserID" => $OauthUserID
 		));
-		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
+		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
 		SetCookies(array(
 			'UserID' => $OauthUserID,
 			'UserExpirationTime' => $TemporaryUserExpirationTime,
@@ -66,6 +62,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		), 30);
 		header('location: ' . $Config['WebsitePath'] . '/');
 		exit();
+	}elseif ($CurUserID) {
+		// 如果已登陆，直接绑定当前账号
+		//Insert App user
+		if( $DB->query('INSERT INTO `' . $Prefix . 'app_users`
+			 (`ID`, `AppID`, `OpenID`, `UserID`, `TimeStamp`) 
+			VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', array(
+			'ID' => null,
+			'AppID' => 'AppID',
+			'OpenID' => $OauthObject->OpenID,
+			'UserID' => $CurUserID,
+			'TimeStamp' => $TimeStamp
+		))){
+			AlertMsg($Lang['Binding_Success'], $Lang['Binding_Success']);
+		}else{
+			AlertMsg($Lang['Binding_Failure'], $Lang['Binding_Failure']);
+		}
 	}
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -73,21 +85,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	// 读入Access Token
-	$OauthObject -> AccessToken = $_SESSION[$Prefix . 'OauthAccessToken'];
+	$OauthObject->AccessToken = $_SESSION[$Prefix . 'OauthAccessToken'];
 	// 释放session防止阻塞
 	session_write_close();
-	if(!$OauthObject -> GetOpenID()){
+	if (!$OauthObject->GetOpenID()) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
-	$OpenID = $OauthObject -> OpenID;
-	$UserName   = strtolower(Request('Post', 'UserName'));
+	$OpenID   = $OauthObject->OpenID;
+	$UserName = strtolower(Request('Post', 'UserName'));
 	if ($UserName && IsName($UserName)) {
 		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
 			'UserName' => $UserName
 		));
 		if (!$UserExist) {
 			$NewUserSalt     = mt_rand(100000, 999999);
-			$NewUserPassword = 'zzz'.substr(md5(md5(mt_rand(1000000000, 2147483647)) . $NewUserSalt), 0 , -3);
+			$NewUserPassword = 'zzz' . substr(md5(md5(mt_rand(1000000000, 2147483647)) . $NewUserSalt), 0, -3);
 			$NewUserData     = array(
 				'ID' => null,
 				'UserName' => $UserName,
@@ -126,40 +138,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$DB->query('INSERT INTO `' . $Prefix . 'users`
 				(`ID`, `UserName`, `Salt`, `Password`, `UserMail`, `UserHomepage`, `PasswordQuestion`, `PasswordAnswer`, `UserSex`, `NumFavUsers`, `NumFavTags`, `NumFavTopics`, `NewMessage`, `Topics`, `Replies`, `Followers`, `DelTopic`, `GoodTopic`, `UserPhoto`, `UserMobile`, `UserLastIP`, `UserRegTime`, `LastLoginTime`, `LastPostTime`, `BlackLists`, `UserFriend`, `UserInfo`, `UserIntro`, `UserIM`, `UserRoleID`, `UserAccountStatus`, `Birthday`) 
 				VALUES (:ID, :UserName, :Salt, :Password, :UserMail, :UserHomepage, :PasswordQuestion, :PasswordAnswer, :UserSex, :NumFavUsers, :NumFavTags, :NumFavTopics, :NewMessage, :Topics, :Replies, :Followers, :DelTopic, :GoodTopic, :UserPhoto, :UserMobile, :UserLastIP, :UserRegTime, :LastLoginTime, :LastPostTime, :BlackLists, :UserFriend, :UserInfo, :UserIntro, :UserIM, :UserRoleID, :UserAccountStatus, :Birthday)', $NewUserData);
-			$CurUserID      = $DB->lastInsertId();
+			$CurUserID = $DB->lastInsertId();
 			//Insert App user
 			$DB->query('INSERT INTO `' . $Prefix . 'app_users`
 				 (`ID`, `AppID`, `OpenID`, `UserID`, `TimeStamp`) 
-				VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', 
-				array(
-					'ID' => null, 
-					'AppID' => 'AppID',
-					'OpenID' => $OauthObject -> OpenID,
-					'UserID' => $CurUserID,
-					'TimeStamp' => $TimeStamp
-				)
-			);
+				VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', array(
+				'ID' => null,
+				'AppID' => 'AppID',
+				'OpenID' => $OauthObject->OpenID,
+				'UserID' => $CurUserID,
+				'TimeStamp' => $TimeStamp
+			));
 			//更新全站统计数据
-			$NewConfig      = array(
+			$NewConfig = array(
 				"NumUsers" => $Config["NumUsers"] + 1,
 				"DaysUsers" => $Config["DaysUsers"] + 1
 			);
 			UpdateConfig($NewConfig);
-			$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
+			// 设置登录状态
+			$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
 			SetCookies(array(
 				'UserID' => $CurUserID,
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
 				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
 			), 30);
-			if ($CurUserID == 1) {
-				$DB->query("UPDATE `" . $Prefix . "users` SET UserRoleID=5 WHERE `ID`=?", array(
-					$CurUserID
-				));
-			}
-			if($OauthObject -> GetAvatarURL){
+			if ($OauthObject->GetAvatarURL) {
 				//获取并缩放头像
 				require(dirname(__FILE__) . "/includes/ImageResize.class.php");
-				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject -> GetAvatarURL));
+				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject->GetAvatarURL));
 				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/' . $CurUserID . '.png', 80);
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/' . $CurUserID . '.png', 90);
 				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/' . $CurUserID . '.png', 90);
@@ -168,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		} else {
 			$Message = $Lang['This_User_Name_Already_Exists'];
 		}
-	}else{
+	} else {
 		$Message = $Lang['UserName_Error'];
 	}
 }
