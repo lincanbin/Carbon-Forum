@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		//Insert App user
 		if( $DB->query('INSERT INTO `' . $Prefix . 'app_users`
 			 (`ID`, `AppID`, `OpenID`, `UserID`, `Time`) 
-			VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', array(
+			VALUES (:ID, :AppID, :OpenID, :UserID, :Time)', array(
 			'ID' => null,
 			'AppID' => 'AppID',
 			'OpenID' => $OauthObject->OpenID,
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			//Insert App user
 			$DB->query('INSERT INTO `' . $Prefix . 'app_users`
 				 (`ID`, `AppID`, `OpenID`, `UserID`, `Time`) 
-				VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', array(
+				VALUES (:ID, :AppID, :OpenID, :UserID, :Time)', array(
 				'ID' => null,
 				'AppID' => 'AppID',
 				'OpenID' => $OauthObject->OpenID,
