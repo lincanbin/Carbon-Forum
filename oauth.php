@@ -66,13 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		// 如果已登陆，直接绑定当前账号
 		//Insert App user
 		if( $DB->query('INSERT INTO `' . $Prefix . 'app_users`
-			 (`ID`, `AppID`, `OpenID`, `UserID`, `TimeStamp`) 
+			 (`ID`, `AppID`, `OpenID`, `UserID`, `Time`) 
 			VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', array(
 			'ID' => null,
 			'AppID' => 'AppID',
 			'OpenID' => $OauthObject->OpenID,
 			'UserID' => $CurUserID,
-			'TimeStamp' => $TimeStamp
+			'Time' => $TimeStamp
 		))){
 			AlertMsg($Lang['Binding_Success'], $Lang['Binding_Success']);
 		}else{
@@ -141,13 +141,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$CurUserID = $DB->lastInsertId();
 			//Insert App user
 			$DB->query('INSERT INTO `' . $Prefix . 'app_users`
-				 (`ID`, `AppID`, `OpenID`, `UserID`, `TimeStamp`) 
+				 (`ID`, `AppID`, `OpenID`, `UserID`, `Time`) 
 				VALUES (:ID, :AppID, :OpenID, :UserID, :TimeStamp)', array(
 				'ID' => null,
 				'AppID' => 'AppID',
 				'OpenID' => $OauthObject->OpenID,
 				'UserID' => $CurUserID,
-				'TimeStamp' => $TimeStamp
+				'Time' => $TimeStamp
 			));
 			//更新全站统计数据
 			$NewConfig = array(
