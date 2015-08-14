@@ -1,7 +1,7 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
-<?php if(!$CurUserID && $UrlPath != 'login' && $UrlPath != 'register'){ ?>
+<?php if(!$CurUserID && $UrlPath != 'login' && $UrlPath != 'register' && $UrlPath != 'oauth'){ ?>
 <div class="sider-box">
 	<div class="sider-box-title"><?php echo $Lang['Log_In']; ?></div>
 	<div class="sider-box-content">

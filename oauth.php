@@ -2,8 +2,6 @@
 require(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/oauth.php');
 $AppID   = intval(Request('Get', 'app_id'));
-$Code    = Request('Get', 'code');
-$State   = Request('Get', 'state');
 $AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID', array(
 	'ID' => $AppID
 ));
@@ -11,8 +9,11 @@ if (!file_exists(dirname(__FILE__) . '/includes/Oauth.' . $AppInfo['AppName'] . 
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 } else {
 	require(dirname(__FILE__) . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php');
-	$OauthObject = new Oauth();
+	$OauthObject = new Oauth($AppInfo['AppKey']);
 }
+
+$Code    = Request('Get', 'code');
+$State   = Request('Get', 'state');
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	//如果不是认证服务器跳转回的回调页，则跳转回授权服务页
@@ -20,9 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		//生成State值防止CSRF
 		$SendState                        = md5(uniqid(rand(), TRUE));
 		$_SESSION[$Prefix . 'OauthState'] = $SendState;
-		// 释放session防止阻塞
-		session_write_close();
-		//默认跳转回首页，后面覆写此变量
+		// 授权地址
 		$AuthorizeURL = Oauth::AuthorizeURL('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Status: 301 Moved Permanently");
@@ -32,16 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	
 	$Message = '';
 	//下面是回调页面的处理
-	if (!$OauthObject->GetAccessToken('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $AppInfo['AppSecret'], $Code)) {
+	if (!$OauthObject->GetAccessToken('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppSecret'], $Code)) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
 	if (!$OauthObject->GetOpenID()) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
 	$OpenID = $OauthObject->OpenID;
+	//var_dump($OauthObject->GetAvatarURL());
+	//var_dump(base64_encode(URL::Get($OauthObject->GetAvatarURL())));
 	// 非Post页，储存AccessToken
-	session_start();
 	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject->AccessToken;
+	// 释放session防止阻塞
 	session_write_close();
 	
 	$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
@@ -162,13 +163,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
 				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
 			), 30);
-			if ($OauthObject->GetAvatarURL) {
+			if ($OauthObject->GetAvatarURL()) {
 				//获取并缩放头像
 				require(dirname(__FILE__) . "/includes/ImageResize.class.php");
-				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject->GetAvatarURL));
+				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject->GetAvatarURL()));
 				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/' . $CurUserID . '.png', 80);
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/' . $CurUserID . '.png', 90);
 				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/' . $CurUserID . '.png', 90);
+			}else{
+				if(extension_loaded('gd')){
+					require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
+					$Avatar = new MDAvtars(mb_substr($UserName, 0, 1, "UTF-8"), 256);
+					$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
+					$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);
+					$Avatar->Save('upload/avatar/small/' . $CurUserID . '.png', 24);
+					$Avatar->Free();
+				}
 			}
 			header('location: ' . $Config['WebsitePath'] . '/');
 		} else {

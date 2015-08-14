@@ -5,16 +5,18 @@ class Oauth{
 	const GET_AUTH_CODE_URL = "https://graph.qq.com/oauth2.0/authorize";
 	const GET_ACCESS_TOKEN_URL = "https://graph.qq.com/oauth2.0/token";
 	const GET_OPENID_URL = "https://graph.qq.com/oauth2.0/me";
-	const GET_USER_INFO_URL = "https://graph.qq.com/user/get_info";
+	const GET_USER_INFO_URL = "https://graph.qq.com/user/get_user_info";
 
+	private $AppKey;
 	public $AccessToken;
 	public $OpenID;
-	/*
-	function __construct(){
+	
+	function __construct($AppKey){
+		$this -> AppKey = $AppKey;
 		//$this->GetAccessToken();
 		//$this->GetOpenID();
 	}
-	*/
+	
 
 	public static function AuthorizeURL($WebsitePath, $AppID, $AppKey, $SendState){
 		//http://wiki.connect.qq.com/%E4%BD%BF%E7%94%A8authorization_code%E8%8E%B7%E5%8F%96access_token
@@ -29,13 +31,13 @@ class Oauth{
 	}
 
 
-	public function GetAccessToken($WebsitePath, $AppID, $AppKey, $AppSecret, $Code){
+	public function GetAccessToken($WebsitePath, $AppID, $AppSecret, $Code){
 
 		// 请求参数列表
 		$RequestParameter = array(
 			"grant_type" => "authorization_code",
-			"client_id" => $AppKey,
-			"redirect_uri" => $WebsitePath.'/oauth-'.$this->AppID,
+			"client_id" => $this -> AppKey,
+			"redirect_uri" => $WebsitePath.'/oauth-'.$AppID,
 			"client_secret" => $AppSecret,
 			"code" => $Code
 		);
@@ -111,7 +113,7 @@ class Oauth{
 			return null;
 		}else{
 			// 返回头像
-			return $UserInfo['head'].'/100';
+			return $UserInfo['figureurl_qq_2'];
 		}
 	}
 }
