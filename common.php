@@ -99,11 +99,12 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 		$ExceptionUser[] = $FilterUser;
 	}
 	// 正则跟用户注册、登录保持一致
-	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', $Content, $out, PREG_PATTERN_ORDER);
+	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', strip_tags($Content,'<br><p>'), $out, PREG_PATTERN_ORDER);
 	$TemporaryUserList = array_unique($out[1]); //排重
 	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
 	//对数组重新分配下标
 	sort($TemporaryUserList);
+	//var_dump($TemporaryUserList);
 	if ($TemporaryUserList) {
 		$UserList = $DB->row('SELECT ID FROM `' . $Prefix . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
 		if ($UserList && count($UserList) <= 20) {
