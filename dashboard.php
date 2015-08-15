@@ -11,7 +11,6 @@ $Action          = Request('POST', 'Action', false);
 switch ($Action) {
 	case 'Cache':
 		set_time_limit(0);
-		
 		UpdateConfig(array(
 			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'upload')),
 			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
@@ -39,10 +38,26 @@ switch ($Action) {
 			t.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
 				WHERE f.FavoriteID=t.ID and Type=2)
 		');
-		
-		
+
+
+		if ($MCache) {
+			if (extension_loaded('memcached') || extension_loaded('memcache')) {
+				//MemCached or MemCache
+				$MCache->flush();
+			} elseif (extension_loaded('redis')) {
+				//Redis
+				//https://github.com/phpredis/phpredis
+				$MCache->flushAll();
+			}
+		}
+
+		$CacheMessage = $Lang['Successfully_Refreshed'];
+		break;
+
+	case 'Statistics':
+		set_time_limit(0);
 		$DB->query('DELETE FROM ' . $Prefix . 'statistics');
-		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT PostTime FROM ' . $Prefix . 'topics ORDER BY ID LIMIT 1')));
+		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT UserRegTime FROM ' . $Prefix . 'users ORDER BY ID ASC LIMIT 1')));
 		while ($StatisticsTime < ($TimeStamp - 86400)) {
 			$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
 			//echo date('Y-m-d', $StatisticsTime);
@@ -95,18 +110,7 @@ switch ($Action) {
 			));
 			$StatisticsTime = $StatisticsTimeAddOneDay;
 		}
-		
-		if ($MCache) {
-			if (extension_loaded('memcached') || extension_loaded('memcache')) {
-				//MemCached or MemCache
-				$MCache->flush();
-			} elseif (extension_loaded('redis')) {
-				//Redis
-				//https://github.com/phpredis/phpredis
-				$MCache->flushAll();
-			}
-		}
-		
+
 		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;
 	

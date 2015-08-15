@@ -218,6 +218,11 @@ $(document).ready(function(){
 					<input type="hidden" name="Action" value="Cache" />
 					<div class="div-align"><input type="submit" value="<?php echo $Lang['Refresh_All_Cache']; ?>" name="submit" class="textbtn" /></div>
 				</form>
+				<p></p>
+				<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard4">
+					<input type="hidden" name="Action" value="Statistics" />
+					<div class="div-align"><input type="submit" value="<?php echo $Lang['Refresh_All_Cache']; ?>(<?php echo $Lang['Statistics']; ?>)" name="submit" class="textbtn" /></div>
+				</form>
 			</div>
 		</div>
 	</div>
