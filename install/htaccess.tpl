@@ -59,9 +59,10 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	# enable expirations
 	ExpiresActive On
 	ExpiresByType text/javascript A604800
+	ExpiresByType application/x-javascript A604800
 	ExpiresByType text/css A604800
-	ExpiresByType image/png A2592000
 	ExpiresByType application/x-shockwave-flash A2592000
+	ExpiresByType image/png A2592000
 	ExpiresByType image/gif A2592000
 	ExpiresByType image/jpeg A2592000
 	ExpiresByType image/x-icon A2592000
