@@ -203,7 +203,11 @@ ul.resp-tabs-list {
 }
 .resp-tabs-container {
 	border-top: 1px solid #CCC;
-	padding: 0px;
+	padding:10px;
+	margin-bottom:20px;
+	border-bottom: 1px solid #E2E2E9;
+	background: #FFF;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
 	background-color: #fff;
 	clear: left;
 	font-size: 14px;
@@ -899,6 +903,9 @@ img .avatar {
 }
 .w400 {
 	width:400px;
+}
+.w600 {
+	width:600px;
 }
 .h160 {
 	height:160px;

@@ -22,13 +22,13 @@ $(document).ready(function(){
 	<div class="resp-tabs-container">
 
 		<div>
-			<div id="TopicsStatistics" style="width:960px;height:560px"></div>
+			<div id="TopicsStatistics" style="width:940px;height:560px"></div>
 		</div>
 		<div>
-			<div id="PostsStatistics" style="width:960px;height:560px"></div>
+			<div id="PostsStatistics" style="width:940px;height:560px"></div>
 		</div>
 		<div>
-			<div id="UsersStatistics" style="width:960px;height:560px"></div>
+			<div id="UsersStatistics" style="width:940px;height:560px"></div>
 		</div>
 	</div>
 </div>
