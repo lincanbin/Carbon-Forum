@@ -5,8 +5,11 @@ Auth(5);
 $BasicMessage    = '';
 $PageMessage     = '';
 $AdvancedMessage = '';
+$OauthMessage = '';
 $CacheMessage    = '';
 $Action          = Request('POST', 'Action', false);
+
+$OauthConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("includes/Oauth.config.json")), true);
 
 switch ($Action) {
 	case 'Cache':
