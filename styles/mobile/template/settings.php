@@ -74,7 +74,13 @@ if($ChangePasswordMessage){
 			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/settings">
 				<div class="input-group">
 					<input type="hidden" name="Action" value="ChangePassword" />
+<?php
+if(!$DoNotNeedOriginalPassword){
+?>
 					<input type="password" placeholder="<?php echo $Lang['Current_Password']; ?>" name="OriginalPassword" value="" />
+<?php
+}
+?>
 					<input type="password" placeholder="<?php echo $Lang['New_Password']; ?>" name="NewPassword" value="" />
 					<input type="password" placeholder="<?php echo $Lang['Confirm_New_Password']; ?>" name="NewPassword2" value="" />
 					<input type="submit" value="<?php echo $Lang['Change_Password']; ?>" name="submit" class="button" />

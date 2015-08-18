@@ -5,6 +5,8 @@ Auth(1);
 $UploadAvatarMessage   = '';
 $UpdateUserInfoMessage = '';
 $ChangePasswordMessage = '';
+$DoNotNeedOriginalPassword = (stripos($CurUserInfo['Password'], 'zzz')===0);
+// $DoNotNeedOriginalPassword === True表示该用户为oAuth登陆用户，修改密码不需要原密码
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$Action = Request('POST', 'Action', false);
@@ -47,19 +49,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			break;
 		
 		case 'ChangePassword':
-			$OriginalPassword = trim($_POST['OriginalPassword']);
-			$NewPassword      = trim($_POST['NewPassword']);
-			$NewPassword2     = trim($_POST['NewPassword2']);
-			if ($OriginalPassword && $NewPassword && $NewPassword2) {
+			$OriginalPassword = Request('Post', 'OriginalPassword');
+			$NewPassword      = Request('Post', 'NewPassword');
+			$NewPassword2     = Request('Post', 'NewPassword2');
+			if (($OriginalPassword || $DoNotNeedOriginalPassword) && $NewPassword && $NewPassword2) {
 				if ($NewPassword == $NewPassword2) {
-					if (md5(md5($OriginalPassword) . $CurUserInfo['Salt']) == $CurUserInfo['Password']) {
-						if ($OriginalPassword != $NewPassword) {
+					if (md5(md5($OriginalPassword) . $CurUserInfo['Salt']) === $CurUserInfo['Password'] || $DoNotNeedOriginalPassword) {
+						if ($OriginalPassword != $NewPassword || $DoNotNeedOriginalPassword) {
 							//$NewSalt = mt_rand(100000,999999);
 							//修改Salt会导致密码问题出错
 							$NewSalt         = $CurUserInfo['Salt'];
 							$NewPasswordHash = md5(md5($NewPassword) . $NewSalt);
 							if (UpdateUserInfo(array(
-								'Salt' => $NewSalt,
+								//'Salt' => $NewSalt,
 								'Password' => $NewPasswordHash
 							))) {
 								$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
