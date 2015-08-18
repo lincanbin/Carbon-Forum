@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Avatar_Settings' => '头像设置',
 	'Profile_Settings' => '资料设置',
+	'Account_Settings' => '账号设置',
 	'Security_Settings' => '安全设置',
 	'Reset_Avatar' => '重置头像',
 	'You_Can_Replace_Your_Avatar_Here' => '你可以在这里修改你的头像<br /><br />头像格式支持jpg/jpeg/png/gif',
