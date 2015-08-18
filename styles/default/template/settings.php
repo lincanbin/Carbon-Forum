@@ -93,10 +93,21 @@ $(document).ready(function(){
 			</div>
 			<div>
 				<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14"><tbody>
+<?php
+foreach ($OauthData as $Key => $Value) {
+?>
 					<tr>
-						<td width="180" align="right">Connect</td>
-						<td width="auto" align="left"></td>
+						<td width="180" align="right"><img src="<?php echo $Value['LogoUrl']; ?>" /></td>
+						<td width="auto" align="left">
+							<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
+								<?php echo str_replace('{{AppName}}', $Value['AppName'], $Lang['Connect_XXX_Account']); ?>
+							</a>
+						</td>
 					</tr>
+<?php
+}
+?>
+
 				</tbody></table>
 			</div>
 			<div>
