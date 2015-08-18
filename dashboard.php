@@ -7,8 +7,10 @@ $PageMessage     = '';
 $AdvancedMessage = '';
 $OauthMessage = '';
 $CacheMessage    = '';
-$Action          = Request('POST', 'Action', false);
+$Action          = Request('Post', 'Action', false);
 
+$OauthData = json_decode($Config['CacheOauth'], true);
+$OauthData = $OauthData?$OauthData:array();
 $OauthConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("includes/Oauth.config.json")), true);
 
 switch ($Action) {
@@ -116,7 +118,60 @@ switch ($Action) {
 
 		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;
-	
+
+	case 'AddOauth':
+		$AppName          = $_POST['AppName'];
+		$AppKey             = $_POST['AppKey'];	
+		$AppSecret         = $_POST['AppSecret'];
+		foreach ($AppName as $Key => $Value) {
+			if($AppName[$Key] && $AppKey[$Key] && $AppSecret[$Key]){
+				if(isset($OauthData[$Value])){
+					$DB->query('UPDATE `' . $Prefix . 'app` 
+						SET 
+							`AppKey` = ?, 
+							`AppSecret` = ?, 
+							`Time` = ?
+						WHERE `AppName` = ?',
+						array(
+							$AppKey[$Key],
+							$AppSecret[$Key],
+							$TimeStamp,
+							$AppName[$Key]
+							)
+					);
+				}else{
+					$DB->query('INSERT INTO `' . $Prefix . 'app`(ID, AppName, AppKey, AppSecret, Time)
+						SELECT ?,?,?,?,?
+						FROM dual
+						WHERE NOT EXISTS(
+							SELECT * 
+							FROM `' . $Prefix . 'app`
+							WHERE AppName = ?
+						);', array(
+							null,
+							$AppName[$Key],
+							$AppKey[$Key],
+							$AppSecret[$Key],
+							$TimeStamp,
+							$AppName[$Key]
+						)
+					);
+				}
+			}else{
+				if(isset($OauthData[$Value])){
+					$DB->query('DELETE FROM `' . $Prefix . 'app` WHERE AppName = ?;', array($AppName[$Key]));
+				}
+			}
+		}
+		$OauthData = array();
+		foreach ($DB->query('SELECT * FROM `' . $Prefix . 'app`') as $Value) {
+			$OauthData[$Value['AppName']] = $Value;
+			$OauthData[$Value['AppName']]['LogoUrl'] = $OauthConfig[$Value['AppName']]['LogoUrl'];
+			$OauthData[$Value['AppName']]['ButtonImageUrl'] = $OauthConfig[$Value['AppName']]['ButtonImageUrl'];
+		}
+		UpdateConfig(array('CacheOauth' => json_encode($OauthData)));
+		$OauthMessage = $Lang['Oauth_Settings_Successfully_Saved'];
+		break;
 	default:
 		$NewConfig = $_POST;
 		//Fool-proofing

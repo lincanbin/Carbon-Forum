@@ -19,7 +19,7 @@ $(document).ready(function(){
 		<li><?php echo $Lang['Basic_Settings']; ?></li>
 		<li><?php echo $Lang['Page_Settings']; ?></li>
 		<li><?php echo $Lang['Advanced_Settings']; ?></li>
-		<li><?php echo '$Lang[\'Oauth_Settings\']'; ?></li>
+		<li><?php echo $Lang['Oauth_Settings']; ?></li>
 		<li><?php echo $Lang['Refresh_Cache']; ?></li>
 	</ul>
 	<div class="resp-tabs-container">
@@ -214,24 +214,33 @@ $(document).ready(function(){
 		</div>
 		<div>
 			<p class="red text-center"><?php echo $OauthMessage; ?></p>
-			<p class="grey text-center">添加Oauth</p>
-			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard5">
+			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard4">
 				<input type="hidden" name="Action" value="AddOauth" />
-				<p>
-				App Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="AppName" class="w200">
 <?php
+//var_dump($OauthConfig);
+//var_dump($OauthData);
 foreach ($OauthConfig as $Key => $Value) {
+	$OauthDataExist = isset($OauthData[$Key]);
 ?>
-					<option value="<?php echo $Key; ?>"><?php echo $Key; ?></option>
+				<p>
+				<input type="text" name="AppName[]" value="<?php echo $Key; ?>" class="w100" readonly="readonly" />
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="text" name="AppKey[]" value="<?php echo $OauthDataExist?$OauthData[$Key]['AppKey']:'';; ?>" class="w100" placeholder="<?php echo $Lang['App_Key']; ?>" />
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="text" name="AppSecret[]" value="<?php echo $OauthDataExist?$OauthData[$Key]['AppSecret']:''; ?>" class="w200" placeholder="<?php echo $Lang['App_Secret']; ?>" />
+<?php
+if($OauthDataExist && $Config['MainDomainName']){
+?>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<?php echo $Lang['Callback_URL']; ?>: <input type="text" value="http://<?php echo $Config['MainDomainName'].$Config['WebsitePath'];?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>,http://<?php echo $Config['MobileDomainName'].$Config['WebsitePath'];?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>" class="w200" readonly="readonly" />
 <?php
 }
 ?>
-				</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<input type="text" name="AppKey" value="" class="w200" placeholder="App Key" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="text" name="AppSecret" value="" class="w300" placeholder="App Secret" />
 				</p>
-				<div class="div-align"><input type="submit" value="添加 / 修改" name="submit" class="textbtn" /></div>
+<?php
+}
+?>
+				<div class="div-align"><input type="submit" value="<?php echo $Lang['Save']; ?>" name="submit" class="textbtn" /></div>
 			</form>
 		</div>
 		<div>
