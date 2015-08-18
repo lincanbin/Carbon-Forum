@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Avatar_Settings' => '肖像設定',
 	'Profile_Settings' => '個資設定',
+	'Account_Settings' => '帳號設定',
 	'Security_Settings' => '安全設定',
 	'Reset_Avatar' => '重設肖像',
 	'You_Can_Replace_Your_Avatar_Here' => '你可以在這裡更換你的肖像<br /><br />可用的肖像格式為「jpg/jpeg/png/gif」',
@@ -22,6 +23,7 @@ $Lang = array_merge($Lang, array(
 	'Homepage' => '個人主頁',
 	'Introduction' => '個人簡介',
 	'Save_Settings' => '儲存設定',
+	'Connect_XXX_Account' => '綁定{{AppName}}帳號',
 	'Current_Password' => '當前密碼',
 	'New_Password' => '新密碼',
 	'Confirm_New_Password' => '再次輸入新密碼',

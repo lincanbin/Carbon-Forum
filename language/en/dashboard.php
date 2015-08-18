@@ -45,11 +45,17 @@ $Lang = array_merge($Lang, array(
 	'SMTP_Username' => 'Email Address',
 	'SMTP_Password' => 'Email Password',
 
+	'Oauth_Settings' => 'oAuth Settings',
+	'App_Key' => 'App Key',
+	'App_Secret' => 'App Secret',
+	'Callback_URL' => 'Callback URL',
+
 	'Refresh_Cache_Notice' => 'Refreshing cache may take a long time, so please be patient. <br />If the statistics are correct, there is no need to refresh the cache. ',
 	'Refresh_All_Cache' => 'Refresh Cache',
 
 	'Successfully_Refreshed' => 'Success! ',
 	'Basic_Settings_Successfully_Saved' => 'Success, {{NewConfig}} items has been modified. ',
 	'Page_Settings_Successfully_Saved' => 'Success, {{NewConfig}} items has been modified. ',
+	'Oauth_Settings_Successfully_Saved' => 'Success',
 	'Advanced_Settings_Successfully_Saved' => 'Success, {{NewConfig}} items has been modified. ',
 	));

@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Avatar_Settings' => 'Awatar',
 	'Profile_Settings' => 'Profil',
+	'Account_Settings' => 'Konto',
 	'Security_Settings' => 'Bezpieczeństwo',
 	'Reset_Avatar' => 'Zresetować Avatar',
 	'You_Can_Replace_Your_Avatar_Here' => 'Możesz tutaj zmienić awatar<br /><br />Dozwolone formaty jpg/jpeg/png/gif',
@@ -22,6 +23,7 @@ $Lang = array_merge($Lang, array(
 	'Homepage' => 'Strona',
 	'Introduction' => 'O sobie',
 	'Save_Settings' => 'Zapisz zmiany',
+	'Connect_XXX_Account' => 'Podłącz {{AppName}} konto',
 	'Current_Password' => 'Obecne hasło',
 	'New_Password' => 'Nowe hasło',
 	'Confirm_New_Password' => 'Powtórz nowe hasło',

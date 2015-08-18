@@ -45,11 +45,17 @@ $Lang = array_merge($Lang, array(
 	'SMTP_Username' => '郵箱地址',
 	'SMTP_Password' => '郵箱密碼',
 
+	'Oauth_Settings' => 'oAuth設定',
+	'App_Key' => 'App Key',
+	'App_Secret' => 'App Secret',
+	'Callback_URL' => '回檔地址',
+
 	'Refresh_Cache_Notice' => '更新快取的操作可能會比較久，請耐心等待<br />倘若資料正確，則無清除快取之必要',
 	'Refresh_All_Cache' => '更新全站快取',
 
 	'Successfully_Refreshed' => '快取更新成功',
 	'Basic_Settings_Successfully_Saved' => '一般設定修改成功，{{NewConfig}} 項已修改',
 	'Page_Settings_Successfully_Saved' => '頁面設定修改成功，{{NewConfig}} 項已修改',
+	'Oauth_Settings_Successfully_Saved' => 'oAuth設定修改成功',
 	'Advanced_Settings_Successfully_Saved' => '進階設定修改成功，{{NewConfig}} 項已修改',
 	));

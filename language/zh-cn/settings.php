@@ -23,6 +23,7 @@ $Lang = array_merge($Lang, array(
 	'Homepage' => '个人主页',
 	'Introduction' => '个人简介',
 	'Save_Settings' => '保存设置',
+	'Connect_XXX_Account' => '绑定{{AppName}}账号',
 	'Current_Password' => '当前密码',
 	'New_Password' => '新密码',
 	'Confirm_New_Password' => '再次输入新密码',
