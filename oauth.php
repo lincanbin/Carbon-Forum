@@ -38,8 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
 	$OpenID = $OauthObject->OpenID;
-	//var_dump($OauthObject->GetAvatarURL());
-	//var_dump(base64_encode(URL::Get($OauthObject->GetAvatarURL())));
 	// 非Post页，储存AccessToken
 	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject->AccessToken;
 	// 释放session防止阻塞
@@ -80,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			AlertMsg($Lang['Binding_Failure'], $Lang['Binding_Failure']);
 		}
 	}
+	$OauthObject->GetUserInfo();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck(Request('Post', 'FormHash')) || empty($_SESSION[$Prefix . 'OauthAccessToken']) || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
@@ -163,10 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
 				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
 			), 30);
-			if ($OauthObject->GetAvatarURL()) {
+			if ($OauthObject->GetUserInfo()) {
 				//获取并缩放头像
 				require(dirname(__FILE__) . "/includes/ImageResize.class.php");
-				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject->GetAvatarURL()));
+				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject->AvatarURL));
 				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/' . $CurUserID . '.png', 80);
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/' . $CurUserID . '.png', 90);
 				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/' . $CurUserID . '.png', 90);

@@ -50,6 +50,22 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							<a href="<?php echo $Config['WebsitePath']; ?>/forgot"><?php echo $Lang['Forgot_Password']; ?></a>
 						</td>
 					</tr>
+					<tr>
+						<td width="180" align="right"></td>
+						<td width="auto" align="left">
+<?php
+$OauthData = json_decode($Config['CacheOauth'], true);
+$OauthData = $OauthData?$OauthData:array();
+foreach ($OauthData as $Value) {
+?>
+							<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
+								<img src="<?php echo $Value['ButtonImageUrl']; ?>" />
+							</a>&nbsp;&nbsp;
+<?php
+}
+?>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</form>

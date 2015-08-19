@@ -1,11 +1,11 @@
 {
 "QQ":{
-	"Name":"QQ",
+	"Alias":"QQ",
 	"LogoUrl" : "http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_1.png",
 	"ButtonImageUrl" : "http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
 	},
 "Weibo":{
-	"Name":"Weibo",
+	"Alias":"Weibo",
 	"LogoUrl" : "http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_1.png",
 	"ButtonImageUrl" : "http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
 	}

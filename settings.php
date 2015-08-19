@@ -6,6 +6,10 @@ $UploadAvatarMessage   = '';
 $UpdateUserInfoMessage = '';
 $ChangePasswordMessage = '';
 $DoNotNeedOriginalPassword = (stripos($CurUserInfo['Password'], 'zzz')===0);
+
+$OauthData = json_decode($Config['CacheOauth'], true);
+$OauthData = $OauthData?$OauthData:array();
+
 // $DoNotNeedOriginalPassword === True表示该用户为oAuth登陆用户，修改密码不需要原密码
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

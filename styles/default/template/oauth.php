@@ -20,7 +20,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?
 				<tbody>
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['UserName']; ?></td>
-						<td width="auto" align="left"><input type="text" name="UserName" id="UserName" class="sl w200" onblur="CheckUserName()" /></td>
+						<td width="auto" align="left"><input type="text" name="UserName" id="UserName" value="<?php echo $OauthObject->NickName; ?>" class="sl w200" onblur="CheckUserName()" /></td>
 					</tr>
 					<tr>
 						<td width="180" align="right"></td>

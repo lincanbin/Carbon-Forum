@@ -166,6 +166,7 @@ switch ($Action) {
 		$OauthData = array();
 		foreach ($DB->query('SELECT * FROM `' . $Prefix . 'app`') as $Value) {
 			$OauthData[$Value['AppName']] = $Value;
+			$OauthData[$Value['AppName']]['Alias'] = $OauthConfig[$Value['AppName']]['Alias'];
 			$OauthData[$Value['AppName']]['LogoUrl'] = $OauthConfig[$Value['AppName']]['LogoUrl'];
 			$OauthData[$Value['AppName']]['ButtonImageUrl'] = $OauthConfig[$Value['AppName']]['ButtonImageUrl'];
 		}

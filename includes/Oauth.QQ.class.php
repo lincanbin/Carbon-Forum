@@ -8,8 +8,10 @@ class Oauth{
 	const GET_USER_INFO_URL = "https://graph.qq.com/user/get_user_info";
 
 	private $AppKey;
-	public $AccessToken;
-	public $OpenID;
+	public $AccessToken = null;
+	public $OpenID = null;
+	public $NickName = null;
+	public $AvatarURL = null;
 	
 	function __construct($AppKey){
 		$this -> AppKey = $AppKey;
@@ -94,7 +96,7 @@ class Oauth{
 		
 
 	}
-	public function GetAvatarURL(){
+	public function GetUserInfo(){
 		// 请求参数列表
 		$RequestParameter = array(
 			"access_token" => $this->AccessToken,
@@ -106,14 +108,17 @@ class Oauth{
 		$GraphURL =  self::GET_USER_INFO_URL.'?'.http_build_query($RequestParameter);
 		$Response = URL::Get($GraphURL);
 
-		// http://wiki.connect.qq.com/get_info
+		// http://wiki.connect.qq.com/get_user_info
 		$UserInfo = json_decode($Response, true);
 		if($UserInfo['ret'] != 0){
 			//记录错误，这里没写Error Log模块
-			return null;
+			return false;
 		}else{
-			// 返回头像
-			return $UserInfo['figureurl_qq_2'];
+			// 储存昵称
+			$this->NickName = $UserInfo['nickname'];
+			// 储存头像
+			$this->AvatarURL = $UserInfo['figureurl_qq_2'];
+			return true;
 		}
 	}
 }
