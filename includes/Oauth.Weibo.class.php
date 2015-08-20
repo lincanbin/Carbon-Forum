@@ -99,9 +99,9 @@ class Oauth
 		$GraphURL = self::GET_USER_INFO_URL . '?' . http_build_query($RequestParameter);
 		$Response = URL::Get($GraphURL);
 		
-		// http://wiki.connect.qq.com/get_user_info
+		// 
 		$UserInfo = json_decode($Response, true);
-		if ($UserInfo === false || empty($UserInfo['uid'])) {
+		if ($UserInfo === false || empty($UserInfo['id'])) {
 			//记录错误，这里没写Error Log模块
 			return false;
 		} else {

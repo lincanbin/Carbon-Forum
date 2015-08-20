@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$Avatar->Free();
 				}
 			}
-			header('location: ' . $Config['WebsitePath'] . '/');
+			header('location: ' . $Config['WebsitePath'] .  '/');
 		} else {
 			$Message = $Lang['This_User_Name_Already_Exists'];
 		}

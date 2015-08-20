@@ -1,5 +1,8 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 ob_start();
 $IsAjax = (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 if(!$IsAjax){
@@ -117,11 +120,11 @@ if($CurUserRole==5){
 		<!-- main start -->
 <?php
 }else{
-echo '<title>';
-echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
-echo $PageTitle;
-echo $UrlPath=='index'?'':' - '.$Config['SiteName'];
-echo '</title>';
+	echo '<title>';
+	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
+	echo $PageTitle;
+	echo $UrlPath=='index'?'':' - '.$Config['SiteName'];
+	echo '</title>';
 }
 ?>
 		<div class="main" id="main">
