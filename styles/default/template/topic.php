@@ -89,7 +89,10 @@ if($CurUserRole>=4){
 <?php
 }
 ?>
-<?php if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){ ?>
+<?php
+//if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){
+if($CurUserRole>=4){
+?>
 <a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
 <?php
 }
@@ -145,7 +148,10 @@ foreach($PostsArray as $key => $Post)
 			<?php if($CurUserID){ ?>
 			<div class="comment-button">
 				<div class="float-left">
-				<?php if($CurUserRole>=4 || $Post['UserID']==$CurUserID){ ?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);" title="<?php echo $Lang['Edit']; ?>"><div class="icon icon-edit"></div></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
+<?php
+// if($CurUserRole>=4 || $Post['UserID']==$CurUserID){
+if($CurUserRole>=4){
+?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);" title="<?php echo $Lang['Edit']; ?>"><div class="icon icon-edit"></div></a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
 				<?php if($CurUserRole>=4){ ?><a href="###" onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);" title="<?php echo $Lang['Delete']; ?>"><div class="icon icon-delete"></div></a><?php } ?>
 				</div>
 				<div class="float-right">

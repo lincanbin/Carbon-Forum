@@ -243,7 +243,8 @@ switch ($Type) {
 				break;
 			//编辑帖子
 			case 'Edit':
-				Auth(4, $PostInfo['UserID'], true);
+				//Auth(4, $PostInfo['UserID'], true);
+				Auth(4);
 				$Content = XssEscape(Request('POST', 'Content', $PostInfo['Content']));
 				if ($Content == $PostInfo['Content'])
 					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
