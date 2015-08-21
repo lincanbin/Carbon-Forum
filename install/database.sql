@@ -35,10 +35,12 @@ CREATE TABLE `carbon_app_users` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `AppID` int(10) unsigned NOT NULL,
   `OpenID` varchar(64) NOT NULL,
+  `AppUserName` varchar(50) CHARACTER SET utf8,
   `UserID` int(10) unsigned NOT NULL,
   `Time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `Index` (`AppID`,`OpenID`)
+  KEY `Index` (`AppID`,`OpenID`),
+  KEY `UserID` (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
