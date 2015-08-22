@@ -1,6 +1,47 @@
 <?php
 require(dirname(__FILE__) . '/common.php');
 require(dirname(__FILE__) . '/language/' . ForumLanguage . '/oauth.php');
+
+function CheckOpenID()
+{
+	global $DB, $Prefix, $AppID, $OauthObject, $TimeStamp, $SALT, $Config, $CurUserID, $Lang;
+	$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
+		WHERE AppID=:AppID AND OpenID = :OpenID", array(
+		'AppID' => $AppID,
+		'OpenID' => $OauthObject->OpenID
+	));
+	// 当前openid已存在，直接登陆
+	if ($OauthUserID) {
+		$OauthUserInfo               = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+			"UserID" => $OauthUserID
+		));
+		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
+		SetCookies(array(
+			'UserID' => $OauthUserID,
+			'UserExpirationTime' => $TemporaryUserExpirationTime,
+			'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
+		), 30);
+		header('location: ' . $Config['WebsitePath'] . '/');
+		exit();
+	}elseif ($CurUserID) {
+		// 如果已登陆，直接绑定当前账号
+		//Insert App user
+		if( $DB->query('INSERT INTO `' . $Prefix . 'app_users`
+			 (`ID`, `AppID`, `OpenID`, `AppUserName`, `UserID`, `Time`) 
+			VALUES (:ID, :AppID, :OpenID, :AppUserName, :UserID, :Time)', array(
+			'ID' => null,
+			'AppID' => $AppID,
+			'OpenID' => $OauthObject->OpenID,
+			'AppUserName' => htmlspecialchars($OauthObject->NickName),
+			'UserID' => $CurUserID,
+			'Time' => $TimeStamp
+		))){
+			AlertMsg($Lang['Binding_Success'], $Lang['Binding_Success']);
+		}else{
+			AlertMsg($Lang['Binding_Failure'], $Lang['Binding_Failure']);
+		}
+	}
+}
 $AppID   = intval(Request('Get', 'app_id'));
 $AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID', array(
 	'ID' => $AppID
@@ -47,37 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		'AppID' => $AppID,
 		'OpenID' => $OauthObject->OpenID
 	));
-	// 当前openid已存在，直接登陆
-	if ($OauthUserID) {
-		$OauthUserInfo               = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
-			"UserID" => $OauthUserID
-		));
-		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
-		SetCookies(array(
-			'UserID' => $OauthUserID,
-			'UserExpirationTime' => $TemporaryUserExpirationTime,
-			'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
-		), 30);
-		header('location: ' . $Config['WebsitePath'] . '/');
-		exit();
-	}elseif ($CurUserID) {
-		// 如果已登陆，直接绑定当前账号
-		//Insert App user
-		if( $DB->query('INSERT INTO `' . $Prefix . 'app_users`
-			 (`ID`, `AppID`, `OpenID`, `AppUserName`, `UserID`, `Time`) 
-			VALUES (:ID, :AppID, :OpenID, :AppUserName, :UserID, :Time)', array(
-			'ID' => null,
-			'AppID' => $AppID,
-			'OpenID' => $OauthObject->OpenID,
-			'AppUserName' => htmlspecialchars($OauthObject->NickName),
-			'UserID' => $CurUserID,
-			'Time' => $TimeStamp
-		))){
-			AlertMsg($Lang['Binding_Success'], $Lang['Binding_Success']);
-		}else{
-			AlertMsg($Lang['Binding_Failure'], $Lang['Binding_Failure']);
-		}
-	}
+	CheckOpenID();
 	$OauthObject->GetUserInfo();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -91,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!$OauthObject->GetOpenID()) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
+	CheckOpenID();
 	$UserName = strtolower(Request('Post', 'UserName'));
 	if ($UserName && IsName($UserName)) {
 		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
