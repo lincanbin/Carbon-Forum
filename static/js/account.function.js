@@ -12,7 +12,7 @@
  */
 
 function CheckUserName() {
-	if($("#UserName").val() && $("#UserName").val().length >=4 && $("#UserName").val().length <= 20){
+	if ($("#UserName").val() && $("#UserName").val().length >= 4 && $("#UserName").val().length <= 20) {
 		$.ajax({
 			url: WebsitePath + '/json/user_exist',
 			data: {
@@ -23,16 +23,15 @@ function CheckUserName() {
 			success: function(Json) {
 				if (Json.Status == 1) {
 					$("#UserName").addClass("inputnotice");
-				}else{
+				} else {
 					$("#UserName").removeClass("inputnotice");
 				}
 			}
 		});
-	}else{
+	} else {
 		$("#UserName").addClass("inputnotice");
 	}
 }
-
 
 function CheckPassword() {
 	/*
@@ -42,19 +41,18 @@ function CheckPassword() {
 		$("#Password").removeClass("inputnotice");
 	}
 	*/
-	if ($("#Password").val() != $("#Password2").val()){
+	if ($("#Password").val() != $("#Password2").val()) {
 		$("#Password2").addClass("inputnotice");
-	}else{
+	} else {
 		$("#Password2").removeClass("inputnotice");
 	}
 }
 
-
 function CheckMail() {
 	var EmailReg = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-	if($("#Email").val().length >= 5 && EmailReg.test( $("#Email").val())){
+	if ($("#Email").val().length >= 5 && EmailReg.test($("#Email").val())) {
 		$("#Email").removeClass("inputnotice");
-	}else{
+	} else {
 		$("#Email").addClass("inputnotice");
 	}
 }

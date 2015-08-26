@@ -12,13 +12,16 @@
  */
 
 
-$(function(){
+$(function() {
 	//Button go to top
-	function SetButtonToTop () {
+	function SetButtonToTop() {
 		//Force to refresh under pjax
-		$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
-		$("#go-to-top").click(function(){
-			$("html, body").animate({"scrollTop": 0}, 400);
+		$("#go-to-top").css('left', (Math.max(document.body.clientWidth, 960) - 960) / 2 + 690);
+		$("#go-to-top").click(function() {
+			$("html, body").animate({
+				"scrollTop": 0
+			},
+			400);
 			return false;
 		});
 	}
@@ -29,18 +32,18 @@ $(function(){
 		var g = $("#go-to-top");
 		if (top > 500 && g.is(":hidden")) {
 			g.fadeIn();
-		} else if(top < 500 && g.is(":visible")) {
+		} else if (top < 500 && g.is(":visible")) {
 			g.fadeOut();
 		}
 	});
 	$(window).resize(function() {
-		$("#go-to-top").css('left',(Math.max(document.body.clientWidth, 960) - 960)/2 + 690);
+		$("#go-to-top").css('left', (Math.max(document.body.clientWidth, 960) - 960) / 2 + 690);
 	});
 	//Search box
 	$("#SearchButton").click(function() {
-		if($("#SearchInput").val()){
+		if ($("#SearchInput").val()) {
 			$.pjax({
-				url: WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val()), 
+				url: WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val()),
 				container: '#main'
 			});
 			//location.href = WebsitePath + "/search/" + encodeURIComponent($("#SearchInput").val());
@@ -54,21 +57,28 @@ $(function(){
 		type: 'post'
 	});
 	//For IE
-	$.ajaxSetup({ cache: false });
+	$.ajaxSetup({
+		cache: false
+	});
 	//Pjax
 	$(document).pjax('a', '#main', {
-		fragment : '#main', 
-		timeout :10000,
-		maxCacheLength : 0
+		fragment: '#main',
+		timeout: 10000,
+		maxCacheLength: 0
 	});
-	$(document).on('pjax:send', function() {
-	 	$('#progressBar').show();
-	 	$("#progressBar1").css('width',0);
-	 	$('#progressBar1').animate({width:"100%"}, 800, "linear");
-	})
-	$(document).on('pjax:complete', function() {
-	 	$('#progressBar').hide();
-	 	SetButtonToTop();
+	$(document).on('pjax:send',
+	function() {
+		$('#progressBar').show();
+		$("#progressBar1").css('width', 0);
+		$('#progressBar1').animate({
+			width: "100%"
+		},
+		800, "linear");
+	});
+	$(document).on('pjax:complete',
+	function() {
+		$('#progressBar').hide();
+		SetButtonToTop();
 	});
 	//$(document).pjax('a', 'body');
 	//改变导航栏的点击CSS
@@ -79,10 +89,9 @@ $(function(){
 	});
 });
 
-
 //登录前检查用户名是否存在
 function CheckUserNameExist() {
-	if($("#UserName").val()){
+	if ($("#UserName").val()) {
 		$.ajax({
 			url: WebsitePath + '/json/user_exist',
 			data: {
@@ -93,73 +102,90 @@ function CheckUserNameExist() {
 			success: function(Json) {
 				if (Json.Status == 0) {
 					$("#UserName").addClass("inputnotice");
-				}else{
+				} else {
 					$("#UserName").removeClass("inputnotice");
 				}
 			}
 		});
-	}else{
+	} else {
 		$("#UserName").addClass("inputnotice");
 	}
 }
 
-
 //获取实时信息通知
-function GetNotification( ){
+function GetNotification() {
 	var NotificationSettings = {
-		type:"post",
+		type: "post",
 		cache: false,
 		url: WebsitePath + '/json/get_notifications',
-		dataType:'json',
+		dataType: 'json',
 		async: true,
-		success:function(Data){
-			if(Data.Status != 0){
+		success: function(Data) {
+			if (Data.Status != 0) {
 				ShowNotification(Data.NewMessage);
 			}
 			//获取到新消息，30秒后再请求
 			//没有则3秒后再开新线程
-			setTimeout(function(){$.ajax(NotificationSettings);}, (Data.NewMessage > 0) ? 30000 : 3000);
+			setTimeout(function() {
+				$.ajax(NotificationSettings);
+			},
+			(Data.NewMessage > 0) ? 30000 : 3000);
 		},
-		error:function(){
+		error: function() {
 			//遇见错误15秒后重试
-			setTimeout(function(){$.ajax(NotificationSettings);},15000);
+			setTimeout(function() {
+				$.ajax(NotificationSettings);
+			},
+			15000);
 		},
 	};
 	$.ajax(NotificationSettings);
-	console.log('start getting notification at '+new Date().toLocaleString());
+	console.log('start getting notification at ' + new Date().toLocaleString());
 }
-
 
 //HTML5的Notification API，用来进行消息提示
 function ShowNotification(NewMessageNumber) {
-	if(NewMessageNumber > 0){
-		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewMessageNumber) + ')' + 
-		document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
-		$("#MessageNumber").css("visibility","visible");
+	if (NewMessageNumber > 0) {
+		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewMessageNumber) + ')' + document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
+		$("#MessageNumber").css("visibility", "visible");
 		$("#MessageNumber").html(NewMessageNumber);
-		if(window.Notification && Notification.permission !== "denied") {
-			Notification.requestPermission(function(Status) {// 请求权限
-				if(Status === 'granted') {
+		var EnableNotification = true;
+		if(window.localStorage){
+			var NotificationTime = localStorage.getItem(Prefix + "NotificationTime");
+			if(NotificationTime){
+				//如果距离上次弹出时间大于30s，才允许弹出通知
+				EnableNotification = (Math.round(new Date().getTime()/1000)-parseInt(NotificationTime))>30;
+				console.log(EnableNotification);
+			}
+		}
+		if (EnableNotification && window.Notification && Notification.permission !== "denied") {
+			Notification.requestPermission(function(Status) { // 请求权限
+				if (Status === 'granted') {
 					// 弹出一个通知
 					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
-						icon : WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
+						icon: WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
 						body: "",
 					});
-					CarbonNotification.onclick = function () {
+					CarbonNotification.onclick = function() {
 						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");
 					};
+					//设置通知弹出的Unix时间戳，实现多网页同步，以防止多次弹出窗口。
+					if(window.localStorage){
+						localStorage.setItem(Prefix + "NotificationTime", Math.round(new Date().getTime()/1000));
+					}
 					// 30秒后关闭通知
 					setTimeout(function() {
 						CarbonNotification.close();
-					}, 30000);
+					},
+					30000);
 				}
 			});
 
 		}
-	}else{
+	} else {
 		document.title = document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
 		$("#MessageNumber").html("0");
-		$("#MessageNumber").css("visibility","hidden");
+		$("#MessageNumber").css("visibility", "hidden");
 	}
 	return NewMessageNumber;
 }
@@ -181,9 +207,9 @@ function loadScript(url, callback) {
 		};
 	}
 	script.src = url;
-	if(document.getElementById(script.id) == undefined){
+	if (document.getElementById(script.id) == undefined) {
 		document.getElementsByTagName("head")[0].appendChild(script);
-	}else{
+	} else {
 		callback();
 		//console.log(url);
 	}
