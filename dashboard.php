@@ -159,7 +159,7 @@ switch ($Action) {
 				}
 			}else{
 				if(isset($OauthData[$Value])){
-					$DB->query('DELETE FROM `' . $Prefix . 'app` WHERE AppName = ?;', array($AppName[$Key]));
+					//$DB->query('DELETE FROM `' . $Prefix . 'app` WHERE AppName = ?;', array($AppName[$Key]));
 				}
 			}
 		}
