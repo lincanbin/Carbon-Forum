@@ -218,6 +218,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?ve
 		loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>",function() {
 			loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>",function(){
 				loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>",function(){
+					$("#editor").empty();
 					InitEditor();
 					loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>", function(){
 						RenderTopic();

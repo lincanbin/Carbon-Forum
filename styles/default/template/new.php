@@ -10,6 +10,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.j
 	loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>",function(){
 		loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>",function(){
 			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/new.function.js?version=<?php echo $Config['Version']; ?>",function(){
+				$("#editor").empty();
 				InitNewTopicEditor();
 				console.log('editor loaded.');
 			});
