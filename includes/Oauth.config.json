@@ -8,5 +8,10 @@
 	"Alias":"Weibo",
 	"LogoUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_06.png",
 	"ButtonImageUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_03.png"
+	},
+"GitHub":{
+	"Alias":"GitHub",
+	"LogoUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_06.png",
+	"ButtonImageUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_03.png"
 	}
 }
