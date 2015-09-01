@@ -231,7 +231,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?ve
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
 		<input type="hidden" name="TopicID" value="<?php echo $ID; ?>">
 		<p>
-			<div id="editor" style="width:648px;height:160px;"></div>
+			<div id="editor" style="width:648px;height:160px;">Loading……</div>
 		</p>
 		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 

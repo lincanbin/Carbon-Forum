@@ -24,7 +24,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.j
 			<input type="hidden" name="ContentHash" value="" />
 			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" style="width:624px;" placeholder="<?php echo $Lang['Title']; ?>" /></p>
 			<p>
-				<div id="editor" style="width:648px;height:500px;"></div>
+				<div id="editor" style="width:648px;height:500px;">Loading……</div>
 				<script type="text/javascript">
 				var Content='<?php echo $Content; ?>';
 				</script>
