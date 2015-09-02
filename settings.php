@@ -7,9 +7,16 @@ $UpdateUserInfoMessage = '';
 $ChangePasswordMessage = '';
 $DoNotNeedOriginalPassword = (stripos($CurUserInfo['Password'], 'zzz')===0);
 
-$OauthData = json_decode($Config['CacheOauth'], true);
-$OauthData = $OauthData?$OauthData:array();
+$CurUserOauthData = $DB->query('SELECT * FROM ' . $Prefix . 'app_users 
+	WHERE UserID=?', array($CurUserID));
 
+$TemporaryOauthData = json_decode($Config['CacheOauth'], true);
+$TemporaryOauthData = $TemporaryOauthData?$TemporaryOauthData:array();
+$OauthData = array();
+foreach ($TemporaryOauthData as $Value) {
+	$OauthData[$Value['ID']] = $Value;
+}
+unset($TemporaryOauthData);
 // $DoNotNeedOriginalPassword === True表示该用户为oAuth登陆用户，修改密码不需要原密码
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
