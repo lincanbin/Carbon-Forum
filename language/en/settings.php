@@ -4,10 +4,10 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Avatar_Settings' => 'Avatar Settings',
-	'Profile_Settings' => 'Profile Settings',
-	'Account_Settings' => 'Account Settings',
-	'Security_Settings' => 'Security Settings',
+	'Avatar_Settings' => 'Avatar',
+	'Profile_Settings' => 'Profile',
+	'Account_Settings' => 'Account',
+	'Security_Settings' => 'Security',
 	'Reset_Avatar' => 'Reset Avatar',
 	'You_Can_Replace_Your_Avatar_Here' => 'You can replace your avatar hsere<br /><br />Avatar format supports jpg/jpeg/png/gif',
 	'Max_Avatar_Size_Limit' => 'Avatar can not exceed 1MiB',
