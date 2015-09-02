@@ -22,8 +22,7 @@ RUN echo "nameserver 192.168.99.1" > /etc/resolv.conf ; apt-get install curl;\
         sed -i "s/START=no/START=yes/" /etc/default/sphinxsearch; \
         echo "extension=sphinx.so" > /etc/php5/mods-available/sphinx.ini ;\
         ln -sv /etc/php5/mods-available/sphinx.ini  /etc/php5/fpm/conf.d/30-sphinx.ini;\
-        ln -sv /etc/php5/mods-available/sphinx.ini  /etc/php5/cli/conf.d/30-sphinx.ini ;\
-        service mysql start  && echo 'create user sphinx_u@localhost identified by "search_perfect";grant SELECT on knowleges.* to sphinx_u@localhost '| mysql -uroot -p'kf_kf_kf' ; \
+        service mysql start  && echo 'create user sphinx_u@localhost identified by "search_perfect";grant SELECT on knowledge.* to sphinx_u@localhost '| mysql -uroot -p'kf_kf_kf' ; \
         echo '*/5 * * * *  /usr/bin/indexer --config /etc/sphinxsearch/sphinx.conf --all --rotate >/dev/null 2>&1' |crontab
 
 ADD docker_resources/sphinx.conf /etc/sphinxsearch/sphinx.conf
