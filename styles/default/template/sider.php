@@ -30,7 +30,7 @@ foreach ($OauthData as $Value) {
 	if ($Value['AppKey']) {
 ?>
 <a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
-	<img src="<?php echo $Config['WebsitePath'] . $Value[$OauthDataOffset===0?'ButtonImageUrl':'LogoUrl']; ?>" />
+	<img src="<?php echo $Config['WebsitePath'] . $Value[$OauthDataOffset===0?'ButtonImageUrl':'LogoUrl']; ?>" alt="<?php echo $Value['Alias'] . ' ' . $Lang['Log_In']; ?>" />
 </a>&nbsp;
 <?php
 		$OauthDataOffset++;
