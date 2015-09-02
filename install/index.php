@@ -14,6 +14,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$DBName = $_POST['DBName'];
 	$DBUser = $_POST['DBUser'];
 	$DBPassword = $_POST['DBPassword'];
+    $SearchServer = $_POST['SearchServer'];
+    $SearchPort   = $_POST['SearchPort'];
 	//$WebsitePath = $_POST['WebsitePath'];
 	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	if(preg_match('/(.*)\/install/i', $WebsitePath , $WebsitePathMatch))
@@ -44,6 +46,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBUser}}",$DBUser,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBPassword}}",$DBPassword,$ConfigBuffer);
+	$ConfigBuffer = str_replace("{{SearchServer}}",$SearchServer,$ConfigBuffer);
+	$ConfigBuffer = str_replace("{{SearchPort}}",$SearchPort,$ConfigBuffer);
 	fclose($ConfigPointer);
 	$ConfigPHP = fopen("../config.php","w+");       
 	fwrite($ConfigPHP,$ConfigBuffer);
@@ -163,6 +167,14 @@ function GetNextSQL() {
 								<tr>
 									<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
 									<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right">搜索服务器&nbsp;&nbsp;/&nbsp;&nbsp;Search Server</td>
+									<td width="auto" align="left"><input type="text" name="SearchServer" class="sl w200" value="" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right">搜索端口&nbsp;&nbsp;/&nbsp;&nbsp;Search Port</td>
+									<td width="auto" align="left"><input type="text" name="SearchPort" class="sl w200" value="" /></td>
 								</tr>
 								<tr>
 									<td width="280" align="right"></td>

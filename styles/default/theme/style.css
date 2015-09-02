@@ -988,3 +988,9 @@ img .avatar {
 	word-break: break-all;
 	word-wrap: break-word;
 }
+.search-keyword {
+    color: red;
+}
+.topic-dec {
+    padding: 2px 6px 15px;
+}

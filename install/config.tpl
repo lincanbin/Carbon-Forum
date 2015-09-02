@@ -18,3 +18,6 @@ define('DBHost', '{{DBHost}}');
 define('DBName', '{{DBName}}');
 define('DBUser', '{{DBUser}}');
 define('DBPassword', '{{DBPassword}}');
+//Sphinx Server
+define('SearchServer', '{{SearchServer}}');
+define('SearchPort', '{{SearchPort}}');
