@@ -88,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		'AppID' => $AppID,
 		'OpenID' => $OauthObject->OpenID
 	));
-	CheckOpenID();
 	$OauthObject->GetUserInfo();
+	CheckOpenID();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck(Request('Post', 'FormHash')) || empty($_SESSION[$Prefix . 'OauthAccessToken']) || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
@@ -102,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!$OauthObject->GetOpenID()) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
+	$OauthUserInfo = $OauthObject->GetUserInfo();
 	CheckOpenID();
 	$UserName = strtolower(Request('Post', 'UserName'));
 	if ($UserName && IsName($UserName)) {
@@ -109,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			'UserName' => $UserName
 		));
 		if (!$UserExist) {
-			$OauthUserInfo = $OauthObject->GetUserInfo();
 			$NewUserSalt     = mt_rand(100000, 999999);
 			$NewUserPassword = 'zzz' . substr(md5(md5(mt_rand(1000000000, 2147483647)) . $NewUserSalt), 0, -3);
 			$NewUserData     = array(
