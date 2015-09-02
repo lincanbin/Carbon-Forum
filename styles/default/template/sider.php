@@ -15,27 +15,29 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<p><label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> 
 				<img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" /></p>
 				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" style="margin:0 78px;" /></p>
-				<p>
-<?php
-$OauthData = json_decode($Config['CacheOauth'], true);
-$OauthData = $OauthData?$OauthData:array();
-foreach ($OauthData as $Value) {
-	if ($Value['AppKey']) {
-?>
-<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
-	<img src="<?php echo $Value['ButtonImageUrl']; ?>" />
-</a>&nbsp;&nbsp;
-<?php
-	}
-}
-?>
-				</p>
 				<p class="fs14 text-center">
 					<a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="<?php echo $Config['WebsitePath']; ?>/forgot"><?php echo $Lang['Forgot_Password']; ?></a>
 				</p>
 			</form>
 		</div>
+				<p>
+<?php
+$OauthData = json_decode($Config['CacheOauth'], true);
+$OauthData = $OauthData?$OauthData:array();
+$OauthDataOffset = 0;
+foreach ($OauthData as $Value) {
+	if ($Value['AppKey']) {
+?>
+<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
+	<img src="<?php echo $Config['WebsitePath'] . $Value[$OauthDataOffset===0?'ButtonImageUrl':'LogoUrl']; ?>" />
+</a>&nbsp;
+<?php
+		$OauthDataOffset++;
+	}
+}
+?>
+				</p>
 	</div>
 </div>
 <?php }else if($CurUserID && $UrlPath != 'register'){ ?>

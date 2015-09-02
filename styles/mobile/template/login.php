@@ -50,7 +50,7 @@ foreach ($OauthData as $Value) {
 	if ($Value['AppKey']) {
 ?>
 				<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>" data-ignore="True">
-					<img src="<?php echo $Value['ButtonImageUrl']; ?>" />
+					<img src="<?php echo $Config['WebsitePath'] . $Value['ButtonImageUrl']; ?>" />
 				</a>&nbsp;&nbsp;
 <?php
 	}

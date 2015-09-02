@@ -1,17 +1,17 @@
 {
 "QQ":{
 	"Alias":"QQ",
-	"LogoUrl" : "http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_1.png",
-	"ButtonImageUrl" : "http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
+	"LogoUrl" : "/static/img/oauth/qq_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/qq_icon_label.png"
 	},
 "Weibo":{
 	"Alias":"Weibo",
-	"LogoUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_06.png",
-	"ButtonImageUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_03.png"
+	"LogoUrl" : "/static/img/oauth/weibo_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/weibo_icon_label.png"
 	},
 "GitHub":{
 	"Alias":"GitHub",
-	"LogoUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_06.png",
-	"ButtonImageUrl" : "http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_03.png"
+	"LogoUrl" : "/static/img/oauth/github_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/github_icon_label.png"
 	}
 }

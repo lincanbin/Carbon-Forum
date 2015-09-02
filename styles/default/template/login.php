@@ -51,8 +51,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						</td>
 					</tr>
 					<tr>
-						<td width="180" align="right"></td>
-						<td width="auto" align="left">
+						<td colspan="2" width="auto" align="center">
 <?php
 $OauthData = json_decode($Config['CacheOauth'], true);
 $OauthData = $OauthData?$OauthData:array();
@@ -60,7 +59,7 @@ foreach ($OauthData as $Value) {
 	if ($Value['AppKey']) {
 ?>
 							<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
-								<img src="<?php echo $Value['ButtonImageUrl']; ?>" />
+								<img src="<?php echo $Config['WebsitePath'] . $Value['ButtonImageUrl']; ?>" />
 							</a>&nbsp;&nbsp;
 <?php
 	}
