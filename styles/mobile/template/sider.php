@@ -32,6 +32,20 @@ if(!$CurUserID && $UrlPath!='login'){
 		<input type="text" style="width:60%;" name="VerifyCode" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /> <img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" align="middle" />
 		<br />
 		<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" />
+		<br />
+<?php
+$OauthData = json_decode($Config['CacheOauth'], true);
+$OauthData = $OauthData?$OauthData:array();
+foreach ($OauthData as $Value) {
+	if ($Value['AppKey']) {
+?>
+<a href="<?php echo $Config['WebsitePath']; ?>/oauth-<?php echo $Value['ID']; ?>">
+	<img src="<?php echo $Config['WebsitePath'] . $Value['LogoUrl']; ?>" alt="<?php echo $Value['Alias'] . ' ' . $Lang['Log_In']; ?>" />
+</a>&nbsp;
+<?php
+	}
+}
+?>
 	</li>
 </form>
 <li><a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Sign_Up']; ?></a></li>
