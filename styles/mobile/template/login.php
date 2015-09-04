@@ -24,7 +24,7 @@ if($error){
 				<input type="text" name="UserName" id="UserName" placeholder="<?php echo $Lang['UserName']; ?>" value="<?php echo htmlspecialchars($UserName); ?>" />
 
 				<input type="password" name="Password" id="Password" placeholder="<?php echo $Lang['Password']; ?>" value="" />
-				<br style="clear:both">
+				<br style="clear:both" />
 				<p>
 				<label for="Expires"><?php echo $Lang['Login_Expiration_Time']; ?></label>
 				<select name="Expires" id="Expires" style="display:inline;">
@@ -37,7 +37,7 @@ if($error){
 				</p>
 				<input type="text" name="VerifyCode" id="VerifyCode" placeholder="<?php echo $Lang['Verification_Code']; ?>" onclick="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" style="width:66%;"/>
 				<img src="" id="Verification_Code_Img" style="cursor: pointer;" onclick="this.src+=''" style="width:33%;" align="middle" />
-				<br style="clear:both">
+				<br style="clear:both" />
 				<p>
 					<a href="<?php echo $Config['WebsitePath']; ?>/register" class="button"><?php echo $Lang['Sign_Up']; ?></a>
 					<input type="submit" class="button" value="<?php echo $Lang['Log_In']; ?>" name="submit" style="float:right;" />
