@@ -18,7 +18,7 @@ switch ($_GET['action']) {
 					$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
 						"UserID" => $CurUserID
 					));
-					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 600);
+					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
 					$CurNewMessage = $TempUserInfo['NewMessage'];
 				}
 			} else {

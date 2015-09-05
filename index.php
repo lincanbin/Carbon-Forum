@@ -25,7 +25,7 @@ if (!$TopicsArray) {
 			ORDER BY LastTime DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
 		if ($MCache && $Page == 1) {
-			$MCache->set(MemCachePrefix . 'Homepage', $TopicsArray, 0, 600);
+			$MCache->set(MemCachePrefix . 'Homepage', $TopicsArray, 600);
 		}
 	} else {
 		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 

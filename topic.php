@@ -11,7 +11,7 @@ if ($MCache) {
 			WHERE ID=:ID", array(
 			'ID' => $ID
 		));
-		$MCache->set(MemCachePrefix . 'Topic_' . $ID, $Topic, 0, 86400);
+		$MCache->set(MemCachePrefix . 'Topic_' . $ID, $Topic, 86400);
 	}
 } else {
 	$Topic = $DB->row("SELECT * FROM " . $Prefix . "topics 
@@ -67,7 +67,7 @@ if ($MCache) {
 		$MCache->delete(MemCachePrefix . 'Topic_' . $ID);
 	}
 	$Topic['Views'] = (($TopicViews) ? $TopicViews : $Topic['Views']) + 1;
-	$MCache->set(MemCachePrefix . 'Topic_Views_' . $ID, $Topic['Views'], 0, 864000);
+	$MCache->set(MemCachePrefix . 'Topic_Views_' . $ID, $Topic['Views'], 864000);
 } else {
 	$DB->query("UPDATE " . $Prefix . "topics 
 		FORCE INDEX(PRI) 

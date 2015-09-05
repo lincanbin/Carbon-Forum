@@ -42,13 +42,17 @@ if (EnableMemcache) {
 		}
 	} elseif (extension_loaded('memcache')) {
 		//MemCache
-		$MCache = new Memcache;
-		$MCache->pconnect(MemCacheHost, MemCachePort);
+		require(dirname(__FILE__) . "/includes/MemcacheMod.class.php");
+		$MCache = new MemcacheMod(MemCacheHost, MemCachePort);
 	} elseif (extension_loaded('redis')) {
 		//Redis
 		//https://github.com/phpredis/phpredis
 		$MCache = new Redis();
 		$MCache->pconnect(MemCacheHost, MemCachePort);
+	} elseif (extension_loaded('xcache')) {
+		// XCache
+		require(dirname(__FILE__) . "/includes/XCache.class.php");
+		$MCache = new XCache();
 	}
 }
 
@@ -62,7 +66,7 @@ if (!$Config) {
 		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
 	}
 	if ($MCache) {
-		$MCache->set(MemCachePrefix . 'Config', $Config, 0, 43200);
+		$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
 	}
 }
 
@@ -503,7 +507,7 @@ function UpdateConfig($NewConfig)
 			$Config[$Key] = $Value;
 		}
 		if ($MCache) {
-			$MCache->set(MemCachePrefix . 'Config', $Config, 0, 86400);
+			$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
 		}
 		return true;
 	} else {
@@ -532,7 +536,7 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 		if ($MCache) {
 			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserID, $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
 				"UserID" => $UserID
-			)), 0, 600);
+			)), 86400);
 		}
 		return $Result;
 	} else {
@@ -802,7 +806,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		));
 		
 		if ($MCache && $TempUserInfo) {
-			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 0, 7200);
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
 		}
 	}
 	//Using hash_equals() in the future

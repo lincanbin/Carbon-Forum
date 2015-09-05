@@ -46,7 +46,7 @@ switch ($Action) {
 
 
 		if ($MCache) {
-			if (extension_loaded('memcached') || extension_loaded('memcache')) {
+			if (extension_loaded('memcached') || extension_loaded('memcache') || extension_loaded('xcache')) {
 				//MemCached or MemCache
 				$MCache->flush();
 			} elseif (extension_loaded('redis')) {
