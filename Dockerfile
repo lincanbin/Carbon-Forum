@@ -1,6 +1,7 @@
 FROM ubuntu:14.04
 
-RUN echo "nameserver 192.168.99.1" > /etc/resolv.conf ; \
+#RUN echo "nameserver 192.168.99.1" > /etc/resolv.conf ; \
+RUN \
     sed -i "s#archive.ubuntu.com#cn.archive.ubuntu.com#" /etc/apt/sources.list ; \
     echo 'mysql-server mysql-server/root_password password kf_kf_kf' | debconf-set-selections  ; \
     echo 'mysql-server mysql-server/root_password_again password kf_kf_kf' | debconf-set-selections ;\
@@ -17,7 +18,9 @@ RUN echo "nameserver 192.168.99.1" > /etc/resolv.conf ; \
 
 COPY docker_resources/sphinx.so /usr/lib/php5/20121212/
 
-RUN echo "nameserver 192.168.99.1" > /etc/resolv.conf ; apt-get install curl;\
+#RUN echo "nameserver 192.168.99.1" > /etc/resolv.conf ;
+RUN \ 
+        apt-get install curl;\
         apt-get install -y sphinxsearch  libsphinxclient-0.0.1 sphinxbase-utils ;\
         sed -i "s/START=no/START=yes/" /etc/default/sphinxsearch; \
         echo "extension=sphinx.so" > /etc/php5/mods-available/sphinx.ini ;\
