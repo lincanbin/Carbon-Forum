@@ -13,6 +13,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$DBName = $_POST['DBName'];
 	$DBUser = $_POST['DBUser'];
 	$DBPassword = $_POST['DBPassword'];
+	$SearchServer = $_POST['SearchServer'];
+	$SearchPort   = $_POST['SearchPort'];
 	//$WebsitePath = $_POST['WebsitePath'];
 	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	if(preg_match('/(.*)\/update/i', $WebsitePath , $WebsitePathMatch))
