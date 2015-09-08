@@ -24,6 +24,9 @@ function KeywordHighlight($Content)
 		&raquo; <?php echo $Lang['Search']; ?> &raquo; <?php echo $Keyword; ?>
 	</div>
 	<div class="main-box home-box-list">
+		<?php if( $Error) {?>
+		    <div class="mess-error"> <?php echo $Error;?> </div>
+		<?php } ?>
 		<?php
 		foreach ($TopicsArray as $Topic) {
 		?>
@@ -37,6 +40,11 @@ function KeywordHighlight($Content)
 				<h2>
 					<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo KeywordHighlight($Topic['Topic']); ?></a>
 				</h2>
+                <?php if( isset($Topic['MinContent']) ) { ?>
+                <div class="topic-dec">
+                    <?php echo $Topic['MinContent']; ?>
+                </div>
+                <?php } ?>
 				<span class="item-tags">
 					<?php
 					if($Topic['Tags']){
