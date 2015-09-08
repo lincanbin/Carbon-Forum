@@ -37,6 +37,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBUser}}",$DBUser,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBPassword}}",$DBPassword,$ConfigBuffer);
+	$ConfigBuffer = str_replace("{{SearchServer}}",$SearchServer,$ConfigBuffer);
+	$ConfigBuffer = str_replace("{{SearchPort}}",$SearchPort,$ConfigBuffer);
+
 	fclose($ConfigPointer);
 	$ConfigPHP = fopen('../config.php',"w+");       
 	fwrite($ConfigPHP,$ConfigBuffer);
@@ -121,6 +124,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		define('DBName', 'carbon');
 		define('DBUser', 'root');
 		//define('DBPassword', '');
+		define('SearchServer', '');
+		define('SearchPort', '');
 	}
 }
 
@@ -192,6 +197,14 @@ function VersionCompare($Version, $OldVersion)
 					<tr>
 						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
 						<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
+					</tr>
+					<tr>
+						<td width="280" align="right">搜索服务器&nbsp;&nbsp;/&nbsp;&nbsp;Search Server</td>
+						<td width="auto" align="left"><input type="text" name="SearchServer" class="sl w200" value="<?php echo SearchServer; ?>" /></td>
+					</tr>
+					<tr>
+						<td width="280" align="right">搜索端口&nbsp;&nbsp;/&nbsp;&nbsp;Search Port</td>
+						<td width="auto" align="left"><input type="text" name="SearchPort" class="sl w200" value="<?php echo SearchPort; ?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right"></td>
