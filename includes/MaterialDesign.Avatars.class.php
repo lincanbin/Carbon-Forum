@@ -29,8 +29,8 @@ class MDAvtars
 		$this->Char = strtoupper(mb_substr($Char, 0, 1, "UTF-8"));
 		$this->AvatarSize = $AvatarSize;
 		$this->Padding = 30*($this->AvatarSize/256);
-		$this->LetterFont = dirname(__FILE__).'/fonts/SourceCodePro-Light.ttf';
-		$this->AsianFont = dirname(__FILE__).'/fonts/SourceHanSansCN-Normal.ttf';
+		$this->LetterFont = __DIR__.'/fonts/SourceCodePro-Light.ttf';
+		$this->AsianFont = __DIR__.'/fonts/SourceHanSansCN-Normal.ttf';
 		$this->EnableAsianChar = is_file($this->AsianFont);
 
 		$CNChar=ord($this->Char);

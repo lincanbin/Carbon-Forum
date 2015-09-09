@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__)."/config.php");//Timezone
+require(__DIR__."/config.php");//Timezone
 //For IIS ISAPI_Rewrite
 $RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER["REQUEST_URI"];
 if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $RequestURI, $AvatarSize))

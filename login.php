@@ -1,6 +1,6 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/login.php');
+include(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/login.php');
 $error     = '';
 $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';

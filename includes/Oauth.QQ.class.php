@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/URL.class.php');
+require(__DIR__ . '/URL.class.php');
 class Oauth
 {
 	const VERSION = "2.0";

@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/reset_password.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/reset_password.php');
 $AccessToken      = base64_decode(Request('Get', 'access_token'));
 $AccessTokenArray = $AccessToken ? explode('|', $AccessToken) : false;
 $Message          = '';
@@ -23,6 +23,9 @@ if (!$UserInfo) {
 } else {
 	if (HashEquals(md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5($SALT)), $Token)) {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if (!ReferCheck(Request('Post', 'FormHash'))) {
+				AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
+			}
 			//重设密码
 			$Password   = Request('Post', 'Password');
 			$Password2  = Request('Post', 'Password2');

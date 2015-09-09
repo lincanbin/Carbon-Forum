@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/statistics.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/statistics.php');
 //数据没问题的情况下不需要排序，拿出来顺序就是好的，并且顺序可以通过刷新缓存修复
 $StatisticsData            = $DB->query('SELECT * FROM  ' . $Prefix . 'statistics');
 $TotalTopicsStatisticsData = array();

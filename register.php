@@ -1,6 +1,6 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/register.php');
+include(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/register.php');
 $UserName   = '';
 $Email      = '';
 $Password   = '';
@@ -8,7 +8,7 @@ $Password2  = '';
 $VerifyCode = '';
 $Message    = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck($_POST['FormHash'])) {
+	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$UserName   = strtolower(Request('Post', 'UserName'));
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 								));
 							}
 							if(extension_loaded('gd')){
-								require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
+								require(__DIR__ . "/includes/MaterialDesign.Avatars.class.php");
 								$Avatar = new MDAvtars(mb_substr($UserName, 0, 1, "UTF-8"), 256);
 								$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
 								$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);

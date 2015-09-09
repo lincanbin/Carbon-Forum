@@ -4,7 +4,7 @@ class Log
 	private $path = '/logs/';
 	public function __construct()
 	{
-		$this->path = dirname(__FILE__) . $this->path;
+		$this->path = __DIR__ . $this->path;
 	}
 	
 	public function write($message, $fileSalt)

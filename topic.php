@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/topic.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/topic.php');
 $ID   = intval($_GET['id']);
 $Page = intval(Request('Get', 'page'));
 if ($MCache) {

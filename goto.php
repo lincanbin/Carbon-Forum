@@ -1,5 +1,5 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
+include(__DIR__ . '/common.php');
 $TopicID = intval(Request('Get', 'topic_id', 0));
 $PostID  = intval(Request('Get', 'post_id', 0));
 

@@ -1,5 +1,5 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
+include(__DIR__ . '/common.php');
 header("Content-Type: text/xml");
 //https://developer.mozilla.org/en-US/docs/Creating_MozSearch_plugins
 ?><?xml version="1.0" encoding="UTF-8"?>

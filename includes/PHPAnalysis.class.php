@@ -88,8 +88,8 @@ class PhpAnalysis
 	 */
 	public function __construct($source_charset = 'utf-8', $target_charset = 'utf-8', $load_all = true, $source = '')
 	{
-		$this->addonDicFile = dirname(__FILE__) . '/' . $this->addonDicFile;
-		$this->mainDicFile  = dirname(__FILE__) . '/' . $this->mainDicFile;
+		$this->addonDicFile = __DIR__ . '/' . $this->addonDicFile;
+		$this->mainDicFile  = __DIR__ . '/' . $this->mainDicFile;
 		$this->SetSource($source, $source_charset, $target_charset);
 		$this->isLoadAll = $load_all;
 		if (self::$loadInit)

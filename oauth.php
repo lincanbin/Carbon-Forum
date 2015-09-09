@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/oauth.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/oauth.php');
 
 function CheckOpenID()
 {
@@ -46,10 +46,10 @@ $AppID   = intval(Request('Get', 'app_id'));
 $AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID', array(
 	'ID' => $AppID
 ));
-if (!file_exists(dirname(__FILE__) . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php') || !$AppInfo) {
+if (!file_exists(__DIR__ . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php') || !$AppInfo) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 } else {
-	require(dirname(__FILE__) . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php');
+	require(__DIR__ . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php');
 	$OauthObject = new Oauth($AppInfo['AppKey']);
 }
 
@@ -178,14 +178,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			), 30);
 			if ($OauthUserInfo) {
 				//获取并缩放头像
-				require(dirname(__FILE__) . "/includes/ImageResize.class.php");
+				require(__DIR__ . "/includes/ImageResize.class.php");
 				$UploadAvatar  = new ImageResize('String', URL::Get($OauthObject->AvatarURL));
 				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/' . $CurUserID . '.png', 80);
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/' . $CurUserID . '.png', 90);
 				$SUploadResult = $UploadAvatar->Resize(24, 'upload/avatar/small/' . $CurUserID . '.png', 90);
 			}else{
 				if(extension_loaded('gd')){
-					require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
+					require(__DIR__ . "/includes/MaterialDesign.Avatars.class.php");
 					$Avatar = new MDAvtars(mb_substr($UserName, 0, 1, "UTF-8"), 256);
 					$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
 					$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);

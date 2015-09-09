@@ -1,6 +1,6 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/new.php');
+include(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/new.php');
 Auth(1, 0, true);
 
 $Error     = '';

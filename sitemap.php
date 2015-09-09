@@ -1,5 +1,5 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
+include(__DIR__ . '/common.php');
 header("Content-Type: text/xml");
 $Action = Request('POST','action',false);
 $Page = intval($_GET['page']);
@@ -43,7 +43,7 @@ if($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'])
 switch ($Action) {
 	case 'topics':
 	?>
-	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"<?php echo $XMLNameSpace; ?>>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"<?php echo $XMLNameSpace; ?>>
 	<?php if($Page==1){ ?>
 	<url>
 		<loc><?php echo $CurHost.'/'; ?></loc>
@@ -52,9 +52,9 @@ switch ($Action) {
 		<priority>1.0</priority>
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
-		<display>
-			<html5_url>http://<?php echo $Config['MobileDomainName']; ?></html5_url>
-		</display>
+			<display>
+				<html5_url>http://<?php echo $Config['MobileDomainName']; ?></html5_url>
+			</display>
 		</data>
 		<?php } ?>
 	</url>
@@ -69,14 +69,15 @@ switch ($Action) {
 		<priority>0.<?php echo $Topic['Replies']>=70?'8':ceil(($Topic['Replies']+10)/10); ?></priority>
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
-		<display>
-			<html5_url>http://<?php echo $Config['MobileDomainName'].'/t/'.$Topic['ID']; ?></html5_url>
-		</display>
+			<display>
+				<html5_url>http://<?php echo $Config['MobileDomainName'].'/t/'.$Topic['ID']; ?></html5_url>
+			</display>
 		</data>
 		<?php } ?>
 	</url>
 		<?php } ?>
-	</urlset><?php
+</urlset>
+<?php
 		break;
 
 
@@ -94,17 +95,18 @@ switch ($Action) {
 		<priority>0.3</priority>
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
-		<display>
-			<html5_url>http://<?php echo $Config['MobileDomainName'].'/page/'.$i; ?></html5_url>
-		</display>
+			<display>
+				<html5_url>http://<?php echo $Config['MobileDomainName'].'/page/'.$i; ?></html5_url>
+			</display>
 		</data>
 		<?php } ?>
 	</url>
-	<?php
+<?php
 			}
 		}
-	?>
-	</urlset><?php
+?>
+</urlset>
+<?php
 		break;
 	case 'tags':
 		?>
@@ -119,14 +121,15 @@ switch ($Action) {
 		<priority>0.<?php echo $Tags['TotalPosts']>=50?'6':ceil(($Tags['TotalPosts']+10)/10); ?></priority>
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
-		<display>
-			<html5_url>http://<?php echo $Config['MobileDomainName'].'/tag/'.urlencode($Tags['Name']); ?></html5_url>
-		</display>
+			<display>
+				<html5_url>http://<?php echo $Config['MobileDomainName'].'/tag/'.urlencode($Tags['Name']); ?></html5_url>
+			</display>
 		</data>
 		<?php } ?>
 	</url>
 	<?php } ?>
-	</urlset><?php
+</urlset>
+<?php
 		break;
 	case 'users':
 		?>
@@ -141,14 +144,15 @@ switch ($Action) {
 		<priority>0.<?php echo $User['Topics']+$User['Replies']>=40?'5':ceil(($User['Topics']+$User['Replies'])/10); ?></priority>
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
-		<display>
-			<html5_url>http://<?php echo $Config['MobileDomainName'].'/u/'.urlencode($User['UserName']); ?></html5_url>
-		</display>
+			<display>
+				<html5_url>http://<?php echo $Config['MobileDomainName'].'/u/'.urlencode($User['UserName']); ?></html5_url>
+			</display>
 		</data>
 		<?php } ?>
 	</url>
 	<?php } ?>
-	</urlset><?php
+</urlset>
+<?php
 		break;
 	default:
 		?>

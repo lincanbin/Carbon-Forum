@@ -25,10 +25,10 @@ ini_set('display_errors', 'Off');
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
-require(dirname(__FILE__) . "/config.php");
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/common.php');
+require(__DIR__ . "/config.php");
+require(__DIR__ . '/language/' . ForumLanguage . '/common.php');
 //Initialize PHP Data Object(Database)
-require(dirname(__FILE__) . "/includes/PDO.class.php");
+require(__DIR__ . "/includes/PDO.class.php");
 $DB     = new Db(DBHost, DBName, DBUser, DBPassword);
 //Initialize MemCache(d) / Redis
 $MCache = false;
@@ -42,7 +42,7 @@ if (EnableMemcache) {
 		}
 	} elseif (extension_loaded('memcache')) {
 		//MemCache
-		require(dirname(__FILE__) . "/includes/MemcacheMod.class.php");
+		require(__DIR__ . "/includes/MemcacheMod.class.php");
 		$MCache = new MemcacheMod(MemCacheHost, MemCachePort);
 	} elseif (extension_loaded('redis')) {
 		//Redis
@@ -51,7 +51,7 @@ if (EnableMemcache) {
 		$MCache->pconnect(MemCacheHost, MemCachePort);
 	} elseif (extension_loaded('xcache')) {
 		// XCache
-		require(dirname(__FILE__) . "/includes/XCache.class.php");
+		require(__DIR__ . "/includes/XCache.class.php");
 		$MCache = new XCache();
 	}
 }
@@ -460,7 +460,7 @@ function SetStyle($PathName, $StyleName)
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: application/json; charset=utf-8');
 	}
-	$TemplatePath = dirname(__FILE__) . '/styles/' . $PathName . '/template/';
+	$TemplatePath = __DIR__ . '/styles/' . $PathName . '/template/';
 	$Style        = $StyleName;
 }
 
@@ -725,15 +725,15 @@ $IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName'] ? true : false;
  * api: API
  */
 if ($IsApp) {
-	$TemplatePath = dirname(__FILE__) . '/styles/api/template/';
+	$TemplatePath = __DIR__ . '/styles/api/template/';
 	$Style        = 'API';
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
 } elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
-	$TemplatePath = dirname(__FILE__) . '/styles/mobile/template/';
+	$TemplatePath = __DIR__ . '/styles/mobile/template/';
 	$Style        = 'Mobile';
 } else {
-	$TemplatePath = dirname(__FILE__) . '/styles/default/template/';
+	$TemplatePath = __DIR__ . '/styles/default/template/';
 	$Style        = 'Default';
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard

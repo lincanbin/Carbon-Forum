@@ -1,5 +1,5 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
+include(__DIR__ . '/common.php');
 SetStyle('api', 'API');
 
 switch ($_GET['action']) {
@@ -41,7 +41,7 @@ switch ($_GET['action']) {
 	
 	case 'get_tags':
 		Auth(1);
-		require(dirname(__FILE__) . "/includes/PHPAnalysis.class.php");
+		require(__DIR__ . "/includes/PHPAnalysis.class.php");
 		$str                   = $_POST['Title'] . "/r/n" . $_POST['Content'];
 		$do_fork               = $do_unit = true;
 		$do_multi              = $do_prop = $pri_dict = false;

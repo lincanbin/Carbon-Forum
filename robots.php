@@ -1,5 +1,5 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
+include(__DIR__ . '/common.php');
 header("Content-Type: text/plain");
 ?>User-agent: *
 Disallow: <?php echo $Config['WebsitePath']; ?>/dashboard/

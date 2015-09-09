@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/notifications.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/notifications.php');
 Auth(1);
 $ReplyArray   = $DB->query('SELECT n.ID as NID, n.Type, n.IsRead, p.ID, p.TopicID, p.IsTopic, p.UserID, p.UserName, p.Subject, p.Content, p.PostTime, p.IsDel 
 							FROM ' . $Prefix . 'notifications n LEFT JOIN ' . $Prefix . 'posts p 

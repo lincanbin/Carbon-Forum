@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/manage.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/manage.php');
 SetStyle('api', 'API');
 
 $ID     = intval(Request('POST', 'ID', 0));
@@ -292,7 +292,7 @@ switch ($Type) {
 			case 'ResetAvatar':
 				Auth(4, $ID);
 				if (extension_loaded('gd')) {
-					require(dirname(__FILE__) . "/includes/MaterialDesign.Avatars.class.php");
+					require(__DIR__ . "/includes/MaterialDesign.Avatars.class.php");
 					$Avatar = new MDAvtars(mb_substr($UserInfo['UserName'], 0, 1, "UTF-8"), 256);
 					$Avatar->Save('upload/avatar/large/' . $ID . '.png', 256);
 					$Avatar->Save('upload/avatar/middle/' . $ID . '.png', 48);

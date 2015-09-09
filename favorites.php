@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/favorites.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/favorites.php');
 Auth(1);
 $Page      = Request('Get', 'page');
 $TotalPage = ceil($CurUserInfo['NumFavTopics'] / $Config['TopicsPerPage']);

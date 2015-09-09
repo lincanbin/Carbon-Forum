@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/favorite_users.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/favorite_users.php');
 Auth(1);
 $Page = intval(Request('Get', 'page'));
 if ($Page < 0 || $Page == 1) {

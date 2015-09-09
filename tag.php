@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/tag.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/tag.php');
 $TagName = Request('Get', 'name');
 $Page    = Request('Get', 'page');
 $TagInfo = array();

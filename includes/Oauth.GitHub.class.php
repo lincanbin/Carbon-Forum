@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/URL.class.php');
+require(__DIR__ . '/URL.class.php');
 // https://developer.github.com/v3/oauth/
 class Oauth
 {

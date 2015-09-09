@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/user.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/user.php');
 $UserName = Request('Get', 'username');
 $UserInfo = array();
 $UserInfo = $DB->row('SELECT * FROM ' . $Prefix . 'users Where UserName=:UserName', array(

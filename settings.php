@@ -1,6 +1,6 @@
 <?php
-include(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/settings.php');
+include(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/settings.php');
 Auth(1);
 $UploadAvatarMessage   = '';
 $UpdateUserInfoMessage = '';
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	switch ($Action) {
 		case 'UploadAvatar':
 			if ($_FILES['Avatar']['size'] && $_FILES['Avatar']['size'] < 1048576) {
-				require(dirname(__FILE__) . "/includes/ImageResize.class.php");
+				require(__DIR__ . "/includes/ImageResize.class.php");
 				$UploadAvatar  = new ImageResize('PostField', 'Avatar');
 				$LUploadResult = $UploadAvatar->Resize(256, 'upload/avatar/large/' . $CurUserID . '.png', 80);
 				$MUploadResult = $UploadAvatar->Resize(48, 'upload/avatar/middle/' . $CurUserID . '.png', 90);

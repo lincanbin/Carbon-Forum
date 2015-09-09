@@ -1,6 +1,6 @@
 <?php
-require(dirname(__FILE__) . '/common.php');
-require(dirname(__FILE__) . '/language/' . ForumLanguage . '/forgot.php');
+require(__DIR__ . '/common.php');
+require(__DIR__ . '/language/' . ForumLanguage . '/forgot.php');
 $Message = '';
 //var_dump(preg_replace('/([\w\-\.]{1})([\w\-\.]{0,})@([\w\-\.]+(\.\w+)+)$/', '\1*****@\3', 'lincanbin@hotmail.com'));
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$AccessToken         = base64_encode($UserName . '|' . $TokenExpirationTime . '|' . md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5($SALT)));
 					$ResetPasswordURL    = 'http://' . $Config['MainDomainName'] . $Config['WebsitePath'] . '/reset_password/' . $AccessToken;
 					//向数据库里的密保邮箱发送邮件
-					require(dirname(__FILE__) . '/includes/PHPMailer.smtp.class.php');
-					require(dirname(__FILE__) . '/includes/PHPMailer.class.php');
+					require(__DIR__ . '/includes/PHPMailer.smtp.class.php');
+					require(__DIR__ . '/includes/PHPMailer.class.php');
 					$MailObject = new PHPMailer;
 					//$MailObject->SMTPDebug = 3;// Enable verbose debug output
 					
