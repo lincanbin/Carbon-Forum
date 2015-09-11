@@ -104,6 +104,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if(VersionCompare('3.6.0' ,$OldVersion)){
 		$DB->query("ALTER TABLE `".$Prefix."tags` CHANGE `IsEnabled` `IsEnabled` TINYINT(1) UNSIGNED NULL DEFAULT '1'");
 		$DB->query("ALTER TABLE `".$Prefix."tags` ADD INDEX `TotalPosts` (`IsEnabled`, `TotalPosts`)");
+		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('CacheHotTags', '')");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改

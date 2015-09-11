@@ -422,6 +422,7 @@ CREATE TABLE `carbon_vote` (
 -- ----------------------------
 INSERT INTO `carbon_config` VALUES ('AppDomainName', 'app.94cb.com');
 INSERT INTO `carbon_config` VALUES ('CacheAnnouncements', '');
+INSERT INTO `carbon_config` VALUES ('CacheHotTags', '');
 INSERT INTO `carbon_config` VALUES ('CacheHotTopics', '');
 INSERT INTO `carbon_config` VALUES ('CacheLinks', '');
 INSERT INTO `carbon_config` VALUES ('CacheOauth', '');
