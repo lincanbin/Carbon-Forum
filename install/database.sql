@@ -1,15 +1,15 @@
 /*
-Source Server         : localhost
-Source Server Version : 50535
-Source Host           : 127.0.0.1:3306
-Source Database       : carbon
-
-Target Server Type    : MYSQL
-Target Server Version : 50535
-File Encoding         : 65001
-
-Date: 2014-11-06 00:05:27
-*/
+ * Carbon-Forum
+ * https://github.com/lincanbin/Carbon-Forum
+ *
+ * Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
+ * http://www.94cb.com/
+ *
+ * Licensed under the Apache License, Version 2.0:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * A high performance open-source forum software written in PHP. 
+ */
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -293,12 +293,13 @@ CREATE TABLE `carbon_tags` (
   `Followers` int(10) unsigned DEFAULT '0',
   `Icon` tinyint(1) unsigned DEFAULT '0',
   `Description` mediumtext,
-  `IsEnabled` int(1) unsigned DEFAULT '1',
+  `IsEnabled` tinyint(1) unsigned DEFAULT '1',
   `TotalPosts` int(10) unsigned DEFAULT '0',
   `MostRecentPostTime` int(10) unsigned NOT NULL,
   `DateCreated` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `TagName` (`Name`) USING HASH
+  KEY `TagName` (`Name`) USING HASH,
+  KEY `TotalPosts` (`IsEnabled`, `TotalPosts`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -449,7 +450,7 @@ INSERT INTO `carbon_config` VALUES ('PostsPerPage', '25');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');
-INSERT INTO `carbon_config` VALUES ('Version', '3.5.0');
+INSERT INTO `carbon_config` VALUES ('Version', '3.6.0');
 
 INSERT INTO `carbon_config` VALUES ('PushConnectionTimeoutPeriod', '22');
 INSERT INTO `carbon_config` VALUES ('SMTPHost', 'smtp1.example.com');

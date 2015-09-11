@@ -2,20 +2,20 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
-$Version = '3.5.0';
+$Version = '3.6.0';
 $Prefix = 'carbon_';
 if(is_file('install.lock')){
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	$fp = fopen(dirname(__FILE__).'/database.sql', "r") or die("不能打开SQL文件");
+	$fp = fopen(__DIR__.'/database.sql', "r") or die("不能打开SQL文件");
 	$Language = $_POST['Language'];
 	$DBHost = $_POST['DBHost'];
 	$DBName = $_POST['DBName'];
 	$DBUser = $_POST['DBUser'];
 	$DBPassword = $_POST['DBPassword'];
-    $SearchServer = $_POST['SearchServer'];
-    $SearchPort   = $_POST['SearchPort'];
+	$SearchServer = $_POST['SearchServer'];
+	$SearchPort   = $_POST['SearchPort'];
 	//$WebsitePath = $_POST['WebsitePath'];
 	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	if(preg_match('/(.*)\/install/i', $WebsitePath , $WebsitePathMatch))
@@ -39,8 +39,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($fp) or die("Can’t close file");
 
 	//写入config文件
-	$ConfigPointer=fopen(dirname(__FILE__).'/config.tpl','r');
-	$ConfigBuffer=fread($ConfigPointer, filesize(dirname(__FILE__).'/config.tpl'));
+	$ConfigPointer=fopen(__DIR__.'/config.tpl','r');
+	$ConfigBuffer=fread($ConfigPointer, filesize(__DIR__.'/config.tpl'));
 	$ConfigBuffer = str_replace("{{Language}}",$Language,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBHost}}",$DBHost,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
@@ -54,8 +54,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($ConfigPHP);
 
 	//写入htaccess文件
-	$HtaccessPointer=fopen(dirname(__FILE__).'/htaccess.tpl','r');
-	$HtaccessBuffer=fread($HtaccessPointer, filesize(dirname(__FILE__).'/htaccess.tpl'));
+	$HtaccessPointer=fopen(__DIR__.'/htaccess.tpl','r');
+	$HtaccessBuffer=fread($HtaccessPointer, filesize(__DIR__.'/htaccess.tpl'));
 	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath,$HtaccessBuffer);
 	//Server Software Type
 	if(isset($_SERVER['HTTP_X_REWRITE_URL'])){//IIS(ISAPI_Rewrite)

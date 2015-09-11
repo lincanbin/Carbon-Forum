@@ -2,7 +2,7 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
-$Version = '3.5.0';
+$Version = '3.6.0';
 $Prefix = 'carbon_';
 if(is_file('update.lock')){
 	die("请删除 update/update.lock 文件后再进行操作！<br>Please Remove update/update.lock before update!");
@@ -99,6 +99,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			  KEY `Index` (`AppID`,`OpenID`),
 			  KEY `UserID` (`UserID`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	}
+	//当前版本低于3.6.0，需要进行的升级到3.6.0的升级操作
+	if(VersionCompare('3.6.0' ,$OldVersion)){
+		$DB->query("ALTER TABLE `".$Prefix."tags` CHANGE `IsEnabled` `IsEnabled` TINYINT(1) UNSIGNED NULL DEFAULT '1'");
+		$DB->query("ALTER TABLE `".$Prefix."tags` ADD INDEX `TotalPosts` (`IsEnabled`, `TotalPosts`)");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
