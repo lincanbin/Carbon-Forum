@@ -47,6 +47,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L]
 	RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 {{RedirectionType}}
 	RewriteRule ^tags/following(/page/([0-9]*))?$ favorite_tags.php?page=$2 [L]
+	RewriteRule ^tags(/page/([0-9]*))?$ tags.php?page=$2 [L]
 	RewriteRule ^u/(.*?)$ user.php?username=$1 {{RedirectionType}}
 	RewriteRule ^users/following(/page/([0-9]*))?$ favorite_users.php?page=$2 [L]
 	RewriteRule ^upload_controller$ upload_controller.php [L]
