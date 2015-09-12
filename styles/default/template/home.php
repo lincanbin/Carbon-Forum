@@ -38,7 +38,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							</div>
 							<?php } ?>
 							<div class="c"></div>
-							</div>
+			</div>
 							
 		<?php
 		}

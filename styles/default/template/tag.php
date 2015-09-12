@@ -7,7 +7,12 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a href="<?php echo $Config['WebsitePath']; ?>/">
 			<?php echo $Config['SiteName']; ?>
 		</a>
-		&raquo; <?php echo $Lang['Tag']; ?> &raquo; <?php echo $TagInfo['Name']; ?>
+		&raquo; 
+		<a href="<?php echo $Config['WebsitePath']; ?>/tags">
+			<?php echo $Lang['Tag']; ?>
+		</a>
+		 &raquo; 
+		<?php echo $TagInfo['Name']; ?>
 	</div>
 	<div class="main-box home-box-list">
 		<?php

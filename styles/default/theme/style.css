@@ -157,6 +157,28 @@ blockquote {
 	vertical-align: baseline;
 	font-size: 100%;
 }
+
+/* 话题广场 */
+.tags-list-detail {
+	width:314px;
+	height: 140px;
+	float:left;
+	border-bottom: 1px solid #EFEFEF;
+	border-right: 1px solid #EFEFEF;
+	padding:5px 10px;
+}
+.tag-item-content{
+	width: 234px;
+	float: left;
+	padding: 0 10px;
+}
+.tag-item-content h2{
+	line-height: 100%;
+	font-size: 16px;
+	margin: 5px 10px;
+	display: inline-block;
+	float: left;
+}
 /* tag */
 .tags-list {
 	padding: 6px 12px 0 12px;
@@ -560,7 +582,7 @@ img .avatar {
 .topic-content embed {
 	display:block;
 	margin-top:10px;
-	max-width:590px;
+	max-width:640px;
 }
 .topic-tags {
 	border-top: 1px solid #EFEFEF;
@@ -576,14 +598,15 @@ img .avatar {
 	border:none;
 	background-color: rgba(255,255,255,1);
 }
+
 .post-list {
 	border-bottom: 1px solid #EFEFEF;
 	padding:0 10px 0 10px;
 	margin-bottom:10px;
 }
 .item-avatar {
-	width:58px;
-	height:58px;
+	width:60px;
+	height:60px;
 	float:left;
 }
 .item-avatar img, .comment-avatar img {
@@ -591,10 +614,16 @@ img .avatar {
 	max-width:48px;
 	border-radius: 50%;
 }
+.comment-avatar img{
+	margin-left:1px; 
+	margin-right:11px; 
+}
+
+/* 帖子列表样式 */ 
 .item-content {
-	width:525px;
-	min-height:48px;
-	margin: 0 0 7px 7px;
+	width:530px;
+	min-height:60px;
+	margin: 0 0 7px 10px;
 	float:left;
 }
 .item-date {
@@ -630,6 +659,7 @@ img .avatar {
 	background-color: #90CAF9;
 }
 .item-content h2 {
+	line-height:150%;
 	font-size: 16px;
 	padding:0 0 3px 0;
 	margin: 0;
@@ -685,8 +715,8 @@ img .avatar {
 	margin-bottom:15px;
 }
 .comment-avatar {
-	width:58px;
-	height:58px;
+	width:60px;
+	height:60px;
 	float:left;
 }
 .comment-data {
@@ -737,6 +767,7 @@ img .avatar {
 .comment-content {
 	WORD-WRAP: break-word;
 	font-size:16px;
+	width: 590px;
 }
 .comment-content img {
 	/*display:block;*/

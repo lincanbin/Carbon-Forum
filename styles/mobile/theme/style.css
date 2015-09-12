@@ -67,7 +67,7 @@
 	line-height: 2.5em;
 }
 /* === Cards ===*/
-	.cards-list ul,
+.cards-list ul,
 .card .list-block ul {
 	background: none;
 }

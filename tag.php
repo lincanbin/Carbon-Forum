@@ -8,7 +8,7 @@ if ($TagName)
 	$TagInfo = $DB->row('SELECT * FROM ' . $Prefix . 'tags force index(TagName) Where Name=:Name', array(
 		'Name' => $TagName
 	));
-if (empty($TagInfo) || $TagInfo['TotalPosts'])===0 || $TagInfo['IsEnabled'] !== 1)
+if (empty($TagInfo) || $TagInfo['TotalPosts'] === 0 || $TagInfo['IsEnabled'] !== 1)
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 $TotalPage = ceil($TagInfo['TotalPosts'] / $Config['TopicsPerPage']);
 if ($Page < 0 || $Page == 1) {
