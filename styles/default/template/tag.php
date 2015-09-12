@@ -70,12 +70,51 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<div class="sider-box-content btn">
 			<?php echo GetTagIcon($TagInfo['ID'], $TagInfo['Icon'], $TagInfo['Name'], 'large'); ?>
 			<p><span><h1><?php echo $TagInfo['Name']; ?></h1></span></p>
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $TagInfo['Description']; ?></p>
 			<p>
-				<?php
-				if($CurUserID){ ?>
+				<div id="TagDescription">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<?php echo $TagInfo['Description']; ?>
+					<br />
+				</div>
+				<div id="EditTagDescription" class="hide">
+					<p>
+						<textarea id="TagDescriptionInput" style="width:230px;height:240px;">
+							<?php echo $TagInfo['Description']; ?>
+						</textarea>
+					</p>
+					<p>
+						<input type="button" value="<?php echo $Lang['Submit']; ?>" class="textbtn" onclick="JavaScript:SubmitTagDescription(<?php echo $TagInfo['ID']; ?>);">
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" value="<?php echo $Lang['Cancel']; ?>" class="textbtn" onclick="JavaScript:CompletedEditingTagDescription();">
+					</p>
+					<p></p>
+				</div>
+			</p>
+			<p>
+<?php
+if($CurUserID){
+?>
 				<a href="###" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 4, 2, false, this);"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a>
-				<?php } ?>
+<?php
+}
+if($CurUserRole >= 3){
+?>
+<script type="text/javascript">
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/jquery.async.uploader.js?version=<?php echo $Config['Version']; ?>",function(){
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/tag.function.js?version=<?php echo $Config['Version']; ?>",function(){
+	});
+});
+</script>
+				<a href="###" class="edittag" onclick="javascript:EditTagDescription();"><?php echo $Lang['Edit_Description']; ?></a>
+				<a href="###" onclick="javascript:UploadTagIcon(<?php echo $TagInfo['ID']; ?>);"><?php echo $Lang['Upload_A_New_Icon']; ?></a>
+<?php
+}
+if($CurUserRole >= 4){
+?>
+				<a href="###" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 5, 'SwitchStatus', true, this);"><?php echo $TagInfo['IsEnabled']?$Lang['Disable_Tag']:$Lang['Enable_Tag']; ?></a>
+<?php
+}
+?>
 			</p>
 			<ul class="grey">
 				<li>

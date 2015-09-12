@@ -13,7 +13,7 @@
  */
 
 // 上传一个新图标
-function UploadTagIcon() {
+function UploadTagIcon(TagID) {
 	$.upload({
 		// 上传地址
 		url: WebsitePath + "/manage", 
@@ -32,28 +32,30 @@ function UploadTagIcon() {
 			return true;
 		},
 		// 上传之后回调
-		onComplate: function(data) {
-			alert(data.Message);
+		onComplate: function(Data) {
+			if(Data.Status == 1){
+				alert(Data.Message);
+			}else{
+				alert(Data.ErrorMessage);
+			}
 		}
 	});
 }
 
-//编辑标签
+//编辑标签描述
 function EditTagDescription() {
 	$("#TagDescription").hide();
 	$("#EditTagDescription").show();
 }
 
-//完成标签编辑
+//完成标签描述编辑
 function CompletedEditingTagDescription() {
 	$("#EditTagDescription").hide();
 	$("#TagDescription").show();
 }
 
-
 //提交编辑修改
-function SubmitTagDescription() {
-	var EditCallbackObj = new EditPostCallback();
+function SubmitTagDescription(TagID) {
 	$.ajax({
 		url: WebsitePath + "/manage",
 		data: {
@@ -65,8 +67,13 @@ function SubmitTagDescription() {
 		cache: false,
 		dataType: "json",
 		type: "POST",
-		success: function() {
-
+		success: function(Data) {
+			if(Data.Status == 1){
+				CompletedEditingTagDescription();
+				$("#TagDescription").text($("#TagDescriptionInput").val());
+			}else{
+				alert(Data.ErrorMessage);
+			}
 		}
 	});
 

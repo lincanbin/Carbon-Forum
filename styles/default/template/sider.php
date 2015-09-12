@@ -42,7 +42,10 @@ foreach ($OauthData as $Value) {
 </div>
 <?php }else if($CurUserID && $UrlPath != 'register'){ ?>
 <div class="sider-box">
-	<div class="sider-box-title"><?php echo $Lang['User_Panel']; ?><span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=<?php echo $CurUserCode; ?>"><?php echo $Lang['Log_Out']; ?></a></span></div>
+	<div class="sider-box-title">
+		<?php echo $Lang['User_Panel']; ?>
+		<span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=<?php echo $CurUserCode; ?>"><?php echo $Lang['Log_Out']; ?></a></span>
+	</div>
 	<div class="sider-box-content">
 		<div class="User-Pannel-Avatar">
 			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($CurUserName); ?>">
@@ -78,8 +81,7 @@ foreach ($OauthData as $Value) {
 	</div>
 </div>
 <?php }
-if($Config['PageSiderContent'])
-{
+if($Config['PageSiderContent']) {
 ?>
 <div class="sider-box">
 	<div class="sider-box-title"><?php echo $Lang['Information_Bar']; ?></div>
@@ -88,4 +90,21 @@ if($Config['PageSiderContent'])
 		<div class="c"></div>
 	</div>
 </div>
-<?php } ?>
+<?php
+}
+if($HotTagsArray) {
+?>
+<div class="sider-box">
+	<div class="sider-box-title">
+		<?php echo $Lang['Hot_Tags']; ?>
+		<span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/tags"><?php echo $Lang['Show_More']; ?></a></span>
+	</div>
+	<div class="sider-box-content btn">
+		<?php foreach ($HotTagsArray as $Tag) {?>
+		<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag['Name']); ?>"><?php echo $Tag['Name']; ?></a>
+		<?php } ?>
+	</div>
+</div>
+<?php
+}
+?>

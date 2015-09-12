@@ -12,6 +12,9 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.j
 			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/new.function.js?version=<?php echo $Config['Version']; ?>",function(){
 				$("#editor").empty();
 				InitNewTopicEditor();
+				$.each(<?php echo json_encode(ArrayColumn($HotTagsArray, 'Name')); ?>,function(Offset,TagName) {
+					TagsListAppend(TagName, Offset);
+				});
 				console.log('editor loaded.');
 			});
 		});

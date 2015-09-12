@@ -3,9 +3,9 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/manage.php');
 SetStyle('api', 'API');
 
-$ID     = intval(Request('POST', 'ID', 0));
-$Type   = intval(Request('POST', 'Type', 0)); //1:Topic,2:Post,3:User
-$Action = Request('POST', 'Action', false);
+$ID     = intval(Request('Post', 'ID', 0));
+$Type   = intval(Request('Post', 'Type', 0)); //1:Topic,2:Post,3:User
+$Action = Request('Post', 'Action', false);
 
 switch ($Type) {
 	//Topic
@@ -245,7 +245,7 @@ switch ($Type) {
 			case 'Edit':
 				//Auth(4, $PostInfo['UserID'], true);
 				Auth(4);
-				$Content = XssEscape(Request('POST', 'Content', $PostInfo['Content']));
+				$Content = XssEscape(Request('Post', 'Content', $PostInfo['Content']));
 				if ($Content == $PostInfo['Content'])
 					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
 				if ($DB->query("UPDATE " . $Prefix . "posts SET Content = :Content Where ID=:ID", array(
@@ -429,12 +429,15 @@ switch ($Type) {
 		switch ($Action) {
 			// 修改标签描述
 			case 'EditDescription':
-				Auth(4);
-				$Content = XssEscape(Request('POST', 'Content', $TagInfo['Description']));
-				if($DB->query('UPDATE ' . $Prefix . 'tags SET Description = :Content Where ID=:TagID', 
+				Auth(3);
+				$Content = CharCV(Request('Post', 'Content', $TagInfo['Description']));
+				if ($Content == $TagInfo['Description'])
+					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
+				if($DB->query('UPDATE ' . $Prefix . 'tags SET Description = :Content WHERE ID=:TagID', 
 					array(
 						'TagID' => $ID,
 						'Content' => $Content
+					)
 				)) {
 					$Message = $Lang['Edited'];
 				} else {
@@ -443,13 +446,13 @@ switch ($Type) {
 				break;
 			// 修改标签图标
 			case 'UploadIcon':
-				Auth(4);
+				Auth(3);
 				if ($_FILES['TagIcon']['size'] && $_FILES['TagIcon']['size'] < 1048576) {
 					require(__DIR__ . "/includes/ImageResize.class.php");
 					$UploadIcon  = new ImageResize('PostField', 'TagIcon');
-					$LUploadResult = $UploadIcon->Resize(256, 'upload/tag/large/' . $CurUserID . '.png', 80);
-					$MUploadResult = $UploadIcon->Resize(48, 'upload/tag/middle/' . $CurUserID . '.png', 90);
-					$SUploadResult = $UploadIcon->Resize(24, 'upload/tag/small/' . $CurUserID . '.png', 90);
+					$LUploadResult = $UploadIcon->Resize(256, 'upload/tag/large/' . $ID . '.png', 80);
+					$MUploadResult = $UploadIcon->Resize(48, 'upload/tag/middle/' . $ID . '.png', 90);
+					$SUploadResult = $UploadIcon->Resize(24, 'upload/tag/small/' . $ID . '.png', 90);
 					$SetTagIconStatus = $TagInfo['Icon'] === 0?
 						$DB->query('UPDATE ' . $Prefix . 'tags SET Icon = 1 Where ID=:TagID', 
 							array('TagID' => $ID))
@@ -466,7 +469,7 @@ switch ($Type) {
 			// 禁用/启用该标签
 			case 'SwitchStatus':
 				Auth(4);
-				if($DB->query('UPDATE ' . $Prefix . 'tags SET IsEnabled = :IsEnabled Where ID=:TagID', 
+				if($DB->query('UPDATE ' . $Prefix . 'tags SET IsEnabled = :IsEnabled WHERE ID=:TagID', 
 					array(
 						'TagID' => $ID,
 						'IsEnabled' => $TagInfo['IsEnabled']?0:1 //Bool -> Int

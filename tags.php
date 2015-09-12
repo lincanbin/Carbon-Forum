@@ -14,7 +14,7 @@ if ($Page > $TotalPage) {
 if ($Page == 0)
 	$Page = 1;
 $TagsArray = array();
-// UPDATE `carbon_tags` t SET t.Description=(SELECT d.Abstract FROM `carbon_dict` d WHERE d.Title = t.Name limit 1)
+// UPDATE `carbon_tags` t SET t.Description=(SELECT d.Abstract FROM `carbon_dict` d WHERE d.Title = t.Name limit 1) WHERE t.Description = null;
 if (!$TagsArray) {
 	if ($Page <= 10) {
 		$TagsArray = $DB->query('SELECT * 
