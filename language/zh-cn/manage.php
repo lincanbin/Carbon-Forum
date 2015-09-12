@@ -30,5 +30,12 @@ $Lang = array_merge($Lang, array(
 	'Edited' => '编辑成功',
 	'Failure_Edit' => '编辑失败',
 
+	'Icon_Upload_Success' => '标签图标上传成功',
+	'Icon_Upload_Failure' => '标签图标上传失败',
+	'Icon_Is_Oversize' => '标签图标超过1M，上传失败',
+
+	'Enable_Tag' => '启用标签',
+	'Disable_Tag' => '禁用标签',
+
 	'Reset_Avatar_Successfully' => '重置头像成功，请刷新页面！'
 	));

@@ -12,6 +12,12 @@ $Lang = array_merge($Lang, array(
 	'Last_Updated_In' => '最后更新于',
 	'Follow' => '关注本话题',
 	'Unfollow' => '取消关注本话题',
+
+	'Upload_A_New_Icon' => '上传一个新图标',
+	'Edit' => '编辑',
+	'Submit' => '提交',
+	'Cancel' => '取消',
+
 	'Website_Statistics' => '站内统计',
 	'Topics_Number' => '主题数量',
 	'Posts_Number' => '回帖数量',

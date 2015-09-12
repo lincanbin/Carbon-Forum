@@ -67,20 +67,25 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div class="main-sider">
 	<div class="sider-box">
 		<div class="sider-box-title"><?php echo $Lang['Tag']; ?>：<?php echo $TagName; ?></div>
-		<div class="sider-box-content grey btn">
-			<ul>
-				<li><?php echo $TagInfo['Followers']; ?><?php echo $Lang['Followers']; ?></li>
-				<li><?php echo $TagInfo['TotalPosts']; ?><?php echo $Lang['Topics']; ?></li>
-				<li><?php echo $Lang['Created_In']; ?><?php echo FormatTime($TagInfo['DateCreated']); ?></li>
-				<li><?php echo $Lang['Last_Updated_In']; ?><?php echo FormatTime($TagInfo['MostRecentPostTime']); ?></li>
-			</ul>
+		<div class="sider-box-content btn">
+			<?php echo GetTagIcon($TagInfo['ID'], $TagInfo['Icon'], $TagInfo['Name'], 'large'); ?>
+			<p><span><h1><?php echo $TagInfo['Name']; ?></h1></span></p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $TagInfo['Description']; ?></p>
 			<p>
 				<?php
 				if($CurUserID){ ?>
 				<a href="###" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 4, 2, false, this);"><?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?></a>
 				<?php } ?>
 			</p>
-			<p><?php echo $TagInfo['Description']; ?></p>
+			<ul class="grey">
+				<li>
+					<?php echo $TagInfo['TotalPosts']; ?><?php echo $Lang['Topics']; ?>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<?php echo $TagInfo['Followers']; ?><?php echo $Lang['Followers']; ?>
+				</li>
+				<li><?php echo $Lang['Created_In']; ?><?php echo FormatTime($TagInfo['DateCreated']); ?></li>
+				<li><?php echo $Lang['Last_Updated_In']; ?><?php echo FormatTime($TagInfo['MostRecentPostTime']); ?></li>
+			</ul>
 		</div>
 	</div>
 	<?php

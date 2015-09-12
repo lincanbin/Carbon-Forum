@@ -418,7 +418,71 @@ switch ($Type) {
 			AlertMsg('404 Not Found', '404 Not Found');
 		}
 		break;
-	
+	//Tag
+	case 5:
+		$TagInfo = $DB->row("SELECT * FROM " . $Prefix . "tags Where ID=:ID", array(
+			"ID" => $ID
+		));
+		if (!$TagInfo) {
+			AlertMsg('Tag Not Found', 'Tag Not Found');
+		}
+		switch ($Action) {
+			// 修改标签描述
+			case 'EditDescription':
+				Auth(4);
+				$Content = XssEscape(Request('POST', 'Content', $TagInfo['Description']));
+				if($DB->query('UPDATE ' . $Prefix . 'tags SET Description = :Content Where ID=:TagID', 
+					array(
+						'TagID' => $ID,
+						'Content' => $Content
+				)) {
+					$Message = $Lang['Edited'];
+				} else {
+					AlertMsg($Lang['Failure_Edit'], $Lang['Failure_Edit']);
+				}
+				break;
+			// 修改标签图标
+			case 'UploadIcon':
+				Auth(4);
+				if ($_FILES['TagIcon']['size'] && $_FILES['TagIcon']['size'] < 1048576) {
+					require(__DIR__ . "/includes/ImageResize.class.php");
+					$UploadIcon  = new ImageResize('PostField', 'TagIcon');
+					$LUploadResult = $UploadIcon->Resize(256, 'upload/tag/large/' . $CurUserID . '.png', 80);
+					$MUploadResult = $UploadIcon->Resize(48, 'upload/tag/middle/' . $CurUserID . '.png', 90);
+					$SUploadResult = $UploadIcon->Resize(24, 'upload/tag/small/' . $CurUserID . '.png', 90);
+					$SetTagIconStatus = $TagInfo['Icon'] === 0?
+						$DB->query('UPDATE ' . $Prefix . 'tags SET Icon = 1 Where ID=:TagID', 
+							array('TagID' => $ID))
+						:true;
+					if ($LUploadResult && $MUploadResult && $SUploadResult && $SetTagIconStatus) {
+						$Message = $Lang['Icon_Upload_Success'];
+					} else {
+						$Message = $Lang['Icon_Upload_Failure'];
+					}
+				} else {
+					$Message = $Lang['Icon_Is_Oversize'];
+				}
+				break;
+			// 禁用/启用该标签
+			case 'SwitchStatus':
+				Auth(4);
+				if($DB->query('UPDATE ' . $Prefix . 'tags SET IsEnabled = :IsEnabled Where ID=:TagID', 
+					array(
+						'TagID' => $ID,
+						'IsEnabled' => $TagInfo['IsEnabled']?0:1 //Bool -> Int
+					)
+				)){
+					$Message = $TagInfo['IsEnabled']?$Lang['Enable_Tag']:$Lang['Disable_Tag'];
+				}else {
+					AlertMsg('Bad Request', 'Bad Request');
+				}
+				break;
+			default:
+				AlertMsg('Bad Request', 'Bad Request');
+				break;
+
+		}
+		break;
 	//Error
 	default:
 		AlertMsg('Bad Request', 'Bad Request');
