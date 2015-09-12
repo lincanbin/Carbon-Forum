@@ -292,7 +292,7 @@ CREATE TABLE `carbon_tags` (
   `Name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Followers` int(10) unsigned DEFAULT '0',
   `Icon` tinyint(1) unsigned DEFAULT '0',
-  `Description` mediumtext,
+  `Description` mediumtext CHARACTER SET utf8,
   `IsEnabled` tinyint(1) unsigned DEFAULT '1',
   `TotalPosts` int(10) unsigned DEFAULT '0',
   `MostRecentPostTime` int(10) unsigned NOT NULL,

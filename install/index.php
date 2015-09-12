@@ -16,6 +16,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$DBPassword = $_POST['DBPassword'];
 	$SearchServer = $_POST['SearchServer'];
 	$SearchPort   = $_POST['SearchPort'];
+	$EnableMemcache   = $_POST['EnableMemcache'];
+	$MemCachePrefix   = $_POST['MemCachePrefix'];
 	//$WebsitePath = $_POST['WebsitePath'];
 	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	if(preg_match('/(.*)\/install/i', $WebsitePath , $WebsitePathMatch))
@@ -48,6 +50,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$ConfigBuffer = str_replace("{{DBPassword}}",$DBPassword,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{SearchServer}}",$SearchServer,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{SearchPort}}",$SearchPort,$ConfigBuffer);
+	$ConfigBuffer = str_replace("{{EnableMemcache}}",$EnableMemcache,$ConfigBuffer);
+	$ConfigBuffer = str_replace("{{MemCachePrefix}}",$MemCachePrefix,$ConfigBuffer);
+
 	fclose($ConfigPointer);
 	$ConfigPHP = fopen("../config.php","w+");       
 	fwrite($ConfigPHP,$ConfigBuffer);
@@ -169,12 +174,29 @@ function GetNextSQL() {
 									<td width="auto" align="left"><input type="password" name="DBPassword" class="sl w200" value="" /></td>
 								</tr>
 								<tr>
-									<td width="280" align="right">搜索服务器&nbsp;&nbsp;/&nbsp;&nbsp;Search Server</td>
+									<td colspan="2" class="title">高级选项（可不填） / Advanced Settings (Optional)</td>
+									
+								</tr>
+								<tr>
+									<td width="280" align="right">Sphinx搜索服务器&nbsp;&nbsp;/&nbsp;&nbsp;Sphinx Search Server</td>
 									<td width="auto" align="left"><input type="text" name="SearchServer" class="sl w200" value="" /></td>
 								</tr>
 								<tr>
-									<td width="280" align="right">搜索端口&nbsp;&nbsp;/&nbsp;&nbsp;Search Port</td>
+									<td width="280" align="right">Sphinx搜索端口&nbsp;&nbsp;/&nbsp;&nbsp;Sphinx Search Port</td>
 									<td width="auto" align="left"><input type="text" name="SearchPort" class="sl w200" value="" /></td>
+								</tr>
+								<tr>
+									<td width="280" align="right">打开缓存&nbsp;&nbsp;/&nbsp;&nbsp;Enable Cache<br />(Memcached / Redis / XCache)</td>
+									<td width="auto" align="left">
+										<select name="EnableMemcache">
+											<option value="false">关闭 / False</option>
+											<option value="true">打开 / True</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td width="280" align="right">缓存前缀&nbsp;&nbsp;/&nbsp;&nbsp;Cache Prefix</td>
+									<td width="auto" align="left"><input type="text" name="MemCachePrefix" class="sl w200" value="carbon_" /></td>
 								</tr>
 								<tr>
 									<td width="280" align="right"></td>
