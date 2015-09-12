@@ -30,5 +30,12 @@ $Lang = array_merge($Lang, array(
 	'Edited' => '編輯成功',
 	'Failure_Edit' => '編輯失敗',
 
+	'Icon_Upload_Success' => '標籤圖示上傳成功',
+	'Icon_Upload_Failure' => '標籤圖示上傳失敗',
+	'Icon_Is_Oversize' => '標籤圖示超過1M，上傳失敗',
+
+	'Enable_Tag' => '啟用標籤',
+	'Disable_Tag' => '禁用標籤',
+
 	'Reset_Avatar_Successfully' => '重設肖像成功，請重新整理頁面。'
 	));

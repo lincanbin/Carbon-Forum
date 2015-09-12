@@ -12,6 +12,14 @@ $Lang = array_merge($Lang, array(
 	'Last_Updated_In' => '最後更新於',
 	'Follow' => '關注本標籤',
 	'Unfollow' => '取消關注本標籤',
+
+	'Upload_A_New_Icon' => '更新圖示',
+	'Enable_Tag' => '啟用標籤',
+	'Disable_Tag' => '禁用標籤',
+	'Edit_Description' => '編輯描述',
+	'Submit' => '提交',
+	'Cancel' => '取消',
+
 	'Website_Statistics' => '站內統計',
 	'Topics_Number' => '討論串數量',
 	'Posts_Number' => '回覆數量',

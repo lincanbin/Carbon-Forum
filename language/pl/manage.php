@@ -30,5 +30,12 @@ $Lang = array_merge($Lang, array(
 	'Edited' => 'Edytowany',
 	'Failure_Edit' => 'Wystąpił błąd podczas edycji',
 
+	'Icon_Upload_Success' => 'Prześlij Sukces',
+	'Icon_Upload_Failure' => 'Prześlij Niezastosowanie',
+	'Icon_Is_Oversize' => 'Ikona nie może przekroczyć 1MiB',
+
+	'Enable_Tag' => 'Włącz tag',
+	'Disable_Tag' => 'Wyłącz tag',
+
 	'Reset_Avatar_Successfully' => 'Zresetować awatar powodzeniem! '
 	));

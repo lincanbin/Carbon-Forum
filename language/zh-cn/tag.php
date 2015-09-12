@@ -13,8 +13,10 @@ $Lang = array_merge($Lang, array(
 	'Follow' => '关注本话题',
 	'Unfollow' => '取消关注本话题',
 
-	'Upload_A_New_Icon' => '上传一个新图标',
-	'Edit' => '编辑',
+	'Upload_A_New_Icon' => '更新图标',
+	'Enable_Tag' => '启用标签',
+	'Disable_Tag' => '禁用标签',
+	'Edit_Description' => '编辑描述',
 	'Submit' => '提交',
 	'Cancel' => '取消',
 

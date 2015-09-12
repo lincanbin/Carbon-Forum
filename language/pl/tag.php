@@ -12,6 +12,14 @@ $Lang = array_merge($Lang, array(
 	'Last_Updated_In' => 'Last updated in ',
 	'Follow' => 'Follow',
 	'Unfollow' => 'Unfollow',
+
+	'Upload_A_New_Icon' => 'Dodaj nową ikonę',
+	'Enable_Tag' => 'Włącz tag',
+	'Disable_Tag' => 'Wyłącz tag',
+	'Edit_Description' => 'Zmień opis',
+	'Submit' => 'Zatwierdź',
+	'Cancel' => 'Anuluj',
+
 	'Website_Statistics' => 'Website Statistics',
 	'Topics_Number' => 'Topics Number',
 	'Posts_Number' => 'Posts Number',

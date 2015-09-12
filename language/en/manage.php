@@ -30,5 +30,12 @@ $Lang = array_merge($Lang, array(
 	'Edited' => 'Edited',
 	'Failure_Edit' => 'Failure Edit',
 
+	'Icon_Upload_Success' => 'Upload Success',
+	'Icon_Upload_Failure' => 'Upload Failure',
+	'Icon_Is_Oversize' => 'Icon can not exceed 1MiB',
+
+	'Enable_Tag' => 'Enable tag',
+	'Disable_Tag' => 'Disable tag',
+
 	'Reset_Avatar_Successfully' => 'Reset avatar successfully! '
 	));
