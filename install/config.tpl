@@ -11,7 +11,7 @@ define('ForumLanguage', '{{Language}}');
 //MemCache(d) / Redis
 define('EnableMemcache', {{EnableMemcache}});
 define('MemCacheHost', 'localhost');
-define('MemCachePort', 11211);
+define('MemCachePort', 11211);//Memcache: 11211, Redis: 6379
 define('MemCachePrefix', '{{MemCachePrefix}}');
 //Database
 define('DBHost', '{{DBHost}}');
