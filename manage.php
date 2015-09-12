@@ -453,12 +453,13 @@ switch ($Type) {
 					$LUploadResult = $UploadIcon->Resize(256, 'upload/tag/large/' . $ID . '.png', 80);
 					$MUploadResult = $UploadIcon->Resize(48, 'upload/tag/middle/' . $ID . '.png', 90);
 					$SUploadResult = $UploadIcon->Resize(24, 'upload/tag/small/' . $ID . '.png', 90);
-					$SetTagIconStatus = $TagInfo['Icon'] === 0?
+					
+					if ($LUploadResult && $MUploadResult && $SUploadResult) {
+						$SetTagIconStatus = $TagInfo['Icon'] === 0?
 						$DB->query('UPDATE ' . $Prefix . 'tags SET Icon = 1 Where ID=:TagID', 
 							array('TagID' => $ID))
 						:true;
-					if ($LUploadResult && $MUploadResult && $SUploadResult && $SetTagIconStatus) {
-						$Message = $Lang['Icon_Upload_Success'];
+						$Message = $SetTagIconStatus ? $Lang['Icon_Upload_Success'] : $Lang['Icon_Upload_Failure'];
 					} else {
 						$Message = $Lang['Icon_Upload_Failure'];
 					}
