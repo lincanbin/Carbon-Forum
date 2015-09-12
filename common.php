@@ -69,6 +69,9 @@ if (!$Config) {
 		$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
 	}
 }
+// 热门标签列表
+$HotTagsArray = json_decode($Config['CacheHotTags'], true);
+$HotTagsArray = $HotTagsArray?$HotTagsArray:array();
 
 $PHPSelf    = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
 $UrlPath    = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
@@ -792,7 +795,11 @@ if ($Config['DaysDate'] != $CurrentDate) {
 		'DaysDate' => $CurrentDate,
 		'DaysTopics' => 0,
 		'DaysPosts' => 0,
-		'DaysUsers' => 0
+		'DaysUsers' => 0,
+		'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . $Prefix . 'tags 
+			WHERE IsEnabled=1 
+			ORDER BY TotalPosts DESC 
+			LIMIT ' . $Config['TopicsPerPage']))
 	));
 }
 // Get the infomation of current user
