@@ -414,6 +414,9 @@ h2.resp-accordion {
 	padding: 0px;
 	text-align:center;
 }
+.hide {
+	display:none;
+}
 .c {
 	clear:both;
 }

@@ -232,29 +232,33 @@ function DeleteTag(TopicID, TargetTag, TagName) {
 //编辑帖子
 function EditPost(PostID) {
 	//初始化编辑器
-	document.getElementById('p' + PostID).style.visibility = "hidden";
-	document.getElementById('p' + PostID).style.height = "0";
+	//document.getElementById('p' + PostID).style.visibility = "hidden";
+	//document.getElementById('p' + PostID).style.height = "0";
+	$("#p" + PostID).hide();
 	window.UEDITOR_CONFIG['textarea'] = 'PostContent' + PostID;
 	UE.getEditor('edit' + PostID, {
 		onready: function() {
 			UE.getEditor('edit' + PostID).setContent(PostContentLists['p' + PostID]); //将帖子内容放到编辑器里
 		}
 	});
+	$("#edit" + PostID).show();
 	if( $("#edit_button" + PostID) && $("#edit_button" + PostID).length == 0){
 		$("#edit" + PostID).append('<div id="edit_button'+ PostID +'"><p></p><p><input type="button" value=" ' + Lang['Edit'] + ' " class="textbtn" id="EditButton' + PostID + '" onclick="JavaScript:SubmitEdit(' + PostID + ');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" ' + Lang['Cancel'] + ' " class="textbtn" onclick="JavaScript:DestoryEditor(' + PostID + ');"></p>');
 	}
-	document.getElementById('edit' + PostID).style.visibility = "visible";
+	//document.getElementById('edit' + PostID).style.visibility = "visible";
 }
 
 //取消编辑（销毁编辑器）
 function DestoryEditor(PostID) {
 	UE.getEditor('edit' + PostID).destroy();
-	document.getElementById('p' + PostID).style.visibility = "visible";
-	document.getElementById('p' + PostID).style.height = "auto";
+	$("#p" + PostID).show();
+	//document.getElementById('p' + PostID).style.visibility = "visible";
+	//document.getElementById('p' + PostID).style.height = "auto";
 	$("#edit" + PostID).html("");
-	document.getElementById('edit' + PostID).style.height = "0";
-	document.getElementById('edit' + PostID).style.padding = "0";
-	document.getElementById('edit' + PostID).style.visibility = "hidden";
+	$("#edit" + PostID).hide();
+	//document.getElementById('edit' + PostID).style.height = "0";
+	//document.getElementById('edit' + PostID).style.padding = "0";
+	//document.getElementById('edit' + PostID).style.visibility = "hidden";
 }
 
 //提交编辑修改

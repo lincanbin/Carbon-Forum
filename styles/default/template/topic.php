@@ -27,10 +27,10 @@ if($Page==1)
 	<div class="c"></div>
 </div>
 <div class="topic-content">
-	<div id="p<?php echo $PostsArray[0]['ID']; ?>" style="visibility:visible;">
+	<div id="p<?php echo $PostsArray[0]['ID']; ?>">
 		<?php echo $PostsArray[0]['Content']; ?>
 	</div>
-	<div id="edit<?php echo $PostsArray[0]['ID']; ?>" style="width:648px;height:auto;visibility:hidden;"></div>
+	<div id="edit<?php echo $PostsArray[0]['ID']; ?>" style="width:648px;height:auto;" class="hide"></div>
 </div>
 <div class="topic-tags btn">
 
@@ -140,10 +140,10 @@ foreach($PostsArray as $key => $Post)
 					</span>
 				</div>
 				<div class="c"></div>
-				<div id="p<?php echo $Post['ID']; ?>" style="visibility:visible;">
+				<div id="p<?php echo $Post['ID']; ?>">
 					<?php echo $Post['Content']; ?>
 				</div>
-				<div id="edit<?php echo $Post['ID']; ?>" style="width:588px;height:auto;visibility:hidden;"></div>
+				<div id="edit<?php echo $Post['ID']; ?>" style="width:588px;height:auto;" class="hide"></div>
 			</div>
 			<?php if($CurUserID){ ?>
 			<div class="comment-button">
