@@ -318,6 +318,13 @@ function GetAvatar($UserID, $UserName, $Size = 'middle')
 }
 
 
+//获取Tag标签
+function GetTagIcon($TagID, $Icon, $TagName, $Size = 'middle')
+{
+	global $Config;
+	return '<img src="' . $Config['WebsitePath'] . '/upload/tag/' . $Size . '/' . ($Icon?$TagID:'0') . '.png" alt="' . $TagName . '"/>';
+}
+
 //获取Cookie
 function GetCookie($Key, $DefaultValue = false)
 {
