@@ -871,6 +871,9 @@ img .avatar {
 	list-style:none !important;
 	line-height:1.2em;
 }
+.sider-box-content img {
+	max-width: 250px;
+}
 /* User Pannel*/
 .User-Pannel-Avatar{
 	width: 128px;
