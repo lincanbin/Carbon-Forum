@@ -14,25 +14,14 @@ if ($Page > $TotalPage) {
 if ($Page == 0)
 	$Page = 1;
 $TagsArray = array();
-// UPDATE `carbon_tags` t SET t.Description=(SELECT d.Abstract FROM `carbon_dict` d WHERE d.Title = t.Name limit 1) WHERE t.Description = null;
+// UPDATE `carbon_tags` t SET t.Description=(SELECT d.Abstract FROM `carbon_dict` d WHERE d.Title = t.Name limit 1)
 if (!$TagsArray) {
-	if ($Page <= 10) {
-		$TagsArray = $DB->query('SELECT * 
-			FROM ' . $Prefix . 'tags 
-			WHERE IsEnabled=1 
-			ORDER BY TotalPosts DESC 
-			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
-	} else {
-		$TagsArray = $DB->query('SELECT * 
-			FROM ' . $Prefix . 'tags 
-			WHERE IsEnabled=1 AND TotalPosts<=(SELECT TotalPosts 
-					FROM ' . $Prefix . 'tags 
-					WHERE IsEnabled=1 
-					ORDER BY TotalPosts DESC 
-					LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',1) 
-			ORDER BY TotalPosts DESC 
-			LIMIT ' . $Config['TopicsPerPage']);
-	}
+	$TagsArray = $DB->query('SELECT * 
+		FROM ' . $Prefix . 'tags 
+		WHERE IsEnabled=1 
+		ORDER BY TotalPosts DESC 
+		LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
+
 	if ($CurUserID){
 		$IsFavoriteArray = array_flip($DB->column("SELECT FavoriteID FROM " . $Prefix . "favorites 
 			Where UserID=".$CurUserID." and Type=2 and FavoriteID in (?)", 
