@@ -78,7 +78,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				</div>
 				<div id="EditTagDescription" class="hide">
 					<p>
-						<textarea id="TagDescriptionInput" style="width:230px;height:240px;"><?php echo $TagInfo['Description']; ?></textarea>
+						<textarea id="TagDescriptionInput" style="width:230px;height:160px;"><?php echo $TagInfo['Description']; ?></textarea>
 					</p>
 					<p>
 						<input type="button" value="<?php echo $Lang['Submit']; ?>" class="textbtn" onclick="JavaScript:SubmitTagDescription(<?php echo $TagInfo['ID']; ?>);">
