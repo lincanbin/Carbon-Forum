@@ -51,7 +51,7 @@
 	padding: .3em .5em;
 	font-size: .75em;
 	background-color: #5590CC;
-	top: 5.1em;
+	top: 3.8em;
 	right: 2em;
 	margin: 0;
 	text-align: right;
@@ -385,4 +385,40 @@ blockquote {
 	line-height: 22px;
 	vertical-align: baseline;
 	font-size: 100%;
+}
+
+
+
+body {
+	width: 100%;
+	height: 100%;
+}
+
+.slideout-menu {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 0;
+	width: 240px;
+	padding: 0 10px;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	display: none;
+}
+
+.slideout-panel {
+	position: relative;
+	z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+	overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+	display: block;
 }
