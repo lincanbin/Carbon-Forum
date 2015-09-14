@@ -18,9 +18,9 @@ if(!$IsAjax){
 	<meta name="full-screen" content="yes" />
 	<meta name="browsermode" content="application" />
 	<meta name="x5-fullscreen" content="true" />
-	<meta name="msapplication-TileColor" content="#F9F9F9" />
+	<meta name="msapplication-TileColor" content="#0088D1" />
 	<meta name="msapplication-TileImage" content="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
-	<meta name="theme-color" content="#F9F9F9" />
+	<meta name="theme-color" content="#0088D1" />
 	<link rel="icon" sizes="192x192" href="<?php echo $Config['WebsitePath']; ?>/static/img/nice-highres.png" />
 	<link rel="apple-touch-icon-precomposed" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-57x57-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-72x72-precomposed.png" />

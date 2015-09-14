@@ -59,7 +59,7 @@ foreach ($OauthData as $Value) {
 		</a>
 	</li>
 	<li>
-		<a class="icon message" href="<?php echo $Config['WebsitePath']; ?>/notifications">
+		<a class="icon message" href="<?php echo $Config['WebsitePath']; ?>/notifications" data-refresh="true">
 			<?php echo $Lang['Notifications'];
 			if($CurUserInfo['NewMessage']){
 			?>
