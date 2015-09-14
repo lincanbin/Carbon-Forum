@@ -12,7 +12,10 @@ if(!$IsAjax){
 	echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta http-equiv="cleartype" content="on" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="HandheldFriendly" content="True" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="mobile-web-app-capable" content="yes" />
 	<meta name="full-screen" content="yes" />
@@ -36,14 +39,13 @@ if(!$IsAjax){
 		var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/fastclick.min.js?version=<?php echo $Config['Version']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/appframework.ui.min.js?version=<?php echo $Config['Version']; ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/slideout.min.js?version=<?php echo $Config['Version']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/mobile.global.js?version=<?php echo $Config['Version']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo $Config['Version']; ?>"></script>
 <?php
 if ($Config['PageHeadContent']) {
-	echo $Config['PageHeadContent'];
+	echo $Config['PageHeadContent'].'
+';
 }
 if (isset($PageMetaKeyword) && $PageMetaKeyword) {
 	echo '	<meta name="keywords" content="', $PageMetaKeyword, '" />
@@ -81,6 +83,12 @@ if($Config['MobileDomainName']){
 </html>
 <?php
 }else{
+?>
+<title><?php
+	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
+	echo $PageTitle;
+	echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
+<?php
 	include($ContentFile);
 	//Pjax
 ?>

@@ -32,14 +32,16 @@ function CreateNewTopic() {
 		document.NewForm.AlternativeTag.focus();
 		return false;
 	} else {
-		DrawToast(Lang['Submitting']);
+		$.afui.toast(Lang['Submitting']);
 		$("#PublishButton").val(Lang['Submitting']);
+		var MarkdownConverter = new showdown.Converter(),
+		Content = MarkdownConverter.makeHtml($("#Content").val());
 		$.ajax({
 			url: WebsitePath + '/new',
 			data: {
 				FormHash: document.NewForm.FormHash.value,
 				Title: document.NewForm.Title.value,
-				Content: SimplifiedMarkdown(document.NewForm.Content.value),
+				Content: Content,
 				Tag: $("input[name='Tag[]']").map(function() {
 					return $(this).val();
 				}).get()
@@ -47,10 +49,16 @@ function CreateNewTopic() {
 			type: 'post',
 			dataType: 'json',
 			success: function(data) {
-				HideToast();
+				//TODO: 隐藏Toast
 				if (data.Status == 1) {
 					$("#PublishButton").val(Lang['Submit_Success']);
-					$.ui.loadContent(WebsitePath + "/t/" + data.TopicID, false, false, "slide");
+					$.afui.loadContent(
+						WebsitePath + "/t/" + data.TopicID, 
+						false, 
+						false, 
+						"slide",
+						document.getElementById('mainview')
+					);
 				} else {
 					CarbonAlert(data.ErrorMessage);
 				}
