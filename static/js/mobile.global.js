@@ -20,37 +20,32 @@ if (! ((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchst
 	script.src = WebsitePath + "/static/js/appframework.desktopBrowsers.js";
 	var tag = $("head").append(script);
 }
-$.ui.overlayStatusbar = true; // for ios7 only to add header padding to overlay the statusbar
-$.ui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
-$.ui.useOSThemes = false; //This must be set before $(document).ready() triggers;
-$.ui.isAjaxApp = true;
-$.ui.useAjaxCacheBuster = false;
-$.ui.slideSideMenu = true; //Set to false to turn off the swiping to reveal
+$.afui.overlayStatusbar = true; // for ios7 only to add header padding to overlay the statusbar
+$.afui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
+$.afui.useOSThemes = false; //This must be set before $(document).ready() triggers;
+$.afui.isAjaxApp = true;
+$.afui.useAjaxCacheBuster = false;
 //This function runs when the body is loaded.
 
 $(document).ready(function() {
-	$.ui.launch();
-	$.ui.removeFooterMenu();//force hide the bottom nav menu. 
-	//$("#navbar").css("display", "block");//AddFooterMenu
-	//Prevent appearance of scroll bar in the PC side
-	$("#content")[0].children[0].style.overflowX = "hidden";
+	$.afui.launch();
+	$.afui.ready(function(){
+		$("nav header").css('margin', '0 -10px');
+	});
+	slideout = new Slideout({
+		'panel': document.getElementsByClassName('pages')[0],
+		'menu': document.getElementById('menu'),
+		'padding': 240,
+		'tolerance': 70
+	});
 });
 
-if($.os.ios || $.os.android){
-	$.feat.nativeTouchScroll = false; //Disable native scrolling globally
-}else{
-	$.feat.nativeTouchScroll = true;
-}
 
 function PageAjaxLoad (Title, URL) {
 	setTimeout(function () {
 		history.pushState({}, Title, URL);
 		document.title = Title;
-		var TemporaryContent = $("#content")[0].children;
-		for (var i = TemporaryContent.length - 1; i >= 0; i--) {
-			TemporaryContent[i].style.overflowX = "hidden";
-		};
-		$("#content")[0].children[0].style.overflowX = "hidden";
+		$.afui.setTitle(Title);
 		if (document.getElementById("ReturnUrl") != null) {
 			document.getElementById("ReturnUrl").value = URL;
 		};
@@ -59,7 +54,7 @@ function PageAjaxLoad (Title, URL) {
 
 //非阻塞的带样式的Alert
 function CarbonAlert(Message) {
-	$.ui.popup(Message);
+	$.afui.popup(Message);
 }
 
 //仿安卓的Toast
@@ -127,7 +122,7 @@ function ManageCallback(TargetTag) {
 //管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 	if(NeedToConfirm){
-		$.ui.popup({
+		$.afui.popup({
 			title: Lang['Confirm'],
 			message: Lang['Confirm_Operation'],
 			cancelText: Lang['Cancel'],
@@ -172,7 +167,7 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 //回复某人
 function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	DefaultContent = PostFloor==0 ? "" : Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :\r\n"
-	$.ui.popup({
+	$.afui.popup({
 		title: Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :",
 		message: "<textarea id=\"Content" + TopicID +"\" rows=\"10\">"+ DefaultContent +"</textarea>",
 		cancelText: Lang['Cancel'],
@@ -197,7 +192,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 					success: function(Result) {
 						HideToast();
 						if (Result.Status == 1) {
-							$.ui.loadContent(WebsitePath + "/t/" + Result.TopicID + (Result.Page > 1 ? "-" + Result.Page: ""), false, false, "slide");
+							$.afui.loadContent(WebsitePath + "/t/" + Result.TopicID + (Result.Page > 1 ? "-" + Result.Page: ""), false, false, "slide");
 						} else {
 							CarbonAlert(Result.ErrorMessage);
 						}
@@ -214,7 +209,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 
 //回复某人
 function Search() {
-	$.ui.popup({
+	$.afui.popup({
 		title: "Search",
 		message: '<input type="text" id="SearchInput" />',
 		cancelText: Lang['Cancel'],
@@ -223,7 +218,7 @@ function Search() {
 		doneText: Lang['Confirm'],
 		doneCallback: function() {
 			if(document.getElementById("SearchInput").value.length) {
-				$.ui.loadContent(WebsitePath + '/search/'+document.getElementById("SearchInput").value,false,false,'slide');
+				$.afui.loadContent(WebsitePath + '/search/'+document.getElementById("SearchInput").value,false,false,'slide');
 			}
 		},
 		cancelOnly: false
