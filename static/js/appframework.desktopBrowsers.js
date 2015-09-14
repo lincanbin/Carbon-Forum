@@ -1,16 +1,17 @@
-/*
+/**
  * desktopBrowsers contributed by Carlos Ouro @ Badoo
  * translates desktop browsers events to touch events and prevents defaults
  * It can be used independently in other apps but it is required for using the touchLayer in the desktop
  *
  * @param {Function} $ The appframework selector function
  */
- /* global DocumentTouch*/
+ 
 (function ($) {
 	"use strict";
 	var cancelClickMove = false;
 	//See if we can create a touch event
 	var tmp;
+	if($.os.supportsTouch) return;
 	try {
 		tmp = document.createEvent("TouchEvent");
 		return;
@@ -31,38 +32,11 @@
 	 */
 	var preventAllButInputs = function(event, target) {
 		var tag = target.tagName.toUpperCase();
-		if (tag.indexOf("SELECT") > -1 || tag.indexOf("TEXTAREA") > -1 || tag.indexOf("INPUT") > -1) {
+		if (tag.indexOf("SELECT") > -1 || tag.indexOf("OPTION") > -1 || tag.indexOf("TEXTAREA") > -1 || tag.indexOf("INPUT") > -1) {
 			return;
 		}
 		preventAll(event);
 	};
-	function TouchList(){
-		this.length=0;
-	}
-	TouchList.prototype = {
-		item:function(ind){
-			return this[ind];
-		},
-		_add:function(touch){
-			this[this.length]=touch;
-			this.length++;
-		}
-	};
-
-	var touchIdentifier=1000;
-	function Touch() {
-		this.touchIdentifier=touchIdentifier++;
-	}
-
-	Touch.prototye = {
-		"clientX":0,
-		"clientY":0,
-		"screenX":0,
-		"screenY":0,
-		"pageX":0,
-		"pageY":0,
-		"identifier":0
-	}
 
 
 
@@ -76,10 +50,10 @@
 
 		touchevt.initEvent(type, true, true);
 		touchevt.initMouseEvent(type, true, true, window, originalEvent.detail, originalEvent.screenX, originalEvent.screenY, originalEvent.clientX, originalEvent.clientY, originalEvent.ctrlKey, originalEvent.shiftKey, originalEvent.altKey, originalEvent.metaKey, originalEvent.button, originalEvent.relatedTarget);
-		touchevt.touches=  new TouchList();
-		touchevt.changedTouches = new TouchList();
-		touchevt.targetTouches = new TouchList();
-		var thetouch=new Touch();
+		touchevt.touches=  new $.feat.TouchList();
+		touchevt.changedTouches = new $.feat.TouchList();
+		touchevt.targetTouches = new $.feat.TouchList();
+		var thetouch=new $.feat.Touch();
 		thetouch.pageX=originalEvent.pageX;
 		thetouch.pageY=originalEvent.pageY;
 		thetouch.target=originalEvent.target;
@@ -146,6 +120,7 @@
 			cancelClickMove = false;
 			prevX=e.clientX;
 			prevY=e.clientY;
+			return true;
 		}, true);
 
 		document.addEventListener("MSPointerUp", function (e) {
@@ -153,6 +128,7 @@
 			redirectMouseToTouch("touchend", e, lastTarget,true); // bind it to initial mousedown target
 			lastTarget = null;
 			mouseDown = false;
+			return true;
 		}, true);
 		document.addEventListener("MSPointerMove", function (e) {
 			//IE is very flakey...we need 7 pixel movement before we trigger it
@@ -162,7 +138,7 @@
 			redirectMouseToTouch("touchmove", e, lastTarget,true);
 
 			cancelClickMove = true;
-
+			return true;
 		}, true);
 	}
 
@@ -187,7 +163,4 @@
 			cancelClickMove = false;
 		}
 	}, true);
-
-
-
-})(this.af);
+})(jQuery,window);
