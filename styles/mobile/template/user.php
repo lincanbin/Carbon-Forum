@@ -1,17 +1,6 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
-if(!$IsAjax){
 ?>
-<!-- this is the header div at the top -->
-<div id="header">
-	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
-</div>
-<div id="content">
-	<!-- here is where you can add your panels -->
-<?php } ?>
-<!-- main-content start -->
-<div data-title="<?php echo $PageTitle; ?>" id="User<?php echo $UserInfo['UserName']; ?>" class="panel" selected="true">
-<!-- User Infomation start -->
 <div class="card user-card-header-pic">
 	<div style="color:#FFFFFF;background-image:url(<?php echo $Config['WebsitePath'] . '/upload/avatar/large/' . $UserInfo['ID'] . '.png'; ?>)" valign="bottom" class="card-header color-white no-border"><?php echo $UserInfo['UserName']; ?></div>
 	<div class="card-content">
@@ -59,21 +48,3 @@ foreach($PostsArray as $key => $post) {
 <?php
 }
 ?>
-<!-- posts list end -->
-</div>
-<!-- main-content end -->
-
-<?php
-if(!$IsAjax){
-?>
-</div>
-<!-- main-sider start -->
-<!-- this is the default left side nav menu.  If you do not want any, do not include these -->
-<nav>
-	<!--header class="header"><h1>Left Menu</h1></header-->
-	<ul class="list">
-		<?php include($TemplatePath.'sider.php'); ?>
-	</ul>
-</nav>
-<!-- main-sider end -->
-<?php } ?>
