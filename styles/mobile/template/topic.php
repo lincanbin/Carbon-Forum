@@ -1,19 +1,10 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
-if(!$IsAjax){
-?>
-<div id="header">
-	<a id="menubadge" onclick="JavaScript:af.ui.toggleSideMenu()" class="menuButton"></a>
-</div>
-<div id="content">
-<?php } ?>
-	<div data-title="<?php echo $PageTitle; ?>" id="Topic<?php echo $ID.'-'.$Page; ?>" class="panel" selected="true">
-<?php
 if($Page>1){
 ?>
-	<ul class="list topic-list">
-		<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $ID.'-'.($Page-1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Previous']; ?></a></li>
-	</ul>
+<ul class="list topic-list">
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $ID.'-'.($Page-1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Previous']; ?></a></li>
+</ul>
 <?php
 }
 if($Page==1){
@@ -133,18 +124,6 @@ if($Page<$TotalPage){
 	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $ID.'-'.($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php } ?>
 </ul>
-<?php
-if(!$IsAjax){
-?>
-</div>
-<nav>
-	<ul class="list">
-		<?php include($TemplatePath.'sider.php'); ?>
-	</ul>
-</nav>
-<?php
-}
-?>
 <script type="text/javascript">
 TopicParse();
 </script>
