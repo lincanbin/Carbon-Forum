@@ -281,7 +281,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	);
 	$("#ReplyViewTitle").text(Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :");
 	var TempHTML = "<p>";
-	TempHTML += "<input class=\"icon picture\" type=\"file\" id=\"upfile\" onchange=\"javascript:UploadPicture('Content" + TopicID +"');\" accept=\"image/*\" />";
+	TempHTML += "<input type=\"file\" id=\"upfile\" onchange=\"javascript:UploadPicture('Content" + TopicID +"');\" accept=\"image/*\" />";
 	//TempHTML += "<a href=\"#\" class=\"button\" onclick=\"javascript:$('#upfile').click();\">";
 	//TempHTML += "<i class=\"icon picture\"></i>";
 	//TempHTML += "</a>";
