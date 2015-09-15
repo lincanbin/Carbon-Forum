@@ -355,7 +355,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	);
 	$("#ReplyViewTitle").text(Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :");
 	var TempHTML = "<p>";
-	TempHTML += "<a href=\"#\" class=\"button\" onclick=\"UploadPicture('Content" + TopicID +"')\">";
+	TempHTML += "<a href=\"#\" class=\"button\" onclick=\"javascript:UploadPicture('Content" + TopicID +"');\">";
 	TempHTML += "<i class=\"icon picture\"></i>";
 	TempHTML += "</a>";
 	TempHTML += "</p>";
@@ -363,6 +363,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 	$("#ReplyViewHTML").html(TempHTML);
 	$("#ReplyViewCancelButton").text(Lang['Cancel']);
 	$("#ReplyViewSubmitButton").text(Lang['Reply']);
+	$("#ReplyViewSubmitButton").unbind('click');
 	$("#ReplyViewSubmitButton").click(function() {
 		if ($("Content" + TopicID).val()) {
 			CarbonAlert(Lang['Content_Empty']);
@@ -383,6 +384,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 				success: function(Result) {
 					//TODO：删除Toast
 					if (Result.Status == 1) {
+						console.log(Result);
 						$.afui.loadContent(
 							WebsitePath + "/t/" + Result.TopicID + (Result.Page > 1 ? "-" + Result.Page: ""), 
 							false, 

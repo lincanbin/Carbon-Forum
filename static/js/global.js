@@ -17,6 +17,7 @@ $(function() {
 	function SetButtonToTop() {
 		//Force to refresh under pjax
 		$("#go-to-top").css('left', (Math.max(document.body.clientWidth, 960) - 960) / 2 + 690);
+		$("#go-to-top").unbind('click');
 		$("#go-to-top").click(function() {
 			$("html, body").animate({
 				"scrollTop": 0
