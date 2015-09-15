@@ -190,6 +190,8 @@ function ShowNotification(NewMessageNumber) {
 	}
 	return NewMessageNumber;
 }
+
+
 //异步非阻塞加载JavaScript脚本文件
 function loadScript(url, callback) {
 	var script = document.createElement("script");

@@ -74,7 +74,7 @@
 			this.addCssClass = opts.addCssClass ? opts.addCssClass : "";
 			this.message = opts.message || "";
 			this.delay=opts.delay||this.delay;
-			this.position=opts.position||"";
+			this.position=opts.position||"tc";
 			this.addCssClass+=" "+this.position;
 			this.type=opts.type||"";
 			//Check if the container exists
@@ -185,6 +185,91 @@ function PageAjaxLoad (Title, URL) {
 //非阻塞的带样式的Alert
 function CarbonAlert(Message) {
 	$.afui.popup(Message);
+}
+
+//获取实时信息通知
+function GetNotification() {
+	var NotificationSettings = {
+		type: "post",
+		cache: false,
+		url: WebsitePath + '/json/get_notifications',
+		dataType: 'json',
+		async: true,
+		success: function(Data) {
+			if (Data.Status != 0) {
+				ShowNotification(Data.NewMessage);
+			}
+			//获取到新消息，30秒后再请求
+			//没有则3秒后再开新线程
+			setTimeout(function() {
+				$.ajax(NotificationSettings);
+			},
+			(Data.NewMessage > 0) ? 30000 : 3000);
+		},
+		error: function() {
+			//遇见错误15秒后重试
+			setTimeout(function() {
+				$.ajax(NotificationSettings);
+			},
+			15000);
+		},
+	};
+	$.ajax(NotificationSettings);
+	console.log('start getting notification at ' + new Date().toLocaleString());
+}
+
+
+//HTML5的Notification API，用来进行消息提示
+function ShowNotification(NewMessageNumber) {
+	if (NewMessageNumber > 0) {
+		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewMessageNumber) + ')' + document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
+		$("#MessageNumber").css("visibility", "visible");
+		$("#MessageNumber").html(NewMessageNumber);
+		var EnableNotification = true;
+		if(window.localStorage){
+			var NotificationTime = localStorage.getItem(Prefix + "NotificationTime");
+			if(NotificationTime){
+				//如果距离上次弹出时间大于30s，才允许弹出通知
+				EnableNotification = (Math.round(new Date().getTime()/1000)-parseInt(NotificationTime))>30;
+				console.log(EnableNotification);
+			}
+		}
+		if (EnableNotification && window.Notification && Notification.permission !== "denied") {
+			Notification.requestPermission(function(Status) { // 请求权限
+				if (Status === 'granted') {
+					// 弹出一个通知
+					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
+						icon: WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
+						body: "",
+					});
+					CarbonNotification.onclick = function() {
+						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");
+					};
+					//设置通知弹出的Unix时间戳，实现多网页同步，以防止多次弹出窗口。
+					if(window.localStorage){
+						localStorage.setItem(Prefix + "NotificationTime", Math.round(new Date().getTime()/1000));
+					}
+					// 30秒后关闭通知
+					setTimeout(function() {
+						CarbonNotification.close();
+					},
+					30000);
+				}
+			});
+
+		}
+		$.afui.toast({
+			message:Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber),
+			position:"tc",
+			autoClose:true, //have to click the message to close
+			type:"success"
+		});
+	} else {
+		document.title = document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
+		$("#MessageNumber").html("0");
+		$("#MessageNumber").css("visibility", "hidden");
+	}
+	return NewMessageNumber;
 }
 
 
