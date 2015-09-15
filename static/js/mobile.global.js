@@ -525,7 +525,7 @@ if (! ((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchst
 	script.src = WebsitePath + "/static/js/appframework.desktopBrowsers.js";
 	var tag = $("head").append(script);
 }
-$.afui.overlayStatusbar = true; // for ios7 only to add header padding to overlay the statusbar
+$.afui.overlayStatusbar = false; // for ios7 only to add header padding to overlay the statusbar
 $.afui.autoLaunch = true; //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
 $.afui.useOSThemes = false; //This must be set before $(document).ready() triggers;
 $.afui.isAjaxApp = true;
@@ -542,6 +542,6 @@ $(document).ready(function() {
 		'panel': document.getElementsByClassName('pages')[0],
 		'menu': document.getElementById('menu'),
 		'padding': 200,
-		'tolerance': 70
+		'tolerance': 100
 	});
 });
