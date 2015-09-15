@@ -78,7 +78,27 @@ if($Config['MobileDomainName']){
 			<?php include($TemplatePath.'sider.php'); ?>
 		</nav>
 	</div>
+<?php
+if($CurUserID){
+?>
+	<div class="view" id="ReplyView">
+		<div class="pages">
+			<div class="panel" id="Reply">
+				<br>
+				<h1 id="ReplyViewTitle"></h1>
+				<br>
+				<div id="ReplyViewHTML">
+				</div>
+				<p><a class="button green block" href="#main" data-transition="up-reveal:dismiss" id="ReplyViewSubmitButton"></a></p>
+				<p><a class="button block" href="#main" data-transition="up-reveal:dismiss" id="ReplyViewCancelButton"></a></p>
+				
 
+			</div>
+		</div>
+	</div>
+<?php
+}
+?>
 </body>
 </html>
 <?php

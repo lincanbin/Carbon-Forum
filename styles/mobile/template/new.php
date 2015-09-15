@@ -11,10 +11,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		});
 	});
 </script>
-<form name="NewForm" onkeydown="if(event.keyCode==13)return false;">
+<form name="NewForm">
 	<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 	<input type="hidden" name="ContentHash" value="" />
 	<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" placeholder="<?php echo $Lang['Title']; ?>" /></p>
+	<p>
+		<a href="#" class="button" onclick="UploadPicture('Content')"><i class="icon picture"></i></a>
+	</p>
 	<p>
 		<textarea name="Content" id="Content" rows="10" placeholder="<?php echo $Lang['Content']; ?>"></textarea>
 	</p>
@@ -28,5 +31,5 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<div id="TagsList">
 		</div>
 	</p>
-	<p><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="button" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></p>
+	<p><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="button green" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></p>
 </form>
