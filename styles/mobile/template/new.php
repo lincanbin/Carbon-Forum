@@ -32,5 +32,5 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<div id="TagsList">
 		</div>
 	</p>
-	<p><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="button green" onclick="JavaScript:CreateNewTopic();" id="PublishButton" /></p>
+	<p><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="button block green" onclick="JavaScript:CreateNewTopic();" id="PublishButton" style="width:100%;" /></p>
 </form>

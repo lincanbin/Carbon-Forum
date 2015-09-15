@@ -10,6 +10,9 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a class="icon home" href="<?php echo $Config['WebsitePath']; ?>/" data-transition="slide" data-persist-ajax="true" data-refresh="true"><?php echo $Lang['Home']; ?></a>
 	</li>
 	<li>
+		<a class="icon pin" href="<?php echo $Config['WebsitePath']; ?>/tags" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Hot_Tags']; ?></a>
+	</li>
+	<li>
 		<a class="icon question" href="JavaScript:Search();" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Search']; ?></a>
 	</li>
 <?php

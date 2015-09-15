@@ -16,8 +16,8 @@ body {
 	content: none !important;
 }
 .topic-list li {
-	margin: auto .5em;
-	padding: .5em !important;
+	margin: auto 10px;
+	padding: .5em 0 !important;
 }
 .topic-list .avatar {
 	width: 20%;

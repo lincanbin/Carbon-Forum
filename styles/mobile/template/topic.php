@@ -60,6 +60,20 @@ if($CurUserID){
 <?php
 	unset($PostsArray[0]);
 }
+
+if(!$Topic['IsLocked'] && !$CurUserInfo){
+?>
+	<ul class="list topic-list"><li class="pagination"><?php echo $Lang['Requirements_For_Login']; ?></li></ul>
+<?php
+}else if($Topic['IsLocked']){
+?>
+	<ul class="list topic-list"><li class="pagination"><?php echo $Lang['Topic_Has_Been_Locked']; ?></li></ul>
+<?php
+}else{
+?>
+	<p><a href="#" class="button block" onclick="JavaScript:Reply('<?php echo $Topic['UserName'];?>', 0, 0, '<?php echo $FormHash;?>', <?php echo $ID; ?>);"><?php echo $Lang['Reply']; ?></a></p>
+<?php
+}
 if($Topic['Replies']!=0)
 {
 ?>
@@ -105,22 +119,8 @@ foreach($PostsArray as $key => $Post)
 ?>
 <ul class="list topic-list">
 <?php
-if(!$Topic['IsLocked'] && !$CurUserInfo){
-?>
-	<li class="pagination"><?php echo $Lang['Requirements_For_Login']; ?></li>
-<?php
-}else if($Topic['IsLocked']){
-?>
-	<li class="pagination"><?php echo $Lang['Topic_Has_Been_Locked']; ?></li>
-<?php
-}else{
-?>
-	<li class="pagination"><a href="#" onclick="JavaScript:Reply('<?php echo $Topic['UserName'];?>', 0, 0, '<?php echo $FormHash;?>', <?php echo $ID; ?>);"><?php echo $Lang['Reply']; ?></a></li>
-<?php
-}
 if($Page<$TotalPage){
 ?>
-	
 	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $ID.'-'.($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php } ?>
 </ul>
