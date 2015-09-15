@@ -2453,7 +2453,6 @@ li .icon:before {
 	padding: 0px;
 	list-style: none;
 	background-color: #fff;
-	margin: 0 -10px;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
@@ -2507,7 +2506,8 @@ li .icon:before {
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 18px;
-	background-color: #dfe0e2;
+	background-color: #0088d1;
+	color: #fff;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);

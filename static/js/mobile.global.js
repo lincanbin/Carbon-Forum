@@ -450,9 +450,6 @@ $.afui.loadDefaultHash=false;
 
 $(document).ready(function() {
 	$.afui.launch();
-	$.afui.ready(function(){
-		$("nav header").css('margin', '0 -10px'); //Hack style
-	});
 	$.ajaxSetup({
 		cache: false
 	});

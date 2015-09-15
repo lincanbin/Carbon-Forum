@@ -378,7 +378,7 @@ blockquote {
 	right: 0;
 	z-index: 0;
 	width: 200px;
-	padding: 0 10px;
+	padding: 0;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 	display: none;
