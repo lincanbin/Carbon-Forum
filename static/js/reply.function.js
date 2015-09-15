@@ -31,7 +31,7 @@ function RenderTopic(){
 			var a = AllLinks[i];
 			//console.log(a);
 			if(a.host != location.host){
-				a.target="_blank";
+				a.setAttribute("target","_blank");
 			}
 		};
 	};
