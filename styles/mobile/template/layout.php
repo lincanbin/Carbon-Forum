@@ -13,7 +13,7 @@ if(!$IsAjax){
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<meta http-equiv="cleartype" content="on" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui" />
 	<meta name="MobileOptimized" content="320" />
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -66,7 +66,7 @@ if($Config['MobileDomainName']){
 	<div id="mainview" class="view splitview">
 		<header>
 			<h1><?php echo $PageTitle; ?></h1>
-			<a class="menuButton" onclick="slideout.toggle();"></a>
+			<a class="menuButton" onclick="javascript:slideout.toggle();"></a>
 		</header>
 		<div class="pages">
 			<div data-title="<?php echo $PageTitle; ?>" id="ID<?php echo md5($PageTitle); ?>" class="panel" selected="true">
@@ -75,7 +75,14 @@ if($Config['MobileDomainName']){
 		</div>
 		<!-- this is the default left side nav menu.  If you do not want any, do not include these -->
 		<nav id="menu">
-			<?php include($TemplatePath.'sider.php'); ?>
+			 <div class="view active" id="navView">
+				<header class="header" id="menuHeader"></header>
+				<div class="pages">
+					 <div class="panel active" id="navPage" style="padding:0!important;" data-title="navPage">
+						<?php include($TemplatePath.'sider.php'); ?>
+					</div>
+				</div>
+			</div>
 		</nav>
 	</div>
 <?php

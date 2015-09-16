@@ -1,7 +1,8 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
-<header class="header" id="menu_header"></header>
+
+
 <ul class="list">
 	<li class="divider">
 		<?php echo $Lang['Information_Bar']; ?>
