@@ -29,7 +29,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^forgot$ forgot.php [L]
 	RewriteRule ^goto/([0-9]+)-([0-9]+)$ goto.php?topic_id=$1&post_id=$2 [L]
 	RewriteRule ^json/([0-9a-z_\-]+)$ json.php?action=$1 [L]
-	RewriteRule ^login$ login.php [L]
+	RewriteRule ^login$ login.php [L,QSA]
 	RewriteRule ^manage$ manage.php [L]
 	RewriteRule ^new$ new.php [L]
 	RewriteRule ^notifications$ notifications.php [L]
