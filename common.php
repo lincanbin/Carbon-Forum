@@ -142,7 +142,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 //提示信息
 function AlertMsg($PageTitle, $error, $status_code = 200)
 {
-	global $Lang, $RequestURI, $UrlPath, $IsMobile, $IsApp, $Prefix, $DB, $Config, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $RequestURI, $UrlPath, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors = array();
 	if (!$IsApp && !$IsMobile) {
 		switch ($status_code) {
