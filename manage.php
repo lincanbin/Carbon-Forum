@@ -455,7 +455,7 @@ switch ($Type) {
 					$SUploadResult = $UploadIcon->Resize(24, 'upload/tag/small/' . $ID . '.png', 90);
 					
 					if ($LUploadResult && $MUploadResult && $SUploadResult) {
-						$SetTagIconStatus = $TagInfo['Icon'] === 0?
+						$SetTagIconStatus = $TagInfo['Icon'] == 0?
 						$DB->query('UPDATE ' . $Prefix . 'tags SET Icon = 1 Where ID=:TagID', 
 							array('TagID' => $ID))
 						:true;

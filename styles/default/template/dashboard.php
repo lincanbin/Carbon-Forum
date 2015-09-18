@@ -232,7 +232,7 @@ foreach ($OauthConfig as $Key => $Value) {
 if($OauthDataExist && $Config['MainDomainName']){
 ?>
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				<?php echo $Lang['Callback_URL']; ?>: <input type="text" value="http://<?php echo $Config['MainDomainName'].$Config['WebsitePath'];?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>,http://<?php echo $Config['MobileDomainName'].$Config['WebsitePath'];?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>" class="w200" readonly="readonly" />
+				<?php echo $Lang['Callback_URL']; ?>: <input type="text" value="http://<?php echo $Config['MainDomainName'].$Config['WebsitePath'];?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>;http://<?php echo $Config['MobileDomainName'].$Config['WebsitePath'];?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>" class="w200" readonly="readonly" />
 <?php
 }
 ?>
