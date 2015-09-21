@@ -6,7 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Language' => 'pl',
 	'RolesDict' => array('Odwiedzający','Użytkownik','VIP','SVP','Administrator','Administrator Systemu'),
-	'Error_Message' => 'Widomość błędu',
+	'Error_Message' => 'Szybkie informacje',
 	'Error_Unknown_Referer' => 'Unknown referer',
 	'Error_Insufficient_Permissions' => 'Ta strona jest widoczna tylko dla {{RoleDict}}. Nie posiadasz odpowiednich uprawnień.',
 	'Error_Account_navailable' => 'Twoje konto nie zostało jest zweryfikowane, lub zbanowane. Skontaktuj się z administratorem w celu zatwierdzenia! ',

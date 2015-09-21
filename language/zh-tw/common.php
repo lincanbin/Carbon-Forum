@@ -6,7 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Language' => 'zh-cmn-Hant',
 	'RolesDict' => array('遊客','申請會員','VIP會員','版主','超級版主','管理員'),
-	'Error_Message' => '錯誤訊息',
+	'Error_Message' => '提示訊息',
 	'Error_Unknown_Referer' => '來源錯誤(unknown referer)',
 	'Error_Insufficient_Permissions' => '此頁面僅 {{RoleDict}} 可見，您的權限不足。',
 	'Error_Account_navailable' => '您的帳號正在審核或者停權中，請聯絡管理員確認之。',

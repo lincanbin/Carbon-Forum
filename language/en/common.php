@@ -6,7 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Language' => 'en',
 	'RolesDict' => array('Visitor','Member','VIP','SVP','Vice-Administrator','System Administrator'),
-	'Error_Message' => 'Error Message',
+	'Error_Message' => 'Tip information',
 	'Error_Unknown_Referer' => 'Unknown referer',
 	'Error_Insufficient_Permissions' => 'This page is only visible to {{RoleDict}}, you have insufficient permissions.',
 	'Error_Account_navailable' => 'Your account is being reviewed, or banned, contact administrator to confirm! ',
