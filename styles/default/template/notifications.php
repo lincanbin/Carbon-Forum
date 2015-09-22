@@ -11,6 +11,13 @@ $(document).ready(function(){
 		closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
 		activate: function() {}  // Callback function, gets called if tab is switched
 	});
+<?php
+if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime'] > $ReplyArray[0]['PostTime']) ) ) ){
+?>
+	$(".resp-tab-item")[1].click();
+<?php
+}
+?>
 });
 </script>
 <div class="main-content">
@@ -23,22 +30,22 @@ $(document).ready(function(){
 			<div>
 				<!-- posts list start -->
 				<?php
-				foreach($ReplyArray as $key => $post)
+				foreach($ReplyArray as $Post)
 				{
 				?>
 					<div class="comment-item">
 						<div class="user-comment-data">
 							<div class="comment-content">
 							<span class="user-activity-title">
-							<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($post['UserName']); ?>" target="_blank"><?php echo $post['UserName'];?></a>
+							<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName'];?></a>
 							&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;
-							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>#Post<?php echo $post['ID']; ?>"><?php echo $post['Subject'];?></a></span>
-							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
+							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $Post['TopicID']; ?>-<?php echo $Post['ID']; ?>#Post<?php echo $Post['ID']; ?>"><?php echo $Post['Subject'];?></a></span>
+							<?php echo strip_tags(mb_substr($Post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
 							<div class="comment-data-date">
 								<div class="float-right">
-					&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
+					&laquo;&nbsp;&nbsp;<?php echo FormatTime($Post['PostTime']); ?></div>
 								<div class="c"></div>
 							</div>
 							<div class="c"></div>
@@ -53,21 +60,21 @@ $(document).ready(function(){
 			<div>
 				<!-- posts list start -->
 				<?php
-				foreach($MentionArray as $key => $post)
+				foreach($MentionArray as $Post)
 				{
 				?>
 					<div class="comment-item">
 						<div class="user-comment-data">
 							<div class="comment-content">
-							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($post['UserName']); ?>" target="_blank"><?php echo $post['UserName'];?></a>
+							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName'];?></a>
 							&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;
-							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>#Post<?php echo $post['ID']; ?>"><?php echo $post['Subject'];?></a></span>
-							<?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
+							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $Post['TopicID']; ?>-<?php echo $Post['ID']; ?>#Post<?php echo $Post['ID']; ?>"><?php echo $Post['Subject'];?></a></span>
+							<?php echo strip_tags(mb_substr($Post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
 							</div>
 							
 							<div class="comment-data-date">
 								<div class="float-right">
-					&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
+					&laquo;&nbsp;&nbsp;<?php echo FormatTime($Post['PostTime']); ?></div>
 								<div class="c"></div>
 							</div>
 							<div class="c"></div>
