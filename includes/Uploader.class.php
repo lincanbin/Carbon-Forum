@@ -330,7 +330,7 @@ class Uploader
 			$this->DB->query('INSERT INTO ' . $this->Prefix . 'upload(`ID`, `UserName`, `FileName`, `FileSize`, `FileType`, `SHA1`, `MD5`, `FilePath`, `Description`, `Category`, `Class`, `PostID`, `Created`) VALUES(:ID, :UserName, :FileName, :FileSize, :FileType, :SHA1, :MD5, :FilePath, :Description, :Category, :Class, :PostID, :Created)', array(
 				'ID' => Null,
 				'UserName' => $this->CurUserName,
-				'FileName' => $this->oriName,
+				'FileName' => htmlspecialchars($this->oriName),
 				'FileSize' => $this->fileSize,
 				'FileType' => $this->fileLongType,
 				'SHA1' => $this->fileSHA1,
@@ -393,8 +393,12 @@ class Uploader
 		if (preg_match("/\{rand\:([\d]*)\}/i", $format, $matches)) {
 			$format = preg_replace("/\{rand\:[\d]*\}/i", substr($randNum, 0, $matches[1]), $format);
 		}
-		
-		$ext = $this->getFileExt();
+
+		if($this->fileType){
+			$ext = $this->fileType;
+		} else {
+			$ext = $this->getFileExt();
+		}
 		return $format . $ext;
 	}
 	
