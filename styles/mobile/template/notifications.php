@@ -3,7 +3,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <div class="button-grouped flex tabbed">
 	<a class="button pressed" onclick="$('#Notifications2').hide();$('#Notifications1').show();"><?php echo $Lang['Notifications_Replied_To_Me']; ?></a>
-	<a class="button" onclick="$('#Notifications1').hide();$('#Notifications2').show();"><?php echo $Lang['Notifications_Mentioned_Me']; ?></a>
+	<a class="button" id="mention_button" onclick="$('#Notifications1').hide();$('#Notifications2').show();"><?php echo $Lang['Notifications_Mentioned_Me']; ?></a>
 </div>
 <div id="Notifications1">
 <!-- posts list start -->
@@ -42,3 +42,12 @@ foreach($MentionArray as $key => $post)
 ?>
 <!-- posts list end -->
 </div>
+<script type="text/javascript">
+<?php
+if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime'] > $ReplyArray[0]['PostTime']) ) ) ){
+?>
+	$("#mention_button").click();
+<?php
+}
+?>
+</script>
