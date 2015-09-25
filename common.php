@@ -77,6 +77,7 @@ $PHPSelf    = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_S
 $UrlPath    = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
 //For IIS ISAPI_Rewrite
 $RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
+$IsAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 //消除低版本中魔术引号的影响
 if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	function StripslashesDeep($var)
@@ -142,9 +143,9 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 //提示信息
 function AlertMsg($PageTitle, $error, $status_code = 200)
 {
-	global $Lang, $RequestURI, $UrlPath, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
 	$errors = array();
-	if (!$IsApp && !$IsMobile) {
+	if (!$IsAjax) {
 		switch ($status_code) {
 			case 404:
 				header("HTTP/1.1 404 Not Found");
@@ -742,9 +743,11 @@ if ($IsApp) {
 } elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
 	$TemplatePath = __DIR__ . '/styles/mobile/template/';
 	$Style        = 'Mobile';
+	header('X-Frame-Options: SAMEORIGIN');
 } else {
 	$TemplatePath = __DIR__ . '/styles/default/template/';
 	$Style        = 'Default';
+	header('X-Frame-Options: SAMEORIGIN');
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard
 }

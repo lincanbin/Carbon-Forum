@@ -12,7 +12,7 @@ $Topic = $DB->row("SELECT * FROM " . $Prefix . "topics Where ID=?", array(
 	$TopicID
 ));
 if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
-	AlertMsg('404 NOT FOUND', '404 NOT FOUND');
+	AlertMsg('404 NOT FOUND', '404 NOT FOUND', 404);
 } else if ($Topic['IsLocked'] && $CurUserRole < 3) {
 	AlertMsg($Lang['Topic_Has_Been_Locked'], $Lang['Topic_Has_Been_Locked']);
 }

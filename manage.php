@@ -415,7 +415,7 @@ switch ($Type) {
 			$Message = $IsFavorite ? ($MessageType ? $Lang['Follow'] : $Lang['Collect']) : ($MessageType ? $Lang['Unfollow'] : $Lang['Unsubscribe']);
 			//$FavoriteID = $DB->lastInsertId();
 		} else {
-			AlertMsg('404 Not Found', '404 Not Found');
+			AlertMsg('404 Not Found', '404 Not Found', 404);
 		}
 		break;
 	//Tag

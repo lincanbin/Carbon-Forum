@@ -8,4 +8,3 @@ if (!defined('InternalAccess')) exit('{"Status": 0,"ErrorMessage": "403"}');
 	"TotalPage": "<?php echo $TotalPage;?>",
 	"TopicsArray": <?php echo json_encode($TopicsArray);?>
 }
-?>
