@@ -20,7 +20,7 @@ body {
 	font-size: 12px;
 	font-family: 微软雅黑, Microsoft YaHei, Tahoma, Arial, Helvetica, Sans-Serif;
 	color: #000000;
-	line-height: 150%;
+	line-height: 1.5;
 	background: #F9F9F9;
 	margin: 0px;
 	padding: 0px;
@@ -58,7 +58,7 @@ body {
 }
 /* text*/
 p {
-	line-height: 150%;
+	line-height: 1.5;
 	margin: 5px 0px 10px 0px;
 	padding: 0px;
 }
@@ -316,7 +316,7 @@ h2.resp-accordion {
 /* menus */
 .buttons {
 	float: left;
-	line-height: 200%;
+	line-height: 2;
 	white-space: nowrap;
 	width: 900px;
 	/* ie6 fix*/
@@ -546,7 +546,7 @@ img .avatar {
 	margin-bottom:10px;
 	font-size:21px;
 	font-weight: 500;
-	line-height: 150%;
+	line-height: 1.5;
 	color:#333;
 	word-wrap: break-word;
 }
@@ -662,7 +662,7 @@ img .avatar {
 	background-color: #90CAF9;
 }
 .item-content h2 {
-	line-height:150%;
+	line-height:1.5;
 	font-size: 16px;
 	padding:0 0 3px 0;
 	margin: 0;
