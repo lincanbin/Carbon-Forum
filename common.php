@@ -837,6 +837,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 			'UserExpirationTime' => '',
 			'UserCode' => ''
 		), 1);
+		$CurUserID = 0;
 	}
 	unset($TempUserInfo);
 } elseif ($CurUserExpirationTime || $CurUserID || $CurUserCode) {
@@ -845,4 +846,5 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		'UserExpirationTime' => '',
 		'UserCode' => ''
 	), 1);
+	$CurUserID = 0;
 }
