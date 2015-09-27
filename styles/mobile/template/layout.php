@@ -56,7 +56,7 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 }
 if($Config['MobileDomainName']){
 ?>
-	<meta http-equiv="mobile-agent" content="format=xhtml; url=http://<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
+	<meta http-equiv="mobile-agent" content="format=xhtml; url=<?php echo $CurProtocol . $Config['MobileDomainName'] . $RequestURI; ?>" />
 <?php } ?>
 </head>
 

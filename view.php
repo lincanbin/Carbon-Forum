@@ -18,7 +18,7 @@ if ($CookiesPrefix) {
 	setcookie($CookiesPrefix . 'View', $View == 'mobile' ? 'mobile' : 'desktop', $_SERVER['REQUEST_TIME'] + 86400 * 30, $WebsitePath . '/', null, false, true);
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Status: 301 Moved Permanently");
-	header("Location: http://" . $Callback);
+	header("Location: " . $CurProtocol . $Callback);
 } else {
 	header("HTTP/1.1 404 Not Found");
 	header("Status: 404 Not Found");

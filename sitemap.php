@@ -3,7 +3,7 @@ include(__DIR__ . '/common.php');
 header("Content-Type: text/xml");
 $Action = Request('POST','action',false);
 $Page = intval($_GET['page']);
-$CurHost = 'http://' . $_SERVER['HTTP_HOST'].$Config['WebsitePath'];
+$CurHost = $CurProtocol . $_SERVER['HTTP_HOST'].$Config['WebsitePath'];
 $ItemPerSitemap  = 30000;
 /*
 Google crawlers
@@ -53,7 +53,7 @@ switch ($Action) {
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 			<display>
-				<html5_url>http://<?php echo $Config['MobileDomainName']; ?></html5_url>
+				<html5_url><?php echo $CurProtocol . $Config['MobileDomainName']; ?></html5_url>
 			</display>
 		</data>
 		<?php } ?>
@@ -70,7 +70,7 @@ switch ($Action) {
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 			<display>
-				<html5_url>http://<?php echo $Config['MobileDomainName'].'/t/'.$Topic['ID']; ?></html5_url>
+				<html5_url><?php echo $CurProtocol . $Config['MobileDomainName'].'/t/'.$Topic['ID']; ?></html5_url>
 			</display>
 		</data>
 		<?php } ?>
@@ -96,7 +96,7 @@ switch ($Action) {
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 			<display>
-				<html5_url>http://<?php echo $Config['MobileDomainName'].'/page/'.$i; ?></html5_url>
+				<html5_url><?php echo $CurProtocol . $Config['MobileDomainName'].'/page/'.$i; ?></html5_url>
 			</display>
 		</data>
 		<?php } ?>
@@ -122,7 +122,7 @@ switch ($Action) {
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 			<display>
-				<html5_url>http://<?php echo $Config['MobileDomainName'].'/tag/'.urlencode($Tags['Name']); ?></html5_url>
+				<html5_url><?php echo $CurProtocol . $Config['MobileDomainName'].'/tag/'.urlencode($Tags['Name']); ?></html5_url>
 			</display>
 		</data>
 		<?php } ?>
@@ -145,7 +145,7 @@ switch ($Action) {
 		<?php if ($IsBaiduBot && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName']) { ?>
 		<data>
 			<display>
-				<html5_url>http://<?php echo $Config['MobileDomainName'].'/u/'.urlencode($User['UserName']); ?></html5_url>
+				<html5_url><?php echo $CurProtocol . $Config['MobileDomainName'].'/u/'.urlencode($User['UserName']); ?></html5_url>
 			</display>
 		</data>
 		<?php } ?>

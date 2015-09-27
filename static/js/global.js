@@ -168,7 +168,7 @@ function ShowNotification(NewMessageNumber) {
 						body: "",
 					});
 					CarbonNotification.onclick = function() {
-						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");
+						window.open(document.location.protocol + "//" + location.host + WebsitePath + "/notifications#notifications1");
 					};
 					//设置通知弹出的Unix时间戳，实现多网页同步，以防止多次弹出窗口。
 					if(window.localStorage){
@@ -278,6 +278,7 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 
 // Easy Responsive Tabs Plugin
 // Author: Samson.Onna <Email : samson3d@gmail.com>
+// https://github.com/samsono/Easy-Responsive-Tabs-to-Accordion
 (function ($) {
 	$.fn.extend({
 		easyResponsiveTabs: function (options) {

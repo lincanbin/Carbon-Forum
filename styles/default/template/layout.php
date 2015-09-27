@@ -15,7 +15,7 @@ if(!$IsAjax){
 <?php
 if($Config['MobileDomainName']){
 ?>
-	<meta http-equiv="mobile-agent" content="format=xhtml; url=//<?php echo $Config['MobileDomainName'] . $RequestURI; ?>" />
+	<meta http-equiv="mobile-agent" content="format=xhtml; url=<?php echo $CurProtocol . $Config['MobileDomainName'] . $RequestURI; ?>" />
 <?php
 }
 if (isset($PageMetaKeyword) && $PageMetaKeyword) {

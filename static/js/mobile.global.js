@@ -243,7 +243,7 @@ function ShowNotification(NewMessageNumber) {
 						body: "",
 					});
 					CarbonNotification.onclick = function() {
-						window.open("http://" + location.host + WebsitePath + "/notifications#notifications1");
+						window.open(document.location.protocol + "//" + location.host + WebsitePath + "/notifications#notifications1");
 					};
 					//设置通知弹出的Unix时间戳，实现多网页同步，以防止多次弹出窗口。
 					if(window.localStorage){

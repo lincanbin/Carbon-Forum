@@ -78,6 +78,7 @@ $UrlPath    = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/'
 //For IIS ISAPI_Rewrite
 $RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
 $IsAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+$CurProtocol = IsSSL() ? 'https://' : 'http://';
 //消除低版本中魔术引号的影响
 if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	function StripslashesDeep($var)
@@ -375,6 +376,18 @@ function IsName($string)
 	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_]{4,20}$/i', $string);
 }
 
+function IsSSL(){  
+	if(!isset($_SERVER['HTTPS']))  
+		return false;  
+	if($_SERVER['HTTPS'] === 1){  //Apache  
+		return true;  
+	}elseif($_SERVER['HTTPS'] === 'on'){ //IIS  
+		return true;  
+	}elseif($_SERVER['SERVER_PORT'] == 443){ //其他  
+		return true;  
+	}  
+		return false;  
+}  
 //只有上一页下一页的分页
 function PaginationSimplified($PageUrl, $PageCount, $IsLastPage)
 {

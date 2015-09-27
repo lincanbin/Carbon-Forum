@@ -23,7 +23,7 @@ Disallow: <?php echo $Config['WebsitePath']; ?>/users/following/
 Disallow: <?php echo $Config['WebsitePath']; ?>/upload_controller
 <?php
 //Crawl-delay: 1
-$CurHost        = 'http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'];
+$CurHost        = $CurProtocol . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'];
 $ItemPerSitemap = 30000;
 //sitemap 索引
 echo 'Sitemap: ', $CurHost, "/sitemap-index.xml\n";

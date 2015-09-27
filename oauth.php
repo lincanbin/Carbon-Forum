@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$SendState                        = md5(uniqid(rand(), TRUE));
 		$_SESSION[$Prefix . 'OauthState'] = $SendState;
 		// 授权地址
-		$AuthorizeURL = Oauth::AuthorizeURL('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
+		$AuthorizeURL = Oauth::AuthorizeURL($CurProtocol . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
 		header("HTTP/1.1 301 Moved Permanently");
 		header("Status: 301 Moved Permanently");
 		header("Location: " . $AuthorizeURL);
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	
 	$Message = '';
 	//下面是回调页面的处理
-	if (!$OauthObject->GetAccessToken('http://' . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppSecret'], $Code)) {
+	if (!$OauthObject->GetAccessToken($CurProtocol . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppSecret'], $Code)) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
 	if (!$OauthObject->GetOpenID()) {

@@ -5,7 +5,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	#强制重定向到带www的顶级域名
 	RewriteEngine On
 	RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]
-	RewriteRule ^(.*)$ http://www.94cb.com/$1 [L,R=301]
+	RewriteRule ^(.*)$ https://www.94cb.com/$1 [L,R=301]
 
 	#For SSL 
 	#RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]

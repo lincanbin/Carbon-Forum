@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					//生成有效期2小时的Access Token
 					$TokenExpirationTime = 7200 + $TimeStamp;
 					$AccessToken         = base64_encode($UserName . '|' . $TokenExpirationTime . '|' . md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5($SALT)));
-					$ResetPasswordURL    = 'http://' . $Config['MainDomainName'] . $Config['WebsitePath'] . '/reset_password/' . $AccessToken;
+					$ResetPasswordURL    = $CurProtocol . $Config['MainDomainName'] . $Config['WebsitePath'] . '/reset_password/' . $AccessToken;
 					//向数据库里的密保邮箱发送邮件
 					require(__DIR__ . '/includes/PHPMailer.smtp.class.php');
 					require(__DIR__ . '/includes/PHPMailer.class.php');
