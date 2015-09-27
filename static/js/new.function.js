@@ -20,12 +20,12 @@ function InitNewTopicEditor(){
 	UE.getEditor('editor',{onready:function(){
 		//从草稿中恢复
 		if(window.localStorage){
+			//Try to recover previous article from draft
+			RecoverTopicContents();
 			SaveDraftTimer = setInterval(function() {//Global
 				SaveTopicDraft();
 			},
 			1000); //每隔N秒保存一次
-			//Try to recover previous article from draft
-			RecoverTopicContents();
 		}
 		//二次提交，恢复现场
 		if(Content){
@@ -99,7 +99,7 @@ function CtrlAndEnter(Event, IsPreventDefault) {
 			Event.preventDefault ? Event.preventDefault() : Event.returnValue = false;
 		}
 		if(Event.ctrlKey){
-			document.getElementById("PublishButton").click();
+			$("#PublishButton").click();
 		}
 	}
 }
@@ -295,6 +295,8 @@ function RecoverTopicContents() {
 	}
 	if (DraftContent) {
 		UE.getEditor('editor').setContent(DraftContent);
+	}else{
+		UE.getEditor('editor').execCommand('cleardoc');
 	}
 	if (DraftTagsList) {
 		for (var i = DraftTagsList.length - 1; i >= 0; i--) {

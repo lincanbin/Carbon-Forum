@@ -100,26 +100,29 @@ function InitEditor(){
 	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
 	UE.getEditor('editor',{onready:function(){
 		if(window.localStorage){
+			//Try to recover previous article from draft
+			//先恢复现场
+			RecoverContents();
+			//再保存草稿
 			SavePostDraftTimer = setInterval(function() {//Global
 				SavePostDraft();
 			},
 			1000); //每隔N秒保存一次
-			//Try to recover previous article from draft
-			RecoverContents();
+			
 		}
 		//Press Ctrl + Enter to submit in editor
 		var EditorIframe = document.getElementsByTagName("iframe");
 		//console.log(EditorIframe);
 		for (var i = EditorIframe.length - 1; i >= 0; i--) {
 			EditorIframe[i].contentWindow.document.body.onkeydown = function(Event){
-				CtrlAndEnter(Event);
+				ReplyCtrlAndEnter(Event);
 			};
 			//console.log(EditorIframe[i].contentWindow.document);
 		};
 	}});
 	//编辑器外Ctrl + Enter提交回复
 	document.body.onkeydown = function(Event){
-		CtrlAndEnter(Event);
+		ReplyCtrlAndEnter(Event);
 	};
 	console.log('editor loaded.');
 }
@@ -127,10 +130,10 @@ function InitEditor(){
 
 
 //Ctrl + Enter操作接收函数
-function CtrlAndEnter(Event) {
+function ReplyCtrlAndEnter(Event) {
 	//console.log("keydown");
 	if (Event.ctrlKey && Event.keyCode == 13) {
-		document.getElementById("ReplyButton").click();
+		$("#ReplyButton").click();
 		Event.preventDefault ? Event.preventDefault() : Event.returnValue = false;//阻止回车的默认操作
 	}
 }
@@ -322,7 +325,7 @@ function ReplyToTopic() {
 						StopAutoSave();
 					}
 					//清空编辑器
-					UE.getEditor('editor').execCommand('cleardoc');
+					//UE.getEditor('editor').execCommand('cleardoc');
 					console.log(SavePostDraftTimer);
 					$.pjax({
 						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID, 
@@ -383,5 +386,7 @@ function RecoverContents() {
 	var DraftContent = localStorage.getItem(Prefix + "PostContent" + TopicID);
 	if (DraftContent) {
 		UE.getEditor('editor').setContent(DraftContent);
+	}else{
+		UE.getEditor('editor').execCommand('cleardoc');
 	}
 }
