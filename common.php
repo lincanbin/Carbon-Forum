@@ -769,7 +769,7 @@ if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomai
 	//如果是手机，则跳转到移动版，暂时关闭
 	header("HTTP/1.1 302 Moved Temporarily");
 	header("Status: 302 Moved Temporarily");
-	header('Location: '$CurProtocol . $Config['MobileDomainName'] . $RequestURI);
+	header('Location: ' . $CurProtocol . $Config['MobileDomainName'] . $RequestURI);
 	exit();
 }
 
