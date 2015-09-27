@@ -376,18 +376,18 @@ function IsName($string)
 	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_]{4,20}$/i', $string);
 }
 
-function IsSSL(){  
-	if(!isset($_SERVER['HTTPS']))  
-		return false;  
-	if($_SERVER['HTTPS'] === 1){  //Apache  
-		return true;  
-	}elseif($_SERVER['HTTPS'] === 'on'){ //IIS  
-		return true;  
-	}elseif($_SERVER['SERVER_PORT'] == 443){ //其他  
-		return true;  
-	}  
-		return false;  
-}  
+function IsSSL(){
+	if(!isset($_SERVER['HTTPS']))
+		return false;
+	if($_SERVER['HTTPS'] === 1){  //Apache
+		return true;
+	}elseif($_SERVER['HTTPS'] === 'on'){ //IIS
+		return true;
+	}elseif($_SERVER['SERVER_PORT'] == 443){ //其他
+		return true;
+	}
+		return false;
+}
 //只有上一页下一页的分页
 function PaginationSimplified($PageUrl, $PageCount, $IsLastPage)
 {
@@ -769,7 +769,7 @@ if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomai
 	//如果是手机，则跳转到移动版，暂时关闭
 	header("HTTP/1.1 302 Moved Temporarily");
 	header("Status: 302 Moved Temporarily");
-	header('Location: http://' . $Config['MobileDomainName'] . $RequestURI);
+	header('Location: '$CurProtocol . $Config['MobileDomainName'] . $RequestURI);
 	exit();
 }
 
