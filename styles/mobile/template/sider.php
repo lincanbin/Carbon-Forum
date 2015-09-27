@@ -96,7 +96,7 @@ foreach ($OauthData as $Value) {
 }
 ?>
 	<li>
-		<a class="icon tv" href="//<?php echo $Config['MainDomainName'].$Config['WebsitePath']; ?>/view-desktop?cookie_prefix=<?php echo urlencode($Config['CookiePrefix']); ?>&website_path=<?php echo urlencode($Config['WebsitePath']); ?>&callback=<?php echo urlencode($Config['MainDomainName'].$RequestURI); ?>" data-ignore="True">
+		<a class="icon tv" href="<?php echo $CurProtocol . $Config['MainDomainName'].$Config['WebsitePath']; ?>/view-desktop?callback=<?php echo urlencode($RequestURI); ?>" data-ignore="True">
 			<?php echo $Lang['Desktop_Version']; ?>
 		</a>
 	</li>

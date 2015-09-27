@@ -147,7 +147,7 @@ if(!$IsAjax){
 			<?php
 			if ($IsMobile && $Config['MobileDomainName']) {
 			?>
-			&nbsp;&nbsp;<a href="//<?php echo $Config['MainDomainName']; ?>/view-mobile?cookie_prefix=<?php echo urlencode($Config['CookiePrefix']); ?>&website_path=<?php echo urlencode($Config['WebsitePath']); ?>&callback=<?php echo urlencode($Config['MobileDomainName'].$RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
+			&nbsp;&nbsp;<a href="<?php echo $CurProtocol . $Config['MainDomainName']; ?>/view-mobile?callback=<?php echo urlencode($RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
 			<?php
 			}
 			?>
