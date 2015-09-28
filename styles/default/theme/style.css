@@ -301,6 +301,7 @@ h2.resp-accordion {
 	background: #f9f9f9;
 	padding: 0px 10px 0px 10px;
 	border-bottom: 1px solid #4fc3f7;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.07);
 }
 .innerNavPanel {
 	width:960px;
