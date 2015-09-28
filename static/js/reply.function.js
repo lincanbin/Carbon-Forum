@@ -100,6 +100,14 @@ function InitEditor(){
 	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
 	UE.getEditor('editor',{onready:function(){
 		if(window.localStorage){
+			if( typeof SaveDraftTimer != "undefined" ){
+				clearInterval(SaveDraftTimer);
+				console.log('StopTopicAutoSave');
+			}
+			if( typeof SavePostDraftTimer != "undefined"){
+				clearInterval(SavePostDraftTimer);
+				console.log('StopAutoSave');
+			}
 			//Try to recover previous article from draft
 			//先恢复现场
 			RecoverContents();

@@ -20,6 +20,14 @@ function InitNewTopicEditor(){
 	UE.getEditor('editor',{onready:function(){
 		//从草稿中恢复
 		if(window.localStorage){
+			if( typeof SaveDraftTimer != "undefined" ){
+				clearInterval(SaveDraftTimer);
+				console.log('StopTopicAutoSave');
+			}
+			if( typeof SavePostDraftTimer != "undefined"){
+				clearInterval(SavePostDraftTimer);
+				console.log('StopAutoSave');
+			}
 			//Try to recover previous article from draft
 			RecoverTopicContents();
 			SaveDraftTimer = setInterval(function() {//Global
