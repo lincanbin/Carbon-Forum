@@ -284,6 +284,17 @@ h2.resp-accordion {
 	padding: 0px;
 }
 /****** Nav Panel ******/
+.navBar{
+	position: fixed;
+	width: 100%;
+	padding: 0 auto;
+	top: 0;
+	left: 0;
+	filter:alpha(opacity=90);
+	-moz-opacity:0.9;
+	-khtml-opacity: 0.9;
+	opacity: 0.9;
+}
 .navPanel {
 	min-width:960px;
 	background: #f9f9f9;
@@ -388,10 +399,6 @@ h2.resp-accordion {
 	float: left;
 	margin: 5px 5px 5px 0px;
 }
-.shadowStrip {
-	height: 1px;
-	
-}
 .emptyProgressBar{
 	height: 3px;
 }
@@ -471,7 +478,7 @@ img .avatar {
 }
 .main {
 	width:960px;
-	margin:20px auto;
+	margin:76px auto 20px auto;
 }
 .main-content {
 	float:left;

@@ -59,61 +59,63 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <body>
 	<!-- content wrapper start -->
 	<div class="wrapper">
-		<div class="navPanel">
-			<div class="innerNavPanel">
-				<div class="logo">
-					<a href="<?php echo $Config['WebsitePath']; ?>/">
-						<img src="<?php echo $Config['WebsitePath']; ?>/static/img/logo.png" alt="<?php echo $Lang['Home']; ?>" />
-					</a>
-				</div>
-				<div class="buttons">
-				<div class="searchbox">
-					<input type="text" id="SearchInput" onkeydown="javascript:if((event.keyCode==13)&&(this.value!='')){$('#SearchButton').trigger('click');}" placeholder="<?php echo $Lang['Search']; ?>"<?php echo $UrlPath=='search'&&!empty($Keyword)?' value="'.$Keyword.'"':'';?> />
-					<a href="###" id="SearchButton"><div class="icon icon-search"></div></a>
-				</div>
-				
-				
-<?php
-if($CurUserID){
-?>
-				
-				
-				
+		<div class="navBar">
+			<div class="navPanel">
+				<div class="innerNavPanel">
+					<div class="logo">
+						<a href="<?php echo $Config['WebsitePath']; ?>/">
+							<img src="<?php echo $Config['WebsitePath']; ?>/static/img/logo.png" alt="<?php echo $Lang['Home']; ?>" />
+						</a>
+					</div>
+					<div class="buttons">
+					<div class="searchbox">
+						<input type="text" id="SearchInput" onkeydown="javascript:if((event.keyCode==13)&&(this.value!='')){$('#SearchButton').trigger('click');}" placeholder="<?php echo $Lang['Search']; ?>"<?php echo $UrlPath=='search'&&!empty($Keyword)?' value="'.$Keyword.'"':'';?> />
+						<a href="###" id="SearchButton"><div class="icon icon-search"></div></a>
+					</div>
+					
+					
+	<?php
+	if($CurUserID){
+	?>
+					
+					
+					
 
-				<a href="<?php echo $Config['WebsitePath']; ?>/settings" title="<?php echo $Lang['Settings']; ?>"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?>><div class="icon icon-settings"></div></a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> onclick="javascript:ShowNotification(0);"><div class="icon icon-notifications"></div><span class="icon-messages-num" id="MessageNumber">0</span></a>
-<?php
-if($CurUserRole==5){
-?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/dashboard" title="<?php echo $Lang['System_Settings']; ?>"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?>><div class="icon icon-dashboard"></div></a>
-<?php }
-?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/users/following"<?php echo $UrlPath=='favorite_users'?' class="buttons-active"':''; ?>><?php echo $Lang['Users_Followed']; ?></a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/tags/following"<?php echo $UrlPath=='favorite_tags'?' class="buttons-active"':''; ?>><?php echo $Lang['Tags_Followed']; ?></a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/new"<?php echo $UrlPath=='new'?' class="buttons-active"':''; ?>><?php echo $Lang['Create_New_Topic']; ?></a>
-<?php
-}else{
-?>
-				<a href="<?php echo $Config['WebsitePath']; ?>/register"<?php echo $UrlPath=='register'?' class="buttons-active"':''; ?>>
-					<?php echo $Lang['Sign_Up']; ?>
-				</a>
-				<a href="<?php echo $Config['WebsitePath']; ?>/login"<?php echo $UrlPath=='login'?' class="buttons-active"':''; ?>>
-					<?php echo $Lang['Log_In']; ?>
-				</a>
-<?php
-}
-?>
-				<!--a href="<?php echo $Config['WebsitePath']; ?>/explore"<?php echo $UrlPath=='explore'?' class="buttons-active"':''; ?>>发现</a-->
-				<a href="<?php echo $Config['WebsitePath']; ?>/"<?php echo $UrlPath=='index'?' class="buttons-active"':''; ?>>
-					<?php echo $Lang['Home']; ?>
-				</a>
+					<a href="<?php echo $Config['WebsitePath']; ?>/settings" title="<?php echo $Lang['Settings']; ?>"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?>><div class="icon icon-settings"></div></a>
+					<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> onclick="javascript:ShowNotification(0);"><div class="icon icon-notifications"></div><span class="icon-messages-num" id="MessageNumber">0</span></a>
+	<?php
+	if($CurUserRole==5){
+	?>
+					<a href="<?php echo $Config['WebsitePath']; ?>/dashboard" title="<?php echo $Lang['System_Settings']; ?>"<?php echo $UrlPath=='dashboard'?' class="buttons-active"':''; ?>><div class="icon icon-dashboard"></div></a>
+	<?php }
+	?>
+					<a href="<?php echo $Config['WebsitePath']; ?>/users/following"<?php echo $UrlPath=='favorite_users'?' class="buttons-active"':''; ?>><?php echo $Lang['Users_Followed']; ?></a>
+					<a href="<?php echo $Config['WebsitePath']; ?>/tags/following"<?php echo $UrlPath=='favorite_tags'?' class="buttons-active"':''; ?>><?php echo $Lang['Tags_Followed']; ?></a>
+					<a href="<?php echo $Config['WebsitePath']; ?>/new"<?php echo $UrlPath=='new'?' class="buttons-active"':''; ?>><?php echo $Lang['Create_New_Topic']; ?></a>
+	<?php
+	}else{
+	?>
+					<a href="<?php echo $Config['WebsitePath']; ?>/register"<?php echo $UrlPath=='register'?' class="buttons-active"':''; ?>>
+						<?php echo $Lang['Sign_Up']; ?>
+					</a>
+					<a href="<?php echo $Config['WebsitePath']; ?>/login"<?php echo $UrlPath=='login'?' class="buttons-active"':''; ?>>
+						<?php echo $Lang['Log_In']; ?>
+					</a>
+	<?php
+	}
+	?>
+					<!--a href="<?php echo $Config['WebsitePath']; ?>/explore"<?php echo $UrlPath=='explore'?' class="buttons-active"':''; ?>>发现</a-->
+					<a href="<?php echo $Config['WebsitePath']; ?>/"<?php echo $UrlPath=='index'?' class="buttons-active"':''; ?>>
+						<?php echo $Lang['Home']; ?>
+					</a>
+					</div>
+					<div class="c"></div>
 				</div>
-				<div class="c"></div>
 			</div>
-		</div>
-		<div class="emptyProgressBar">
-			<div class="progressBar" id="progressBar">
-				<div class="bar1" id="progressBar1"></div>
+			<div class="emptyProgressBar">
+				<div class="progressBar" id="progressBar">
+					<div class="bar1" id="progressBar1"></div>
+				</div>
 			</div>
 		</div>
 		<!-- main start -->
