@@ -294,6 +294,7 @@ h2.resp-accordion {
 	-moz-opacity:0.9;
 	-khtml-opacity: 0.9;
 	opacity: 0.9;
+	z-index: 9999;
 }
 .navPanel {
 	min-width:960px;
