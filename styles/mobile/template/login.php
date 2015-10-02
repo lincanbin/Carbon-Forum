@@ -12,20 +12,12 @@ if($error){
 	<div class="input-group">
 		<input type="hidden" value="<?php echo $ReturnUrl; ?>" name="ReturnUrl" />
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
-
-		<input type="text" name="UserName" id="UserName" placeholder="<?php echo $Lang['UserName']; ?>" value="<?php echo htmlspecialchars($UserName); ?>" />
-
-		<input type="password" name="Password" id="Password" placeholder="<?php echo $Lang['Password']; ?>" value="" />
-		<br style="clear:both" />
+		<input type="hidden" name="Expires" value="30" />
 		<p>
-		<label for="Expires" style="width:140px;"><?php echo $Lang['Login_Expiration_Time']; ?></label>
-		<select name="Expires" id="Expires" style="display:inline;width:140px;">
-			<option value="30">30<?php echo $Lang['Days']; ?></option>
-			<option value="14">14<?php echo $Lang['Days']; ?></option>
-			<option value="7">7<?php echo $Lang['Days']; ?></option>
-			<option value="1">1<?php echo $Lang['Days']; ?></option>
-			<option value="0">0<?php echo $Lang['Days']; ?></option>
-		</select>
+		<input type="text" name="UserName" id="UserName" placeholder="<?php echo $Lang['UserName']; ?>" value="<?php echo htmlspecialchars($UserName); ?>" />
+		</p>
+		<p>
+		<input type="password" name="Password" id="Password" placeholder="<?php echo $Lang['Password']; ?>" value="" />
 		</p>
 		<p>
 			<input type="text" name="VerifyCode" id="VerifyCode" placeholder="<?php echo $Lang['Verification_Code']; ?>" onclick="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" style="width:66%;"/>
