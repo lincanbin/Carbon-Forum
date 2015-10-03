@@ -54,6 +54,10 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 	echo '	<meta name="description" content="', $PageMetaDesc, '" />
 ';
 }
+if ( IsSSL() ) {
+	echo '	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+';
+}
 if($Config['MobileDomainName']){
 ?>
 	<meta http-equiv="mobile-agent" content="format=xhtml; url=<?php echo $CurProtocol . $Config['MobileDomainName'] . $RequestURI; ?>" />

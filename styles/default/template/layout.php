@@ -26,6 +26,10 @@ if (isset($PageMetaDesc) && $PageMetaDesc) {
 	echo '	<meta name="description" content="', $PageMetaDesc, '" />
 ';
 }
+if ( IsSSL() ) {
+	echo '	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+';
+}
 ?>
 	<meta name="msapplication-TileImage" content="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
 	<title><?php
