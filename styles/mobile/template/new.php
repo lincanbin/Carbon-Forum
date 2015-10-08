@@ -16,8 +16,10 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<input type="hidden" name="ContentHash" value="" />
 	<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" placeholder="<?php echo $Lang['Title']; ?>" /></p>
 	<p>
-		<input type="file" id="upfile" onchange="javascript:UploadPicture('Content');" accept="image/*" />
-		<!--a href="#" class="button" onclick="$('#upfile').click();"><i class="icon picture"></i></a-->
+		<label class="button block" style="cursor: pointer;">
+			<i class="icon picture"></i>
+			<input type="file" id="upfile" onchange="javascript:UploadPicture('Content');" accept="image/*" style="display:none;" />
+		</label>
 	</p>
 	<p>
 		<textarea name="Content" id="Content" rows="10" placeholder="<?php echo $Lang['Content']; ?>"></textarea>

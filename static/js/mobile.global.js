@@ -365,13 +365,10 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 		document.getElementById('mainview')
 	);
 	$("#ReplyViewTitle").text(Lang['Reply_To'] + "#" + PostFloor + " @" + UserName + " :");
-	var TempHTML = "<p>";
-	TempHTML += "<input type=\"file\" id=\"upfile\" onchange=\"javascript:UploadPicture('Content" + TopicID +"');\" accept=\"image/*\" />";
-	//TempHTML += "<a href=\"#\" class=\"button\" onclick=\"javascript:$('#upfile').click();\">";
-	//TempHTML += "<i class=\"icon picture\"></i>";
-	//TempHTML += "</a>";
-	TempHTML += "</p>";
-	TempHTML += "<div class=\"input-group\"><textarea id=\"Content" + TopicID +"\" rows=\"10\"></textarea></div>";
+	var TempHTML = "<label class=\"button block\" style=\"cursor: pointer;\"><i class=\"icon picture\"></i>";
+	TempHTML += "<input type=\"file\" id=\"upfile\" onchange=\"javascript:UploadPicture('Content" + TopicID +"');\" accept=\"image/*\" style=\"display:none;\" />";
+	TempHTML += "</label>";
+	TempHTML += "<div class=\"input-group\" style=\"width:100%;\"><textarea id=\"Content" + TopicID +"\" rows=\"10\"></textarea></div>";
 	$("#ReplyViewHTML").html(TempHTML);
 	$("#ReplyViewCancelButton").text(Lang['Cancel']);
 	$("#ReplyViewSubmitButton").text(Lang['Reply']);
