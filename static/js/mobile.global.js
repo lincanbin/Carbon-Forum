@@ -471,7 +471,7 @@ function TopicParse() {
 			{
 				var a = AllLinks[i];
 				//console.log(a);
-				if(a.host != location.host){
+				if(a.host != location.host || a.href.indexOf("upload/") != -1){
 					a.setAttribute("target","_blank");
 					a.setAttribute("data-ignore","true");
 				}
