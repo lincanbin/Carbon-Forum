@@ -12,7 +12,7 @@ if(!$IsAjax){
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<meta http-equiv="cleartype" content="on" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
 	<meta name="MobileOptimized" content="320" />
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />

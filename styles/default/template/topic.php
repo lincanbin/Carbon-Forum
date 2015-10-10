@@ -207,10 +207,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?ve
 }else{
 ?>
 
-<div class="title">
-	<?php echo $Lang['Reply']; ?><a name="reply"></a> 
-</div>
-<div class="main-box">
+<a name="reply"></a> 
 	<script type="text/javascript">
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
 	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?version=<?php echo $Config['Version']; ?>",function() {
@@ -232,13 +229,13 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/reply.function.js?ve
 		<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>">
 		<input type="hidden" name="TopicID" value="<?php echo $ID; ?>">
 		<p>
-			<div id="editor" style="width:648px;height:160px;">Loading……</div>
+			<div id="editor" style="width:100%;height:180px;">Loading……</div>
 		</p>
-		<div class="float-left"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
+		<div class="float-right"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/></div>
 		<div class="c"></div> 
 		<p></p>
 	</form>
-</div>
+
 <?php
 }
 ?>
