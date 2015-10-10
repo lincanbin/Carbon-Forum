@@ -27,14 +27,14 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.j
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
 			<input type="hidden" name="ContentHash" value="" />
 			<p><input type="text" name="Title" id="Title" value="<?php echo htmlspecialchars($Title); ?>" style="width:624px;" placeholder="<?php echo $Lang['Title']; ?>" /></p>
+		</div>
+			<div id="editor" style="width:100%;height:320px;">Loading……</div>
+			<script type="text/javascript">
+			var Content='<?php echo $Content; ?>';
+			</script>
+		<div class="main-box" style="margin-top:20px;">
 			<p>
-				<div id="editor" style="width:100%;height:320px;">Loading……</div>
-				<script type="text/javascript">
-				var Content='<?php echo $Content; ?>';
-				</script>
-			</p>
-			<p>
-				<div class="tags-list bth" style="width:624px;height:33px;" onclick="JavaScript:document.NewForm.AlternativeTag.focus();">
+				<div class="tags-list bth" style="width:624px;height:33px;border-bottom-width:2px;" onclick="JavaScript:document.NewForm.AlternativeTag.focus();">
 					<span id="SelectTags" class="btn"></span>
 					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="tag-input" onfocus="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
 				</div>
