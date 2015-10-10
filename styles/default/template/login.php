@@ -7,9 +7,9 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $Lang['Log_In']; ?>
 	</div>
 	<div class="main-box">
-		<?php if($error){ ?>
+		<?php if($Error){ ?>
 		<p class="red fs12" style="margin-left:60px;">
-		› <?php echo $error; ?> <br/></p>
+		› <?php echo $Error; ?> <br/></p>
 		<?php } ?>
 		<form action="?" method="post" onsubmit="JavaScript:this.Password.value=md5(this.Password.value);">
 			<input type="hidden" value="<?php echo $ReturnUrl; ?>" name="ReturnUrl" />

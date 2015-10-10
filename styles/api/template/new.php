@@ -4,7 +4,11 @@ if($Error){
 ?>{
 	"Status": 0,
 	"ErrorMessage": "<?php echo $Error;?>"
-}<?php }else{ ?>{
+}<?php
+}else{
+?>{
 	"Status": 1,
 	"TopicID": "<?php echo $TopicID;?>"
-}<?php } ?>
+}<?php
+}
+?>

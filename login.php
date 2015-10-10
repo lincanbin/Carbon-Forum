@@ -1,7 +1,7 @@
 <?php
 include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/login.php');
-$error     = '';
+$Error     = '';
 $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						'UserExpirationTime' => $TemporaryUserExpirationTime,
 						'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT)
 					), $Expires);
-					if ($ReturnUrl) {
+					if ( !$IsApp && $ReturnUrl ) {
 						header('location: ' . $ReturnUrl);
 						exit('logined');
 					} else {
@@ -55,17 +55,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						exit('logined');
 					}
 				} else {
-					$error = $Lang['Password_Error'];
+					$Error = $Lang['Password_Error'];
 				}
 			} else {
-				$error = $Lang['User_Does_Not_Exist'];
+				$Error = $Lang['User_Does_Not_Exist'];
 			}
 		} else {
-			$error = $Lang['Verification_Code_Error'];
+			$Error = $Lang['Verification_Code_Error'];
 		}
 		unset($_SESSION[$Prefix . 'VerificationCode']);
 	} else {
-		$error = $Lang['Forms_Can_Not_Be_Empty'];
+		$Error = $Lang['Forms_Can_Not_Be_Empty'];
 	}
 }
 

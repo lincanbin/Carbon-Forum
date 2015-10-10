@@ -1,9 +1,9 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 
-if($error){
+if($Error){
 ?>
-<script type="text/javascript">CarbonAlert("<?php echo $error; ?>");</script>
+<script type="text/javascript">CarbonAlert("<?php echo $Error; ?>");</script>
 <?php
 }
 ?>
