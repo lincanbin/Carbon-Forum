@@ -4,8 +4,8 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Unfollow' => '取消關注',
-	'Follow' => '關注他/她',
+	'Unfollow' => '取消跟隨',
+	'Follow' => '跟隨他/她',
 	'Block_User' => '停權',
 	'Unblock_User' => '復權',
 	'Reset_Avatar' => '重設肖像',
