@@ -21,14 +21,14 @@ if (isset($_GET['logout']) && $_GET['logout'] == $CurUserCode) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck($_POST['FormHash'])) {
+	if (!ReferCheck(Request('Post', 'FormHash')) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
-	$ReturnUrl  = htmlspecialchars(trim($_POST["ReturnUrl"]));
-	$UserName   = strtolower(trim($_POST["UserName"]));
-	$Password   = trim($_POST["Password"]);
-	$Expires    = min(intval(trim($_POST["Expires"])), 30); //最多保持登陆30天
-	$VerifyCode = intval(trim($_POST["VerifyCode"]));
+	$ReturnUrl  = htmlspecialchars(Request('Post', 'ReturnUrl'));
+	$UserName   = strtolower(Request('Post', 'UserName'));
+	$Password   = Request('Post', 'Password');
+	$Expires    = min(intval(Request('Post', 'Expires', 30), 30); //最多保持登陆30天
+	$VerifyCode = intval(Request('Post', 'VerifyCode'));
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
 		if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode === intval($_SESSION[$Prefix . 'VerificationCode'])) {
@@ -42,17 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						'UserLastIP' => CurIP()
 					), $DBUser['ID']);
 					$TemporaryUserExpirationTime = $Expires * 86400 + $TimeStamp;
-					SetCookies(array(
-						'UserID' => $DBUser['ID'],
-						'UserExpirationTime' => $TemporaryUserExpirationTime,
-						'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT)
-					), $Expires);
-					if ( !$IsApp && $ReturnUrl ) {
-						header('location: ' . $ReturnUrl);
-						exit('logined');
-					} else {
-						header('location: ' . $Config['WebsitePath'] . '/');
-						exit('logined');
+					if( !$IsApp ){
+						SetCookies(array(
+							'UserID' => $DBUser['ID'],
+							'UserExpirationTime' => $TemporaryUserExpirationTime,
+							'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT)
+						), $Expires);
+						if ( $ReturnUrl ) {
+							header('location: ' . $ReturnUrl);
+							exit('logined');
+						} else {
+							header('location: ' . $Config['WebsitePath'] . '/');
+							exit('logined');
+						}
 					}
 				} else {
 					$Error = $Lang['Password_Error'];

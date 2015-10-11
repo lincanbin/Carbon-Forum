@@ -451,7 +451,8 @@ function Pagination($PageUrl, $PageCount, $TotalPage)
 //来源检查
 function ReferCheck($UserHash)
 {
-	if (empty($_SERVER['HTTP_REFERER']) || $UserHash != FormHash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST']))
+	global $IsApp;
+	if ( !$IsApp && (empty($_SERVER['HTTP_REFERER']) || $UserHash != FormHash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])) )
 		return false;
 	else
 		return true;
