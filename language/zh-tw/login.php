@@ -4,7 +4,7 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array(
-	'Login_Expiration_Time' => '登入有效期',
+	'Login_Expiration_Time' => '登入到期時間',
 	'Days' => '天',
 	'Password_Error' => '密碼錯誤',
 	'User_Does_Not_Exist' => '使用者不存在',
