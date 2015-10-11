@@ -21,13 +21,13 @@ if (isset($_GET['logout']) && $_GET['logout'] == $CurUserCode) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck(Request('Post', 'FormHash')) {
+	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$ReturnUrl  = htmlspecialchars(Request('Post', 'ReturnUrl'));
 	$UserName   = strtolower(Request('Post', 'UserName'));
 	$Password   = Request('Post', 'Password');
-	$Expires    = min(intval(Request('Post', 'Expires', 30), 30); //最多保持登陆30天
+	$Expires    = min(intval(Request('Post', 'Expires', 30)), 30); //最多保持登陆30天
 	$VerifyCode = intval(Request('Post', 'VerifyCode'));
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
