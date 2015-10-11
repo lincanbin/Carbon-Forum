@@ -5,8 +5,8 @@ if (empty($Lang) || !is_array($Lang))
 
 $Lang = array_merge($Lang, array(
 	'Deleted' => '成功將討論串移動至回收站',
-	'Recovered' => '成功還原討論串',
-	'Failure_Recovery' => '恢復失敗，請確認討論串是否在回收站內',
+	'Recovered' => '成功復原討論串',
+	'Failure_Recovery' => '復原失敗，請確認討論串是否在回收站內',
 
 	'Permanently_Deleted' => '成功永久刪除',
 	'Failure_Permanent_Deletion' => '請確認討論串是否在回收站內',
@@ -20,8 +20,8 @@ $Lang = array_merge($Lang, array(
 	'Block_User' => '停權',
 	'Unblock_User' => '復權',
 
-	'Follow' => '關注',
-	'Unfollow' => '取消關注',
+	'Follow' => '跟隨',
+	'Unfollow' => '取消跟隨',
 
 	'Unsubscribe' => '取消收藏',
 	'Collect' => '收藏',
@@ -32,10 +32,10 @@ $Lang = array_merge($Lang, array(
 
 	'Icon_Upload_Success' => '標籤圖示上傳成功',
 	'Icon_Upload_Failure' => '標籤圖示上傳失敗',
-	'Icon_Is_Oversize' => '標籤圖示超過1M，上傳失敗',
+	'Icon_Is_Oversize' => '標籤圖示超過 1M，上傳失敗',
 
 	'Enable_Tag' => '啟用標籤',
-	'Disable_Tag' => '禁用標籤',
+	'Disable_Tag' => '停用標籤',
 
 	'Reset_Avatar_Successfully' => '重設肖像成功，請重新整理頁面。'
 	));
