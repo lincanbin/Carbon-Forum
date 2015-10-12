@@ -15,12 +15,6 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
-//输出所有错误信息，调试用
-//error_reporting(E_ALL); 
-//ini_set('display_errors', 'On');
-//关闭错误报告，生产环境用
-ini_set('display_errors', 'Off');
-
 //Initialize timer
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -333,16 +327,20 @@ function GetTagIcon($TagID, $Icon, $TagName, $Size = 'middle')
 //获取Cookie
 function GetCookie($Key, $DefaultValue = false)
 {
-	global $Config;
-	if (isset($_COOKIE[$Config['CookiePrefix'] . $Key]))
-		return $_COOKIE[$Config['CookiePrefix'] . $Key];
-	else if ($DefaultValue) {
-		SetCookies(array(
-			$Key => $DefaultValue
-		));
-		return $DefaultValue;
-	} else
-		return false;
+	global $Config, $IsApp;
+	if( !$IsApp ){
+		if (!empty($_COOKIE[$Config['CookiePrefix'] . $Key]) ){
+			return $_COOKIE[$Config['CookiePrefix'] . $Key];
+		}else if ($DefaultValue) {
+			SetCookies(array(
+				$Key => $DefaultValue
+			));
+			return $DefaultValue;
+		}
+	}else{
+		return Request("Request","Auth".$Key, $DefaultValue);
+	}
+	return false;
 }
 
 
