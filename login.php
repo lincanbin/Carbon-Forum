@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($UserName && $Password && $VerifyCode) {
 		session_start();
 		if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode === intval($_SESSION[$Prefix . 'VerificationCode'])) {
-			$DBUser = $DB->row("SELECT ID,UserName,Salt,Password,UserMail,UserIntro FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+			$DBUser = $DB->row("SELECT ID,UserName,Salt,Password,UserRoleID,UserMail,UserIntro FROM " . $Prefix . "users WHERE UserName = :UserName", array(
 				"UserName" => $UserName
 			));
 			if ($DBUser) {

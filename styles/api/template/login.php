@@ -18,7 +18,7 @@ if($Error){
 	unset($DBUser['Salt']);
 	unset($DBUser['PasswordQuestion']);
 	unset($DBUser['PasswordAnswer']);
-	echo json_encode($DBUser, true);
+	echo json_encode($DBUser);
 	?>
 }
 <?php
