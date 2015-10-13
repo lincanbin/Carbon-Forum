@@ -102,7 +102,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			  PRIMARY KEY (`ID`),
 			  KEY `Index` (`AppID`,`OpenID`),
 			  KEY `UserID` (`UserID`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+			) DEFAULT CHARSET=utf8;");
 	}
 	//当前版本低于3.6.0，需要进行的升级到3.6.0的升级操作
 	if(VersionCompare('3.6.0' ,$OldVersion)){

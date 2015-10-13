@@ -25,7 +25,7 @@ CREATE TABLE `carbon_app` (
   `Time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `AppKey` (`AppKey`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_app_users
@@ -41,7 +41,7 @@ CREATE TABLE `carbon_app_users` (
   PRIMARY KEY (`ID`),
   KEY `Index` (`AppID`,`OpenID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_blogs
@@ -60,7 +60,7 @@ CREATE TABLE `carbon_blogs` (
   `DateNew` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Blogs` (`UserName`,`ParentID`,`DateCreated`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_blogsettings
@@ -86,7 +86,7 @@ CREATE TABLE `carbon_blogsettings` (
   `MusicName` longtext CHARACTER SET utf8,
   PRIMARY KEY (`ID`),
   KEY `BlogSettings` (`UserName`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_config
@@ -96,7 +96,7 @@ CREATE TABLE `carbon_config` (
   `ConfigName` varchar(50) NOT NULL DEFAULT '',
   `ConfigValue` text NOT NULL,
   PRIMARY KEY (`ConfigName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_dict
@@ -108,7 +108,7 @@ CREATE TABLE `carbon_dict` (
   `Abstract` mediumtext NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `title` (`Title`(200)) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_favorites
@@ -126,7 +126,7 @@ CREATE TABLE `carbon_favorites` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `IsFavorite` (`UserID`,`Type`,`FavoriteID`),
   KEY `UsersFavorites` (`UserID`,`Type`,`DateCreated`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_link
@@ -141,7 +141,7 @@ CREATE TABLE `carbon_link` (
   `Review` int(11) DEFAULT '0',
   `TopLink` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_log
@@ -160,7 +160,7 @@ CREATE TABLE `carbon_log` (
   `POSTData` longtext CHARACTER SET utf8,
   `Notes` longtext CHARACTER SET utf8,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_messages
@@ -177,7 +177,7 @@ CREATE TABLE `carbon_messages` (
   `IsPublish` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   KEY `UserMessage` (`UserName`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_notifications
@@ -196,7 +196,7 @@ CREATE TABLE `carbon_notifications` (
   KEY `TopicID` (`TopicID`),
   KEY `PostID` (`PostID`),
   KEY `UserID` (`UserID`,`Time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_pictures
@@ -210,7 +210,7 @@ CREATE TABLE `carbon_pictures` (
   `TopicID` int(10) unsigned DEFAULT '0',
   `AddTime` int(10) unsigned NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_postrating
@@ -222,7 +222,7 @@ CREATE TABLE `carbon_postrating` (
   `Rating` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `DateCreated` int(10) unsigned NOT NULL,
   KEY `TopicID` (`TopicID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_posts
@@ -242,7 +242,7 @@ CREATE TABLE `carbon_posts` (
   PRIMARY KEY (`ID`),
   KEY `TopicID` (`TopicID`,`PostTime`,`IsDel`) USING BTREE,
   KEY `UserPosts` (`UserName`,`IsDel`,`PostTime`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_posttags
@@ -254,7 +254,7 @@ CREATE TABLE `carbon_posttags` (
   `PostID` int(11) DEFAULT '0',
   KEY `TagsIndex` (`TagID`,`TopicID`),
   KEY `TopicID` (`TopicID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_roles
@@ -265,7 +265,7 @@ CREATE TABLE `carbon_roles` (
   `Name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `Description` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_statistics
@@ -281,7 +281,7 @@ CREATE TABLE `carbon_statistics` (
   `DaysDate` date NOT NULL DEFAULT '0000-00-00',
   `DateCreated` int(10) unsigned NOT NULL,
   PRIMARY KEY (`DaysDate`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_tags
@@ -300,7 +300,7 @@ CREATE TABLE `carbon_tags` (
   PRIMARY KEY (`ID`),
   KEY `TagName` (`Name`) USING HASH,
   KEY `TotalPosts` (`IsEnabled`, `TotalPosts`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_topics
@@ -334,7 +334,7 @@ CREATE TABLE `carbon_topics` (
   PRIMARY KEY (`ID`),
   KEY `LastTime` (`LastTime`,`IsDel`),
   KEY `UserTopics` (`UserName`,`IsDel`,`LastTime`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_upload
@@ -358,7 +358,7 @@ CREATE TABLE `carbon_upload` (
   KEY `Hash` (`FileSize`,`SHA1`,`MD5`) USING BTREE,
   KEY `UsersName` (`UserName`,`Created`) USING BTREE,
   KEY `PostID` (`PostID`,`UserName`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_users
@@ -399,7 +399,7 @@ CREATE TABLE `carbon_users` (
   `Birthday` date DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `UserName` (`UserName`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_vote
@@ -415,7 +415,7 @@ CREATE TABLE `carbon_vote` (
   `BallotIPList` longtext CHARACTER SET utf8,
   `BallotItemsList` longtext CHARACTER SET utf8,
   PRIMARY KEY (`TopicID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of carbon_config
