@@ -172,7 +172,7 @@
 // 异步加载的回调函数
 function PageAjaxLoad (Title, URL) {
 	setTimeout(function () {
-		history.pushState({}, Title, URL);
+		history.replaceState(null, Title, URL);
 		document.title = Title;
 		$.afui.setTitle(Title);
 		slideout.close();
