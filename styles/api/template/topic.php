@@ -2,7 +2,7 @@
 if (!defined('InternalAccess')) exit('{"Status": 0,"ErrorMessage": "403"}');
 foreach($PostsArray as $Key => $Post)
 {
-	$PostsArray[$Key]['PostFloor'] = ($Page-1) * $Config['PostsPerPage'] + $key;
+	$PostsArray[$Key]['PostFloor'] = ($Page-1) * $Config['PostsPerPage'] + $Key;
 }
 ?>
 {
