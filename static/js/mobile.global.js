@@ -394,6 +394,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 					//TODO：删除Toast
 					if (Result.Status == 1) {
 						console.log(Result);
+						$.afui.goBack();
 						$.afui.loadContent(
 							WebsitePath + "/t/" + Result.TopicID + (Result.Page > 1 ? "-" + Result.Page: ""), 
 							false, 

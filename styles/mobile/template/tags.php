@@ -5,7 +5,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <?php
 if($Page>1){
 ?>
-	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/tags/page/<?php echo ($Page-1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Previous']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/tags/page/<?php echo ($Page-1); ?>" data-transition="slide"><?php echo $Lang['Page_Previous']; ?></a></li>
 <?php
 }
 foreach ($TagsArray as $Tag) {
@@ -32,7 +32,7 @@ foreach ($TagsArray as $Tag) {
 } 
 if($Page<$TotalPage){
 ?>
-	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/tags/page/<?php echo ($Page+1); ?>" data-transition="slide" data-persist-ajax="true"><?php echo $Lang['Page_Next']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/tags/page/<?php echo ($Page+1); ?>" data-transition="slide"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php
 }
 ?>

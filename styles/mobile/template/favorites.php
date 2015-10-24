@@ -12,7 +12,7 @@ if($Page>1){
 foreach ($TopicsArray as $Topic) {
 ?>
 	<li>
-		<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['FavoriteID']; ?>" data-transition="slide" data-persist-ajax="true">
+		<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['FavoriteID']; ?>" data-transition="slide">
 			<?php echo $Topic['Title']; ?>
 		</a>
 	</li>

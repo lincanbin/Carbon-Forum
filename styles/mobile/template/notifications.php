@@ -12,7 +12,7 @@ foreach($ReplyArray as $key => $post)
 {
 ?>
 	<div class="card">
-		<div class="card-header"><a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>" data-transition="slide" data-persist-ajax="true"><?php echo $post['UserName'];?>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<?php echo $post['Subject'];?></a></div>
+		<div class="card-header"><a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>" data-transition="slide"><?php echo $post['UserName'];?>&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<?php echo $post['Subject'];?></a></div>
 		<div class="card-content">
 			<div class="card-content-inner"><?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?></div>
 		</div>
@@ -31,7 +31,7 @@ foreach($MentionArray as $key => $post)
 {
 ?>
 	<div class="card">
-		<div class="card-header"><a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>" data-transition="slide" data-persist-ajax="true"><?php echo $post['UserName'];?>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<?php echo $post['Subject'];?></a></div>
+		<div class="card-header"><a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $post['TopicID']; ?>-<?php echo $post['ID']; ?>" data-transition="slide"><?php echo $post['UserName'];?>&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;<?php echo $post['Subject'];?></a></div>
 		<div class="card-content">
 			<div class="card-content-inner"><?php echo strip_tags(mb_substr($post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?></div>
 		</div>
