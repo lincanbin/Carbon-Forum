@@ -136,12 +136,11 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 
 
 //提示信息
-function AlertMsg($PageTitle, $error, $status_code = 200)
+function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 {
 	global $Lang, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $starttime, $PageMetaKeyword, $TemplatePath;
-	$errors = array();
 	if (!$IsAjax) {
-		switch ($status_code) {
+		switch ($StatusCode) {
 			case 404:
 				header("HTTP/1.1 404 Not Found");
 				header("Status: 404 Not Found");

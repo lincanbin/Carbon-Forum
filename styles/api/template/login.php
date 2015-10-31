@@ -3,6 +3,7 @@ if (!defined('InternalAccess')) exit('{"Status": 0,"ErrorMessage": "403"}');
 if($Error){
 ?>{
 	"Status": 0,
+	"ErrorCode": <?php echo $ErrorCode;?>,
 	"ErrorMessage": "<?php echo $Error;?>"
 }
 <?php

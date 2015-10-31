@@ -2,6 +2,7 @@
 include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/login.php');
 $Error     = '';
+$ErrorCode     = 100000;
 $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 
@@ -58,16 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					}
 				} else {
 					$Error = $Lang['Password_Error'];
+					$ErrorCode     = 101004;
 				}
 			} else {
 				$Error = $Lang['User_Does_Not_Exist'];
+				$ErrorCode     = 101003;
 			}
 		} else {
 			$Error = $Lang['Verification_Code_Error'];
+			$ErrorCode     = 101002;
 		}
 		unset($_SESSION[$Prefix . 'VerificationCode']);
 	} else {
 		$Error = $Lang['Forms_Can_Not_Be_Empty'];
+		$ErrorCode     = 101001;
 	}
 }
 
