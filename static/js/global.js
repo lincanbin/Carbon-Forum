@@ -62,7 +62,7 @@ $(function() {
 		cache: false
 	});
 	//Pjax
-	$(document).pjax('a', '#main', {
+	$(document).pjax('a:not(a[target="_blank"])', '#main', {
 		fragment: '#main',
 		timeout: 10000,
 		maxCacheLength: 0
