@@ -580,7 +580,7 @@ img .avatar {
 .detail-avatar img {
 	max-width:96px;
 	max-height:96px;
-	border-radius: 4px;
+	border-radius: 50%;
 }
 .topic-content {
 	word-wrap: break-word;
@@ -892,7 +892,7 @@ img .avatar {
 	margin-top: 10px;
 	max-width: 128px;
 	max-height: 128px;
-	border-radius: 4px;
+	border-radius: 50%;
 }
 .User-Pannel-Name{
 	font-size: 16px;
