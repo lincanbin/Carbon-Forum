@@ -6,7 +6,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<div class="title"><a href="<?php echo $Config['WebsitePath'];?>/"><?php echo $Config['SiteName'];?></a> &raquo; <?php echo $Lang['Error_Message']; ?></div>
 	<div class="main-box">
 		<p class="red fs12" style="margin-left:60px;">
-		› <?php echo $error;?> <br/>
+		› <?php echo $Error;?> <br/>
 		</p>
 	</div>
 </div>
