@@ -2,7 +2,7 @@
 include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/login.php');
 $Error     = '';
-$ErrorCode     = 100000;
+$ErrorCode     = 101000;
 $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 

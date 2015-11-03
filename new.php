@@ -4,13 +4,14 @@ require(__DIR__ . '/language/' . ForumLanguage . '/new.php');
 Auth(1, 0, true);
 
 $Error     = '';
+$ErrorCode     = 103000;
 $Title     = '';
 $Content   = '';
 $TagsArray = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	SetStyle('api', 'API');
-	if (!ReferCheck($_POST['FormHash'])) {
+	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 5) { //发帖至少要间隔5秒
@@ -197,12 +198,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				
 			} else {
 				$Error = $Lang['Tags_Empty'];
+				$ErrorCode     = 103003;
 			}
 		} else {
 			$Error = str_replace('{{MaxPostChars}}', $Config['MaxPostChars'], str_replace('{{MaxTitleChars}}', $Config['MaxTitleChars'], $Lang['Too_Long']));
+			$ErrorCode     = 103002;
 		}
 	} else {
 		$Error = $Lang['Title_Empty'];
+		$ErrorCode     = 103001;
 	}
 }
 $DB->CloseConnection();

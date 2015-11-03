@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$Email      = strtolower(Request('Post', 'Email'));
 	$VerifyCode = intval(Request('Post', 'VerifyCode'));
 	$UserInfo   = array();
-	if (!ReferCheck($_POST['FormHash'])) {
+	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	if ($UserName && $Email && $VerifyCode) {

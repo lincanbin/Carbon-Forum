@@ -5,6 +5,7 @@ SetStyle('api', 'API');
 Auth(1, 0, true);
 
 $Error   = '';
+$ErrorCode     = 102000;
 $TopicID = intval(Request('Post', 'TopicID'));
 $Content = '';
 
@@ -18,7 +19,7 @@ if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck($_POST['FormHash'])) {
+	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 5) { //发帖至少要间隔5秒
@@ -100,9 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 		} else {
 			$Error = str_replace('{{MaxPostChars}}', $Config['MaxPostChars'], $Lang['Too_Long']);
+			$ErrorCode     = 102002;
 		}
 	} else {
 		$Error = $Lang['Content_Empty'];
+		$ErrorCode     = 102001;
 	}
 }
 $DB->CloseConnection();
