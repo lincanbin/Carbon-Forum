@@ -10,9 +10,9 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?
 		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $Lang['Sign_Up']; ?>
 	</div>
 	<div class="main-box">
-		<?php if($Message){ ?>
+		<?php if($Error){ ?>
 		<p class="red fs14" style="margin-left:60px;">
-		› <?php echo $Message; ?> <br/></p>
+		› <?php echo $Error; ?> <br/></p>
 		<?php } ?>
 		<form action="?" method="post">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />

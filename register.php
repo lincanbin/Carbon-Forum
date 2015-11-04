@@ -6,7 +6,8 @@ $Email      = '';
 $Password   = '';
 $Password2  = '';
 $VerifyCode = '';
-$Message    = '';
+$Error    = '';
+$ErrorCode     = 104000;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
@@ -92,23 +93,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 							}
 							header('location: ' . $Config['WebsitePath'] . '/');
 						} else {
-							$Message = $Lang['This_User_Name_Already_Exists'];
+							$Error = $Lang['This_User_Name_Already_Exists'];
+							$ErrorCode = 104006;
 						}
 					} else {
-						$Message = $Lang['VerificationCode_Error'];
+						$Error = $Lang['VerificationCode_Error'];
+						$ErrorCode = 104005;
 					}
 					unset($_SESSION[$Prefix . 'VerificationCode']);
 				} else {
-					$Message = $Lang['Email_Error'];
+					$Error = $Lang['Email_Error'];
+					$ErrorCode = 104004;
 				}
 			} else {
-				$Message = $Lang['UserName_Error'];
+				$Error = $Lang['UserName_Error'];
+				$ErrorCode = 104003;
 			}
 		} else {
-			$Message = $Lang['Passwords_Inconsistent'];
+			$Error = $Lang['Passwords_Inconsistent'];
+			$ErrorCode = 104002;
 		}
 	} else {
-		$Message = $Lang['Forms_Can_Not_Be_Empty'];
+		$Error = $Lang['Forms_Can_Not_Be_Empty'];
+		$ErrorCode = 104001;
 	}
 }
 
