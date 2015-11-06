@@ -1,5 +1,5 @@
 <?php
-if (!defined('InternalAccess')) exit('{"Status": 0,"ErrorMessage": "403"}');
+if (!defined('InternalAccess')) exit('{"Status": 0, "ErrorCode": "403", "ErrorMessage": "403"}');
 foreach($PostsArray as $Key => $Post)
 {
 	$PostsArray[$Key]['PostFloor'] = ($Page-1) * $Config['PostsPerPage'] + $Key;
