@@ -148,7 +148,7 @@ if(!$IsAjax){
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Powered By © 2006-2015 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?>
+			<?php echo $Config['SiteName']; ?> Powered By © 2006-2015 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/statistics"><?php echo $Lang['Statistics']; ?></a>
 			<?php
 			if ($IsMobile && $Config['MobileDomainName']) {
