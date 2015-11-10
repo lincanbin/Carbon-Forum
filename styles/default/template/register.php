@@ -31,10 +31,6 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?
 						<td width="auto" align="left"><input type="password" name="Password" id="Password" class="sl w200" value="" onblur="CheckPassword()" /></td>
 					</tr>
 					<tr>
-						<td width="180" align="right"><?php echo $Lang['Confirm_Password']; ?></td>
-						<td width="auto" align="left"><input type="password" name="Password2" id="Password2" class="sl w200" value="" onblur="CheckPassword()" /></td>
-					</tr>
-					<tr>
 						<td width="180" align="right"><?php echo $Lang['Verification_Code']; ?></td>
 						<td width="auto" align="left">
 							<label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> 

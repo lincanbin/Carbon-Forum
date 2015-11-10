@@ -9,7 +9,7 @@ if($Error){
 }else{
 ?>{
 	"Status": 1,
-	"TopicID": "<?php echo $TopicID;?>"
+	"TopicID": <?php echo $TopicID;?>
 }<?php
 }
 ?>

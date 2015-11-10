@@ -34,17 +34,10 @@ function CheckUserName() {
 }
 
 function CheckPassword() {
-	/*
 	if ($("#Password").val().length < 6){
 		$("#Password").addClass("inputnotice");
 	}else{
 		$("#Password").removeClass("inputnotice");
-	}
-	*/
-	if ($("#Password").val() != $("#Password2").val()) {
-		$("#Password2").addClass("inputnotice");
-	} else {
-		$("#Password2").removeClass("inputnotice");
 	}
 }
 
