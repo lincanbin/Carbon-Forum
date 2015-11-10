@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		}
 
 		$NewUserSalt     = mt_rand(100000, 999999);
-		$NewUserPassword = md5(md5($Password) . $NewUserSalt);
+		$NewUserPassword = md5($Password . $NewUserSalt);
 		$NewUserData     = array(
 			'ID' => null,
 			'UserName' => $UserName,
