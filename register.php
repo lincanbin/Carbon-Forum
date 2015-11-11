@@ -7,7 +7,7 @@ $Password   = '';
 $VerifyCode = '';
 $Error    = '';
 $ErrorCode     = 104000;
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
@@ -38,15 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 		session_start();
-		if (!isset($_SESSION[$Prefix . 'VerificationCode']) || 
-			$VerifyCode !== intval($_SESSION[$Prefix . 'VerificationCode'])) {
+		$TempVerificationCode = "";
+		if(isset($_SESSION[$Prefix . 'VerificationCode'])){
+			$TempVerificationCode = intval($_SESSION[$Prefix . 'VerificationCode']);
+			unset($_SESSION[$Prefix . 'VerificationCode']);
+		}else{
 			$Error = $Lang['VerificationCode_Error'];
-			$ErrorCode = 104004;
+			$ErrorCode     = 104004;
 			break;
 		}
-		unset($_SESSION[$Prefix . 'VerificationCode']);
-		// 释放session防止阻塞
 		session_write_close();
+		if ($VerifyCode !== $TempVerificationCode) {
+			$Error = $Lang['VerificationCode_Error'];
+			$ErrorCode     = 104004;
+			break;
+		}
 
 
 		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
@@ -125,11 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		);
 		UpdateConfig($NewConfig);
 		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
-		SetCookies(array(
-			'UserID' => $CurUserID,
-			'UserExpirationTime' => $TemporaryUserExpirationTime,
-			'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
-		), 30);
 		if ($CurUserID == 1) {
 			$DB->query("UPDATE `" . $Prefix . "users` SET UserRoleID=5 WHERE `ID`=?", array(
 				$CurUserID
@@ -143,7 +144,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$Avatar->Save('upload/avatar/small/' . $CurUserID . '.png', 24);
 			$Avatar->Free();
 		}
-		header('location: ' . $Config['WebsitePath'] . '/');
+		if( !$IsApp ){
+			SetCookies(array(
+				'UserID' => $CurUserID,
+				'UserExpirationTime' => $TemporaryUserExpirationTime,
+				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
+			), 30);
+			header('location: ' . $Config['WebsitePath'] . '/');
+			exit('registered');
+		}
 	}while(false);
 }
 
