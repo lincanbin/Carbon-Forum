@@ -3,7 +3,7 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/home.php');
 $Page      = intval(Request('Get', 'page'));
 $TotalPage = ceil($Config['NumTopics'] / $Config['TopicsPerPage']);
-if ($Page < 0 || $Page == 1) {
+if (($Page < 0 || $Page == 1) && !$IsApp) {
 	header('location: ' . $Config['WebsitePath'] . '/');
 	exit;
 }

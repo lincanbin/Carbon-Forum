@@ -25,7 +25,7 @@ if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
 $TotalPage = ceil(($Topic['Replies'] + 1) / $Config['PostsPerPage']);
-if ($Page < 0 || $Page == 1) {
+if (($Page < 0 || $Page == 1) && !$IsApp) {
 	header('location: ' . $Config['WebsitePath'] . '/t/' . $ID);
 	exit;
 }
