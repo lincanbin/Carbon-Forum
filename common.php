@@ -751,6 +751,17 @@ if ($IsApp) {
 	$Style        = 'API';
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
+	$SignatureKey = Request("Request","SKey");
+	$SignatureValue = Request("Request","SValue");
+	$SignatureTime = intval(Request("Request","STime"));
+	if(
+		!$SignatureTime || !$SignatureKey || !$SignatureValue || 
+		empty($APISignature[$SignatureKey]) ||
+		abs($SignatureTime-$TimeStamp) > 600 ||
+		!HashEquals($SignatureValue, md5($SignatureKey.$APISignature[$SignatureKey].$SignatureTime))
+	){
+		AlertMsg('403', 'Forbidden', 403);
+	}
 } elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
 	$TemplatePath = __DIR__ . '/styles/mobile/template/';
 	$Style        = 'Mobile';
@@ -775,7 +786,7 @@ $CurIP    = CurIP();
 $FormHash = FormHash();
 // 限制不能打开.php的网址
 if (strpos($RequestURI, '.php')) {
-	AlertMsg('404', '404 NOT FOUND', 404);
+	AlertMsg('403', 'Forbidden', 403);
 }
 
 

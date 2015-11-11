@@ -1,12 +1,14 @@
 <?php
-//输出所有错误信息，调试用
-//error_reporting(E_ALL);
-//ini_set('display_errors', 'On');
-//关闭错误报告，生产环境用
-ini_set('display_errors', 'Off');
+//Enable error report
+error_reporting(E_ALL); 
+ini_set('display_errors', 'On');
+//Disable error report
+//ini_set('display_errors', 'Off');
 
-date_default_timezone_set('Asia/Shanghai');//设置中国时区
-$SALT = 'AuthorIsLinCanbin';//Salt，用于Cookie与Form，随便改
+date_default_timezone_set('Asia/Shanghai');
+//Salt for Cookie and Form
+// Free to modify
+$SALT = 'AuthorIsLinCanbin';
 $Prefix = 'carbon_';
 define('InternalAccess', true);
 /*模板文件使用
@@ -27,3 +29,8 @@ define('DBPassword', '{{DBPassword}}');
 //Sphinx Server
 define('SearchServer', '{{SearchServer}}');
 define('SearchPort', '{{SearchPort}}');
+// API checking data
+// List<Map<String APIKey, String APISecret>>
+// Free to modify
+$APISignature = array();
+$APISignature['12450'] = 'b40484df0ad979d8ba7708d24c301c38';
