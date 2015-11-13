@@ -44,12 +44,12 @@ $PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`
 	"id" => $ID
 ));
 if ($CurUserID) {
-	$IsFavorite = $DB->single("SELECT ID 
+	$IsFavorite = intval($DB->single("SELECT ID 
 		FROM " . $Prefix . "favorites 
 		WHERE UserID=:UserID and Type=1 AND FavoriteID=:FavoriteID", array(
 		'UserID' => $CurUserID,
 		'FavoriteID' => $ID
-	));
+	)));
 }
 //更新浏览量
 if ($MCache) {

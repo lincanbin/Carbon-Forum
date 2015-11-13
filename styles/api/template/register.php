@@ -11,9 +11,9 @@ if($Error){
 ?>
 {
 	"Status": 1,
-	"UserID": "<?php echo $CurUserID; ?>",
+	"UserID": <?php echo $CurUserID; ?>,
 	"UserExpirationTime" : <?php echo $TemporaryUserExpirationTime; ?>,
-	"UserCode" : <?php echo md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT); ?>,
+	"UserCode" : "<?php echo md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT); ?>",
 	"UserInfo" : <?php 
 	unset($NewUserData['Password']);
 	unset($NewUserData['Salt']);

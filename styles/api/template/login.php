@@ -11,9 +11,9 @@ if($Error){
 ?>
 {
 	"Status": 1,
-	"UserID": "<?php echo $DBUser['ID']; ?>",
+	"UserID": <?php echo $DBUser['ID']; ?>,
 	"UserExpirationTime" : <?php echo $TemporaryUserExpirationTime; ?>,
-	"UserCode" : <?php echo md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT); ?>,
+	"UserCode" : "<?php echo md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT); ?>",
 	"UserInfo" : <?php 
 	unset($DBUser['Password']);
 	unset($DBUser['Salt']);

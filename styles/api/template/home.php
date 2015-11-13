@@ -4,7 +4,7 @@ if (!defined('InternalAccess')) exit('{"Status": 0, "ErrorCode": "403", "ErrorMe
 {
 	"Status": 1,
 	"PageTitle": "<?php echo $PageTitle;?>",
-	"Page": "<?php echo $Page;?>",
-	"TotalPage": "<?php echo $TotalPage;?>",
+	"Page": <?php echo $Page;?>,
+	"TotalPage": <?php echo $TotalPage;?>,
 	"TopicsArray": <?php echo json_encode($TopicsArray);?>
 }
