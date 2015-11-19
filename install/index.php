@@ -2,7 +2,7 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');//设置中国时区
 $Message = '';
-$Version = '3.6.5';
+$Version = '5.0.1';
 $Prefix = 'carbon_';
 if(is_file('install.lock')){
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
