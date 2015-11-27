@@ -1,11 +1,16 @@
 <?php
 set_time_limit(0);
-date_default_timezone_set('Asia/Shanghai');//设置中国时区
+error_reporting(0); //don't show errors
+$timezone = "Asia/Shanghai"; // set automatically the time zone
+if (ini_get('date.timezone') != "") $timezone = ini_get('date.timezone'); //If we get a timezone change it
+date_default_timezone_set($timezone);//设置中国时区
 $Message = '';
 $Version = '5.0.1';
 $Prefix = 'carbon_';
 if(is_file('install.lock')){
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
+//Exit for more security
+exit();
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$fp = fopen(__DIR__.'/database.sql', "r") or die("不能打开SQL文件");
@@ -86,6 +91,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }else{
 	if (version_compare(PHP_VERSION, '5.3.0') < 0) {
 		$Message = '你的PHP版本过低，可能会无法正常使用！<br />Your PHP version is too low, it may not work properly!';
+
 	}
 	if (! extension_loaded('pdo_mysql')) {
 		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
