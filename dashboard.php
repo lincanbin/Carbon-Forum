@@ -9,11 +9,14 @@ $OauthMessage = '';
 $CacheMessage    = '';
 $Action          = Request('Post', 'Action', false);
 
-$OauthData = json_decode($Config['CacheOauth'], true);
+$OauthData = addslashes(json_decode($Config['CacheOauth'], true)); //just incase
 $OauthData = $OauthData?$OauthData:array();
 $OauthConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("includes/Oauth.config.json")), true);
 
 switch ($Action) {
+	//add slashes = prevent hacking
+//Example: more security
+$Prefix = addslashes($Prefix);
 	case 'Cache':
 		set_time_limit(0);
 		UpdateConfig(array(
@@ -28,7 +31,7 @@ switch ($Action) {
 				LIMIT ' . $Config['TopicsPerPage']))
 		));
 		$DB->query('UPDATE ' . $Prefix . 'users u 
-			SET u.Topics=(SELECT count(*) FROM ' . $Prefix . 'topics t 
+			SET u.Topics=(SELECT count(*) FROM ' . addslashes($Prefix) . 'topics t 
 				WHERE t.UserName=u.UserName AND IsDel=0),
 			u.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p 
 				WHERE p.UserName=u.UserName AND p.IsTopic=0),
