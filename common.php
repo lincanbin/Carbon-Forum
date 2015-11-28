@@ -15,11 +15,20 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
+error_reporting(0);
 //Initialize timer
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
+//require only if exists
+if(file_exists(_DIR_ . "/config.php")) {
 require(__DIR__ . "/config.php");
+} else {
+//Bring user to installation
+header("Location: install/");
+die(); //No errors
+}
+
 require(__DIR__ . '/language/' . ForumLanguage . '/common.php');
 //Initialize PHP Data Object(Database)
 require(__DIR__ . "/includes/PDO.class.php");
