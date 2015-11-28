@@ -1,6 +1,9 @@
 <?php
+error_reporting(0);
 include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/dashboard.php');
+if(!array_key_exists('HTTP_MOD_REWRITE', $_SERVER)) die ("Please Enable Mod Rewrite before passing"); //Check for Mod Rewrite
+if (file_exists("install")) die ("Please delete the install folder before passing."); //Make sure install does not exist for safety
 Auth(5);
 $BasicMessage    = '';
 $PageMessage     = '';
