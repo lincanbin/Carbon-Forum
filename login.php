@@ -1,6 +1,9 @@
 <?php
+error_reporting(0); //Disable Error Reporting Safety
 include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/login.php');
+if(!array_key_exists('HTTP_MOD_REWRITE', $_SERVER)) die ("Please Enable Mod Rewrite before passing"); //Check for Mod Rewrite
+if (file_exists("install")) die ("Please delete the install folder before passing."); //Make sure install does not exist for safety
 $Error     = '';
 $ErrorCode     = 101000;
 $UserName  = '';
