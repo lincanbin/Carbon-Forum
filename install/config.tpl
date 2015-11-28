@@ -1,12 +1,12 @@
 <?php
 //Enable error report
-error_reporting(E_ALL); 
-ini_set('display_errors', 'On');
+//error_reporting(E_ALL); 
+//ini_set('display_errors', 'On');
 //Disable error report
-//ini_set('display_errors', 'Off');
-$Timezone = "Asia/Shanghai"; // set automatically the time zone
-if (ini_get('date.timezone') != "") $Timezone = ini_get('date.timezone'); //If we get a timezone change it
-date_default_timezone_set($Timezone);//设置中国时区
+ini_set('display_errors', 'Off');
+
+// set automatically the time zone
+date_default_timezone_set(ini_get('date.timezone') != '' ? 'Asia/Shanghai' : ini_get('date.timezone'));
 //Salt for Cookie and Form
 // Free to modify
 $SALT = 'AuthorIsLinCanbin';
