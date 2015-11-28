@@ -4,8 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 //Disable error report
 //ini_set('display_errors', 'Off');
-
-date_default_timezone_set('Asia/Shanghai');
+$Timezone = "Asia/Shanghai"; // set automatically the time zone
+if (ini_get('date.timezone') != "") $Timezone = ini_get('date.timezone'); //If we get a timezone change it
+date_default_timezone_set($Timezone);//设置中国时区
 //Salt for Cookie and Form
 // Free to modify
 $SALT = 'AuthorIsLinCanbin';
