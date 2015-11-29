@@ -1,4 +1,10 @@
 <?php
+$currentFileInfo = pathinfo(__FILE__);
+$requestInfo = pathinfo($_SERVER['REQUEST_URI']);
+if($currentFileInfo['basename'] == $requestInfo['basename']){
+    // direct access to file
+    exit('No direct script access allowed');
+}
 class Log
 {
 	private $path = '/logs/';
