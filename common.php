@@ -16,13 +16,14 @@
 数据库从设计上避免使用Join多表联查
 */
 //Initialize timer
+define('CARBON_FORUM_VERSION', '5.0.1');
 $mtime     = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
 if((include __DIR__ . '/config.php') != 1){
 	//Bring user to installation
 	header("Location: install/");
-	die(); //No errors
+	exit(); //No errors
 }
 require(__DIR__ . '/language/' . ForumLanguage . '/common.php');
 //Initialize PHP Data Object(Database)
@@ -62,6 +63,12 @@ if ($MCache) {
 if (!$Config) {
 	foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config') as $ConfigArray) {
 		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
+	}
+	// Update
+	if($Config['Version'] != CARBON_FORUM_VERSION){
+		//Bring user to installation
+		header("Location: update/");
+		exit(); //No errors
 	}
 	if ($MCache) {
 		$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
