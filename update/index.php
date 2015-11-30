@@ -1,6 +1,7 @@
 <?php
+error_reporting(0);
 set_time_limit(0);
-date_default_timezone_set('Asia/Shanghai');//设置中国时区
+date_default_timezone_setdate_default_timezone_get());//设置中国时区
 $Message = '';
 $Version = '5.0.1';
 $Prefix = 'carbon_';
