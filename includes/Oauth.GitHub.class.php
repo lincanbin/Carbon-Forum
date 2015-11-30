@@ -1,5 +1,11 @@
 <?php
 require(__DIR__ . '/URL.class.php');
+$currentFileInfo = pathinfo(__FILE__);
+$requestInfo = pathinfo($_SERVER['REQUEST_URI']);
+if($currentFileInfo['basename'] == $requestInfo['basename']){
+    // direct access to file
+    exit('No direct script access allowed');
+}
 // https://developer.github.com/v3/oauth/
 class Oauth
 {
