@@ -148,7 +148,10 @@ function GetNextSQL() {
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<?php
+	$lang_html = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+	?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang_html; ?>" lang="<?php echo $lang_html; ?>">
 <head>
 	<meta charset="UTF-8" />
 	<meta content="True" name="HandheldFriendly" />
