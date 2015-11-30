@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_NOTICE); //Don't show error reporting
 require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/home.php');
 $Page      = intval(Request('Get', 'page'));
@@ -45,4 +46,9 @@ $PageTitle = $Page > 1 ? ' Page' . $Page . '-' : '';
 $PageTitle .= $Config['SiteName'];
 $PageMetaDesc = htmlspecialchars(mb_substr($Config['SiteDesc'], 0, 150, 'utf-8'));
 $ContentFile  = $TemplatePath . 'home.php';
+if (file_exists($TemplatePath . 'layout.php')) {
 include($TemplatePath . 'layout.php');
+} else {
+trigger_error($TemplatePath . 'layout.php' . ' not found!');	
+}
+}
