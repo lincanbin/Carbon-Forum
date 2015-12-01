@@ -13,7 +13,10 @@ if(is_file('install.lock')){
 exit();
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	$fp = fopen(__DIR__.'/database.sql', "r") or die("不能打开SQL文件");
+	$fp = fopen(__DIR__.'/database.sql', "r") or die("SQL文件无法打开。  The SQL File could not be opened.");
+	//dobefore
+	if (isset($_POST["Language"]) && isset($_POST["DBHost"]) && isset($_POST["DBName"]) && isset($_POST["DBUser"]) && isset($_POST["DBPassword"]))
+	{
 	$Language = $_POST['Language'];
 	$DBHost = $_POST['DBHost'];
 	$DBName = $_POST['DBName'];
@@ -23,6 +26,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$SearchPort   = $_POST['SearchPort'];
 	$EnableMemcache   = $_POST['EnableMemcache'];
 	$MemCachePrefix   = $_POST['MemCachePrefix'];
+	} else {
+		die("An Unexpected Error Occured!");
+	}
 	//$WebsitePath = $_POST['WebsitePath'];
 	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	if(preg_match('/(.*)\/install/i', $WebsitePath , $WebsitePathMatch))
