@@ -234,8 +234,8 @@ function CharCV($string)
 // 过滤掉一些非法字符
 function CharsFilter($String)
 {
-	$String = str_replace("<", "", $String);
-	$String = str_replace(">", "", $String);
+	$String = urlencode(addslashes($String));
+	$String = urldecode($String);
 	return trim($String);
 }
 
