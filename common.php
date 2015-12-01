@@ -15,10 +15,11 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
-//Initialize timer
 define('CARBON_FORUM_VERSION', '5.0.1');
-$mtime     = explode(' ', microtime());
-$starttime = $mtime[1] + $mtime[0];
+
+//Initialize timer
+$MicroTime     = explode(' ', microtime());
+$StartTime = $MicroTime[1] + $MicroTime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
 if((include __DIR__ . '/config.php') != 1){
 	//Bring user to installation
@@ -66,8 +67,7 @@ if (!$Config) {
 	}
 	// Update
 	if($Config['Version'] != CARBON_FORUM_VERSION){
-		//Bring user to installation
-		header("Location: update/");
+		header("Location: update/");// Bring user to installation
 		exit(); //No errors
 	}
 	if ($MCache) {
@@ -234,8 +234,8 @@ function CharCV($string)
 // 过滤掉一些非法字符
 function CharsFilter($String)
 {
-	$String = urlencode(addslashes($String));
-	$String = urldecode($String);
+	$String = str_replace("<", "", $String);
+	$String = str_replace(">", "", $String);
 	return trim($String);
 }
 
