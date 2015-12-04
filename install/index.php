@@ -103,27 +103,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
 	}
 }
-											$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-switch ($lang){
-    case "en":
-        //echo "PAGE FR";
-        $lang = "1";//include check session FR
-        break;
+
+switch (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)){
+	case "en":
+		$Lang = "1";
+		break;
+	case "zh-cn":
+		$Lang = "2";
+		break;
+	case "zh-tw":
+		$Lang = "3";
+		break;
+	case "ru":
+		$Lang ="4";
+		break;
+	case "pl":
+		$Lang = "5";
+		break;
 }
-case "zh-cn":
-	$lang = "2";
-	break;
-case "zh-tw":
-	$lang = "3";
-	break;
-case "ru":
-	$lang ="4";
-	break;
-case "pl":
-	$lang = "5";
-	break;
-}
-											?>
 //从文件中逐条取SQL
 function GetNextSQL() {
 	global $fp;
@@ -154,10 +151,7 @@ function GetNextSQL() {
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<?php
-	$lang_html = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-	?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang_html; ?>" lang="<?php echo $lang_html; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cmn-Hans" lang="zh-cmn-Hans">
 <head>
 	<meta charset="UTF-8" />
 	<meta content="True" name="HandheldFriendly" />
@@ -186,12 +180,12 @@ function GetNextSQL() {
 									<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 									<td width="auto" align="left">
 										<select name="Language">
-											<option <?php if ($lang == "2") echo " selected "; ?> value="zh-cn" >简体中文</option>
-											<option <?php if ($lang == "3") echo " selected "; ?> value="zh-tw">繁體中文</option>
+											<option <?php if ($Lang == "2") echo " selected "; ?> value="zh-cn" >简体中文</option>
+											<option <?php if ($Lang == "3") echo " selected "; ?> value="zh-tw">繁體中文</option>
 										
-											<option <?php if ($lang == "1") echo " selected "; ?> value="en">English</option>
-											<option <?php if ($lang == "4") echo " selected "; ?> value="ru">Русский</option>
-											<option <?php if ($lang == "5") echo " selected "; ?> value="pl">polski</option>
+											<option <?php if ($Lang == "1") echo " selected "; ?> value="en">English</option>
+											<option <?php if ($Lang == "4") echo " selected "; ?> value="ru">Русский</option>
+											<option <?php if ($Lang == "5") echo " selected "; ?> value="pl">polski</option>
 										</select>
 									</td>
 								</tr>
