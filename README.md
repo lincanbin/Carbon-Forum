@@ -3,6 +3,12 @@ Carbon-Forum
 A high performance open-source forum software written in PHP.
 
 
+Related Projects
+------------
+* [API Documentation](https://github.com/lincanbin/Carbon-Forum-API-Documentation)
+* [Android Client for Carbon Forum](https://github.com/lincanbin/Android-Carbon-Forum)
+
+
 Demo/Official Website
 ------------
 * [项目简体中文官网: www.94cb.com](http://www.94cb.com/)
@@ -49,6 +55,7 @@ Features
 Contributors
 ------------
 [Show all](https://github.com/lincanbin/Carbon-Forum/graphs/contributors)
+
 
 License
 ------------
