@@ -68,3 +68,17 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	ExpiresByType image/jpeg A2592000
 	ExpiresByType image/x-icon A2592000
 </IfModule>
+#TECFLARE CONTRIBUTIONS BELOW HTTP://WWW.TECFLARE.COM
+# compress text, html, javascript, css, xml:
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+Header unset Cookie
+Header unset Set-Cookie
+# cleaner urls
