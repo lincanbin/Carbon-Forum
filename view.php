@@ -12,7 +12,7 @@ foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config WH
 }
 $DB->CloseConnection();
 $CookiesPrefix = $Config['CookiePrefix'];
-$CurProtocol = '//';
+$CurProtocol = 'http://';
 //$CookiesPrefix = isset($_GET['cookie_prefix']) ? $_GET['cookie_prefix'] : false;
 if ($CookiesPrefix) {
 	$View        = isset($_GET['view']) ? $_GET['view'] : 'desktop';
