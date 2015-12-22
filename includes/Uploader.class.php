@@ -106,7 +106,7 @@ class Uploader
 		$dirname            = dirname($this->filePath);
 		
 		//排重
-		if (!$this->CheckIdenticalFiles($file['tmp_name'], 'file')) {
+		if (!$this->checkIdenticalFiles($file['tmp_name'], 'file')) {
 			return;
 		}
 		
@@ -254,7 +254,7 @@ class Uploader
 		$dirname            = dirname($this->filePath);
 		
 		//排重
-		if (!$this->CheckIdenticalFiles($img, 'string')) {
+		if (!$this->checkIdenticalFiles($img, 'string')) {
 			return;
 		}
 		
@@ -285,7 +285,7 @@ class Uploader
 	/**
 	 * 排除重复文件
 	 */
-	private function CheckIdenticalFiles($TMPFileName, $InputType)
+	private function checkIdenticalFiles($TMPFileName, $InputType)
 	{
 		if ($this->DB) {
 			if ($InputType == 'string') {
