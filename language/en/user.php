@@ -9,12 +9,12 @@ $Lang = array_merge($Lang, array(
 	'Block_User' => 'Block User',
 	'Unblock_User' => 'Unblock User',
 	'Reset_Avatar' => 'Reset Avatar',
-	'Registered_In' => 'Registered in',
+	'Registered_In' => 'Registered ',
 	'Topics_Number' => 'Topics Number',
 	'Posts_Number' => 'Posts Number',
 	'Homepage' => 'Homepage',
 	'Introduction' => 'Introduction',
-	'Last_Activity_In' => 'Last activity in',
+	'Last_Activity_In' => 'Last activity ',
 	'Created_Topic' => 'Created topic',
 	'Replied_To_Topic' => 'Replied to topic'
 	));
