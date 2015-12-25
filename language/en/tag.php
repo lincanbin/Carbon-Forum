@@ -9,7 +9,7 @@ $Lang = array_merge($Lang, array(
 	'Followers' => ' Followers',
 	'Topics' => ' Topics',
 	'Created_In' => 'Created in ',
-	'Last_Updated_In' => 'Last updated in ',
+	'Last_Updated_In' => 'Last update ',
 	'Follow' => 'Follow',
 	'Unfollow' => 'Unfollow',
 
