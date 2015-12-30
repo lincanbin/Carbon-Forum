@@ -384,6 +384,8 @@ function IsName($string)
 	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_]{4,20}$/i', $string);
 }
 
+
+//判断当前协议
 function IsSSL(){
 	if(!isset($_SERVER['HTTPS']))
 		return false;
@@ -396,6 +398,20 @@ function IsSSL(){
 	}
 		return false;
 }
+
+
+//登出
+function LogOut(){
+	global $CurUserID;
+	SetCookies(array(
+		'UserID' => '',
+		'CurUserExpirationTime' => '',
+		'UserCode' => ''
+	), 1);
+	$CurUserID = 0;
+}
+
+
 //只有上一页下一页的分页
 function PaginationSimplified($PageUrl, $PageCount, $IsLastPage)
 {
@@ -762,6 +778,7 @@ if ($IsApp) {
 	$Style        = 'API';
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
+	//API鉴权
 	$SignatureKey = Request("Request","SKey");
 	$SignatureValue = Request("Request","SValue");
 	$SignatureTime = intval(Request("Request","STime"));
@@ -865,19 +882,9 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;
 	} else {
-		SetCookies(array(
-			'UserID' => '',
-			'UserExpirationTime' => '',
-			'UserCode' => ''
-		), 1);
-		$CurUserID = 0;
+		LogOut();
 	}
 	unset($TempUserInfo);
 } elseif ($CurUserExpirationTime || $CurUserID || $CurUserCode) {
-	SetCookies(array(
-		'UserID' => '',
-		'UserExpirationTime' => '',
-		'UserCode' => ''
-	), 1);
-	$CurUserID = 0;
+	LogOut();
 }

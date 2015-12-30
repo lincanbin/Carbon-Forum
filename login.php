@@ -7,11 +7,7 @@ $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 
 if (isset($_GET['logout']) && $_GET['logout'] == $CurUserCode) {
-	SetCookies(array(
-		'UserID' => '',
-		'CurUserExpirationTime' => '',
-		'UserCode' => ''
-	), 1);
+	LogOut();
 	if ($ReturnUrl) {
 		header('location: ' . $ReturnUrl);
 		exit('logout');
