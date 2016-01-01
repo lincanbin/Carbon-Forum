@@ -56,7 +56,7 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <?php if($CurUserID){
 	echo 'setTimeout(function() {GetNotification();}, 1);'; }
 ?>
-	loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo $Config['Version']; ?>",function(){});
+	loadScript(WebsitePath + "/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo $Config['Version']; ?>",function(){});
 	</script>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
@@ -148,7 +148,7 @@ if(!$IsAjax){
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			<?php echo $Config['SiteName']; ?> Powered By © 2006-2015 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?>
+			<?php echo $Config['SiteName']; ?> Powered By © 2006-2016 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/statistics"><?php echo $Lang['Statistics']; ?></a>
 			<?php
 			if ($IsMobile && $Config['MobileDomainName']) {
