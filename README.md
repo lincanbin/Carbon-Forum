@@ -1,47 +1,43 @@
-Carbon-Forum
-============
+# Carbon-Forum
+
 A high performance open-source forum software written in PHP.
 
 
-Related Projects
-------------
+
+## Related Projects
+
 * [API Documentation](https://github.com/lincanbin/Carbon-Forum-API-Documentation)
 * [Android Client for Carbon Forum](https://github.com/lincanbin/Android-Carbon-Forum)
 
+## Demo/Official Website
 
-Demo/Official Website
-------------
 * [项目简体中文官网: www.94cb.com](http://www.94cb.com/)
 * [Project's English Official Website: en.94cb.com](http://en.94cb.com/)
 * [專案繁體中文官網: tw.94cb.com](http://tw.94cb.com/)
 
+## Requirements
 
-Requirements
-------------
 * PHP version 5.3.6 or higher.
 * The [__PDO_MYSQL__](http://php.net/manual/en/ref.pdo-mysql.php) PHP Package.
 * MySQL version 5.0 or higher.
 * The [__mod_rewrite__](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html) Apache module / [__ngx_http_rewrite_module__](https://github.com/lincanbin/Carbon-Forum/blob/master/nginx.conf) / [__ISAPI_Rewrite__](http://www.helicontech.com/isapi_rewrite/) IIS module / IIS7+. 
-* The [__mod_headers__](http://httpd.apache.org/docs/2.2/mod/mod_headers.html) module is needed if you run Carbon Forum on Apache HTTP Server. 
+* The [__mod_headers__](http://httpd.apache.org/docs/2.2/mod/mod_headers.html) module is needed if you run Carbon Forum on Apache HTTP Server.
 
+## Install
 
-Install
-------------
 1. Ensure that the entire directory are writable.
 2. Open ```http://www.yourdomain.com/install``` and install.
-3. Open the Forum, and register. The first registered users will become administrators. 
+3. Open the Forum, and register. The first registered users will become administrators.
 
+## Upgrade
 
-Upgrade
-------------
 1. Backup files( ```/upload/*``` ) and databases. 
 2. Delete all files except ```/upload/*```, and upload the new version files that extract from the the latest vesion packet. 
 3. Ensure that the entire directory are writable.
-4. Open ```http://www.yourdomain.com/update``` and update. 
+4. Open ```http://www.yourdomain.com/update``` and update.
 
+## Features
 
-Features
-------------
 * Mobile version. 
 * Real-time notifications push. 
 * Discussions Tags based, Quora/StackOverflow like. 
@@ -49,18 +45,18 @@ Features
 * Full asynchronous design, improve the loading speed. 
 * Excellent search engine optimization (mobile adaptation Sitemap support) .
 * Perfect draft saving mechanism. 
-* The modern Notification Center (currently supported and @ replies). 
+* The modern Notification Center (currently supported and @ replies).
 
+## Contributors
 
-Contributors
-------------
 [Show all](https://github.com/lincanbin/Carbon-Forum/graphs/contributors)
 
 
-License
-------------
-```
-Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
+
+## License
+
+``` 
+Copyright 2006-2016 Canbin Lin (lincanbin@hotmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
