@@ -278,7 +278,7 @@ CREATE TABLE `carbon_statistics` (
   `TotalUsers` int(10) unsigned NOT NULL DEFAULT '0',
   `TotalPosts` int(10) unsigned NOT NULL DEFAULT '0',
   `TotalTopics` int(10) unsigned NOT NULL DEFAULT '0',
-  `DaysDate` date NOT NULL DEFAULT '0000-00-00',
+  `DaysDate` date NOT NULL DEFAULT '2014-11-01',
   `DateCreated` int(10) unsigned NOT NULL,
   PRIMARY KEY (`DaysDate`)
 ) DEFAULT CHARSET=utf8;
