@@ -106,12 +106,8 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?vers
 		title : {
 			text : '    <?php echo $Config['SiteName'].'    '.$Lang['Topics_Statistics']; ?>'
 		},
-		color : [ 
-			'#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', 
-			'#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0', 
-			'#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', 
-			'#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' 
-		],
+		color : ['#c23531', '#314656', '#61a0a8', '#dd8668', '#91c7ae', 
+			'#6e7074', '#61a0a8', '#bda29a', '#44525d', '#c4ccd3'],
 		tooltip : {
 			trigger: 'item',
 			formatter : function (params) {
@@ -154,10 +150,12 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?vers
 		yAxis : [
 			{
 				name : '<?php echo $Lang['TotalTopics_Statistics']; ?>',
+				scale : true,
 				type : 'value'
 			},
 			{
 				name : '<?php echo $Lang['DaysTopics_Statistics']; ?>',
+				scale : false,
 				type : 'value'
 			}
 		],
