@@ -33,5 +33,5 @@ var Lang = {
 	'Reply_Success':' Успешно ',
 	'Reply_To':'Ответ ',
 
-	'New_Message': '{{NewMessage}} новое сообщениеs'
+	'New_Message': '{{NewMessage}} новое сообщение'
 };
