@@ -18,6 +18,7 @@ $(document).ready(function(){
 		<li><?php echo $Lang['Topics_Statistics']; ?></li>
 		<li><?php echo $Lang['Posts_Statistics']; ?></li>
 		<li><?php echo $Lang['Users_Statistics']; ?></li>
+		<li><?php echo $Lang['Tags_Statistics']; ?></li>
 	</ul>
 	<div class="resp-tabs-container">
 
@@ -29,6 +30,9 @@ $(document).ready(function(){
 		</div>
 		<div>
 			<div id="UsersStatistics" style="width:940px;height:560px"></div>
+		</div>
+		<div>
+			<div id="TagsStatistics" style="width:940px;height:680px"></div>
 		</div>
 	</div>
 </div>
@@ -48,7 +52,6 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?vers
 	var DaysUsersStatisticsData = [];
 
 	for(var i in StatisticsData){
-	//for (var i = TotalTopicsStatisticsData.length - 1; i >= 0; i--) {
 		var CurStatisticsDate = StatisticsData[i][0].split('-');
 		var CurStatisticsDateObject=new Date();
 		CurStatisticsDateObject.setFullYear(
@@ -101,7 +104,7 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?vers
 			]
 		);
 	};
-	// 基于准备好的dom，初始化echarts图表
+	// 基于准备好的dom，初始化前三个图表
 	option = {
 		title : {
 			text : '    <?php echo $Config['SiteName'].'    '.$Lang['Topics_Statistics']; ?>'
@@ -215,6 +218,101 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?vers
 	var UsersStatistics = echarts.init(document.getElementById('UsersStatistics'));
 	option.color.sort(function(){return Math.random()>0.5?-1:1;});
 	UsersStatistics.setOption(option);
+
+	//话题的treemap
+	function colorMappingChange(value) {
+		var levelOption = getLevelOption(value);
+		chart.setOption({
+			series: [{
+				levels: levelOption
+			}]
+		});
+	}
+
+	var formatUtil = echarts.format;
+
+	function getLevelOption() {
+		return [
+			{
+				itemStyle: {
+					normal: {
+						borderWidth: 0,
+						gapWidth: 5
+					}
+				}
+			},
+			{
+				itemStyle: {
+					normal: {
+						gapWidth: 1
+					}
+				}
+			},
+			{
+				colorSaturation: [0.35, 0.5],
+				itemStyle: {
+					normal: {
+						gapWidth: 1,
+						borderColorSaturation: 0.6
+					}
+				}
+			}
+		];
+	}
+
+	option = {
+		title : {
+			text : '    <?php echo $Config['SiteName'].'    '.$Lang['Tags_Statistics']; ?>'
+		},
+
+		tooltip: {
+			formatter: function (info) {
+				var value = info.value;
+				var treePathInfo = info.treePathInfo;
+				var treePath = [];
+
+				for (var i = 1; i < treePathInfo.length; i++) {
+					treePath.push(treePathInfo[i].name);
+				}
+
+				return [
+					'<div class="tooltip-title">' + formatUtil.encodeHTML(treePath.join('/')) + '</div>',
+					'<?php echo $Lang['Topics_Number']; ?>: ' + value,
+				].join('');
+			}
+		},
+
+		series: [
+			{
+				name:'    <?php echo $Config['SiteName'].'    '.$Lang['Tags_Statistics']; ?>',
+				type:'treemap',
+				visibleMin: 100,
+				label: {
+					show: true,
+					formatter: '{b}'
+				},
+				itemStyle: {
+					normal: {
+						borderColor: '#fff'
+					}
+				},
+				levels: getLevelOption(),
+				data: <?php echo $TagsDataJsonString; ?>
+			}
+		],
+
+		toolbox: {
+			show : true,
+			feature : {
+				mark : {show: true},
+				dataView : {show: true, readOnly: false},
+				restore : {show: true},
+				saveAsImage : {show: true}
+			}
+		}
+	};
+	var TagsStatistics = echarts.init(document.getElementById('TagsStatistics'));
+	TagsStatistics.setOption(option);
 });
 </script>
 <!-- main-content end -->
