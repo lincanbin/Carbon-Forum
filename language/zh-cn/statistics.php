@@ -7,6 +7,7 @@ $Lang = array_merge($Lang, array(
 	'Topics_Statistics' => '主题统计',
 	'Posts_Statistics' => '帖子统计',
 	'Users_Statistics' => '用户统计',
+	'Tags_Statistics' => '话题统计',
 
 	'TotalTopics_Statistics' => '总主题数统计',
 	'DaysTopics_Statistics' => '每日新主题数统计',
@@ -15,6 +16,8 @@ $Lang = array_merge($Lang, array(
 	'DaysPosts_Statistics' => '每日新回帖数统计',
 
 	'TotalUsers_Statistics' => '总用户数统计',
-	'DaysUsers_Statistics' => '每日新用户数统计'
+	'DaysUsers_Statistics' => '每日新用户数统计',
+
+	'Topics_Number' => '主题数量'
 	)
 );

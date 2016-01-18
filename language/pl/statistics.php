@@ -7,6 +7,7 @@ $Lang = array_merge($Lang, array(
 	'Topics_Statistics' => 'Tematy Statystyki',
 	'Posts_Statistics' => 'Posty Statystyki',
 	'Users_Statistics' => 'Statystyki użytkowników',
+	'Tags_Statistics' => 'Tags Statistics',
 
 	'TotalTopics_Statistics' => 'Ilość tematów',
 	'DaysTopics_Statistics' => 'Codziennie nowy numer temat',
@@ -15,6 +16,8 @@ $Lang = array_merge($Lang, array(
 	'DaysPosts_Statistics' => 'Codziennie po nowy numer',
 
 	'TotalUsers_Statistics' => 'Łączna liczba użytkowników',
-	'DaysUsers_Statistics' => 'Codziennie nowy numer użytkownika'
+	'DaysUsers_Statistics' => 'Codziennie nowy numer użytkownika',
+
+	'Topics_Number' => 'Topics number'
 	)
 );
