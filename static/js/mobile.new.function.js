@@ -87,6 +87,11 @@ function CheckTag(TagName, IsAdd) {
 		if (TagName == $(this).val() || TagName == '') {
 			show = false;
 		}
+		//简单的前端过滤，后端有更严格的白名单过滤所以这里随便写个正则应付下了。
+		if (TagName.match(/[&|<|>|"|']/g) != null) {
+			//alert('Invalid input! ')
+			show = false;
+		}
 		i++;
 	});
 	return show;
