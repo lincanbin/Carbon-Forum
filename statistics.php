@@ -1,11 +1,12 @@
 <?php
 require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/statistics.php');
-//数据没问题的情况下不需要排序，拿出来顺序就是好的，并且顺序可以通过刷新缓存修复
+//数据没问题的情况下不需要排序，拿出来顺序就是好的，并且顺序可以通过刷新缓存修复。
+//因此这里不建索引，也不排序，节约资源。
 $StatisticsData            = $DB->query('SELECT * FROM  ' . $Prefix . 'statistics');
-$TotalTopicsStatisticsData = array();
+$TotalForumStatisticsData = array();
 foreach ($StatisticsData as $Key => $Value) {
-	$TotalTopicsStatisticsData[] = array(
+	$TotalForumStatisticsData[] = array(
 		$Value['DaysDate'],
 		$Value['TotalTopics'],
 		$Value['TotalPosts'],
@@ -15,7 +16,7 @@ foreach ($StatisticsData as $Key => $Value) {
 		$Value['DaysUsers']
 	);
 }
-$TotalTopicsStatisticsData[] = array(
+$TotalForumStatisticsData[] = array(
 	date('Y-m-d'),
 	$Config['NumTopics'],
 	$Config['NumPosts'],
@@ -25,8 +26,22 @@ $TotalTopicsStatisticsData[] = array(
 	$Config['DaysUsers']
 );
 unset($StatisticsData);
-$DataJsonString = json_encode($TotalTopicsStatisticsData);
-unset($TotalTopicsStatisticsData);
+$DataJsonString = json_encode($TotalForumStatisticsData);
+unset($TotalForumStatisticsData);
+
+//话题统计的treemap
+$TagsStatisticsData = array();
+foreach ($DB->query('SELECT ID,Name,TotalPosts FROM ' . $Prefix . 'tags 
+		WHERE IsEnabled=1 
+		ORDER BY TotalPosts DESC 
+		LIMIT ' . $Config['TopicsPerPage'] * 10) as $Key => $Value) {
+	$TagsStatisticsData[] = array(
+		'value' => $Value['TotalPosts'],
+		'name' => $Value['Name']
+	);
+}
+$TagsDataJsonString = json_encode($TagsStatisticsData);
+unset($TagsStatisticsData);
 
 $DB->CloseConnection();
 // 页面变量
