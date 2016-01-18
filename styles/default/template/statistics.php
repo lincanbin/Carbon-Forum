@@ -267,17 +267,9 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?vers
 
 		tooltip: {
 			formatter: function (info) {
-				var value = info.value;
-				var treePathInfo = info.treePathInfo;
-				var treePath = [];
-
-				for (var i = 1; i < treePathInfo.length; i++) {
-					treePath.push(treePathInfo[i].name);
-				}
-
 				return [
-					'<div class="tooltip-title">' + formatUtil.encodeHTML(treePath.join('/')) + '</div>',
-					'<?php echo $Lang['Topics_Number']; ?>: ' + value,
+					'<div class="tooltip-title">' + formatUtil.encodeHTML(info.name) + '</div>',
+					'<?php echo $Lang['Topics_Number']; ?>: ' + info.value,
 				].join('');
 			}
 		},
