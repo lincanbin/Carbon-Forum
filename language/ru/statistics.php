@@ -7,7 +7,7 @@ $Lang = array_merge($Lang, array(
 	'Topics_Statistics' => 'Тем',
 	'Posts_Statistics' => 'Сообщений',
 	'Users_Statistics' => 'Пользователей',
-	'Tags_Statistics' => 'Tags Statistics',
+	'Tags_Statistics' => 'Тэгов',
 
 	'TotalTopics_Statistics' => 'Всего тем',
 	'DaysTopics_Statistics' => 'Новых тем за день ',
@@ -18,6 +18,6 @@ $Lang = array_merge($Lang, array(
 	'TotalUsers_Statistics' => 'Всего пользователей',
 	'DaysUsers_Statistics' => 'Новых пользователей за день',
 
-	'Topics_Number' => 'Topics number'
+	'Topics_Number' => 'Количество тем'
 	)
 );
