@@ -85,7 +85,7 @@ if ($Page != $TotalPage || ($Topic['Replies'] + 1) % $Config['PostsPerPage'] == 
 $DB->CloseConnection();
 $PageTitle = $Topic['Topic'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
-$PageMetaDesc    = htmlspecialchars(strip_tags(mb_substr($PostsArray[0]['Content'], 0, 150, 'utf-8')));
+$PageMetaDesc    = htmlspecialchars(mb_substr(strip_tags($PostsArray[0]['Content']), 0, 150, 'utf-8'));
 $PageMetaKeyword = str_replace('|', ',', $Topic['Tags']);
 $ContentFile     = $TemplatePath . 'topic.php';
 include($TemplatePath . 'layout.php');
