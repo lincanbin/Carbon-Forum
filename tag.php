@@ -39,6 +39,6 @@ if ($CurUserID)
 $DB->CloseConnection();
 $PageTitle = $TagInfo['Name'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
-$PageMetaDesc = $TagInfo['Name'] . ' - ' . htmlspecialchars(mb_substr(strip_tags($TagInfo['Description']), 0, 150, 'utf-8'));
+$PageMetaDesc = $TagInfo['Name'] . ' - ' . htmlspecialchars(mb_substr(trim(strip_tags($TagInfo['Description'])), 0, 150, 'utf-8'));
 $ContentFile  = $TemplatePath . 'tag.php';
 include($TemplatePath . 'layout.php');
