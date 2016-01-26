@@ -1,11 +1,11 @@
 # Carbon-Forum
 
 A high performance open-source forum software written in PHP.
-
+Integrates poKe M.E. CMS
 
 
 ## Related Projects
-
+* [poKe](https://github.com/poKe-Websites/poKe-CMS)
 * [API Documentation](https://github.com/lincanbin/Carbon-Forum-API-Documentation)
 * [Android Client for Carbon Forum](https://github.com/lincanbin/Android-Carbon-Forum)
 
