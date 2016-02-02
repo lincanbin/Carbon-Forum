@@ -78,8 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	if (!$OauthObject->GetOpenID()) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
-	// 非Post页，储存AccessToken
+	// 非Post页，储存AccessToken和OpenID
 	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject->AccessToken;
+	$_SESSION[$Prefix . 'OauthOpenID'] = $OauthObject->OpenID;
 	// 释放session防止阻塞
 	session_write_close();
 	
@@ -95,11 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck(Request('Post', 'FormHash')) || empty($_SESSION[$Prefix . 'OauthAccessToken']) || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
-	// 读入Access Token
+	// 读入Access Token和OepnID
 	$OauthObject->AccessToken = $_SESSION[$Prefix . 'OauthAccessToken'];
+	$OauthObject->OpenID = $_SESSION[$Prefix . 'OauthOpenID'];
 	// 释放session防止阻塞
 	session_write_close();
-	if (!$OauthObject->GetOpenID()) {
+	if (!$OauthObject->OpenID) {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
 	$OauthUserInfo = $OauthObject->GetUserInfo();
