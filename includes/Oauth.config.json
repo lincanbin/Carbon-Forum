@@ -4,6 +4,11 @@
 	"LogoUrl" : "/static/img/oauth/qq_icon.png",
 	"ButtonImageUrl" : "/static/img/oauth/qq_icon_label.png"
 	},
+"WeChat":{
+	"Alias":"WeChat",
+	"LogoUrl" : "/static/img/oauth/wechat_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/wechat_icon_label.png"
+	},
 "Weibo":{
 	"Alias":"Weibo",
 	"LogoUrl" : "/static/img/oauth/weibo_icon.png",
