@@ -2,12 +2,14 @@
 //Enable error report
 //error_reporting(E_ALL); 
 //ini_set('display_errors', 'On');
+
 //Disable error report
 ini_set('display_errors', 'Off');
 
 // set automatically the time zone
-date_default_timezone_set(ini_get('date.timezone') != '' ? 'Asia/Shanghai' : ini_get('date.timezone'));
-//Salt for Cookie and Form
+//date_default_timezone_set('Asia/Shanghai');
+
+// Salt for Cookie and Form
 // Free to modify
 $SALT = 'AuthorIsLinCanbin';
 $Prefix = 'carbon_';
