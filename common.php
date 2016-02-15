@@ -280,12 +280,14 @@ function FormHash()
 //格式化文件大小
 function FormatBytes($size, $precision = 2)
 {
+	// https://www.zhihu.com/question/21578998/answer/86401223
+	// According to Metric prefix, IEEE 1541-2002. 
 	$units = array(
-		' B',
-		' KB',
-		' MB',
-		' GB',
-		' TB'
+		' Bytes',
+		' KiB',
+		' MiB',
+		' GiB',
+		' TiB'
 	);
 	for ($i = 0; $size >= 1024 && $i < 4; $i++)
 		$size /= 1024;
