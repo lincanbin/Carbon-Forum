@@ -2,7 +2,7 @@
 include(__DIR__ . '/common.php');
 SetStyle('api', 'API');
 
-switch ($_GET['action']) {
+switch (Request('Get', 'action')) {
 	case 'get_notifications':
 		Auth(1);
 		header("Cache-Control: no-cache, must-revalidate");
@@ -42,7 +42,7 @@ switch ($_GET['action']) {
 	case 'get_tags':
 		Auth(1);
 		require(__DIR__ . "/includes/PHPAnalysis.class.php");
-		$str                   = $_POST['Title'] . "/r/n" . $_POST['Content'];
+		$str                   = Request('Post', 'Title') . "/r/n" . Request('Post', 'Content');
 		$do_fork               = $do_unit = true;
 		$do_multi              = $do_prop = $pri_dict = false;
 		//初始化类
@@ -80,7 +80,7 @@ switch ($_GET['action']) {
 	
 	case 'tag_autocomplete':
 		//Auth(1);
-		$Keyword           = $_POST['query'];
+		$Keyword           = Request('Post', 'query');
 		$Response          = array();
 		$Response['query'] = 'Unit';
 		$Result            = $DB->column("SELECT Title FROM " . $Prefix . "dict WHERE Title LIKE :Keyword limit 10", array(
@@ -110,7 +110,7 @@ switch ($_GET['action']) {
 		break;
 	
 	case 'get_post':
-		$PostId = intval($_POST['PostId']);
+		$PostId = intval(Request('Post', 'PostId'));
 		$row    = $DB->row("SELECT UserName, Content, TopicID FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array(
 			'PostId' => $PostId
 		));
