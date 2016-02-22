@@ -149,7 +149,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 //提示信息
 function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 {
-	global $Lang, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $CurProtocol, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
 	if (!$IsAjax) {
 		switch ($StatusCode) {
 			case 404:
