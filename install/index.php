@@ -1,9 +1,7 @@
 <?php
 set_time_limit(0);
-error_reporting(0); //don't show errors
-$timezone = "Asia/Shanghai"; // set automatically the time zone
-if (ini_get('date.timezone') != "") $timezone = ini_get('date.timezone'); //If we get a timezone change it
-date_default_timezone_set($timezone);//设置中国时区
+//error_reporting(0); //don't show errors
+
 $Message = '';
 $Version = '5.0.1';
 $Prefix = 'carbon_';
@@ -104,23 +102,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 }
 
-switch (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)){
-	case "en":
-		$Lang = "1";
-		break;
-	case "zh-cn":
-		$Lang = "2";
-		break;
-	case "zh-tw":
-		$Lang = "3";
-		break;
-	case "ru":
-		$Lang ="4";
-		break;
-	case "pl":
-		$Lang = "5";
-		break;
-}
 //从文件中逐条取SQL
 function GetNextSQL() {
 	global $fp;
@@ -180,12 +161,48 @@ function GetNextSQL() {
 									<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 									<td width="auto" align="left">
 										<select name="Language">
-											<option <?php if ($Lang == "2") echo " selected "; ?> value="zh-cn" >简体中文</option>
-											<option <?php if ($Lang == "3") echo " selected "; ?> value="zh-tw">繁體中文</option>
-										
-											<option <?php if ($Lang == "1") echo " selected "; ?> value="en">English</option>
-											<option <?php if ($Lang == "4") echo " selected "; ?> value="ru">Русский</option>
-											<option <?php if ($Lang == "5") echo " selected "; ?> value="pl">polski</option>
+<?php
+// 开始自动判断客户端语言
+$SupportedLanguages = array(
+	'zh-cn' => '简体中文',
+	'zh-tw' => '繁體中文',
+	'en' => 'English',
+	'ru' => 'Русский',
+	'pl' => 'polski'
+);
+$UserLanguages = array();
+if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+	// break up string into pieces (languages and q factors)
+	preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $LangParse);
+	if (count($LangParse[1])) {
+		// create a list like "en" => 0.8
+		// $UserLanguages = array_combine($LangParse[1], $LangParse[4]);
+		foreach ($LangParse[1] as $Key => $Value) {
+			$UserLanguages[strtolower($LangParse[1][$Key])] = $LangParse[4][$Key];
+		}
+		// set default to 1 for any without q factor
+		foreach ($UserLanguages as $Lang => $Val) {
+			if ($Val === '')
+				$UserLanguages[strtotime($Lang)] = 1;
+		}
+		// sort list based on value	
+		arsort($UserLanguages, SORT_NUMERIC);
+	}
+}
+$IsLanguageSet = false;
+//var_dump($UserLanguages);
+//var_dump($SupportedLanguages);
+foreach ($SupportedLanguages as $Key => $Value) {
+?>
+<option<?php 
+	if (array_key_exists($Key, $UserLanguages) && !$IsLanguageSet){
+		echo " selected";
+		$IsLanguageSet = true;
+	}
+?> value="<?php echo $Key; ?>"><?php echo $Value; ?></option>
+<?php
+}
+?>
 										</select>
 									</td>
 								</tr>
@@ -262,7 +279,7 @@ function GetNextSQL() {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-				Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2015
+				Power By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
 			</p>
 		</div>
 		<!-- footer end -->
