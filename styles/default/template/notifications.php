@@ -37,7 +37,7 @@ if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime
 						<div class="user-comment-data">
 							<div class="comment-content">
 							<span class="user-activity-title">
-							<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName'];?></a>
+							<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>"><?php echo $Post['UserName'];?></a>
 							&nbsp;&nbsp;<?php echo $Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;
 							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $Post['TopicID']; ?>-<?php echo $Post['ID']; ?>#Post<?php echo $Post['ID']; ?>"><?php echo $Post['Subject'];?></a></span>
 							<?php echo strip_tags(mb_substr($Post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>
@@ -66,7 +66,7 @@ if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime
 					<div class="comment-item">
 						<div class="user-comment-data">
 							<div class="comment-content">
-							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>" target="_blank"><?php echo $Post['UserName'];?></a>
+							<span class="user-activity-title"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Post['UserName']); ?>"><?php echo $Post['UserName'];?></a>
 							&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;
 							<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $Post['TopicID']; ?>-<?php echo $Post['ID']; ?>#Post<?php echo $Post['ID']; ?>"><?php echo $Post['Subject'];?></a></span>
 							<?php echo strip_tags(mb_substr($Post['Content'], 0, 512, 'utf-8'),'<p><br><a>'); ?>

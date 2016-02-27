@@ -31,19 +31,19 @@ if($CurUserID){
 <!-- posts list start -->
 <div class="content-block-title"><?php echo $Lang['Last_Activity_In']; ?> <?php echo FormatTime($UserInfo['LastPostTime']); ?></div>
 <?php
-foreach($PostsArray as $key => $post) {
+foreach($PostsArray as $Post) {
 ?>
 <div class="card">
 	<div class="card-header">
-		<!--<?php echo FormatTime($post['PostTime']); ?>-->
-		<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" data-transition="slide"><?php echo $post['Subject'];?></a>
+		<!--<?php echo FormatTime($Post['PostTime']); ?>-->
+		<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $Post['TopicID']; ?>-<?php echo $Post['ID']; ?>" data-transition="slide"><?php echo $Post['Subject'];?></a>
 	</div>
 	<div class="card-content">
 		<div class="card-content-inner">
-			<?php echo strip_tags(mb_substr($post['Content'], 0, 300, 'utf-8'),'<p><br>'); ?>
+			<?php echo strip_tags(mb_substr($Post['Content'], 0, 300, 'utf-8'),'<p><br>'); ?>
 		</div>
 	</div>
-	<div class="card-footer"><?php echo FormatTime($post['PostTime']); ?></div>
+	<div class="card-footer"><?php echo FormatTime($Post['PostTime']); ?></div>
 </div>
 <?php
 }

@@ -40,19 +40,19 @@ if($CurUserID){
 </div>
 <div class="main-box home-box-list">
 <?php
-foreach($PostsArray as $key => $post)
+foreach($PostsArray as $Post)
 {
 ?>
 	<div class="comment-item">
 		<div class="user-comment-data">
 			<div class="comment-content">
-			<span class="user-activity-title"><?php echo $post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $post['TopicID']; ?>" target="_blank"><?php echo $post['Subject'];?></a></span>
-			<?php echo strip_tags(mb_substr($post['Content'], 0, 300, 'utf-8'),'<p><br>'); ?>
+			<span class="user-activity-title"><?php echo $Post['IsTopic']?$Lang['Created_Topic']:$Lang['Replied_To_Topic']; ?>&nbsp;›&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/goto/<?php echo $Post['TopicID']; ?>-<?php echo $Post['ID']; ?>#Post<?php echo $Post['ID']; ?>"><?php echo $Post['Subject'];?></a></span>
+			<?php echo strip_tags(mb_substr($Post['Content'], 0, 300, 'utf-8'),'<p><br>'); ?>
 			</div>
 			
 			<div class="comment-data-date">
 				<div class="float-right">
-	&laquo;&nbsp;&nbsp;<?php echo FormatTime($post['PostTime']); ?></div>
+	&laquo;&nbsp;&nbsp;<?php echo FormatTime($Post['PostTime']); ?></div>
 				<div class="c"></div>
 			</div>
 			<div class="c"></div>
