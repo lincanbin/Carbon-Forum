@@ -415,58 +415,58 @@ function LogOut(){
 
 
 //只有上一页下一页的分页
-function PaginationSimplified($PageUrl, $PageCount, $IsLastPage)
+function PaginationSimplified($PageUrl, $CurrentPage, $IsLastPage)
 {
 	global $Config, $Lang;
 	$PageUrl = $Config['WebsitePath'] . $PageUrl;
-	if ($PageCount != 1)
-		echo '<div class="float-left"><a class="previous-next" href="' . $PageUrl . ($PageCount - 1) . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
-	echo '<span class="currentpage">' . $PageCount . '</span>';
+	if ($CurrentPage != 1)
+		echo '<div class="float-left"><a class="previous-next" href="' . $PageUrl . ($CurrentPage - 1) . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
+	echo '<span class="currentpage">' . $CurrentPage . '</span>';
 	if (!$IsLastPage)
-		echo '<div class="float-right"><a href="' . $PageUrl . ($PageCount + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
+		echo '<div class="float-right"><a href="' . $PageUrl . ($CurrentPage + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
 }
 
 
 //分页
-function Pagination($PageUrl, $PageCount, $TotalPage)
+function Pagination($PageUrl, $CurrentPage, $TotalPage)
 {
 	if ($TotalPage <= 1)
 		return false;
 	global $Config, $Lang;
 	$PageUrl  = $Config['WebsitePath'] . $PageUrl;
-	$PageLast = $PageCount - 1;
-	$PageNext = $PageCount + 1;
-	//echo '<span id="pagenum"><span class="currentpage">' . $PageCount . '/' . $TotalPage . '</span>';
-	if ($PageCount != 1)
+	$PageLast = $CurrentPage - 1;
+	$PageNext = $CurrentPage + 1;
+	//echo '<span id="pagenum"><span class="currentpage">' . $CurrentPage . '/' . $TotalPage . '</span>';
+	if ($CurrentPage != 1)
 		echo '<div class="float-left"><a href="' . $PageUrl . $PageLast . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
-	if ($PageCount >= 6)
-		echo '<a href="' . $PageUrl . '1">1</a>';
-	if ($PageCount <= 4) {
+	if ($CurrentPage <= 4) {
 		$PageiStart = 1;
-	} else if ($PageCount >= ($TotalPage - 3)) {
+	} else if ($CurrentPage >= ($TotalPage - 3)) {
 		$PageiStart = $TotalPage - 7;
 	} else {
-		$PageiStart = $PageCount - 3;
+		$PageiStart = $CurrentPage - 3;
 	}
 	
-	if ($PageCount + 3 >= $TotalPage) {
+	if ($CurrentPage + 3 >= $TotalPage) {
 		$PageiEnd = $TotalPage;
-	} else if ($PageCount <= 3 && $TotalPage >= 8) {
+	} else if ($CurrentPage <= 3 && $TotalPage >= 8) {
 		$PageiEnd = 8;
 	} else {
-		$PageiEnd = $PageCount + 3;
+		$PageiEnd = $CurrentPage + 3;
 	}
+	if ($CurrentPage >= 5 && $PageiStart > 1)
+		echo '<a href="' . $PageUrl . '1">1</a>';
 	for ($Pagei = $PageiStart; $Pagei <= $PageiEnd; $Pagei++) {
-		if ($PageCount == $Pagei) {
+		if ($CurrentPage == $Pagei) {
 			echo '<span class="currentpage">' . $Pagei . '</span>';
 		} elseif ($Pagei > 0 && $Pagei <= $TotalPage) {
 			echo '<a href="' . $PageUrl . $Pagei . '">' . $Pagei . '</a>';
 		}
 	}
-	if ($PageCount + 3 < $TotalPage) {
+	if ($CurrentPage + 3 < $TotalPage && $PageiEnd < $TotalPage) {
 		echo '<a href="' . $PageUrl . $TotalPage . '">' . $TotalPage . '</a>';
 	}
-	if ($PageCount != $TotalPage) {
+	if ($CurrentPage != $TotalPage) {
 		echo '<div class="float-right"><a href="' . $PageUrl . $PageNext . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
 	}
 	//echo '&nbsp;&nbsp;&nbsp;<input type="text" onkeydown="JavaScript:if((event.keyCode==13)&&(this.value!=\'\')){window.location=\''.$PageUrl.'\'+this.value;}" onkeyup="JavaScript:if(isNaN(this.value)){this.value=\'\';}" size=4 title="请输入要跳转到第几页,然后按下回车键">';
