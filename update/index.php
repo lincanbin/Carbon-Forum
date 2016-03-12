@@ -146,8 +146,10 @@ function VersionCompare($Version, $OldVersion)
 	$OldVersionArray = array_map("intval", explode('.', $OldVersion));
 	$NeedToUpdate = false;
 	foreach ($VersionArray as $Key => $Value) {
-		if($VersionArray[$Key] > $OldVersionArray[$Key]){
-			$NeedToUpdate = true;
+		if($VersionArray[$Key] != $OldVersionArray[$Key]){
+			if($VersionArray[$Key] > $OldVersionArray[$Key]){
+				$NeedToUpdate = true;
+			}
 			break;
 		}
 	}
