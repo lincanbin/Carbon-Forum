@@ -7,7 +7,7 @@
 ini_set('display_errors', 'Off');
 
 // set automatically the time zone
-//date_default_timezone_set('Asia/Shanghai');
+date_default_timezone_set('Asia/Shanghai');
 
 // Salt for Cookie and Form
 // Free to modify
