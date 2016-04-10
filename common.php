@@ -325,7 +325,12 @@ function FormatTime($UnixTimeStamp)
 function GetAvatar($UserID, $UserName, $Size = 'middle')
 {
 	global $Config;
+	$path = __DIR__.'/'.$Config['WebsitePath'] . '/upload/avatar/' . $Size . '/' . $UserID . '.png';
+	if(!file_exists($path)){
+		return '<img src="' . $Config['WebsitePath'] . '/upload/avatar/' . $Size . '/default.png" alt="' . $UserName . '"/>';
+	}
 	return '<img src="' . $Config['WebsitePath'] . '/upload/avatar/' . $Size . '/' . $UserID . '.png" alt="' . $UserName . '"/>';
+
 }
 
 
