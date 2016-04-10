@@ -474,6 +474,14 @@ function Pagination($PageUrl, $CurrentPage, $TotalPage)
 }
 
 
+//跳转
+function Redirect($URI = '', $ExitCode = 0)
+{
+	global $Config;
+	header('location: ' . $Config['WebsitePath'] . '/' . $URI);
+	exit($ExitCode);
+}
+
 //来源检查
 function ReferCheck($UserHash)
 {
