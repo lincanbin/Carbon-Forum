@@ -193,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						$MCache->delete(MemCachePrefix . 'Homepage');
 					}
 					//跳转到主题页
-					//header('location: '.$Config['WebsitePath'].'/t/'.$TopicID);
+					//Redirect('t/'.$TopicID);
 				}
 				
 			} else {

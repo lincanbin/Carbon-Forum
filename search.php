@@ -12,10 +12,8 @@ $Error = '';
 if(!$KeywordNum){
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
-if ($Page < 0 || $Page == 1) {
-	header('location: ' . $Config['WebsitePath'] . '/search/' . $Keyword);
-	exit;
-}
+if ($Page < 0 || $Page == 1) 
+	Redirect('search/' . $Keyword);
 if ($Page == 0)
 	$Page = 1;
 

@@ -3,14 +3,10 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/home.php');
 $Page      = intval(Request('Get', 'page'));
 $TotalPage = ceil($Config['NumTopics'] / $Config['TopicsPerPage']);
-if (($Page < 0 || $Page == 1) && !$IsApp) {
-	header('location: ' . $Config['WebsitePath'] . '/');
-	exit;
-}
-if ($Page > $TotalPage) {
-	header('location: ' . $Config['WebsitePath'] . '/page/' . $TotalPage);
-	exit;
-}
+if (($Page < 0 || $Page == 1) && !$IsApp) 
+	Redirect();
+if ($Page > $TotalPage) 
+	Redirect('page/' . $TotalPage);
 if ($Page == 0)
 	$Page = 1;
 $TopicsArray = array();

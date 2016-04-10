@@ -3,10 +3,8 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/favorite_tags.php');
 Auth(1);
 $Page = Request('Get', 'page');
-if ($Page < 0 || $Page == 1) {
-	header('location: ' . $Config['WebsitePath'] . '/tags/following');
-	exit;
-}
+if ($Page < 0 || $Page == 1) 
+	Redirect('tags/following');
 if ($Page == 0)
 	$Page = 1;
 $TagsFollowing = $DB->query('SELECT * FROM ' . $Prefix . 'favorites force index(UsersFavorites) Where UserID=? and Type=2', array(

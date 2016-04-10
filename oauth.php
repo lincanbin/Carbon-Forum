@@ -21,8 +21,7 @@ function CheckOpenID()
 			'UserExpirationTime' => $TemporaryUserExpirationTime,
 			'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
 		), 30);
-		header('location: ' . $Config['WebsitePath'] . '/');
-		exit();
+		Redirect();
 	}elseif ($CurUserID) {
 		// 如果已登陆，直接绑定当前账号
 		//Insert App user
@@ -195,8 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$Avatar->Free();
 				}
 			}
-			header('location: ' . $Config['WebsitePath'] .  '/');
-			exit();
+			Redirect();
 		} else {
 			$Message = $Lang['This_User_Name_Already_Exists'];
 		}

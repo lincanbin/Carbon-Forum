@@ -150,8 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
 				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
 			), 30);
-			header('location: ' . $Config['WebsitePath'] . '/');
-			exit('registered');
+			Redirect('', 'registered');
 		}
 	}while(false);
 }

@@ -25,14 +25,10 @@ if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
 $TotalPage = ceil(($Topic['Replies'] + 1) / $Config['PostsPerPage']);
-if (($Page < 0 || $Page == 1) && !$IsApp) {
-	header('location: ' . $Config['WebsitePath'] . '/t/' . $ID);
-	exit;
-}
-if ($Page > $TotalPage) {
-	header('location: ' . $Config['WebsitePath'] . '/t/' . $ID . '-' . $TotalPage);
-	exit;
-}
+if (($Page < 0 || $Page == 1) && !$IsApp)
+	Redirect('t/' . $ID);
+if ($Page > $TotalPage) 
+	Redirect('t/' . $ID . '-' . $TotalPage);
 if ($Page == 0)
 	$Page = 1;
 $PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`, `IsDel` 

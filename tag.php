@@ -14,14 +14,10 @@ if ($TagName)
 if (empty($TagInfo) || $TagInfo['TotalPosts'] == 0 || ($TagInfo['IsEnabled'] == 0 && $CurUserRole < 3))
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 $TotalPage = ceil($TagInfo['TotalPosts'] / $Config['TopicsPerPage']);
-if ($Page < 0 || $Page == 1) {
-	header('location: ' . $Config['WebsitePath'] . '/tag/' . $TagInfo['Name']);
-	exit;
-}
-if ($Page > $TotalPage) {
-	header('location: ' . $Config['WebsitePath'] . '/tag/' . $TagInfo['Name'] . '/page/' . $TotalPage);
-	exit;
-}
+if ($Page < 0 || $Page == 1) 
+	Redirect('tag/' . $TagInfo['Name']);
+if ($Page > $TotalPage) 
+	Redirect('tag/' . $TagInfo['Name'] . '/page/' . $TotalPage);
 if ($Page == 0)
 	$Page = 1;
 if ($Page <= 10)

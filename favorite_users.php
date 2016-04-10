@@ -3,10 +3,8 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/favorite_users.php');
 Auth(1);
 $Page = intval(Request('Get', 'page'));
-if ($Page < 0 || $Page == 1) {
-	header('location: ' . $Config['WebsitePath'] . '/users/following');
-	exit;
-}
+if ($Page < 0 || $Page == 1) 
+	Redirect('users/following');
 if ($Page == 0)
 	$Page = 1;
 $UsersFollowing = array();

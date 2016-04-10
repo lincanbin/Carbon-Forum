@@ -4,14 +4,10 @@ require(__DIR__ . '/language/' . ForumLanguage . '/favorites.php');
 Auth(1);
 $Page      = Request('Get', 'page');
 $TotalPage = ceil($CurUserInfo['NumFavTopics'] / $Config['TopicsPerPage']);
-if ($Page < 0 || $Page == 1) {
-	header('location: ' . $Config['WebsitePath'] . '/favorites');
-	exit;
-}
-if ($Page > $TotalPage) {
-	header('location: ' . $Config['WebsitePath'] . '/favorites/page/' . $TotalPage);
-	exit;
-}
+if ($Page < 0 || $Page == 1) 
+	Redirect('favorites');
+if ($Page > $TotalPage)
+	Redirect('favorites/page/' . $TotalPage);
 if ($Page == 0)
 	$Page = 1;
 if ($Page <= 10)

@@ -3,14 +3,10 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/tag.php');
 $Page      = intval(Request('Get', 'page'));
 $TotalPage = ceil($Config['NumTags'] / $Config['TopicsPerPage']);
-if ($Page < 0 || $Page == 1) {
-	header('location: ' . $Config['WebsitePath'] . '/tags');
-	exit;
-}
-if ($Page > $TotalPage) {
-	header('location: ' . $Config['WebsitePath'] . 'tags/page/' . $TotalPage);
-	exit;
-}
+if ($Page < 0 || $Page == 1)
+	Redirect('tags');
+if ($Page > $TotalPage)
+	Redirect('tags/page/' . $TotalPage);
 if ($Page == 0)
 	$Page = 1;
 $TagsArray = array();

@@ -6,14 +6,13 @@ $ErrorCode     = 101000;
 $UserName  = '';
 $ReturnUrl = isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER["HTTP_REFERER"]) : '';
 
-if (isset($_GET['logout']) && $_GET['logout'] == $CurUserCode) {
+if ($CurUserCode && Request('Get', 'logout') == $CurUserCode) {
 	LogOut();
 	if ($ReturnUrl) {
 		header('location: ' . $ReturnUrl);
 		exit('logout');
 	} else {
-		header('location: ' . $Config['WebsitePath'] . '/');
-		exit('logout');
+		Redirect('', 'logout');
 	}
 }
 
@@ -81,8 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 				header('location: ' . $ReturnUrl);
 				exit('logined');
 			} else {
-				header('location: ' . $Config['WebsitePath'] . '/');
-				exit('logined');
+				Redirect('', 'logined');
 			}
 		}
 	}while(false);
