@@ -10,7 +10,7 @@ $Action = Request('Post', 'Action', false);
 switch ($Type) {
 	//Topic
 	case 1:
-		$TopicInfo = $DB->row("SELECT * FROM " . $Prefix . "topics force index(PRI) Where ID=:ID", array(
+		$TopicInfo = $DB->row("SELECT * FROM " . $Prefix . "topics force index(PRI) WHERE ID=:ID", array(
 			"ID" => $ID
 		));
 		if (!$TopicInfo) {
@@ -21,7 +21,7 @@ switch ($Type) {
 			case 'Delete':
 				Auth(4);
 				if ($TopicInfo['IsDel'] == 0) {
-					$DB->query("UPDATE " . $Prefix . "topics SET IsDel = 1 Where ID=:ID", array(
+					$DB->query("UPDATE " . $Prefix . "topics SET IsDel = 1 WHERE ID=:ID", array(
 						"ID" => $ID
 					));
 					//更新全站统计数据
@@ -46,7 +46,7 @@ switch ($Type) {
 			case 'Recover':
 				Auth(4);
 				if ($TopicInfo['IsDel'] == 1) {
-					$DB->query("UPDATE " . $Prefix . "topics SET IsDel = 0 Where ID=:ID", array(
+					$DB->query("UPDATE " . $Prefix . "topics SET IsDel = 0 WHERE ID=:ID", array(
 						"ID" => $ID
 					));
 					//更新全站统计数据
@@ -91,7 +91,7 @@ switch ($Type) {
 			//主题下沉（LastTime-7*86400）
 			case 'Sink':
 				Auth(4);
-				$DB->query("UPDATE " . $Prefix . "topics SET LastTime = LastTime-604800 Where ID=:ID", array(
+				$DB->query("UPDATE " . $Prefix . "topics SET LastTime = LastTime-604800 WHERE ID=:ID", array(
 					"ID" => $ID
 				));
 				$Message = $Lang['Sunk'];
@@ -99,7 +99,7 @@ switch ($Type) {
 			//主题上浮（LastTime+7*86400）
 			case 'Rise':
 				Auth(4);
-				$DB->query("UPDATE " . $Prefix . "topics SET LastTime = LastTime+604800 Where ID=:ID", array(
+				$DB->query("UPDATE " . $Prefix . "topics SET LastTime = LastTime+604800 WHERE ID=:ID", array(
 					"ID" => $ID
 				));
 				$Message = $Lang['Risen'];
@@ -107,7 +107,7 @@ switch ($Type) {
 			//主题锁定
 			case 'Lock':
 				Auth(4);
-				$DB->query("UPDATE " . $Prefix . "topics SET IsLocked = :IsLocked Where ID=:ID", array(
+				$DB->query("UPDATE " . $Prefix . "topics SET IsLocked = :IsLocked WHERE ID=:ID", array(
 					"ID" => $ID,
 					"IsLocked" => $TopicInfo['IsLocked'] ? 0 : 1
 				));
@@ -211,7 +211,7 @@ switch ($Type) {
 	
 	//Post
 	case 2:
-		$PostInfo = $DB->row("SELECT * FROM " . $Prefix . "posts force index(PRI) Where ID=:ID", array(
+		$PostInfo = $DB->row("SELECT * FROM " . $Prefix . "posts force index(PRI) WHERE ID=:ID", array(
 			"ID" => $ID
 		));
 		if (!$PostInfo) {
@@ -248,7 +248,7 @@ switch ($Type) {
 				$Content = XssEscape(Request('Post', 'Content', $PostInfo['Content']));
 				if ($Content == $PostInfo['Content'])
 					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
-				if ($DB->query("UPDATE " . $Prefix . "posts SET Content = :Content Where ID=:ID", array(
+				if ($DB->query("UPDATE " . $Prefix . "posts SET Content = :Content WHERE ID=:ID", array(
 					'ID' => $ID,
 					'Content' => $Content
 				))) {
@@ -270,7 +270,7 @@ switch ($Type) {
 	
 	//User
 	case 3:
-		$UserInfo = $DB->row("SELECT * FROM " . $Prefix . "users force index(PRI) Where ID=:ID", array(
+		$UserInfo = $DB->row("SELECT * FROM " . $Prefix . "users force index(PRI) WHERE ID=:ID", array(
 			"ID" => $ID
 		));
 		switch ($Action) {
@@ -314,7 +314,7 @@ switch ($Type) {
 		Auth(1);
 		$Action      = intval($Action);
 		//检查主题/标签/用户/帖子是否存在
-		$IsFavorite  = $DB->single("SELECT ID FROM " . $Prefix . "favorites Where UserID=:UserID and Type=:Type and FavoriteID=:FavoriteID", array(
+		$IsFavorite  = $DB->single("SELECT ID FROM " . $Prefix . "favorites WHERE UserID=:UserID and Type=:Type and FavoriteID=:FavoriteID", array(
 			'UserID' => $CurUserID,
 			'Type' => $Action,
 			'FavoriteID' => $ID
@@ -324,29 +324,29 @@ switch ($Type) {
 		switch ($Action) {
 			//1:Topic 2:Tag 3:User 4:Post 5:Blog
 			case 1: //Topic
-				$Title = $DB->single("SELECT Topic FROM " . $Prefix . "topics Where ID=:FavoriteID", array(
+				$Title = $DB->single("SELECT Topic FROM " . $Prefix . "topics WHERE ID=:FavoriteID", array(
 					'FavoriteID' => $ID
 				));
 				break;
 			case 2: //Tag
-				$Title       = $DB->single("SELECT Name FROM " . $Prefix . "tags Where ID=:FavoriteID", array(
+				$Title       = $DB->single("SELECT Name FROM " . $Prefix . "tags WHERE ID=:FavoriteID", array(
 					'FavoriteID' => $ID
 				));
 				$MessageType = true;
 				break;
 			case 3: //User
-				$Title       = $DB->single("SELECT UserName FROM " . $Prefix . "users Where ID=:FavoriteID", array(
+				$Title       = $DB->single("SELECT UserName FROM " . $Prefix . "users WHERE ID=:FavoriteID", array(
 					'FavoriteID' => $ID
 				));
 				$MessageType = true;
 				break;
 			case 4: //Post
-				$Title = $DB->single("SELECT Subject FROM " . $Prefix . "posts Where ID=:FavoriteID", array(
+				$Title = $DB->single("SELECT Subject FROM " . $Prefix . "posts WHERE ID=:FavoriteID", array(
 					'FavoriteID' => $ID
 				));
 				break;
 			case 5: //Blog
-				$Title = $DB->single("SELECT Subject FROM " . $Prefix . "blogs Where ID=:FavoriteID and ParentID=0", array(
+				$Title = $DB->single("SELECT Subject FROM " . $Prefix . "blogs WHERE ID=:FavoriteID and ParentID=0", array(
 					'FavoriteID' => $ID
 				));
 				break;
@@ -377,7 +377,7 @@ switch ($Type) {
 			switch ($Action) {
 				//1:Topic 2:Tag 3:User 4:Post 5:Blog
 				case 1: //Topic
-					$DB->query('UPDATE ' . $Prefix . 'topics SET Favorites = Favorites' . $SQLAction . ' Where ID=:FavoriteID', array(
+					$DB->query('UPDATE ' . $Prefix . 'topics SET Favorites = Favorites' . $SQLAction . ' WHERE ID=:FavoriteID', array(
 						'FavoriteID' => $ID
 					));
 					$DB->query('UPDATE `' . $Prefix . 'users` SET NumFavTopics=NumFavTopics' . $SQLAction . ' WHERE `ID`=?', array(
@@ -385,7 +385,7 @@ switch ($Type) {
 					));
 					break;
 				case 2: //Tag
-					$DB->query('UPDATE ' . $Prefix . 'tags SET Followers = Followers' . $SQLAction . ' Where ID=:FavoriteID', array(
+					$DB->query('UPDATE ' . $Prefix . 'tags SET Followers = Followers' . $SQLAction . ' WHERE ID=:FavoriteID', array(
 						'FavoriteID' => $ID
 					));
 					$DB->query('UPDATE `' . $Prefix . 'users` SET NumFavTags=NumFavTags' . $SQLAction . ' WHERE `ID`=?', array(
@@ -393,7 +393,7 @@ switch ($Type) {
 					));
 					break;
 				case 3: //User
-					$DB->query('UPDATE ' . $Prefix . 'users SET Followers = Followers' . $SQLAction . ' Where ID=:FavoriteID', array(
+					$DB->query('UPDATE ' . $Prefix . 'users SET Followers = Followers' . $SQLAction . ' WHERE ID=:FavoriteID', array(
 						'FavoriteID' => $ID
 					));
 					$DB->query('UPDATE `' . $Prefix . 'users` SET NumFavUsers=NumFavUsers' . $SQLAction . ' WHERE `ID`=?', array(
@@ -420,7 +420,7 @@ switch ($Type) {
 		break;
 	//Tag
 	case 5:
-		$TagInfo = $DB->row("SELECT * FROM " . $Prefix . "tags Where ID=:ID", array(
+		$TagInfo = $DB->row("SELECT * FROM " . $Prefix . "tags WHERE ID=:ID", array(
 			"ID" => $ID
 		));
 		if (!$TagInfo) {
@@ -433,12 +433,10 @@ switch ($Type) {
 				$Content = CharCV(Request('Post', 'Content', $TagInfo['Description']));
 				if ($Content == $TagInfo['Description'])
 					AlertMsg($Lang['Do_Not_Modify'], $Lang['Do_Not_Modify']);
-				if($DB->query('UPDATE ' . $Prefix . 'tags SET Description = :Content WHERE ID=:TagID', 
-					array(
-						'TagID' => $ID,
-						'Content' => $Content
-					)
-				)) {
+				if ($DB->query('UPDATE ' . $Prefix . 'tags SET Description = :Content WHERE ID=:TagID', array(
+					'TagID' => $ID,
+					'Content' => $Content
+				))) {
 					$Message = $Lang['Edited'];
 				} else {
 					AlertMsg($Lang['Failure_Edit'], $Lang['Failure_Edit']);
@@ -449,17 +447,16 @@ switch ($Type) {
 				Auth(3);
 				if ($_FILES['TagIcon']['size'] && $_FILES['TagIcon']['size'] < 1048576) {
 					require(__DIR__ . "/includes/ImageResize.class.php");
-					$UploadIcon  = new ImageResize('PostField', 'TagIcon');
+					$UploadIcon    = new ImageResize('PostField', 'TagIcon');
 					$LUploadResult = $UploadIcon->Resize(256, 'upload/tag/large/' . $ID . '.png', 80);
 					$MUploadResult = $UploadIcon->Resize(48, 'upload/tag/middle/' . $ID . '.png', 90);
 					$SUploadResult = $UploadIcon->Resize(24, 'upload/tag/small/' . $ID . '.png', 90);
 					
 					if ($LUploadResult && $MUploadResult && $SUploadResult) {
-						$SetTagIconStatus = $TagInfo['Icon'] == 0?
-						$DB->query('UPDATE ' . $Prefix . 'tags SET Icon = 1 Where ID=:TagID', 
-							array('TagID' => $ID))
-						:true;
-						$Message = $SetTagIconStatus ? $Lang['Icon_Upload_Success'] : $Lang['Icon_Upload_Failure'];
+						$SetTagIconStatus = $TagInfo['Icon'] == 0 ? $DB->query('UPDATE ' . $Prefix . 'tags SET Icon = 1 WHERE ID=:TagID', array(
+							'TagID' => $ID
+						)) : true;
+						$Message          = $SetTagIconStatus ? $Lang['Icon_Upload_Success'] : $Lang['Icon_Upload_Failure'];
 					} else {
 						$Message = $Lang['Icon_Upload_Failure'];
 					}
@@ -470,21 +467,24 @@ switch ($Type) {
 			// 禁用/启用该标签
 			case 'SwitchStatus':
 				Auth(4);
-				if($DB->query('UPDATE ' . $Prefix . 'tags SET IsEnabled = :IsEnabled WHERE ID=:TagID', 
-					array(
-						'TagID' => $ID,
-						'IsEnabled' => $TagInfo['IsEnabled']?0:1 //Bool -> Int
-					)
-				)){
-					$Message = $TagInfo['IsEnabled']?$Lang['Enable_Tag']:$Lang['Disable_Tag'];
-				}else {
+				if ($DB->query('UPDATE ' . $Prefix . 'tags SET IsEnabled = :IsEnabled WHERE ID=:TagID', array(
+					'TagID' => $ID,
+					'IsEnabled' => $TagInfo['IsEnabled'] ? 0 : 1 //Bool -> Int
+				))) {
+					//更新话题统计数据
+					$NewConfig = array(
+						"NumTags" => $Config["NumTags"] + ($TagInfo['IsEnabled'] ? -1 : 1)
+					);
+					UpdateConfig($NewConfig);
+					$Message = $TagInfo['IsEnabled'] ? $Lang['Enable_Tag'] : $Lang['Disable_Tag'];
+				} else {
 					AlertMsg('Bad Request', 'Bad Request');
 				}
 				break;
 			default:
 				AlertMsg('Bad Request', 'Bad Request');
 				break;
-
+				
 		}
 		break;
 	//Error
