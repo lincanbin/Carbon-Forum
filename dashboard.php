@@ -21,7 +21,7 @@ switch ($Action) {
 			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
 			'NumPosts' => intval($DB->single('SELECT sum(Replies) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
 			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'users')),
-			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'tags')),
+			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'tags WHERE IsEnabled=1')),
 			'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . $Prefix . 'tags 
 				WHERE IsEnabled=1 
 				ORDER BY TotalPosts DESC 
