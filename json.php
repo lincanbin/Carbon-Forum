@@ -68,6 +68,8 @@ switch (Request('Get', 'action')) {
 			$TagsLists2 = $DB->column("SELECT Title FROM " . $Prefix . "dict Where Title IN (?) Group By Title", $SQLParameters);
 			//$TagsLists2 = array();
 			$TagsLists  = array_merge($TagsLists1, array_diff($TagsLists2, $TagsLists1));
+			//获取热门话题
+			$TagsLists  = array_merge($TagsLists, ArrayColumn($HotTagsArray, 'Name'));
 			if ($TagsLists) {
 				$tags['status'] = 1;
 				rsort($TagsLists);

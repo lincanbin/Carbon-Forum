@@ -238,7 +238,7 @@ function GetTags() {
 }
 
 function TagsListAppend(TagName, id) {
-	$("#TagsList").append('<a href="###" onclick="javascript:AddTag(\'' + TagName + '\',' + id + ');" id="TagsList' + id + '">' + TagName + '&nbsp;+</a>');
+	$("#TagsList").append('<a href="###" onclick="javascript:AddTag(\'' + TagName + '\',' + id + ');GetTags();" id="TagsList' + id + '">' + TagName + '&nbsp;+</a>');
 	//document.NewForm.AlternativeTag.focus();
 }
 
