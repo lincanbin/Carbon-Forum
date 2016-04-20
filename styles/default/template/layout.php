@@ -163,7 +163,7 @@ $MicroTime = explode(' ', microtime());
 $TotalTime = number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
 ?>
 			Processed in <?php echo $TotalTime; ?> ms, 
-			<?php echo $DB->querycount; ?> SQL Queries, 
+			<?php echo $DB->querycount; ?> SQL Query(s), 
 			<?php echo FormatBytes(memory_get_usage(false)); ?> Memory Usage
 			</p>
 		</div>
