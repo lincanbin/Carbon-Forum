@@ -1,7 +1,7 @@
 <?php
 require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/tag.php');
-$TagName = Request('Get', 'name');
+$TagName = htmlspecialchars(trim(Request('Get', 'name')));
 $Page    = Request('Get', 'page');
 $TagInfo = array();
 if ($TagName)
