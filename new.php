@@ -14,14 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
-	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 5) { //发帖至少要间隔5秒
+	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 8) { //发帖至少要间隔8秒
 		AlertMsg($Lang['Posting_Too_Often'], $Lang['Posting_Too_Often']);
 	}
 	$Title     = Request('Post', 'Title');
 	$Content   = Request('Post', 'Content');
-	$TagsArray = $_POST['Tag'];
+	$TagsArray = isset($_POST['Tag']) ? $_POST['Tag'] : array();
 	if ($Title) {
 		if (strlen($Title) <= $Config['MaxTitleChars'] || strlen($Content) <= $Config['MaxPostChars']) {
+			$TagsArray = TagsDiff($TagsArray, array());
 			if (!empty($TagsArray) && !in_array('', $TagsArray) && count($TagsArray) <= $Config["MaxTagsNum"]) {
 				//获取已存在的标签
 				$TagsExistArray = $DB->query("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` in (?)", $TagsArray);
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 							(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
 							VALUES (?,?,?,?,?,?,?,?,?)", array(
 							null,
-							htmlspecialchars(trim($Name)),
+							$Name,
 							0,
 							0,
 							null,
