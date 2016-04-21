@@ -63,10 +63,14 @@ if($CurUserID){
 	<li><a class="icon new" href="<?php echo $Config['WebsitePath']; ?>/register" data-transition="slide"><?php echo $Lang['Sign_Up']; ?></a></li>
 <?php
 }
+if( $Config['MobileDomainName'] ){
 ?>
 	<li>
 		<a class="icon tv" href="<?php echo $CurProtocol . $Config['MainDomainName'].$Config['WebsitePath']; ?>/view-desktop?callback=<?php echo urlencode($RequestURI); ?>" data-ignore="True">
 			<?php echo $Lang['Desktop_Version']; ?>
 		</a>
 	</li>
+<?php
+}
+?>
 </ul>

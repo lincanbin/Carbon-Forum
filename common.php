@@ -543,7 +543,7 @@ function TagsDiff($Arr1, $Arr2)
 	global $Config;
 	$Arr2 = array_change_key_case(array_flip($Arr2), CASE_LOWER); //flip，排重，Key有Hash索引，速度更快
 	foreach ($Arr1 as $Key => $Item) {
-		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || array_key_exists(strtolower(trim($Item)), $Arr2) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_ ]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
+		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || array_key_exists(strtolower(trim($Item)), $Arr2) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
 			unset($Arr1[$Key]);
 		} else {
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
@@ -800,7 +800,7 @@ if ($IsApp) {
 	){
 		AlertMsg('403', 'Forbidden', 403);
 	}
-} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']) {
+} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']  || (!$Config['MobileDomainName'] && $IsMobile) ) {
 	$TemplatePath = __DIR__ . '/styles/mobile/template/';
 	$Style        = 'Mobile';
 	header('X-Frame-Options: SAMEORIGIN');
