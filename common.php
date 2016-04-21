@@ -270,8 +270,8 @@ function CurIP()
 function FormHash()
 {
 	global $Config, $SALT;
-	if (array_key_exists('UserCode', $_COOKIE))
-		return substr(md5($Config['SiteName'] . $_COOKIE['UserCode'] . $SALT), 8, 8);
+	if (GetCookie('UserCode'))
+		return substr(md5($Config['SiteName'] . GetCookie('UserCode') . $SALT), 8, 8);
 	else
 		return substr(md5($Config['SiteName'] . $SALT), 8, 8);
 }
@@ -543,7 +543,7 @@ function TagsDiff($Arr1, $Arr2)
 	global $Config;
 	$Arr2 = array_change_key_case(array_flip($Arr2), CASE_LOWER); //flip，排重，Key有Hash索引，速度更快
 	foreach ($Arr1 as $Key => $Item) {
-		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || array_key_exists(strtolower(trim($Item)), $Arr2) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
+		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || isset($Arr2[strtolower(trim($Item))]) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
 			unset($Arr1[$Key]);
 		} else {
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
@@ -768,7 +768,7 @@ function dhtmlspecialchars($string, $flags = null)
 	return $string;
 }
 
-$UserAgent = array_key_exists('HTTP_USER_AGENT', $_SERVER) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+$UserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
 if ($UserAgent) {
 	$IsSpider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $UserAgent);
 	$IsMobile = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $UserAgent);
