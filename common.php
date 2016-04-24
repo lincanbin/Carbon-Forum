@@ -575,7 +575,7 @@ function TagsDiff($Arr1, $Arr2)
 	global $Config;
 	$Arr2 = array_change_key_case(array_flip($Arr2), CASE_LOWER); //flip，排重，Key有Hash索引，速度更快
 	foreach ($Arr1 as $Key => $Item) {
-		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || isset($Arr2[strtolower(trim($Item))]) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
+		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || isset($Arr2[strtolower(trim($Item))]) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item) || $Item != Filter($Item)['Content']) {
 			unset($Arr1[$Key]);
 		} else {
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
