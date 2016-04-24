@@ -245,19 +245,23 @@ function CurIP()
 {
 	$IsCDN = false; //未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
 	$IP    = false;
-	if ($IsCDN && !empty($_SERVER["HTTP_CLIENT_IP"])) {
+	if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
 		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
 	}
-	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		$IPs = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+	if ($IsCDN && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$IPs = array_map("trim", explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']));
 		if ($IP) {
-			array_unshift($IPs, $IP);
+			array_unshift($IPs, $IP);//插入头部而不是尾部，提升性能
 			$IP = FALSE;
 		}
 		//支持使用CDN后获取IP，理论上令 $IP = $IPs[0]; 即可，安全起见遍历过滤一次
-		for ($i = 0; $i < count($IPs); $i++) {
-			if (!preg_match("/^(10|172.16|172.17|172.18|172.19|172.20|172.21|172.22|172.23|172.24|172.25|172.26|172.27|172.28|172.29|172.30|172.31|192.168)/i", trim($IPs[$i]))) {
-				$IP = trim($IPs[$i]);
+		foreach ($IPs as $Key => $Value) {
+			/*
+			Fails validation for the following private IPv4 ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.
+			Fails validation for the IPv6 addresses starting with FD or FC.
+			*/
+			if (filter_var($Value, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)){
+				$IP = $Value;
 				break;
 			}
 		}
