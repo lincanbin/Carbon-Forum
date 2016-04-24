@@ -3,8 +3,9 @@ include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/new.php');
 Auth(1, 0, true);
 
+$ErrorCodeList = require(__DIR__ . '/includes/code/New.error.code.php');
 $Error     = '';
-$ErrorCode = 103000;
+$ErrorCode = $ErrorCodeList['Default'];
 $Title     = '';
 $Content   = '';
 $TagsArray = array();
@@ -14,23 +15,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (!ReferCheck(Request('Post', 'FormHash'))) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
-	if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 8) { //发帖至少要间隔8秒
-		AlertMsg($Lang['Posting_Too_Often'], $Lang['Posting_Too_Often']);
-	}
 	$Title     = Request('Post', 'Title');
 	$Content   = Request('Post', 'Content');
 	$TagsArray = isset($_POST['Tag']) ? $_POST['Tag'] : array();
 	do {
+		if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 8) { //发帖至少要间隔8秒
+			$Error     = $Lang['Posting_Too_Often'];
+			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
+			break;
+		}
+
 		if (!$Title) {
 			$Error     = $Lang['Title_Empty'];
-			$ErrorCode = 103001;
+			$ErrorCode = $ErrorCodeList['Title_Empty'];
 			break;
 		}
 		
 		
 		if (strlen($Title) > $Config['MaxTitleChars'] || strlen($Content) > $Config['MaxPostChars']) {
 			$Error     = str_replace('{{MaxPostChars}}', $Config['MaxPostChars'], str_replace('{{MaxTitleChars}}', $Config['MaxTitleChars'], $Lang['Too_Long']));
-			$ErrorCode = 103002;
+			$ErrorCode = $ErrorCodeList['Too_Long'];
 			break;
 		}
 		
@@ -38,11 +42,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$TagsArray = TagsDiff($TagsArray, array());
 		if (empty($TagsArray) || in_array('', $TagsArray) || count($TagsArray) > $Config["MaxTagsNum"]) {
 			$Error     = $Lang['Tags_Empty'];
-			$ErrorCode = 103003;
+			$ErrorCode = $ErrorCodeList['Tags_Empty'];
 			break;
 		}
-		
-		
+		// 内容过滤系统
+		$TitleFilterResult = Filter($Title);
+		$ContentFilterResult = Filter($Content);
+		$GagTime = ($TitleFilterResult['GagTime'] > $ContentFilterResult['GagTime']) ? $TitleFilterResult['GagTime'] : $ContentFilterResult['GagTime'];
+		$Prohibited = $TitleFilterResult['Content'] | $ContentFilterResult['Content'];
+		if ($Prohibited){
+			$Error     = $Lang['Prohibited_Content'];
+			$ErrorCode = $ErrorCodeList['Prohibited_Content'];
+			//禁言用户 $GagTime 秒
+			UpdateUserInfo(array(
+				"LastPostTime" => $TimeStamp + $GagTime
+			));
+			break;	
+		}
+
+		$Title = $TitleFilterResult['Content'];
+		$Content = $ContentFilterResult['Content'];
 		//获取已存在的标签
 		$TagsExistArray = $DB->query("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` in (?)", $TagsArray);
 		$TagsExist      = ArrayColumn($TagsExistArray, 'Name');
@@ -185,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			//更新用户自身统计数据
 			UpdateUserInfo(array(
 				"Topics" => $CurUserInfo['Topics'] + 1,
-				"LastPostTime" => $TimeStamp
+				"LastPostTime" => $TimeStamp + $GagTime
 			));
 			//标记附件所对应的帖子标签
 			$DB->query("UPDATE `" . $Prefix . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
