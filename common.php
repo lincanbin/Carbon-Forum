@@ -266,6 +266,36 @@ function CurIP()
 }
 
 
+//关键词过滤
+function Filter($Content)
+{
+	$FilteringWords = require(__DIR__."/includes/Filtering.words.config.php");
+	$Prohibited = false;
+	$GagTime = 0;
+	foreach ($FilteringWords as $SearchRegEx => $Rule) {
+		if (is_array($Rule)) {
+			$SubstituteWord = $Rule[0];
+			$Prohibited |= ($Rule[0] === false);
+			$GagTime = ($Rule[1] > $GagTime) ? $Rule[1] : $GagTime;//将规则中封禁时间最长的一个赏给用户
+		} else {
+			$SubstituteWord = $Rule;
+			//$Prohibited |= false;
+			//$GagTime = 0;
+		}
+		if (preg_match_all("/" . $SearchRegEx . "/i", $Content, $SearchWordsList)) {
+			var_dump($SearchWordsList);
+			foreach ($SearchWordsList as $SearchWord) {
+				$Content = str_ireplace($SearchWord, $SubstituteWord, $Content);
+			}
+		}
+	}
+	return array(
+		'Content' => $Content, //过滤后的内容
+		'Prohibited' => $Prohibited, //是否包含有禁止发布的词
+		'GagTime' => $GagTime //赏赐给用户的禁言时间（秒）
+	);
+}
+
 // 获得表单校验散列
 function FormHash()
 {
