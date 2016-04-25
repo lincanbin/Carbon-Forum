@@ -48,8 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// 内容过滤系统
 		$TitleFilterResult = Filter($Title);
 		$ContentFilterResult = Filter($Content);
+		//var_dump($TitleFilterResult);
+		//var_dump($ContentFilterResult);
 		$GagTime = ($TitleFilterResult['GagTime'] > $ContentFilterResult['GagTime']) ? $TitleFilterResult['GagTime'] : $ContentFilterResult['GagTime'];
-		$Prohibited = $TitleFilterResult['Content'] | $ContentFilterResult['Content'];
+		$Prohibited = $TitleFilterResult['Prohibited'] | $ContentFilterResult['Prohibited'];
+		//var_dump($Prohibited);
 		if ($Prohibited){
 			$Error     = $Lang['Prohibited_Content'];
 			$ErrorCode = $ErrorCodeList['Prohibited_Content'];
@@ -63,7 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$Title = $TitleFilterResult['Content'];
 		$Content = $ContentFilterResult['Content'];
 		//获取已存在的标签
-		$TagsExistArray = $DB->query("SELECT ID,Name FROM `" . $Prefix . "tags` WHERE `Name` in (?)", $TagsArray);
+		//var_dump($TagsArray);
+		$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . $Prefix . "tags` WHERE `Name` IN (?)", $TagsArray);
 		$TagsExist      = ArrayColumn($TagsExistArray, 'Name');
 		$TagsID         = ArrayColumn($TagsExistArray, 'ID');
 		//var_dump($TagsExist);
