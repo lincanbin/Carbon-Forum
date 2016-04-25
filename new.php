@@ -3,7 +3,7 @@ include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/new.php');
 Auth(1, 0, true);
 
-$ErrorCodeList = require(__DIR__ . '/includes/code/New.error.code.php');
+$ErrorCodeList = require(__DIR__ . '/includes/code/new.error.code.php');
 $Error     = '';
 $ErrorCode = $ErrorCodeList['Default'];
 $Title     = '';
@@ -45,32 +45,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$ErrorCode = $ErrorCodeList['Tags_Empty'];
 			break;
 		}
+
+
 		// 内容过滤系统
 		$TitleFilterResult = Filter($Title);
 		$ContentFilterResult = Filter($Content);
-		//var_dump($TitleFilterResult);
-		//var_dump($ContentFilterResult);
 		$GagTime = ($TitleFilterResult['GagTime'] > $ContentFilterResult['GagTime']) ? $TitleFilterResult['GagTime'] : $ContentFilterResult['GagTime'];
 		$Prohibited = $TitleFilterResult['Prohibited'] | $ContentFilterResult['Prohibited'];
-		//var_dump($Prohibited);
 		if ($Prohibited){
 			$Error     = $Lang['Prohibited_Content'];
 			$ErrorCode = $ErrorCodeList['Prohibited_Content'];
-			//禁言用户 $GagTime 秒
-			UpdateUserInfo(array(
-				"LastPostTime" => $TimeStamp + $GagTime
-			));
+			if ($GagTime) {
+				//禁言用户 $GagTime 秒
+				UpdateUserInfo(array(
+					"LastPostTime" => $TimeStamp + $GagTime
+				));
+			}
 			break;	
 		}
 
 		$Title = $TitleFilterResult['Content'];
 		$Content = $ContentFilterResult['Content'];
 		//获取已存在的标签
-		//var_dump($TagsArray);
 		$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . $Prefix . "tags` WHERE `Name` IN (?)", $TagsArray);
 		$TagsExist      = ArrayColumn($TagsExistArray, 'Name');
 		$TagsID         = ArrayColumn($TagsExistArray, 'ID');
-		//var_dump($TagsExist);
 		$NewTags        = TagsDiff($TagsArray, $TagsExist);
 		//新建不存在的标签
 		if ($NewTags) {
