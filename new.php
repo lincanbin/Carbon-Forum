@@ -3,7 +3,7 @@ include(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/new.php');
 Auth(1, 0, true);
 
-$ErrorCodeList = require(__DIR__ . '/includes/code/New.error.code.php');
+$ErrorCodeList = require(__DIR__ . '/includes/code/new.error.code.php');
 $Error     = '';
 $ErrorCode = $ErrorCodeList['Default'];
 $Title     = '';
