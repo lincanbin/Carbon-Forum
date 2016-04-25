@@ -8,5 +8,5 @@ $Lang = array_merge($Lang, array(
 	'Topic_Has_Been_Locked' => 'Тема заблокирована',
 	'Too_Long' => 'Объем содержания не может превышать {{MaxPostChars}} символов',
 	'Content_Empty' => 'Содержание не может быть пустым',
-	'Prohibited_Content' => 'Ваша тема Запрещается публиковать',
+	'Prohibited_Content' => 'Ваша тема запрещена к публикации',
 	));
