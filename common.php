@@ -277,19 +277,19 @@ function Filter($Content)
 	$Prohibited     = false;
 	$GagTime        = 0;
 	foreach ($FilteringWords as $SearchRegEx => $Rule) {
-		if (is_array($Rule)) {
-			$SubstituteWord = $Rule[0];
-			$Prohibited |= ($Rule[0] === false);
-			$GagTime = ($Rule[1] > $GagTime) ? $Rule[1] : $GagTime; //将规则中封禁时间最长的一个赏给用户
-		} else {
-			$SubstituteWord = $Rule;
-			//$Prohibited |= false;
-			//$GagTime = 0;
-		}
+
 		if (preg_match_all("/" . $SearchRegEx . "/i", $Content, $SearchWordsList)) {
-			var_dump($SearchWordsList);
+			//var_dump($SearchWordsList);
 			foreach ($SearchWordsList as $SearchWord) {
-				$Content = str_ireplace($SearchWord, $SubstituteWord, $Content);
+				if (is_array($Rule)) {
+					$Content = str_ireplace($SearchWord, $Rule[0], $Content);
+					$Prohibited |= ($Rule[0] === false);
+					$GagTime = ($Rule[1] > $GagTime) ? $Rule[1] : $GagTime; //将规则中封禁时间最长的一个赏给用户
+				} else {
+					$Content = str_ireplace($SearchWord, $Rule, $Content);
+					//$Prohibited |= false;
+					//$GagTime = 0;
+				}
 			}
 		}
 	}
@@ -585,6 +585,7 @@ function TagsDiff($Arr1, $Arr2)
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
 		}
 	}
+	sort($Arr1);
 	return $Arr1;
 }
 
