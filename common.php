@@ -3,7 +3,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
+ * Copyright 2006-2016 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -18,10 +18,10 @@
 define('CARBON_FORUM_VERSION', '5.0.1');
 
 //Initialize timer
-$MicroTime     = explode(' ', microtime());
+$MicroTime = explode(' ', microtime());
 $StartTime = $MicroTime[1] + $MicroTime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
-if((include __DIR__ . '/config.php') != 1){
+if ((include __DIR__ . '/config.php') != 1) {
 	//Bring user to installation
 	header("Location: install/");
 	exit(); //No errors
@@ -66,8 +66,8 @@ if (!$Config) {
 		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
 	}
 	// Update
-	if($Config['Version'] != CARBON_FORUM_VERSION){
-		header("Location: update/");// Bring user to installation
+	if ($Config['Version'] != CARBON_FORUM_VERSION) {
+		header("Location: update/"); // Bring user to installation
 		exit(); //No errors
 	}
 	if ($MCache) {
@@ -76,13 +76,13 @@ if (!$Config) {
 }
 // 热门标签列表
 $HotTagsArray = json_decode($Config['CacheHotTags'], true);
-$HotTagsArray = $HotTagsArray?$HotTagsArray:array();
+$HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
 
-$PHPSelf    = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
-$UrlPath    = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
+$PHPSelf     = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
+$UrlPath     = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
 //For IIS ISAPI_Rewrite
-$RequestURI = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
-$IsAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+$RequestURI  = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
+$IsAjax      = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 $CurProtocol = IsSSL() ? 'https://' : 'http://';
 //消除低版本中魔术引号的影响
 if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
@@ -113,7 +113,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 		$ExceptionUser[] = $FilterUser;
 	}
 	// 正则跟用户注册、登录保持一致
-	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', strip_tags($Content,'<br><p>'), $out, PREG_PATTERN_ORDER);
+	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', strip_tags($Content, '<br><p>'), $out, PREG_PATTERN_ORDER);
 	$TemporaryUserList = array_unique($out[1]); //排重
 	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
 	//对数组重新分配下标
@@ -245,19 +245,23 @@ function CurIP()
 {
 	$IsCDN = false; //未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
 	$IP    = false;
-	if ($IsCDN && !empty($_SERVER["HTTP_CLIENT_IP"])) {
+	if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
 		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
 	}
-	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		$IPs = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+	if ($IsCDN && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$IPs = array_map("trim", explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']));
 		if ($IP) {
-			array_unshift($IPs, $IP);
+			array_unshift($IPs, $IP);//插入头部而不是尾部，提升性能
 			$IP = FALSE;
 		}
 		//支持使用CDN后获取IP，理论上令 $IP = $IPs[0]; 即可，安全起见遍历过滤一次
-		for ($i = 0; $i < count($IPs); $i++) {
-			if (!preg_match("/^(10|172.16|172.17|172.18|172.19|172.20|172.21|172.22|172.23|172.24|172.25|172.26|172.27|172.28|172.29|172.30|172.31|192.168)/i", trim($IPs[$i]))) {
-				$IP = trim($IPs[$i]);
+		foreach ($IPs as $Key => $Value) {
+			/*
+			Fails validation for the following private IPv4 ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.
+			Fails validation for the IPv6 addresses starting with FD or FC.
+			*/
+			if (filter_var($Value, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)){
+				$IP = $Value;
 				break;
 			}
 		}
@@ -265,6 +269,36 @@ function CurIP()
 	return htmlspecialchars($IP ? $IP : $_SERVER['REMOTE_ADDR']);
 }
 
+
+//关键词过滤
+function Filter($Content)
+{
+	$FilteringWords = require(__DIR__ . "/includes/Filtering.words.config.php");
+	$Prohibited     = false;
+	$GagTime        = 0;
+	foreach ($FilteringWords as $SearchRegEx => $Rule) {
+
+		if (preg_match_all("/" . $SearchRegEx . "/i", $Content, $SearchWordsList)) {
+			//var_dump($SearchWordsList);
+			foreach ($SearchWordsList as $SearchWord) {
+				if (is_array($Rule)) {
+					$Content = str_ireplace($SearchWord, $Rule[0], $Content);
+					$Prohibited |= ($Rule[0] === false);
+					$GagTime = ($Rule[1] > $GagTime) ? $Rule[1] : $GagTime; //将规则中封禁时间最长的一个赏给用户
+				} else {
+					$Content = str_ireplace($SearchWord, $Rule, $Content);
+					//$Prohibited |= false;
+					//$GagTime = 0;
+				}
+			}
+		}
+	}
+	return array(
+		'Content' => $Content, //过滤后的内容
+		'Prohibited' => $Prohibited, //是否包含有禁止发布的词
+		'GagTime' => $GagTime //赏赐给用户的禁言时间（秒）
+	);
+}
 
 // 获得表单校验散列
 function FormHash()
@@ -333,24 +367,24 @@ function GetAvatar($UserID, $UserName, $Size = 'middle')
 function GetTagIcon($TagID, $Icon, $TagName, $Size = 'middle')
 {
 	global $Config;
-	return '<img src="' . $Config['WebsitePath'] . '/upload/tag/' . $Size . '/' . ($Icon?$TagID:'0') . '.png" alt="' . $TagName . '"/>';
+	return '<img src="' . $Config['WebsitePath'] . '/upload/tag/' . $Size . '/' . ($Icon ? $TagID : '0') . '.png" alt="' . $TagName . '"/>';
 }
 
 //获取Cookie
 function GetCookie($Key, $DefaultValue = false)
 {
 	global $Config, $IsApp;
-	if( !$IsApp ){
-		if (!empty($_COOKIE[$Config['CookiePrefix'] . $Key]) ){
+	if (!$IsApp) {
+		if (!empty($_COOKIE[$Config['CookiePrefix'] . $Key])) {
 			return $_COOKIE[$Config['CookiePrefix'] . $Key];
-		}else if ($DefaultValue) {
+		} else if ($DefaultValue) {
 			SetCookies(array(
 				$Key => $DefaultValue
 			));
 			return $DefaultValue;
 		}
-	}else{
-		return Request("Request","Auth".$Key, $DefaultValue);
+	} else {
+		return Request("Request", "Auth" . $Key, $DefaultValue);
 	}
 	return false;
 }
@@ -388,22 +422,24 @@ function IsName($string)
 
 
 //判断当前协议
-function IsSSL(){
-	if(!isset($_SERVER['HTTPS']))
+function IsSSL()
+{
+	if (!isset($_SERVER['HTTPS']))
 		return false;
-	if($_SERVER['HTTPS'] === 1){  //Apache
+	if ($_SERVER['HTTPS'] === 1) { //Apache
 		return true;
-	}elseif($_SERVER['HTTPS'] === 'on'){ //IIS
+	} elseif ($_SERVER['HTTPS'] === 'on') { //IIS
 		return true;
-	}elseif($_SERVER['SERVER_PORT'] == 443){ //其他
+	} elseif ($_SERVER['SERVER_PORT'] == 443) { //其他
 		return true;
 	}
-		return false;
+	return false;
 }
 
 
 //登出
-function LogOut(){
+function LogOut()
+{
 	global $CurUserID;
 	SetCookies(array(
 		'UserID' => '',
@@ -486,7 +522,7 @@ function Redirect($URI = '', $ExitCode = 0)
 function ReferCheck($UserHash)
 {
 	global $IsApp;
-	if ( !$IsApp && (empty($_SERVER['HTTP_REFERER']) || $UserHash != FormHash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])) )
+	if (!$IsApp && (empty($_SERVER['HTTP_REFERER']) || $UserHash != FormHash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))
 		return false;
 	else
 		return true;
@@ -543,12 +579,13 @@ function TagsDiff($Arr1, $Arr2)
 	global $Config;
 	$Arr2 = array_change_key_case(array_flip($Arr2), CASE_LOWER); //flip，排重，Key有Hash索引，速度更快
 	foreach ($Arr1 as $Key => $Item) {
-		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || isset($Arr2[strtolower(trim($Item))]) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item)) {
+		if (mb_strlen($Item, "UTF-8") > $Config["MaxTagChars"] || isset($Arr2[strtolower(trim($Item))]) || strpos("|", $Item) || !preg_match('/^[a-zA-Z0-9\x80-\xff\-_\s]{1,' . $Config['MaxTagChars'] . '}$/i', $Item) || $Item != Filter($Item)['Content']) {
 			unset($Arr1[$Key]);
 		} else {
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
 		}
 	}
+	sort($Arr1);
 	return $Arr1;
 }
 
@@ -789,18 +826,13 @@ if ($IsApp) {
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
 	//API鉴权
-	$SignatureKey = Request("Request","SKey");
-	$SignatureValue = Request("Request","SValue");
-	$SignatureTime = intval(Request("Request","STime"));
-	if(
-		!$SignatureTime || !$SignatureKey || !$SignatureValue || 
-		empty($APISignature[$SignatureKey]) ||
-		abs($SignatureTime-$TimeStamp) > 600 ||
-		!HashEquals($SignatureValue, md5($SignatureKey.$APISignature[$SignatureKey].$SignatureTime))
-	){
+	$SignatureKey   = Request("Request", "SKey");
+	$SignatureValue = Request("Request", "SValue");
+	$SignatureTime  = intval(Request("Request", "STime"));
+	if (!$SignatureTime || !$SignatureKey || !$SignatureValue || empty($APISignature[$SignatureKey]) || abs($SignatureTime - $TimeStamp) > 600 || !HashEquals($SignatureValue, md5($SignatureKey . $APISignature[$SignatureKey] . $SignatureTime))) {
 		AlertMsg('403', 'Forbidden', 403);
 	}
-} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName']  || (!$Config['MobileDomainName'] && $IsMobile) ) {
+} elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'] || (!$Config['MobileDomainName'] && $IsMobile)) {
 	$TemplatePath = __DIR__ . '/styles/mobile/template/';
 	$Style        = 'Mobile';
 	header('X-Frame-Options: SAMEORIGIN');

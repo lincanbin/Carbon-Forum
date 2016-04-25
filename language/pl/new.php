@@ -9,6 +9,7 @@ $Lang = array_merge($Lang, array(
 	'Submit' => ' Zatwierdź ',
 	'Posting_Too_Often' => 'Delegowanie zbyt często. Spróbuj ponownie później. ',
 	'Tags_Empty' => 'Musisz podać tagi',
+	'Prohibited_Content' => 'Twój temat jest zabronione publikowanie',
 	'Too_Long' => 'Długość tytułu nie może przekraczać {{MaxTitleChars}} bajtów, długość zawartości nie może przekraczać {{MaxPostChars}} bajtów',
 	'Title_Empty' => 'Musisz podać tytuł',
 
