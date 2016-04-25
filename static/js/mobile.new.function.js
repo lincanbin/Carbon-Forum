@@ -77,6 +77,7 @@ function CreateNewTopic() {
 }
 
 function CheckTag(TagName, IsAdd) {
+	TagName = $.trim(TagName);
 	var show = true;
 	var i = 1;
 	$("input[name='Tag[]']").each(function(index) {
