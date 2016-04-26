@@ -10,7 +10,7 @@ $ErrorCode     = $ErrorCodeList['Default'];
 $TopicID       = intval(Request('Post', 'TopicID'));
 $Content       = '';
 
-$Topic = $DB->row("SELECT * FROM " . $Prefix . "topics WHERE ID=?", array(
+$Topic = $DB->row("SELECT * FROM " . PREFIX . "topics WHERE ID=?", array(
 	$TopicID
 ));
 if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			"PostTime" => $TimeStamp,
 			"IsDel" => 0
 		);
-		$NewPostResult = $DB->query("INSERT INTO `" . $Prefix . "posts`
+		$NewPostResult = $DB->query("INSERT INTO `" . PREFIX . "posts`
 			(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`, `IsDel`) 
 			VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime,:IsDel)", $PostData);
 
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			);
 			UpdateConfig($NewConfig);
 			//更新主题统计数据
-			$DB->query("UPDATE `" . $Prefix . "topics` SET Replies=Replies+1,LastTime=?,LastName=? WHERE `ID`=?", array(
+			$DB->query("UPDATE `" . PREFIX . "topics` SET Replies=Replies+1,LastTime=?,LastName=? WHERE `ID`=?", array(
 				($TimeStamp > $Topic['LastTime']) ? $TimeStamp : $Topic['LastTime'],
 				$CurUserName,
 				$TopicID
@@ -106,14 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"LastPostTime" => $TimeStamp + $GagTime
 			));
 			//标记附件所对应的帖子标签
-			$DB->query("UPDATE `" . $Prefix . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
+			$DB->query("UPDATE `" . PREFIX . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
 				$PostID,
 				$CurUserName
 			));
 			//添加提醒消息
 			AddingNotifications($Content, $TopicID, $PostID, $Topic['UserName']);
 			if ($CurUserID != $Topic['UserID']) {
-				$DB->query('INSERT INTO `' . $Prefix . 'notifications`
+				$DB->query('INSERT INTO `' . PREFIX . 'notifications`
 				(`ID`, `UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) 
 				VALUES (null,?,?,?,?,?,?,?)', array(
 					$Topic['UserID'],
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$TimeStamp,
 					0
 				));
-				$DB->query('UPDATE `' . $Prefix . 'users` SET `NewMessage` = `NewMessage`+1 WHERE ID = :UserID', array(
+				$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMessage` = `NewMessage`+1 WHERE ID = :UserID', array(
 					'UserID' => $Topic['UserID']
 				));
 				//清理内存缓存

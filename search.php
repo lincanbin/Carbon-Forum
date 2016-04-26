@@ -33,7 +33,7 @@ if( defined('SearchServer') && SearchServer ) {
 			if( count($postIds ) > 0 ) {
 				$TopicsArray = $DB->query('SELECT t.`ID`, `Topic`, `Tags`, t.`UserID`, t.`UserName`, t.`LastName`, `LastTime`, `Replies` 
 					, p.Content, p.ID as pID, p.PostTime 
-					FROM ' . $Prefix . 'topics  t, '. $Prefix . 'posts p 
+					FROM ' . PREFIX . 'topics  t, '. PREFIX . 'posts p 
 					WHERE t.ID=p.TopicID and p.ID in (?) and t.IsDel=0 
 					ORDER BY p.PostTime DESC', 
 					$postIds);
@@ -59,7 +59,7 @@ if( defined('SearchServer') && SearchServer ) {
 			$SQLKeywordArray[] = '%'.$Value.'%';
 			$SQLKeywordArray[] = '%'.$Value.'%';
 		}
-		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . $Prefix . 'topics 
+		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . PREFIX . 'topics 
 			WHERE Topic LIKE ? or Tags LIKE ? '.$QueryString.'
 			ORDER BY LastTime DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], 
@@ -71,20 +71,20 @@ if( defined('SearchServer') && SearchServer ) {
 		foreach ($KeywordArray as $Value) {
 			$SQLKeywordArray[] = '%'.$Value.'%';
 		}
-		$TagIDList = $DB->column('SELECT ID FROM ' . $Prefix . 'tags 
+		$TagIDList = $DB->column('SELECT ID FROM ' . PREFIX . 'tags 
 			WHERE Name like ? '.$QueryString, 
 			$SQLKeywordArray
 		);
 		if (!$TagIDList)
 			AlertMsg('404 Not Found', '404 Not Found');
-		$TagIDArray = $DB->column('SELECT TopicID FROM ' . $Prefix . 'posttags 
+		$TagIDArray = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags 
 			WHERE TagID in (?) 
 			ORDER BY TopicID DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], 
 			$TagIDList);
 		$TopicsArray = array();
 		if($TagIDArray){
-			$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . $Prefix . 'topics 
+			$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . PREFIX . 'topics 
 				force index(PRI) 
 				WHERE ID in (?) and IsDel=0 
 				ORDER BY LastTime DESC', 

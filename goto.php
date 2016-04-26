@@ -4,9 +4,9 @@ $TopicID = intval(Request('Get', 'topic_id', 0));
 $PostID  = intval(Request('Get', 'post_id', 0));
 
 if ($TopicID && $PostID) {
-	$OlderPosts = $DB->single('SELECT count(ID) FROM ' . $Prefix . 'posts 
+	$OlderPosts = $DB->single('SELECT count(ID) FROM ' . PREFIX . 'posts 
 		WHERE TopicID = ? 
-			AND PostTime <  (SELECT PostTime FROM ' . $Prefix . 'posts 
+			AND PostTime <  (SELECT PostTime FROM ' . PREFIX . 'posts 
 				WHERE ID = ?)', array(
 		$TopicID,
 		$PostID

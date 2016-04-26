@@ -34,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 
 		session_start();
 		$TempVerificationCode = "";
-		if(isset($_SESSION[$Prefix . 'VerificationCode'])){
-			$TempVerificationCode = intval($_SESSION[$Prefix . 'VerificationCode']);
-			unset($_SESSION[$Prefix . 'VerificationCode']);
+		if(isset($_SESSION[PREFIX . 'VerificationCode'])){
+			$TempVerificationCode = intval($_SESSION[PREFIX . 'VerificationCode']);
+			unset($_SESSION[PREFIX . 'VerificationCode']);
 		}else{
 			$Error = $Lang['Verification_Code_Error'];
 			$ErrorCode     = 101002;
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 		}
 
 
-		$DBUser = $DB->row("SELECT ID,UserName,Salt,Password,UserRoleID,UserMail,UserIntro FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+		$DBUser = $DB->row("SELECT ID,UserName,Salt,Password,UserRoleID,UserMail,UserIntro FROM " . PREFIX . "users WHERE UserName = :UserName", array(
 			"UserName" => $UserName
 		));
 		if (!$DBUser) {
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 			SetCookies(array(
 				'UserID' => $DBUser['ID'],
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
-				'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . $SALT)
+				'UserCode' => md5($DBUser['Password'] . $DBUser['Salt'] . $TemporaryUserExpirationTime . SALT)
 			), $Expires);
 			if ( $ReturnUrl ) {
 				header('location: ' . $ReturnUrl);

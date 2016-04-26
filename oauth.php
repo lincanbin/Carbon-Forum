@@ -4,28 +4,28 @@ require(__DIR__ . '/language/' . ForumLanguage . '/oauth.php');
 
 function CheckOpenID()
 {
-	global $DB, $Prefix, $AppID, $OauthObject, $TimeStamp, $SALT, $Config, $CurUserID, $Lang;
-	$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
+	global $DB, PREFIX, $AppID, $OauthObject, $TimeStamp, SALT, $Config, $CurUserID, $Lang;
+	$OauthUserID = $DB->single("SELECT UserID FROM " . PREFIX . "app_users 
 		WHERE AppID=:AppID AND OpenID = :OpenID", array(
 		'AppID' => $AppID,
 		'OpenID' => $OauthObject->OpenID
 	));
 	// 当前openid已存在，直接登陆
 	if ($OauthUserID) {
-		$OauthUserInfo               = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+		$OauthUserInfo               = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 			"UserID" => $OauthUserID
 		));
 		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
 		SetCookies(array(
 			'UserID' => $OauthUserID,
 			'UserExpirationTime' => $TemporaryUserExpirationTime,
-			'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . $SALT)
+			'UserCode' => md5($OauthUserInfo['Password'] . $OauthUserInfo['Salt'] . $TemporaryUserExpirationTime . SALT)
 		), 30);
 		Redirect();
 	}elseif ($CurUserID) {
 		// 如果已登陆，直接绑定当前账号
 		//Insert App user
-		if( $DB->query('INSERT INTO `' . $Prefix . 'app_users`
+		if( $DB->query('INSERT INTO `' . PREFIX . 'app_users`
 			 (`ID`, `AppID`, `OpenID`, `AppUserName`, `UserID`, `Time`) 
 			VALUES (:ID, :AppID, :OpenID, :AppUserName, :UserID, :Time)', array(
 			'ID' => null,
@@ -42,7 +42,7 @@ function CheckOpenID()
 	}
 }
 $AppID   = intval(Request('Get', 'app_id'));
-$AppInfo = $DB->row('SELECT * FROM ' . $Prefix . 'app WHERE ID=:ID', array(
+$AppInfo = $DB->row('SELECT * FROM ' . PREFIX . 'app WHERE ID=:ID', array(
 	'ID' => $AppID
 ));
 if (!file_exists(__DIR__ . '/includes/Oauth.' . $AppInfo['AppName'] . '.class.php') || !$AppInfo) {
@@ -57,10 +57,10 @@ $State   = Request('Get', 'state');
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	//如果不是认证服务器跳转回的回调页，则跳转回授权服务页
-	if (!$Code || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
+	if (!$Code || !$State || empty($_SESSION[PREFIX . 'OauthState']) || $State != $_SESSION[PREFIX . 'OauthState']) {
 		//生成State值防止CSRF
 		$SendState                        = md5(uniqid(rand(), TRUE));
-		$_SESSION[$Prefix . 'OauthState'] = $SendState;
+		$_SESSION[PREFIX . 'OauthState'] = $SendState;
 		// 授权地址
 		$AuthorizeURL = Oauth::AuthorizeURL($CurProtocol . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'], $AppID, $AppInfo['AppKey'], $SendState);
 		header("HTTP/1.1 301 Moved Permanently");
@@ -78,12 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		AlertMsg('400 Bad Request', '400 Bad Request', 400);
 	}
 	// 非Post页，储存AccessToken和OpenID
-	$_SESSION[$Prefix . 'OauthAccessToken'] = $OauthObject->AccessToken;
-	$_SESSION[$Prefix . 'OauthOpenID'] = $OauthObject->OpenID;
+	$_SESSION[PREFIX . 'OauthAccessToken'] = $OauthObject->AccessToken;
+	$_SESSION[PREFIX . 'OauthOpenID'] = $OauthObject->OpenID;
 	// 释放session防止阻塞
 	session_write_close();
 	
-	$OauthUserID = $DB->single("SELECT UserID FROM " . $Prefix . "app_users 
+	$OauthUserID = $DB->single("SELECT UserID FROM " . PREFIX . "app_users 
 		WHERE AppID=:AppID AND OpenID = :OpenID", array(
 		'AppID' => $AppID,
 		'OpenID' => $OauthObject->OpenID
@@ -92,12 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	CheckOpenID();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck(Request('Post', 'FormHash')) || empty($_SESSION[$Prefix . 'OauthAccessToken']) || !$State || empty($_SESSION[$Prefix . 'OauthState']) || $State != $_SESSION[$Prefix . 'OauthState']) {
+	if (!ReferCheck(Request('Post', 'FormHash')) || empty($_SESSION[PREFIX . 'OauthAccessToken']) || !$State || empty($_SESSION[PREFIX . 'OauthState']) || $State != $_SESSION[PREFIX . 'OauthState']) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	// 读入Access Token和OepnID
-	$OauthObject->AccessToken = $_SESSION[$Prefix . 'OauthAccessToken'];
-	$OauthObject->OpenID = $_SESSION[$Prefix . 'OauthOpenID'];
+	$OauthObject->AccessToken = $_SESSION[PREFIX . 'OauthAccessToken'];
+	$OauthObject->OpenID = $_SESSION[PREFIX . 'OauthOpenID'];
 	// 释放session防止阻塞
 	session_write_close();
 	if (!$OauthObject->OpenID) {
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	CheckOpenID();
 	$UserName = strtolower(Request('Post', 'UserName'));
 	if ($UserName && IsName($UserName)) {
-		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+		$UserExist = $DB->single("SELECT ID FROM " . PREFIX . "users WHERE UserName = :UserName", array(
 			'UserName' => $UserName
 		));
 		if (!$UserExist) {
@@ -148,12 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				'Birthday' => date("Y-m-d", $TimeStamp)
 			);
 			
-			$DB->query('INSERT INTO `' . $Prefix . 'users`
+			$DB->query('INSERT INTO `' . PREFIX . 'users`
 				(`ID`, `UserName`, `Salt`, `Password`, `UserMail`, `UserHomepage`, `PasswordQuestion`, `PasswordAnswer`, `UserSex`, `NumFavUsers`, `NumFavTags`, `NumFavTopics`, `NewMessage`, `Topics`, `Replies`, `Followers`, `DelTopic`, `GoodTopic`, `UserPhoto`, `UserMobile`, `UserLastIP`, `UserRegTime`, `LastLoginTime`, `LastPostTime`, `BlackLists`, `UserFriend`, `UserInfo`, `UserIntro`, `UserIM`, `UserRoleID`, `UserAccountStatus`, `Birthday`) 
 				VALUES (:ID, :UserName, :Salt, :Password, :UserMail, :UserHomepage, :PasswordQuestion, :PasswordAnswer, :UserSex, :NumFavUsers, :NumFavTags, :NumFavTopics, :NewMessage, :Topics, :Replies, :Followers, :DelTopic, :GoodTopic, :UserPhoto, :UserMobile, :UserLastIP, :UserRegTime, :LastLoginTime, :LastPostTime, :BlackLists, :UserFriend, :UserInfo, :UserIntro, :UserIM, :UserRoleID, :UserAccountStatus, :Birthday)', $NewUserData);
 			$CurUserID = $DB->lastInsertId();
 			//Insert App user
-			$DB->query('INSERT INTO `' . $Prefix . 'app_users`
+			$DB->query('INSERT INTO `' . PREFIX . 'app_users`
 				 (`ID`, `AppID`, `OpenID`, `AppUserName`, `UserID`, `Time`) 
 				VALUES (:ID, :AppID, :OpenID, :AppUserName, :UserID, :Time)', array(
 				'ID' => null,
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			SetCookies(array(
 				'UserID' => $CurUserID,
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
-				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
+				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . SALT)
 			), 30);
 			if ($OauthUserInfo) {
 				//获取并缩放头像

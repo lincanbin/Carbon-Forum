@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	if ($UserName && $Email && $VerifyCode) {
 		session_start();
-		$Session_VerifyCode = isset($_SESSION[$Prefix . 'VerificationCode']) ? intval($_SESSION[$Prefix . 'VerificationCode']) : '';
-		unset($_SESSION[$Prefix . 'VerificationCode']);
+		$Session_VerifyCode = isset($_SESSION[PREFIX . 'VerificationCode']) ? intval($_SESSION[PREFIX . 'VerificationCode']) : '';
+		unset($_SESSION[PREFIX . 'VerificationCode']);
 		session_write_close();
 		if ($VerifyCode === $Session_VerifyCode) {
-			$UserInfo = $DB->row('SELECT * FROM ' . $Prefix . 'users 
+			$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users 
 				Where UserName=:UserName', array(
 				'UserName' => $UserName
 			));
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				if ($Email === $UserInfo['UserMail']) {
 					//生成有效期2小时的Access Token
 					$TokenExpirationTime = 7200 + $TimeStamp;
-					$AccessToken         = base64_encode($UserName . '|' . $TokenExpirationTime . '|' . md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5($SALT)));
+					$AccessToken         = base64_encode($UserName . '|' . $TokenExpirationTime . '|' . md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5(SALT)));
 					$ResetPasswordURL    = $CurProtocol . $Config['MainDomainName'] . $Config['WebsitePath'] . '/reset_password/' . $AccessToken;
 					//向数据库里的密保邮箱发送邮件
 					require(__DIR__ . '/includes/PHPMailer.smtp.class.php');

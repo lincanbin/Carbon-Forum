@@ -15,14 +15,14 @@ switch (Request('Get', 'action')) {
 				if ($CurUserInfo) {
 					$CurNewMessage = $CurUserInfo['NewMessage'];
 				} else {
-					$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+					$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 						"UserID" => $CurUserID
 					));
 					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
 					$CurNewMessage = $TempUserInfo['NewMessage'];
 				}
 			} else {
-				$CurNewMessage = $DB->single("SELECT NewMessage FROM " . $Prefix . "users WHERE ID = :UserID", array(
+				$CurNewMessage = $DB->single("SELECT NewMessage FROM " . PREFIX . "users WHERE ID = :UserID", array(
 					"UserID" => $CurUserID
 				));
 			}
@@ -64,8 +64,8 @@ switch (Request('Get', 'action')) {
 					$SQLParameters[] = $value;
 				}
 			}
-			$TagsLists1 = $DB->column("SELECT Name FROM " . $Prefix . "tags Where Name IN (?)", $SQLParameters);
-			$TagsLists2 = $DB->column("SELECT Title FROM " . $Prefix . "dict Where Title IN (?) Group By Title", $SQLParameters);
+			$TagsLists1 = $DB->column("SELECT Name FROM " . PREFIX . "tags Where Name IN (?)", $SQLParameters);
+			$TagsLists2 = $DB->column("SELECT Title FROM " . PREFIX . "dict Where Title IN (?) Group By Title", $SQLParameters);
 			//$TagsLists2 = array();
 			$TagsLists  = array_merge($TagsLists1, array_diff($TagsLists2, $TagsLists1));
 			//获取热门话题
@@ -85,7 +85,7 @@ switch (Request('Get', 'action')) {
 		$Keyword           = Request('Post', 'query');
 		$Response          = array();
 		$Response['query'] = 'Unit';
-		$Result            = $DB->column("SELECT Title FROM " . $Prefix . "dict WHERE Title LIKE :Keyword limit 10", array(
+		$Result            = $DB->column("SELECT Title FROM " . PREFIX . "dict WHERE Title LIKE :Keyword limit 10", array(
 			"Keyword" => $Keyword . "%"
 		));
 		if ($Result) {
@@ -103,7 +103,7 @@ switch (Request('Get', 'action')) {
 	
 	case 'user_exist':
 		$UserName  = strtolower(Request('Post', 'UserName'));
-		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+		$UserExist = $DB->single("SELECT ID FROM " . PREFIX . "users WHERE UserName = :UserName", array(
 			'UserName' => $UserName
 		));
 		echo json_encode(array(
@@ -113,13 +113,13 @@ switch (Request('Get', 'action')) {
 	
 	case 'get_post':
 		$PostId = intval(Request('Post', 'PostId'));
-		$row    = $DB->row("SELECT UserName, Content, TopicID FROM {$Prefix}posts WHERE ID = :PostId AND IsDel = 0", array(
+		$row    = $DB->row("SELECT UserName, Content, TopicID FROM {PREFIX}posts WHERE ID = :PostId AND IsDel = 0", array(
 			'PostId' => $PostId
 		));
 		if ($CurUserRole < 4) {
 			// 对超级管理员以下的用户需要检查整个主题是否被删除了
 			$TopicID  = $row['TopicID'];
-			$TopicRow = $DB->single("SELECT COUNT(*) FROM {$Prefix}topics WHERE ID = :TopicID AND IsDel = 0", array(
+			$TopicRow = $DB->single("SELECT COUNT(*) FROM {PREFIX}topics WHERE ID = :TopicID AND IsDel = 0", array(
 				'TopicID' => $TopicID
 			));
 			if ($TopicRow < 1) {

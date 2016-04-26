@@ -17,37 +17,37 @@ switch ($Action) {
 	case 'Cache':
 		set_time_limit(0);
 		UpdateConfig(array(
-			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'upload')),
-			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
-			'NumPosts' => intval($DB->single('SELECT sum(Replies) FROM ' . $Prefix . 'topics WHERE IsDel=0')),
-			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'users')),
-			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . $Prefix . 'tags WHERE IsEnabled=1')),
-			'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . $Prefix . 'tags 
+			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'upload')),
+			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . PREFIX . 'topics WHERE IsDel=0')),
+			'NumPosts' => intval($DB->single('SELECT sum(Replies) FROM ' . PREFIX . 'topics WHERE IsDel=0')),
+			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'users')),
+			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'tags WHERE IsEnabled=1')),
+			'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . PREFIX . 'tags 
 				WHERE IsEnabled=1 
 				ORDER BY TotalPosts DESC 
 				LIMIT ' . $Config['TopicsPerPage']))
 		));
-		$DB->query('UPDATE ' . $Prefix . 'users u 
-			SET u.Topics=(SELECT count(*) FROM ' . $Prefix . 'topics t 
+		$DB->query('UPDATE ' . PREFIX . 'users u 
+			SET u.Topics=(SELECT count(*) FROM ' . PREFIX . 'topics t 
 				WHERE t.UserName=u.UserName AND IsDel=0),
-			u.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p 
+			u.Replies=(SELECT count(*) FROM ' . PREFIX . 'posts p 
 				WHERE p.UserName=u.UserName AND p.IsTopic=0),
-			u.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
+			u.Followers=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
 				WHERE f.FavoriteID=u.ID AND Type=3)
 		');
-		$DB->query('UPDATE ' . $Prefix . 'topics t 
-			SET t.Replies=(SELECT count(*) FROM ' . $Prefix . 'posts p 
+		$DB->query('UPDATE ' . PREFIX . 'topics t 
+			SET t.Replies=(SELECT count(*) FROM ' . PREFIX . 'posts p 
 				WHERE p.TopicID=t.ID AND p.IsTopic=0 AND p.IsDel=0),
-			t.Favorites=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
+			t.Favorites=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
 				WHERE f.FavoriteID=t.ID AND Type=1)
 		');
-		$DB->query('UPDATE ' . $Prefix . 'tags t 
-			SET t.TotalPosts=(SELECT count(*) FROM ' . $Prefix . 'topics topic 
+		$DB->query('UPDATE ' . PREFIX . 'tags t 
+			SET t.TotalPosts=(SELECT count(*) FROM ' . PREFIX . 'topics topic 
 				WHERE topic.ID in (
-					SELECT TopicID FROM ' . $Prefix . 'posttags p 
+					SELECT TopicID FROM ' . PREFIX . 'posttags p 
 					WHERE p.TagID=t.ID) 
 				AND topic.IsDel=0),
-			t.Followers=(SELECT count(*) FROM ' . $Prefix . 'favorites f 
+			t.Followers=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
 				WHERE f.FavoriteID=t.ID AND f.Type=2)
 		');
 
@@ -68,13 +68,13 @@ switch ($Action) {
 
 	case 'Statistics':
 		set_time_limit(0);
-		$DB->query('DELETE FROM ' . $Prefix . 'statistics');
-		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT UserRegTime FROM ' . $Prefix . 'users ORDER BY ID ASC LIMIT 1')));
+		$DB->query('DELETE FROM ' . PREFIX . 'statistics');
+		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT UserRegTime FROM ' . PREFIX . 'users ORDER BY ID ASC LIMIT 1')));
 		while ($StatisticsTime < ($TimeStamp - 86400)) {
 			$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
 			//echo date('Y-m-d', $StatisticsTime);
 			//echo '<br />';
-			$DB->query('INSERT INTO `' . $Prefix . 'statistics` 
+			$DB->query('INSERT INTO `' . PREFIX . 'statistics` 
 				(
 					`DaysUsers`, 
 					`DaysPosts`, 
@@ -86,33 +86,33 @@ switch ($Action) {
 					`DateCreated`
 				) 
 				SELECT 
-					(SELECT count(*) FROM ' . $Prefix . 'users u 
+					(SELECT count(*) FROM ' . PREFIX . 'users u 
 						WHERE u.UserRegTime >= ' . $StatisticsTime . ' 
 							AND u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
-					(SELECT count(*) FROM ' . $Prefix . 'posts p 
+					(SELECT count(*) FROM ' . PREFIX . 'posts p 
 						WHERE p.PostTime >= ' . $StatisticsTime . ' 
 							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
 							AND p.IsTopic = 0), 
-					(SELECT count(*) FROM ' . $Prefix . 'topics t 
+					(SELECT count(*) FROM ' . PREFIX . 'topics t 
 						WHERE t.PostTime >= ' . $StatisticsTime . ' 
 							AND t.PostTime < ' . $StatisticsTimeAddOneDay . '  
 							AND t.IsDel = 0), 
-					(SELECT count(*) FROM ' . $Prefix . 'users u 
+					(SELECT count(*) FROM ' . PREFIX . 'users u 
 						WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
-					 (SELECT count(*) FROM ' . $Prefix . 'posts p 
-						WHERE p.TopicID NOT IN (SELECT ID FROM ' . $Prefix . 'topics t 
+					 (SELECT count(*) FROM ' . PREFIX . 'posts p 
+						WHERE p.TopicID NOT IN (SELECT ID FROM ' . PREFIX . 'topics t 
 							WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
 								AND t.IsDel = 1)
 							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
 							AND p.IsTopic = 0 ), 
-					(SELECT count(*) FROM ' . $Prefix . 'topics t 
+					(SELECT count(*) FROM ' . PREFIX . 'topics t 
 						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
 							AND t.IsDel = 0), 
 					:DaysDate,
 					:DateCreated 
 					FROM dual  
 					WHERE NOT EXISTS(  
-						SELECT *  FROM `' . $Prefix . 'statistics`  
+						SELECT *  FROM `' . PREFIX . 'statistics`  
 						WHERE DaysDate = :DaysDate2
 					)
 				', array(
@@ -133,7 +133,7 @@ switch ($Action) {
 		foreach ($AppName as $Key => $Value) {
 			if($AppName[$Key] && $AppKey[$Key] && $AppSecret[$Key]){
 				if(isset($OauthData[$Value])){
-					$DB->query('UPDATE `' . $Prefix . 'app` 
+					$DB->query('UPDATE `' . PREFIX . 'app` 
 						SET 
 							`AppKey` = ?, 
 							`AppSecret` = ?, 
@@ -147,12 +147,12 @@ switch ($Action) {
 							)
 					);
 				}else{
-					$DB->query('INSERT INTO `' . $Prefix . 'app`(ID, AppName, AppKey, AppSecret, Time)
+					$DB->query('INSERT INTO `' . PREFIX . 'app`(ID, AppName, AppKey, AppSecret, Time)
 						SELECT ?,?,?,?,?
 						FROM dual
 						WHERE NOT EXISTS(
 							SELECT * 
-							FROM `' . $Prefix . 'app`
+							FROM `' . PREFIX . 'app`
 							WHERE AppName = ?
 						);', array(
 							null,
@@ -166,12 +166,12 @@ switch ($Action) {
 				}
 			}else{
 				if(isset($OauthData[$Value])){
-					//$DB->query('DELETE FROM `' . $Prefix . 'app` WHERE AppName = ?;', array($AppName[$Key]));
+					//$DB->query('DELETE FROM `' . PREFIX . 'app` WHERE AppName = ?;', array($AppName[$Key]));
 				}
 			}
 		}
 		$OauthData = array();
-		foreach ($DB->query('SELECT * FROM `' . $Prefix . 'app`') as $Value) {
+		foreach ($DB->query('SELECT * FROM `' . PREFIX . 'app`') as $Value) {
 			$OauthData[$Value['AppName']] = $Value;
 			$OauthData[$Value['AppName']]['Alias'] = $OauthConfig[$Value['AppName']]['Alias'];
 			$OauthData[$Value['AppName']]['LogoUrl'] = $OauthConfig[$Value['AppName']]['LogoUrl'];

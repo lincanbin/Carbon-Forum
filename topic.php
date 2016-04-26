@@ -6,7 +6,7 @@ $Page = intval(Request('Get', 'page'));
 if ($MCache) {
 	$Topic = $MCache->get(MemCachePrefix . 'Topic_' . $ID);
 	if (!$Topic) {
-		$Topic = $DB->row("SELECT * FROM " . $Prefix . "topics 
+		$Topic = $DB->row("SELECT * FROM " . PREFIX . "topics 
 			FORCE INDEX(PRI) 
 			WHERE ID=:ID", array(
 			'ID' => $ID
@@ -14,7 +14,7 @@ if ($MCache) {
 		$MCache->set(MemCachePrefix . 'Topic_' . $ID, $Topic, 86400);
 	}
 } else {
-	$Topic = $DB->row("SELECT * FROM " . $Prefix . "topics 
+	$Topic = $DB->row("SELECT * FROM " . PREFIX . "topics 
 		FORCE INDEX(PRI) 
 		WHERE ID=:ID", array(
 		'ID' => $ID
@@ -32,7 +32,7 @@ if ($Page > $TotalPage)
 if ($Page == 0)
 	$Page = 1;
 $PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`, `IsDel` 
-	FROM " . $Prefix . "posts 
+	FROM " . PREFIX . "posts 
 	FORCE INDEX(TopicID) 
 	WHERE TopicID=:id 
 	ORDER BY PostTime ASC 
@@ -41,7 +41,7 @@ $PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`
 ));
 if ($CurUserID) {
 	$IsFavorite = intval($DB->single("SELECT ID 
-		FROM " . $Prefix . "favorites 
+		FROM " . PREFIX . "favorites 
 		WHERE UserID=:UserID and Type=1 AND FavoriteID=:FavoriteID", array(
 		'UserID' => $CurUserID,
 		'FavoriteID' => $ID
@@ -52,7 +52,7 @@ if ($MCache) {
 	$TopicViews = $MCache->get(MemCachePrefix . 'Topic_Views_' . $ID);
 	//十天内攒满100次点击，Update一次数据库数据
 	if ($TopicViews && ($TopicViews - $Topic['Views']) >= 100) {
-		$DB->query("UPDATE " . $Prefix . "topics 
+		$DB->query("UPDATE " . PREFIX . "topics 
 			FORCE INDEX(PRI) 
 			SET Views = :Views,LastViewedTime = :LastViewedTime Where ID=:ID", array(
 			'Views' => $TopicViews + 1,
@@ -65,7 +65,7 @@ if ($MCache) {
 	$Topic['Views'] = (($TopicViews) ? $TopicViews : $Topic['Views']) + 1;
 	$MCache->set(MemCachePrefix . 'Topic_Views_' . $ID, $Topic['Views'], 864000);
 } else {
-	$DB->query("UPDATE " . $Prefix . "topics 
+	$DB->query("UPDATE " . PREFIX . "topics 
 		FORCE INDEX(PRI) 
 		SET Views = Views+1,LastViewedTime = :LastViewedTime Where ID=:ID", array(
 		"LastViewedTime" => $TimeStamp,

@@ -15,13 +15,13 @@ if ($TokenExpirationTime < $TimeStamp || $TokenExpirationTime >= ($TimeStamp + 7
 	AlertMsg($Lang['Page_Has_Expired'], $Lang['Page_Has_Expired']);
 }
 $UserInfo = array();
-$UserInfo = $DB->row('SELECT * FROM ' . $Prefix . 'users Where UserName=:UserName', array(
+$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users Where UserName=:UserName', array(
 	'UserName' => $UserName
 ));
 if (!$UserInfo) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 } else {
-	if (HashEquals(md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5($SALT)), $Token)) {
+	if (HashEquals(md5($UserInfo['Password'] . $UserInfo['Salt'] . md5($TokenExpirationTime) . md5(SALT)), $Token)) {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (!ReferCheck(Request('Post', 'FormHash'))) {
 				AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
@@ -34,7 +34,7 @@ if (!$UserInfo) {
 			if ($Password && $Password2 && $VerifyCode) {
 				if ($Password === $Password2) {
 					session_start();
-					if (isset($_SESSION[$Prefix . 'VerificationCode']) && $VerifyCode === intval($_SESSION[$Prefix . 'VerificationCode'])) {
+					if (isset($_SESSION[PREFIX . 'VerificationCode']) && $VerifyCode === intval($_SESSION[PREFIX . 'VerificationCode'])) {
 						
 						$NewSalt         = $UserInfo['Salt'];
 						$NewPasswordHash = md5(md5($Password) . $NewSalt);
@@ -45,7 +45,7 @@ if (!$UserInfo) {
 							$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
 							SetCookies(array(
 								'UserExpirationTime' => $TemporaryUserExpirationTime,
-								'UserCode' => md5($NewPasswordHash . $NewSalt . $TemporaryUserExpirationTime . $SALT)
+								'UserCode' => md5($NewPasswordHash . $NewSalt . $TemporaryUserExpirationTime . SALT)
 							), 30);
 							$CurUserInfo['Salt']     = $NewSalt;
 							$CurUserInfo['Password'] = $NewPasswordHash;
@@ -57,7 +57,7 @@ if (!$UserInfo) {
 					} else {
 						$Message = $Lang['VerificationCode_Error'];
 					}
-					unset($_SESSION[$Prefix . 'VerificationCode']);
+					unset($_SESSION[PREFIX . 'VerificationCode']);
 				} else {
 					$Message = $Lang['Passwords_Inconsistent'];
 				}

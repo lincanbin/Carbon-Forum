@@ -2,7 +2,7 @@
 require(__DIR__ . "/config.php");
 require(__DIR__ . "/includes/PDO.class.php");
 $DB = new Db(DBHost, DBName, DBUser, DBPassword);
-foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config WHERE ConfigName in (?)', array(
+foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . PREFIX . 'config WHERE ConfigName in (?)', array(
 	'CookiePrefix',
 	'WebsitePath',
 	'MobileDomainName',

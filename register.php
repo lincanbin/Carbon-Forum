@@ -39,9 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 
 		session_start();
 		$TempVerificationCode = "";
-		if(isset($_SESSION[$Prefix . 'VerificationCode'])){
-			$TempVerificationCode = intval($_SESSION[$Prefix . 'VerificationCode']);
-			unset($_SESSION[$Prefix . 'VerificationCode']);
+		if(isset($_SESSION[PREFIX . 'VerificationCode'])){
+			$TempVerificationCode = intval($_SESSION[PREFIX . 'VerificationCode']);
+			unset($_SESSION[PREFIX . 'VerificationCode']);
 		}else{
 			$Error = $Lang['VerificationCode_Error'];
 			$ErrorCode     = 104004;
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 		}
 
 
-		$UserExist = $DB->single("SELECT ID FROM " . $Prefix . "users WHERE UserName = :UserName", array(
+		$UserExist = $DB->single("SELECT ID FROM " . PREFIX . "users WHERE UserName = :UserName", array(
 			'UserName' => $UserName
 		));
 		if ($UserExist) {
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 			'Birthday' => date("Y-m-d", $TimeStamp)
 		);
 		
-		$DB->query('INSERT INTO `' . $Prefix . 'users`
+		$DB->query('INSERT INTO `' . PREFIX . 'users`
 			(
 				`ID`, `UserName`, `Salt`, `Password`, `UserMail`, 
 				`UserHomepage`, `PasswordQuestion`, `PasswordAnswer`, 
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 		UpdateConfig($NewConfig);
 		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
 		if ($CurUserID == 1) {
-			$DB->query("UPDATE `" . $Prefix . "users` SET UserRoleID=5 WHERE `ID`=?", array(
+			$DB->query("UPDATE `" . PREFIX . "users` SET UserRoleID=5 WHERE `ID`=?", array(
 				$CurUserID
 			));
 		}
@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 			SetCookies(array(
 				'UserID' => $CurUserID,
 				'UserExpirationTime' => $TemporaryUserExpirationTime,
-				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . $SALT)
+				'UserCode' => md5($NewUserPassword . $NewUserSalt . $TemporaryUserExpirationTime . SALT)
 			), 30);
 			Redirect('', 'registered');
 		}

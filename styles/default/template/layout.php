@@ -47,7 +47,7 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 	<link href="<?php echo $Config['WebsitePath']; ?>/styles/default/theme/style.css?version=<?php echo $Config['Version']; ?>" rel="stylesheet" type="text/css" />
 	<link rel="search" type="application/opensearchdescription+xml" title="<?php echo mb_substr($Config['SiteName'], 0, 15, 'utf-8'); ?>" href="<?php echo $Config['WebsitePath']; ?>/search.xml" />
 	<script type="text/javascript">
-	var Prefix="<?php echo $Prefix; ?>";
+	var Prefix="<?php echo PREFIX; ?>";
 	var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
