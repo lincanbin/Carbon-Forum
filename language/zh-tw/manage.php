@@ -26,6 +26,7 @@ $Lang = array_merge($Lang, array(
 	'Unsubscribe' => '取消收藏',
 	'Collect' => '收藏',
 
+	'Prohibited_Content' => '你發表的主題含有被禁止發表的內容',
 	'Do_Not_Modify' => '未修改',
 	'Edited' => '編輯成功',
 	'Failure_Edit' => '編輯失敗',
