@@ -3,8 +3,8 @@ set_time_limit(0);
 //error_reporting(0); //don't show errors
 
 $Message = '';
-$Version = '5.0.1';
-$Prefix = 'carbon_';
+$Version = '5.6.1';
+define('PREFIX', 'carbon_');
 if(is_file('install.lock')){
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
 //Exit for more security
@@ -42,10 +42,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	while($SQL=GetNextSQL()){
 		$DB->query($SQL);
 	}
-	$DB->query("INSERT INTO `".$Prefix."config` VALUES ('WebsitePath', '".$WebsitePath."')");
-	$DB->query("INSERT INTO `".$Prefix."config` VALUES ('LoadJqueryUrl', '".$WebsitePath."/static/js/jquery.js')");
-	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".date('Y-m-d')."' WHERE `ConfigName`='DaysDate'");
-	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
+	$DB->query("INSERT INTO `".PREFIX."config` VALUES ('WebsitePath', '".$WebsitePath."')");
+	$DB->query("INSERT INTO `".PREFIX."config` VALUES ('LoadJqueryUrl', '".$WebsitePath."/static/js/jquery.js')");
+	$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='".date('Y-m-d')."' WHERE `ConfigName`='DaysDate'");
+	$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
 	$DB->CloseConnection();
 	fclose($fp) or die("Can’t close file");
 
