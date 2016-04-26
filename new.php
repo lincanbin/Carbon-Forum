@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$TitleFilterResult = Filter($Title);
 		$ContentFilterResult = Filter($Content);
 		$GagTime = ($TitleFilterResult['GagTime'] > $ContentFilterResult['GagTime']) ? $TitleFilterResult['GagTime'] : $ContentFilterResult['GagTime'];
+		$GagTime = $CurUserRole < 3 ? $GagTime : 0;
 		$Prohibited = $TitleFilterResult['Prohibited'] | $ContentFilterResult['Prohibited'];
 		if ($Prohibited){
 			$Error     = $Lang['Prohibited_Content'];

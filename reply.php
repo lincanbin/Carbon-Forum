@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		// 内容过滤系统
 		$ContentFilterResult = Filter($Content);
-		$GagTime             = $ContentFilterResult['GagTime'];
+		$GagTime             = $CurUserRole < 3 ? $ContentFilterResult['GagTime'] : 0;
 		$Prohibited          = $ContentFilterResult['Prohibited'];
 		if ($Prohibited) {
 			$Error     = $Lang['Prohibited_Content'];
