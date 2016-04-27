@@ -283,30 +283,34 @@ class Uploader
 	/**
 	 * 排除重复文件
 	 */
-	private function checkIdenticalFiles($TMPFileName, $InputType)
+	private function checkIdenticalFiles($tempFileName, $inputType)
 	{
 		if ($this->DB) {
-			if ($InputType == 'string') {
-				$this->fileMD5  = md5($TMPFileName);
-				$this->fileSHA1 = sha1($TMPFileName);
+			if ($inputType == 'string') {
+				$this->fileMD5  = md5($tempFileName);
+				$this->fileSHA1 = sha1($tempFileName);
 			} else {
-				$this->fileMD5  = md5_file($TMPFileName);
-				$this->fileSHA1 = sha1_file($TMPFileName);
+				$this->fileMD5  = md5_file($tempFileName);
+				$this->fileSHA1 = sha1_file($tempFileName);
 			}
-			$IdenticalFiles = $this->DB->column('SELECT UserName FROM ' . PREFIX . 'upload WHERE FileSize = ? and MD5 = ? and SHA1 = ?', array(
+			$identicalFiles = $this->DB->column('SELECT UserName FROM ' . PREFIX . 'upload WHERE FileSize = ? and MD5 = ? and SHA1 = ?', array(
 				$this->fileSize,
 				$this->fileMD5,
 				$this->fileSHA1
 			));
-			if ($IdenticalFiles) {
-				$FileURL        = $this->DB->single('SELECT FilePath FROM ' . PREFIX . 'upload WHERE FileSize = ? and MD5 = ? and SHA1 = ?', array(
+			if ($identicalFiles) {
+				$fileURL = $this->DB->single('SELECT FilePath FROM ' . PREFIX . 'upload 
+					WHERE 
+						FileSize = ? AND
+						MD5 = ? AND 
+						SHA1 = ?', array(
 					$this->fileSize,
 					$this->fileMD5,
 					$this->fileSHA1
 				));
-				$this->fullName = $FileURL;
+				$this->fullName = $fileURL;
 				$this->filePath = $this->getFilePath();
-				if (!in_array($this->CurUserName, $IdenticalFiles)) {
+				if (!in_array($this->CurUserName, $identicalFiles)) {
 					$this->insertData();
 				}
 				$this->stateInfo = $this->stateMap[0];
