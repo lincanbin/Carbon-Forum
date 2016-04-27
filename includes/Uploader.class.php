@@ -293,7 +293,7 @@ class Uploader
 				$this->fileMD5  = md5_file($tempFileName);
 				$this->fileSHA1 = sha1_file($tempFileName);
 			}
-			$duplicateFiles = $this->DB->column('SELECT UserName, FilePath FROM ' . PREFIX . 'upload 
+			$duplicateFiles = $this->DB->query('SELECT UserName, FilePath, PostID FROM ' . PREFIX . 'upload 
 				WHERE 
 					FileSize = ? AND 
 					MD5 = ? AND 

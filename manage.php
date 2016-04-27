@@ -110,27 +110,25 @@ class Manage
 	private function deleteUpload($uploadRecordList)
 	{
 		foreach ($uploadRecordList as $uploadRecord) {
-			$otherFileOwner = $this->DB->query('SELECT UserName FROM ' . PREFIX . 'upload 
+			$numberDuplicateFiles = $this->db->single('SELECT count(*) FROM ' . PREFIX . 'upload 
 					WHERE 
 						FileSize = ? AND
 						MD5 = ? AND 
-						SHA1 = ? AND
-						UserName != ?
+						SHA1 = ?
 						', array(
 				$uploadRecord['FileSize'],
-				$uploadRecord['SHA1'],
 				$uploadRecord['MD5'],
-				$uploadRecord['UserName']
+				$uploadRecord['SHA1']
 			));
 			$rootPath = $_SERVER['DOCUMENT_ROOT'];
 			if (substr($uploadRecord['FilePath'], 0, 1) != '/') {
 				$uploadRecord['FilePath'] = '/' . $uploadRecord['FilePath'];
 			}
-			if (!$otherFileOwner){
+			if ($numberDuplicateFiles <= 1){
 				unlink($rootPath . $uploadRecord['FilePath']);
 			}
 		}
-		$this->DB->query('DELETE FROM ' . PREFIX . 'upload 
+		$this->db->query('DELETE FROM ' . PREFIX . 'upload 
 				WHERE ID IN (?)', ArrayColumn($uploadRecordList, 'ID'));
 	}
 
@@ -208,11 +206,11 @@ class Manage
 				$this->id
 			));
 			//删除附件
-			$this->deleteUpload($this->db->query("SELECT * FROM `" . PREFIX . "upload` WHERE `PostID` IN (?)",
-				$this->db->column("SELECT ID FROM `" . PREFIX . "posts` WHERE TopicID=?", array(
+			$this->deleteUpload($this->db->query("SELECT * FROM `" . PREFIX . "upload` 
+				WHERE `PostID` IN (SELECT ID FROM `" . PREFIX . "posts` WHERE TopicID = ?)",
+				array(
 					$this->id
-				))
-			));
+				)));
 			$this->message = $this->lang['Permanently_Deleted'];
 		} else {
 			AlertMsg('Bad Request', $this->lang['Failure_Permanent_Deletion']);
@@ -370,7 +368,7 @@ class Manage
 		));
 		//删除附件
 		$this->deleteUpload($this->db->query("SELECT * FROM `" . PREFIX . "upload` WHERE `PostID` = ?", array(
-			$PostInfo['TopicID']
+			$PostInfo['ID']
 		)));
 		$this->message = $this->lang['Permanently_Deleted'];
 	}
