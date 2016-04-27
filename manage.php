@@ -7,12 +7,12 @@ $ID     = intval(Request('Post', 'ID', 0));
 $Type   = intval(Request('Post', 'Type', 0));
 $Action = Request('Post', 'Action', false);
 
-$TypeList = array(
+$TypeList         = array(
 	1 => 'topic',
 	2 => 'post',
 	3 => 'user',
 	4 => 'favorite',
-	5 => 'tag',
+	5 => 'tag'
 );
 //FavoriteType: 1:Topic 2:Tag 3:User 4:Post 5:Blog
 $FavoriteTypeList = array(
@@ -20,24 +20,25 @@ $FavoriteTypeList = array(
 	2 => 'Tag',
 	3 => 'User',
 	4 => 'Post',
-	5 => 'Blog',
+	5 => 'Blog'
 );
 
 $Manage = new Manage($ID, $Action, $DB, $Lang, $Config, $MCache);
-if(empty($TypeList[$Type]) || ($Type == 4 && empty($FavoriteTypeList[$Action]))){
+if (empty($TypeList[$Type]) || ($Type == 4 && empty($FavoriteTypeList[$Action]))) {
 	AlertMsg('Action or Type error. Bad Request', 'Action or Type error. Bad Request');
 }
-$ManageMethod = $TypeList[$Type].($Type == 4 ? $FavoriteTypeList[$Action] : $Action);
+$ManageMethod = $TypeList[$Type] . ($Type == 4 ? $FavoriteTypeList[$Action] : $Action);
 if (method_exists($Manage, $ManageMethod)) {
 	$ManageInfo = $Manage->getManageInfo($TypeList[$Type]);
-	if($Type != 4 && empty($ManageInfo)){
+	if ($Type != 4 && empty($ManageInfo)) {
 		AlertMsg('Resource Not Found', 'Resource Not Found');
 	}
 	$Manage->$ManageMethod($ManageInfo);
 	$Message = $Manage->message;
 }
 
-class Manage{
+class Manage
+{
 	private $id;
 	private $action;
 	private $db;
@@ -46,17 +47,19 @@ class Manage{
 	private $mCache;
 	public $message = '';
 
-	public function  __construct($id, $action, $db, $lang, $config, $mCache) {
-		$this->id = $id;
+	public function __construct($id, $action, $db, $lang, $config, $mCache)
+	{
+		$this->id     = $id;
 		$this->action = $action;
-		$this->db = $db;
-		$this->lang = $lang;
+		$this->db     = $db;
+		$this->lang   = $lang;
 		$this->config = $config;
 		$this->mCache = $mCache;
 	}
 
 	// 获取要管理的项目的信息
-	public function getManageInfo($manageType){
+	public function getManageInfo($manageType)
+	{
 		global $CurUserID;
 		switch ($manageType) {
 			case 'topic':
@@ -93,7 +96,8 @@ class Manage{
 	}
 
 	//清理主题缓存
-	private function refreshTopicCache(){
+	private function refreshTopicCache()
+	{
 		if ($this->mCache) {
 			//清理首页内存缓存
 			$this->mCache->delete(MemCachePrefix . 'Homepage');
@@ -102,8 +106,33 @@ class Manage{
 		}
 	}
 
+	// 删帖时清理附件
+	private function deleteUpload($uploadRecordList)
+	{
+		foreach ($uploadRecordList as $uploadRecord) {
+			$otherFileOwner = $this->DB->query('SELECT UserName FROM ' . PREFIX . 'upload 
+					WHERE 
+						FileSize = ? AND
+						MD5 = ? AND 
+						SHA1 = ? AND
+						UserName != ?
+						', array(
+				$uploadRecord['FileSize'],
+				$uploadRecord['SHA1'],
+				$uploadRecord['MD5'],
+				$uploadRecord['UserName']
+			));
+			if (!$otherFileOwner){
+				unlink($uploadRecord['FilePath']);
+			}
+		}
+		$this->DB->query('DELETE FROM ' . PREFIX . 'upload 
+				WHERE ID IN (?)', ArrayColumn($uploadRecordList, 'ID'));
+	}
+
 	// 将主题移入回收站
-	public function topicDelete($TopicInfo){
+	public function topicDelete($TopicInfo)
+	{
 		Auth(4);
 		if ($TopicInfo['IsDel'] == 0) {
 			$this->db->query("UPDATE " . PREFIX . "topics SET IsDel = 1 WHERE ID=:ID", array(
@@ -130,7 +159,8 @@ class Manage{
 	}
 
 	// 从回收站恢复主题
-	public function topicRecover($TopicInfo){
+	public function topicRecover($TopicInfo)
+	{
 		Auth(4);
 		if ($TopicInfo['IsDel'] == 1) {
 			$this->db->query("UPDATE " . PREFIX . "topics SET IsDel = 0 WHERE ID=:ID", array(
@@ -157,7 +187,8 @@ class Manage{
 	}
 
 	// 永久删除主题
-	public function topicPermanentlyDelete($TopicInfo){
+	public function topicPermanentlyDelete($TopicInfo)
+	{
 		Auth(5);
 		if ($TopicInfo['IsDel'] == 1) {
 			$this->db->query('DELETE FROM `' . PREFIX . 'posttags` WHERE TopicID=?', array(
@@ -172,6 +203,12 @@ class Manage{
 			$this->db->query('DELETE FROM `' . PREFIX . 'notifications` WHERE TopicID=?', array(
 				$this->id
 			));
+			//删除附件
+			$this->deleteUpload($this->db->query("SELECT * FROM `" . PREFIX . "upload` WHERE `PostID` IN (?)",
+				$this->db->column("SELECT ID FROM `" . PREFIX . "posts` WHERE TopicID=?", array(
+					$this->id
+				))
+			));
 			$this->message = $this->lang['Permanently_Deleted'];
 		} else {
 			AlertMsg('Bad Request', $this->lang['Failure_Permanent_Deletion']);
@@ -180,7 +217,8 @@ class Manage{
 	}
 
 	// 主题下沉
-	public function topicSink($TopicInfo){
+	public function topicSink($TopicInfo)
+	{
 		Auth(4);
 		$this->db->query("UPDATE " . PREFIX . "topics SET LastTime = LastTime-604800 WHERE ID=:ID", array(
 			"ID" => $this->id
@@ -190,7 +228,8 @@ class Manage{
 	}
 
 	// 主题上浮
-	public function topicRise($TopicInfo){
+	public function topicRise($TopicInfo)
+	{
 		Auth(4);
 		$this->db->query("UPDATE " . PREFIX . "topics SET LastTime = LastTime+604800 WHERE ID=:ID", array(
 			"ID" => $this->id
@@ -200,7 +239,8 @@ class Manage{
 	}
 
 	//锁定 / 解锁主题
-	public function topicLock($TopicInfo){
+	public function topicLock($TopicInfo)
+	{
 		Auth(4);
 		$this->db->query("UPDATE " . PREFIX . "topics SET IsLocked = :IsLocked WHERE ID=:ID", array(
 			"ID" => $this->id,
@@ -211,7 +251,8 @@ class Manage{
 	}
 
 	//给帖子删除话题
-	public function topicDeleteTag($TopicInfo){
+	public function topicDeleteTag($TopicInfo)
+	{
 		Auth(4, $TopicInfo['UserID'], true);
 		$TagName = Request('Post', 'TagName');
 		if ((count(explode('|', $TopicInfo['Tags'])) - 1) >= 1 && $this->db->query("DELETE FROM `" . PREFIX . "posttags` 
@@ -238,7 +279,8 @@ class Manage{
 	}
 
 	// 给主题添加话题
-	public function topicAddTag($TopicInfo){
+	public function topicAddTag($TopicInfo)
+	{
 		global $TimeStamp;
 		Auth(4, $TopicInfo['UserID'], true);
 		$TagName = TagsDiff(array(
@@ -300,7 +342,8 @@ class Manage{
 	}
 
 	// 删除帖子
-	public function postDelete($PostInfo){
+	public function postDelete($PostInfo)
+	{
 		Auth(4);
 		$this->db->query('DELETE FROM `' . PREFIX . 'posts` WHERE ID=?', array(
 			$this->id
@@ -321,15 +364,20 @@ class Manage{
 		$this->db->query("UPDATE `" . PREFIX . "users` SET Replies=Replies-1 WHERE `ID`=?", array(
 			$PostInfo['UserID']
 		));
+		//删除附件
+		$this->deleteUpload($this->db->query("SELECT * FROM `" . PREFIX . "upload` WHERE `PostID` = ?", array(
+			$PostInfo['TopicID']
+		)));
 		$this->message = $this->lang['Permanently_Deleted'];
 	}
 
 	// 编辑帖子
-	public function postEdit($PostInfo){
+	public function postEdit($PostInfo)
+	{
 		global $CurUserRole, $CurUserName, $TimeStamp;
 		//Auth(4, $PostInfo['UserID'], true);
 		Auth(4);
-		$Content = XssEscape(Request('Post', 'Content', $PostInfo['Content']));
+		$Content             = XssEscape(Request('Post', 'Content', $PostInfo['Content']));
 		// 内容过滤系统
 		$ContentFilterResult = Filter($Content);
 		$GagTime             = $CurUserRole < 3 ? $ContentFilterResult['GagTime'] : 0;
@@ -364,13 +412,15 @@ class Manage{
 	}
 
 	//TODO: 删除用户功能
-	public function userDelete($UserInfo){
+	public function userDelete($UserInfo)
+	{
 		Auth(4);
 		return;
 	}
 
 	// 禁言/解禁用户
-	public function userBlock($UserInfo){
+	public function userBlock($UserInfo)
+	{
 		Auth(4);
 		$NewUserAccountStatus = $UserInfo['UserAccountStatus'] ? 0 : 1;
 		if (UpdateUserInfo(array(
@@ -381,7 +431,8 @@ class Manage{
 	}
 
 	// 重置用户头像
-	public function userResetAvatar($UserInfo){
+	public function userResetAvatar($UserInfo)
+	{
 		Auth(4, $this->id);
 		if (extension_loaded('gd')) {
 			require(__DIR__ . "/includes/MaterialDesign.Avatars.class.php");
@@ -397,34 +448,40 @@ class Manage{
 	}
 
 
-	public function favoriteTopic($IsFavorite){
-		$this->favorite($IsFavorite);
+	public function favoriteTopic($IsFavorite)
+	{
+		$this->favorite($IsFavorite, 'Topic');
 	}
 
-	public function favoriteTag($IsFavorite){
-		$this->favorite($IsFavorite);
+	public function favoriteTag($IsFavorite)
+	{
+		$this->favorite($IsFavorite, 'Tag');
 	}
 
-	public function favoriteUser($IsFavorite){
-		$this->favorite($IsFavorite);
+	public function favoriteUser($IsFavorite)
+	{
+		$this->favorite($IsFavorite, 'User');
 	}
 
-	public function favoritePost($IsFavorite){
-		$this->favorite($IsFavorite);
+	public function favoritePost($IsFavorite)
+	{
+		$this->favorite($IsFavorite, 'Post');
 	}
 
-	public function favoriteBlog($IsFavorite){
-		$this->favorite($IsFavorite);
+	public function favoriteBlog($IsFavorite)
+	{
+		$this->favorite($IsFavorite, 'Blog');
 	}
 
 	//关注 / 收藏功能
-	private function favorite($IsFavorite){
-		global $TimeStamp, $CurUserID, $FavoriteTypeList;
+	private function favorite($IsFavorite, $FavoriteType)
+	{
+		global $TimeStamp, $CurUserID;
 		Auth(1);
 		//$IsFavorite: 检查主题/标签/用户/帖子是否存在
 		$MessageType = false; //false表示收藏，true表示关注
 		$SQLAction   = intval($IsFavorite) ? '-1' : '+1';
-		switch ($FavoriteTypeList[$this->action]) {
+		switch ($FavoriteType) {
 			//1:Topic 2:Tag 3:User 4:Post 5:Blog
 			case 'Topic': //Topic
 				$Title = $this->db->single("SELECT Topic FROM " . PREFIX . "topics WHERE ID=:FavoriteID", array(
@@ -478,7 +535,7 @@ class Manage{
 					$this->id
 				));
 			}
-			switch ($FavoriteTypeList[$this->action]) {
+			switch ($FavoriteType) {
 				//1:Topic 2:Tag 3:User 4:Post 5:Blog
 				case 'Topic': //Topic
 					$this->db->query('UPDATE ' . PREFIX . 'topics SET Favorites = Favorites' . $SQLAction . ' WHERE ID=:FavoriteID', array(
@@ -524,7 +581,8 @@ class Manage{
 	}
 
 	// 修改话题描述
-	public function tagEditDescription($TagInfo){
+	public function tagEditDescription($TagInfo)
+	{
 		Auth(3);
 		$Content = CharCV(Request('Post', 'Content', $TagInfo['Description']));
 		if ($Content == $TagInfo['Description'])
@@ -540,7 +598,8 @@ class Manage{
 	}
 
 	// 上传话题图标
-	public function tagUploadIcon($TagInfo){
+	public function tagUploadIcon($TagInfo)
+	{
 		Auth(3);
 		if ($_FILES['TagIcon']['size'] && $_FILES['TagIcon']['size'] < 1048576) {
 			require(__DIR__ . "/includes/ImageResize.class.php");
@@ -553,7 +612,7 @@ class Manage{
 				$SetTagIconStatus = $TagInfo['Icon'] == 0 ? $this->db->query('UPDATE ' . PREFIX . 'tags SET Icon = 1 WHERE ID=:TagID', array(
 					'TagID' => $this->id
 				)) : true;
-				$this->message          = $SetTagIconStatus ? $this->lang['Icon_Upload_Success'] : $this->lang['Icon_Upload_Failure'];
+				$this->message    = $SetTagIconStatus ? $this->lang['Icon_Upload_Success'] : $this->lang['Icon_Upload_Failure'];
 			} else {
 				$this->message = $this->lang['Icon_Upload_Failure'];
 			}
@@ -563,7 +622,8 @@ class Manage{
 	}
 
 	// 禁用/启用该标签
-	public function tagSwitchStatus($TagInfo){
+	public function tagSwitchStatus($TagInfo)
+	{
 		Auth(4);
 		if ($this->db->query('UPDATE ' . PREFIX . 'tags SET IsEnabled = :IsEnabled WHERE ID=:TagID', array(
 			'TagID' => $this->id,
