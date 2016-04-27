@@ -122,8 +122,12 @@ class Manage
 				$uploadRecord['MD5'],
 				$uploadRecord['UserName']
 			));
+			$rootPath = $_SERVER['DOCUMENT_ROOT'];
+			if (substr($uploadRecord['FilePath'], 0, 1) != '/') {
+				$uploadRecord['FilePath'] = '/' . $uploadRecord['FilePath'];
+			}
 			if (!$otherFileOwner){
-				unlink($uploadRecord['FilePath']);
+				unlink($rootPath . $uploadRecord['FilePath']);
 			}
 		}
 		$this->DB->query('DELETE FROM ' . PREFIX . 'upload 
