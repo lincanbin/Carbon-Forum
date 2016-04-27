@@ -293,24 +293,26 @@ class Uploader
 				$this->fileMD5  = md5_file($tempFileName);
 				$this->fileSHA1 = sha1_file($tempFileName);
 			}
-			$identicalFiles = $this->DB->column('SELECT UserName FROM ' . PREFIX . 'upload WHERE FileSize = ? and MD5 = ? and SHA1 = ?', array(
+			$duplicateFiles = $this->DB->column('SELECT UserName, FilePath FROM ' . PREFIX . 'upload 
+				WHERE 
+					FileSize = ? AND 
+					MD5 = ? AND 
+					SHA1 = ?', array(
 				$this->fileSize,
 				$this->fileMD5,
 				$this->fileSHA1
 			));
-			if ($identicalFiles) {
-				$fileURL = $this->DB->single('SELECT FilePath FROM ' . PREFIX . 'upload 
-					WHERE 
-						FileSize = ? AND
-						MD5 = ? AND 
-						SHA1 = ?', array(
-					$this->fileSize,
-					$this->fileMD5,
-					$this->fileSHA1
-				));
-				$this->fullName = $fileURL;
+			if ($duplicateFiles) {
+				$this->fullName = $duplicateFiles[0]['FilePath'];
 				$this->filePath = $this->getFilePath();
-				if (!in_array($this->CurUserName, $identicalFiles)) {
+				$isInsertData = true;
+				foreach ($duplicateFiles as $file) {
+					if ($file['UserName'] == $this->CurUserName && $file['PostID'] == 0) {
+						$isInsertData = false;
+						break;
+					}
+				}
+				if ($isInsertData) {
 					$this->insertData();
 				}
 				$this->stateInfo = $this->stateMap[0];
