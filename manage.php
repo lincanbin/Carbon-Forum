@@ -128,8 +128,11 @@ class Manage
 				unlink($rootPath . $uploadRecord['FilePath']);
 			}
 		}
-		$this->db->query('DELETE FROM ' . PREFIX . 'upload 
-				WHERE ID IN (?)', ArrayColumn($uploadRecordList, 'ID'));
+		$UploadIDs = ArrayColumn($uploadRecordList, 'ID');
+		if ($UploadIDs) {
+			$this->db->query('DELETE FROM ' . PREFIX . 'upload 
+				WHERE ID IN (?)', $UploadIDs);
+		}
 	}
 
 	// 将主题移入回收站
@@ -193,24 +196,24 @@ class Manage
 	{
 		Auth(5);
 		if ($TopicInfo['IsDel'] == 1) {
-			$this->db->query('DELETE FROM `' . PREFIX . 'posttags` WHERE TopicID=?', array(
-				$this->id
-			));
-			$this->db->query('DELETE FROM `' . PREFIX . 'posts` WHERE TopicID=?', array(
-				$this->id
-			));
-			$this->db->query('DELETE FROM `' . PREFIX . 'topics` WHERE ID=?', array(
-				$this->id
-			));
-			$this->db->query('DELETE FROM `' . PREFIX . 'notifications` WHERE TopicID=?', array(
-				$this->id
-			));
-			//删除附件
+			//先删除附件，不然删了Posts就找不到附件了
 			$this->deleteUpload($this->db->query("SELECT * FROM `" . PREFIX . "upload` 
 				WHERE `PostID` IN (SELECT ID FROM `" . PREFIX . "posts` WHERE TopicID = ?)",
 				array(
 					$this->id
 				)));
+			$this->db->query('DELETE FROM `' . PREFIX . 'posttags` WHERE TopicID = ?', array(
+				$this->id
+			));
+			$this->db->query('DELETE FROM `' . PREFIX . 'posts` WHERE TopicID = ?', array(
+				$this->id
+			));
+			$this->db->query('DELETE FROM `' . PREFIX . 'topics` WHERE ID = ?', array(
+				$this->id
+			));
+			$this->db->query('DELETE FROM `' . PREFIX . 'notifications` WHERE TopicID = ?', array(
+				$this->id
+			));
 			$this->message = $this->lang['Permanently_Deleted'];
 		} else {
 			AlertMsg('Bad Request', $this->lang['Failure_Permanent_Deletion']);
