@@ -24,7 +24,7 @@ if (isset($_POST[$fieldName])) {
 	$source = $_GET[$fieldName];
 }
 foreach ($source as $imgUrl) {
-	$item = new Uploader($imgUrl, $config, "remote", $Prefix, $CurUserName, $DB);
+	$item = new Uploader($imgUrl, $config, "remote", $CurUserName, $DB);
 	$info = $item->getFileInfo();
 	array_push($list, array(
 		"state" => $info["state"],

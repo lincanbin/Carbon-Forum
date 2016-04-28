@@ -13,11 +13,11 @@ $Page = isset($_GET['start']) ? (intval($_GET['start']) / $Size) : 1;
 switch ($_GET['action']) {
 	/* 列出文件 */
 	case 'listfile':
-		$SQL = 'SELECT FilePath as url, Created as mtime FROM ' . $Prefix . 'upload WHERE UserName=:UserName ORDER BY Created DESC LIMIT ' . $Page * $Size . ',' . $Size;
+		$SQL = 'SELECT FilePath as url, Created as mtime FROM ' . PREFIX . 'upload WHERE UserName=:UserName ORDER BY Created DESC LIMIT ' . $Page * $Size . ',' . $Size;
 		break;
 	/* 列出图片 */
 	case 'listimage':
-		$SQL = 'SELECT FilePath as url, Created as mtime FROM ' . $Prefix . 'upload WHERE UserName=:UserName and FileType like "image/%" ORDER BY Created DESC LIMIT ' . $Page * $Size . ',' . $Size;
+		$SQL = 'SELECT FilePath as url, Created as mtime FROM ' . PREFIX . 'upload WHERE UserName=:UserName and FileType like "image/%" ORDER BY Created DESC LIMIT ' . $Page * $Size . ',' . $Size;
 		break;
 	default:
 		AlertMsg('Bad Request', 'Bad Request');

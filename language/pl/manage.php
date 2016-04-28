@@ -26,6 +26,7 @@ $Lang = array_merge($Lang, array(
 	'Unsubscribe' => 'Odsubskrybuj',
 	'Collect' => 'Subskrybuj',
 
+	'Prohibited_Content' => 'Twój temat jest zabronione publikowanie',
 	'Do_Not_Modify' => 'Nie modyfikuj',
 	'Edited' => 'Edytowany',
 	'Failure_Edit' => 'Wystąpił błąd podczas edycji',

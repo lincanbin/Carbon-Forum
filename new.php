@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$TitleFilterResult = Filter($Title);
 		$ContentFilterResult = Filter($Content);
 		$GagTime = ($TitleFilterResult['GagTime'] > $ContentFilterResult['GagTime']) ? $TitleFilterResult['GagTime'] : $ContentFilterResult['GagTime'];
+		$GagTime = $CurUserRole < 3 ? $GagTime : 0;
 		$Prohibited = $TitleFilterResult['Prohibited'] | $ContentFilterResult['Prohibited'];
 		if ($Prohibited){
 			$Error     = $Lang['Prohibited_Content'];
@@ -67,14 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$Title = $TitleFilterResult['Content'];
 		$Content = $ContentFilterResult['Content'];
 		//获取已存在的标签
-		$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . $Prefix . "tags` WHERE `Name` IN (?)", $TagsArray);
+		$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . PREFIX . "tags` WHERE `Name` IN (?)", $TagsArray);
 		$TagsExist      = ArrayColumn($TagsExistArray, 'Name');
 		$TagsID         = ArrayColumn($TagsExistArray, 'ID');
 		$NewTags        = TagsDiff($TagsArray, $TagsExist);
 		//新建不存在的标签
 		if ($NewTags) {
 			foreach ($NewTags as $Name) {
-				$DB->query("INSERT INTO `" . $Prefix . "tags` 
+				$DB->query("INSERT INTO `" . PREFIX . "tags` 
 					(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
 					VALUES (?,?,?,?,?,?,?,?,?)", array(
 					null,
@@ -123,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			"ListsTime" => $TimeStamp,
 			"Log" => ""
 		);
-		$NewTopicResult = $DB->query("INSERT INTO `" . $Prefix . "topics` 
+		$NewTopicResult = $DB->query("INSERT INTO `" . PREFIX . "topics` 
 			(
 				`ID`, 
 				`Topic`, 
@@ -191,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			"PostIP" => $CurIP,
 			"PostTime" => $TimeStamp
 		);
-		$NewPostResult = $DB->query("INSERT INTO `" . $Prefix . "posts` 
+		$NewPostResult = $DB->query("INSERT INTO `" . PREFIX . "posts` 
 			(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`) 
 			VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime)", $PostData);
 		
@@ -210,13 +211,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"LastPostTime" => $TimeStamp + $GagTime
 			));
 			//标记附件所对应的帖子标签
-			$DB->query("UPDATE `" . $Prefix . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
+			$DB->query("UPDATE `" . PREFIX . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
 				$PostID,
 				$CurUserName
 			));
 			//记录标签与TopicID的对应关系
 			foreach ($TagsID as $TagID) {
-				$DB->query("INSERT INTO `" . $Prefix . "posttags` 
+				$DB->query("INSERT INTO `" . PREFIX . "posttags` 
 					(`TagID`, `TopicID`, `PostID`) 
 					VALUES (?,?,?)", array(
 					$TagID,
@@ -226,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			//更新标签统计数据
 			if ($TagsExist) {
-				$DB->query("UPDATE `" . $Prefix . "tags` SET TotalPosts=TotalPosts+1, MostRecentPostTime=" . $TimeStamp . " WHERE `Name` in (?)", $TagsExist);
+				$DB->query("UPDATE `" . PREFIX . "tags` SET TotalPosts=TotalPosts+1, MostRecentPostTime=" . $TimeStamp . " WHERE `Name` in (?)", $TagsExist);
 			}
 			//添加提醒消息
 			AddingNotifications($Content, $TopicID, $PostID);

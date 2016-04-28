@@ -14,13 +14,13 @@ $IsFavoriteArray = array();
 // UPDATE `carbon_tags` t SET t.Description=(SELECT d.Abstract FROM `carbon_dict` d WHERE d.Title = t.Name limit 1)
 
 $TagsArray = $DB->query('SELECT * 
-	FROM ' . $Prefix . 'tags 
+	FROM ' . PREFIX . 'tags 
 	WHERE IsEnabled=1 
 	ORDER BY TotalPosts DESC 
 	LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
 
 if ($CurUserID && $TagsArray){
-	$IsFavoriteArray = array_flip($DB->column("SELECT FavoriteID FROM " . $Prefix . "favorites 
+	$IsFavoriteArray = array_flip($DB->column("SELECT FavoriteID FROM " . PREFIX . "favorites 
 		Where UserID=".$CurUserID." and Type=2 and FavoriteID in (?)",
 		ArrayColumn($TagsArray, 'ID')
 	));

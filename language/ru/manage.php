@@ -26,6 +26,7 @@ $Lang = array_merge($Lang, array(
 	'Unsubscribe' => 'Отписаться',
 	'Collect' => 'Подписки',
 
+	'Prohibited_Content' => 'Ваша тема запрещена к публикации',
 	'Do_Not_Modify' => 'Не выбрано',
 	'Edited' => 'Редактировать',
 	'Failure_Edit' => 'Отказано редактировать',

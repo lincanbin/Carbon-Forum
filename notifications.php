@@ -3,15 +3,15 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/notifications.php');
 Auth(1);
 $ReplyArray   = $DB->query('SELECT n.ID as NID, n.Type, n.IsRead, p.ID, p.TopicID, p.IsTopic, p.UserID, p.UserName, p.Subject, p.Content, p.PostTime, p.IsDel 
-							FROM ' . $Prefix . 'notifications n LEFT JOIN ' . $Prefix . 'posts p 
+							FROM ' . PREFIX . 'notifications n LEFT JOIN ' . PREFIX . 'posts p 
 							on p.ID=n.PostID 
 							Where n.UserID = ? and n.Type=1 
 							ORDER BY n.Time DESC LIMIT 30', array(
 	$CurUserID
 ));
 $MentionArray = $DB->query('SELECT n.ID as NID, n.Type, n.IsRead, p.ID, p.TopicID, p.IsTopic, p.UserID, p.UserName, p.Subject, p.Content, p.PostTime, p.IsDel 
-							FROM ' . $Prefix . 'notifications n 
-							LEFT JOIN ' . $Prefix . 'posts p 
+							FROM ' . PREFIX . 'notifications n 
+							LEFT JOIN ' . PREFIX . 'posts p 
 							on p.ID=n.PostID 
 							Where n.UserID = ? and n.Type=2 
 							ORDER BY n.Time DESC LIMIT 30', array(

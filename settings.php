@@ -7,7 +7,7 @@ $UpdateUserInfoMessage = '';
 $ChangePasswordMessage = '';
 $DoNotNeedOriginalPassword = (stripos($CurUserInfo['Password'], 'zzz')===0);
 
-$CurUserOauthData = $DB->query('SELECT * FROM ' . $Prefix . 'app_users 
+$CurUserOauthData = $DB->query('SELECT * FROM ' . PREFIX . 'app_users 
 	WHERE UserID=?', array($CurUserID));
 
 $TemporaryOauthData = json_decode($Config['CacheOauth'], true);
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 								$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp;//默认保持30天登陆状态
 								SetCookies(array(
 									'UserExpirationTime' => $TemporaryUserExpirationTime,
-									'UserCode' => md5($NewPasswordHash . $NewSalt . $TemporaryUserExpirationTime . $SALT)
+									'UserCode' => md5($NewPasswordHash . $NewSalt . $TemporaryUserExpirationTime . SALT)
 								), 30);
 								$CurUserInfo['Salt']     = $NewSalt;
 								$CurUserInfo['Password'] = $NewPasswordHash;

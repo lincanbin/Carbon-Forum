@@ -10,7 +10,6 @@
 class Uploader
 {
 	private $DB; //数据库PDO对象
-	private $Prefix; //数据前缀
 	private $CurUserName; //当前用户名
 	private $fileField; //文件域名
 	private $file; //文件上传对象
@@ -55,12 +54,11 @@ class Uploader
 	 * @param array $config 配置项
 	 * @param bool $base64 是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
 	 */
-	public function __construct($fileField, $config, $type, $Prefix, $CurUserName, $DB = '')
+	public function __construct($fileField, $config, $type, $CurUserName, $DB = '')
 	{
 		$this->fileField   = $fileField;
 		$this->config      = $config;
 		$this->type        = $type;
-		$this->Prefix      = $Prefix;
 		$this->CurUserName = $CurUserName;
 		$this->DB          = $DB;
 		if ($type == "remote") {
@@ -285,30 +283,36 @@ class Uploader
 	/**
 	 * 排除重复文件
 	 */
-	private function checkIdenticalFiles($TMPFileName, $InputType)
+	private function checkIdenticalFiles($tempFileName, $inputType)
 	{
 		if ($this->DB) {
-			if ($InputType == 'string') {
-				$this->fileMD5  = md5($TMPFileName);
-				$this->fileSHA1 = sha1($TMPFileName);
+			if ($inputType == 'string') {
+				$this->fileMD5  = md5($tempFileName);
+				$this->fileSHA1 = sha1($tempFileName);
 			} else {
-				$this->fileMD5  = md5_file($TMPFileName);
-				$this->fileSHA1 = sha1_file($TMPFileName);
+				$this->fileMD5  = md5_file($tempFileName);
+				$this->fileSHA1 = sha1_file($tempFileName);
 			}
-			$IdenticalFiles = $this->DB->column('SELECT UserName FROM ' . $this->Prefix . 'upload WHERE FileSize = ? and MD5 = ? and SHA1 = ?', array(
+			$duplicateFiles = $this->DB->query('SELECT UserName, FilePath, PostID FROM ' . PREFIX . 'upload 
+				WHERE 
+					FileSize = ? AND 
+					MD5 = ? AND 
+					SHA1 = ?', array(
 				$this->fileSize,
 				$this->fileMD5,
 				$this->fileSHA1
 			));
-			if ($IdenticalFiles) {
-				$FileURL        = $this->DB->single('SELECT FilePath FROM ' . $this->Prefix . 'upload WHERE FileSize = ? and MD5 = ? and SHA1 = ?', array(
-					$this->fileSize,
-					$this->fileMD5,
-					$this->fileSHA1
-				));
-				$this->fullName = $FileURL;
+			if ($duplicateFiles) {
+				$this->fullName = $duplicateFiles[0]['FilePath'];
 				$this->filePath = $this->getFilePath();
-				if (!in_array($this->CurUserName, $IdenticalFiles)) {
+				$isInsertData = true;
+				foreach ($duplicateFiles as $file) {
+					if ($file['UserName'] == $this->CurUserName && $file['PostID'] == 0) {
+						$isInsertData = false;
+						break;
+					}
+				}
+				if ($isInsertData) {
 					$this->insertData();
 				}
 				$this->stateInfo = $this->stateMap[0];
@@ -327,7 +331,7 @@ class Uploader
 	private function insertData()
 	{
 		if ($this->DB) {
-			$this->DB->query('INSERT INTO ' . $this->Prefix . 'upload(`ID`, `UserName`, `FileName`, `FileSize`, `FileType`, `SHA1`, `MD5`, `FilePath`, `Description`, `Category`, `Class`, `PostID`, `Created`) VALUES(:ID, :UserName, :FileName, :FileSize, :FileType, :SHA1, :MD5, :FilePath, :Description, :Category, :Class, :PostID, :Created)', array(
+			$this->DB->query('INSERT INTO ' . PREFIX . 'upload(`ID`, `UserName`, `FileName`, `FileSize`, `FileType`, `SHA1`, `MD5`, `FilePath`, `Description`, `Category`, `Class`, `PostID`, `Created`) VALUES(:ID, :UserName, :FileName, :FileSize, :FileType, :SHA1, :MD5, :FilePath, :Description, :Category, :Class, :PostID, :Created)', array(
 				'ID' => Null,
 				'UserName' => $this->CurUserName,
 				'FileName' => htmlspecialchars($this->oriName),

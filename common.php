@@ -15,7 +15,7 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
-define('CARBON_FORUM_VERSION', '5.0.1');
+define('CARBON_FORUM_VERSION', '5.6.1');
 
 //Initialize timer
 $MicroTime = explode(' ', microtime());
@@ -62,7 +62,7 @@ if ($MCache) {
 	$Config = $MCache->get(MemCachePrefix . 'Config');
 }
 if (!$Config) {
-	foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . $Prefix . 'config') as $ConfigArray) {
+	foreach ($DB->query('SELECT ConfigName,ConfigValue FROM ' . PREFIX . 'config') as $ConfigArray) {
 		$Config[$ConfigArray['ConfigName']] = $ConfigArray['ConfigValue'];
 	}
 	// Update
@@ -104,7 +104,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	1:新回复
 	2:@ 到我的
 	*/
-	global $Prefix, $DB, $MCache, $TimeStamp, $CurUserName;
+	global $DB, $MCache, $TimeStamp, $CurUserName;
 	//例外列表
 	$ExceptionUser = array(
 		$CurUserName
@@ -120,11 +120,11 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	sort($TemporaryUserList);
 	//var_dump($TemporaryUserList);
 	if ($TemporaryUserList) {
-		$UserList = $DB->row('SELECT ID FROM `' . $Prefix . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
+		$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
 		if ($UserList && count($UserList) <= 20) {
 			//最多@ 20人，防止骚扰
 			foreach ($UserList as $UserID) {
-				$DB->query('INSERT INTO `' . $Prefix . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (null,?,?,?,?,?,?,?)', array(
+				$DB->query('INSERT INTO `' . PREFIX . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (null,?,?,?,?,?,?,?)', array(
 					$UserID,
 					$CurUserName,
 					2,
@@ -133,7 +133,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 					$TimeStamp,
 					0
 				));
-				$DB->query('UPDATE `' . $Prefix . 'users` SET `NewMessage` = NewMessage+1 WHERE ID = :UserID', array(
+				$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMessage` = NewMessage+1 WHERE ID = :UserID', array(
 					'UserID' => $UserID
 				));
 				//清理内存缓存
@@ -149,7 +149,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 //提示信息
 function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 {
-	global $Lang, $CurProtocol, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $Prefix, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
+	global $Lang, $CurProtocol, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
 	if (!$IsAjax) {
 		switch ($StatusCode) {
 			case 404:
@@ -303,11 +303,11 @@ function Filter($Content)
 // 获得表单校验散列
 function FormHash()
 {
-	global $Config, $SALT;
+	global $Config;
 	if (GetCookie('UserCode'))
-		return substr(md5($Config['SiteName'] . GetCookie('UserCode') . $SALT), 8, 8);
+		return substr(md5($Config['SiteName'] . GetCookie('UserCode') . SALT), 8, 8);
 	else
-		return substr(md5($Config['SiteName'] . $SALT), 8, 8);
+		return substr(md5($Config['SiteName'] . SALT), 8, 8);
 }
 
 
@@ -593,10 +593,10 @@ function TagsDiff($Arr1, $Arr2)
 //修改系统设置
 function UpdateConfig($NewConfig)
 {
-	global $Prefix, $DB, $Config, $MCache;
+	global $DB, $Config, $MCache;
 	if ($NewConfig) {
 		foreach ($NewConfig as $Key => $Value) {
-			$DB->query("UPDATE `" . $Prefix . "config` SET ConfigValue=? WHERE ConfigName=?", array(
+			$DB->query("UPDATE `" . PREFIX . "config` SET ConfigValue=? WHERE ConfigName=?", array(
 				$Value,
 				$Key
 			));
@@ -616,7 +616,7 @@ function UpdateConfig($NewConfig)
 //修改用户资料
 function UpdateUserInfo($NewUserInfo, $UserID = 0)
 {
-	global $Prefix, $DB, $CurUserID, $CurUserInfo, $MCache;
+	global $DB, $CurUserID, $CurUserInfo, $MCache;
 	if ($UserID == 0) {
 		$UserID = $CurUserID;
 	}
@@ -626,11 +626,11 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 			$StringBindParam .= $Key . ' = :' . $Key . ',';
 		}
 		$StringBindParam = substr($StringBindParam, 0, -1);
-		$Result          = $DB->query('UPDATE `' . $Prefix . 'users` SET ' . $StringBindParam . ' WHERE ID = :UserID', array_merge($NewUserInfo, array(
+		$Result          = $DB->query('UPDATE `' . PREFIX . 'users` SET ' . $StringBindParam . ' WHERE ID = :UserID', array_merge($NewUserInfo, array(
 			'UserID' => $UserID
 		)));
 		if ($MCache) {
-			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserID, $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserID, $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 				"UserID" => $UserID
 			)), 86400);
 		}
@@ -866,13 +866,13 @@ if ($Config['DaysDate'] != $CurrentDate) {
 	if (!strtotime($Config['DaysDate'])) {
 		$Config['DaysDate'] = $CurrentDate;
 	}
-	$DB->query('INSERT INTO `' . $Prefix . 'statistics` 
+	$DB->query('INSERT INTO `' . PREFIX . 'statistics` 
 		(`DaysUsers`, `DaysPosts`, `DaysTopics`, `TotalUsers`, `TotalPosts`, `TotalTopics`, `DaysDate`, `DateCreated`) 
 		SELECT 
 		:DaysUsers, :DaysPosts, :DaysTopics, :TotalUsers, :TotalPosts, :TotalTopics, :DaysDate, :DateCreated 
 		FROM dual  
 		WHERE NOT EXISTS(  
-			SELECT *  FROM `' . $Prefix . 'statistics`  
+			SELECT *  FROM `' . PREFIX . 'statistics`  
 			WHERE DaysDate = :DaysDate2
 		)
 		', array(
@@ -891,7 +891,7 @@ if ($Config['DaysDate'] != $CurrentDate) {
 		'DaysTopics' => 0,
 		'DaysPosts' => 0,
 		'DaysUsers' => 0,
-		'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . $Prefix . 'tags 
+		'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . PREFIX . 'tags 
 			WHERE IsEnabled=1 
 			ORDER BY TotalPosts DESC 
 			LIMIT ' . $Config['TopicsPerPage']))
@@ -910,7 +910,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 	}
 	if (!$TempUserInfo) {
-		$TempUserInfo = $DB->row("SELECT * FROM " . $Prefix . "users WHERE ID = :UserID", array(
+		$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 			"UserID" => $CurUserID
 		));
 		
@@ -919,7 +919,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		}
 	}
 	//Using hash_equals() in the future
-	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . $SALT), $CurUserCode)) {
+	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . SALT), $CurUserCode)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;

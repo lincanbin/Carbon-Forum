@@ -11,8 +11,8 @@ date_default_timezone_set('Asia/Shanghai');
 
 // Salt for Cookie and Form
 // Free to modify
-$SALT = 'AuthorIsLinCanbin';
-$Prefix = 'carbon_';
+define('SALT', 'AuthorIsLinCanbin');
+define('PREFIX', 'carbon_');
 define('InternalAccess', true);
 /*模板文件使用
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');

@@ -3,17 +3,17 @@ require(__DIR__ . '/common.php');
 require(__DIR__ . '/language/' . ForumLanguage . '/user.php');
 $UserName = Request('Get', 'username');
 $UserInfo = array();
-$UserInfo = $DB->row('SELECT * FROM ' . $Prefix . 'users Where UserName=:UserName', array(
+$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users Where UserName=:UserName', array(
 	'UserName' => $UserName
 ));
 if (!$UserInfo)
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 if ($CurUserID)
-	$IsFavorite = $DB->single("SELECT ID FROM " . $Prefix . "favorites Where UserID=:UserID and Type=3 and FavoriteID=:FavoriteID", array(
+	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites Where UserID=:UserID and Type=3 and FavoriteID=:FavoriteID", array(
 		'UserID' => $CurUserID,
 		'FavoriteID' => $UserInfo['ID']
 	));
-$PostsArray = $DB->query('SELECT * FROM ' . $Prefix . 'posts Where UserName=:UserName and IsDel=0 ORDER BY PostTime DESC LIMIT 30', array(
+$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts Where UserName=:UserName and IsDel=0 ORDER BY PostTime DESC LIMIT 30', array(
 	'UserName' => $UserInfo['UserName']
 ));
 $DB->CloseConnection();

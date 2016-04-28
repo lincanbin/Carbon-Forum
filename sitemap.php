@@ -25,6 +25,7 @@ if($IsGoogleBot){
 	$XMLNameSpace = ' xmlns:mobile="http://www.baidu.com/schemas/sitemap-mobile/1/"';
 }
 ob_start();
+// Fixed issue caused by short open tag
 echo '<?xml version="1.0" encoding="UTF-8" ?>
 ';
 $MobileTag = '';
@@ -60,7 +61,7 @@ switch ($Action) {
 	</url>
 	<?php
 	}
-		$TopicsArray = $DB->query('SELECT `ID`, `LastTime`, `Replies` FROM '.$Prefix.'topics force index(LastTime) WHERE IsDel=0 ORDER BY LastTime DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
+		$TopicsArray = $DB->query('SELECT `ID`, `LastTime`, `Replies` FROM '.PREFIX.'topics force index(LastTime) WHERE IsDel=0 ORDER BY LastTime DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
 		foreach ($TopicsArray as $Topic) {?>
 	<url>
 		<loc><?php echo $CurHost.'/t/'.$Topic['ID']; ?></loc>
@@ -112,7 +113,7 @@ switch ($Action) {
 		?>
 	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"<?php echo $XMLNameSpace; ?>>
 	<?php
-		$TagsArray = $DB->query('SELECT `Name`, `MostRecentPostTime`, `TotalPosts` FROM '.$Prefix.'tags force index(PRI) ORDER BY ID DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
+		$TagsArray = $DB->query('SELECT `Name`, `MostRecentPostTime`, `TotalPosts` FROM '.PREFIX.'tags force index(PRI) ORDER BY ID DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
 		foreach ($TagsArray as $Tags) {?>
 	<url>
 		<loc><?php echo $CurHost.'/tag/'.urlencode($Tags['Name']); ?></loc>
@@ -135,7 +136,7 @@ switch ($Action) {
 		?>
 	<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"<?php echo $XMLNameSpace; ?>>
 	<?php
-		$UsersArray = $DB->query('SELECT `UserName`, `Topics`, `Replies`, `LastPostTime` FROM '.$Prefix.'users force index(PRI) WHERE UserAccountStatus=1 ORDER BY ID DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
+		$UsersArray = $DB->query('SELECT `UserName`, `Topics`, `Replies`, `LastPostTime` FROM '.PREFIX.'users force index(PRI) WHERE UserAccountStatus=1 ORDER BY ID DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
 		foreach ($UsersArray as $User) {?>
 	<url>
 		<loc><?php echo $CurHost.'/u/'.urlencode($User['UserName']); ?></loc>

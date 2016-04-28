@@ -1,79 +1,79 @@
 <?php
 set_time_limit(0);
-date_default_timezone_set('Asia/Shanghai');//设置中国时区
+date_default_timezone_set('Asia/Shanghai'); //设置中国时区
 $Message = '';
-$Version = '5.0.1';
-$Prefix = 'carbon_';
-if(is_file('update.lock')){
+$Version = '5.6.1';
+define('DATABASE_PREFIX', 'carbon_');
+
+if (is_file('update.lock')) {
 	die("请删除 update/update.lock 文件后再进行操作！<br>Please Remove update/update.lock before update!");
 }
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	$Language = $_POST['Language'];
-	$DBHost = $_POST['DBHost'];
-	$DBName = $_POST['DBName'];
-	$DBUser = $_POST['DBUser'];
-	$DBPassword = $_POST['DBPassword'];
-	$SearchServer = $_POST['SearchServer'];
-	$SearchPort   = $_POST['SearchPort'];
-	$EnableMemcache   = $_POST['EnableMemcache'];
-	$MemCachePrefix   = $_POST['MemCachePrefix'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$Language       = $_POST['Language'];
+	$DBHost         = $_POST['DBHost'];
+	$DBName         = $_POST['DBName'];
+	$DBUser         = $_POST['DBUser'];
+	$DBPassword     = $_POST['DBPassword'];
+	$SearchServer   = $_POST['SearchServer'];
+	$SearchPort     = $_POST['SearchPort'];
+	$EnableMemcache = $_POST['EnableMemcache'];
+	$MemCachePrefix = $_POST['MemCachePrefix'];
 	//$WebsitePath = $_POST['WebsitePath'];
-	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-	if(preg_match('/(.*)\/update/i', $WebsitePath , $WebsitePathMatch))
-	{
+	$WebsitePath    = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+	if (preg_match('/(.*)\/update/i', $WebsitePath, $WebsitePathMatch)) {
 		$WebsitePath = $WebsitePathMatch[1];
-	}else{
+	} else {
 		$WebsitePath = '';
 	}
 	//初始化数据库操作类
 	require('../includes/PDO.class.php');
-	$DB = new Db($DBHost, $DBName, $DBUser, $DBPassword);
-	$OldVersion = $DB->single("SELECT ConfigValue FROM `".$Prefix."config` WHERE `ConfigName`='Version'");
+	$DB         = new Db($DBHost, $DBName, $DBUser, $DBPassword);
+	$OldVersion = $DB->single("SELECT ConfigValue FROM `" . DATABASE_PREFIX . "config` WHERE `ConfigName`='Version'");
 	//数据处理
-	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$WebsitePath."' WHERE `ConfigName`='WebsitePath'");
-	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$WebsitePath."/static/js/jquery.js' WHERE `ConfigName`='LoadJqueryUrl'");
+	$DB->query("UPDATE `" . DATABASE_PREFIX . "config` SET `ConfigValue`='" . $WebsitePath . "' WHERE `ConfigName`='WebsitePath'");
+	$DB->query("UPDATE `" . DATABASE_PREFIX . "config` SET `ConfigValue`='" . $WebsitePath . "/static/js/jquery.js' WHERE `ConfigName`='LoadJqueryUrl'");
 	
 	//写入config文件
-	$ConfigPointer = fopen('../install/config.tpl','r');
-	$ConfigBuffer = fread($ConfigPointer, filesize('../install/config.tpl'));
-	$ConfigBuffer = str_replace("{{Language}}",$Language,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{DBHost}}",$DBHost,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{DBUser}}",$DBUser,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{DBPassword}}",$DBPassword,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{SearchServer}}",$SearchServer,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{SearchPort}}",$SearchPort,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{EnableMemcache}}",$EnableMemcache,$ConfigBuffer);
-	$ConfigBuffer = str_replace("{{MemCachePrefix}}",$MemCachePrefix,$ConfigBuffer);
-
+	$ConfigPointer = fopen('../install/config.tpl', 'r');
+	$ConfigBuffer  = fread($ConfigPointer, filesize('../install/config.tpl'));
+	$ConfigBuffer  = str_replace("{{Language}}", $Language, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{DBHost}}", $DBHost, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{DBName}}", $DBName, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{DBUser}}", $DBUser, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{DBPassword}}", $DBPassword, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{SearchServer}}", $SearchServer, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{SearchPort}}", $SearchPort, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{EnableMemcache}}", $EnableMemcache, $ConfigBuffer);
+	$ConfigBuffer  = str_replace("{{MemCachePrefix}}", $MemCachePrefix, $ConfigBuffer);
+	
 	fclose($ConfigPointer);
-	$ConfigPHP = fopen('../config.php',"w+");       
-	fwrite($ConfigPHP,$ConfigBuffer);
+	$ConfigPHP = fopen('../config.php', "w+");
+	fwrite($ConfigPHP, $ConfigBuffer);
 	fclose($ConfigPHP);
 	//rewrite文件配置
 	//写入htaccess文件
-	$HtaccessPointer=fopen('../install/htaccess.tpl','r');
-	$HtaccessBuffer=fread($HtaccessPointer, filesize('../install/htaccess.tpl'));
-	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath,$HtaccessBuffer);
+	$HtaccessPointer = fopen('../install/htaccess.tpl', 'r');
+	$HtaccessBuffer  = fread($HtaccessPointer, filesize('../install/htaccess.tpl'));
+	$HtaccessBuffer  = str_replace("{{WebSitePath}}", $WebsitePath, $HtaccessBuffer);
 	//Server Software Type
-	if(isset($_SERVER['HTTP_X_REWRITE_URL'])){//IIS(ISAPI_Rewrite)
-		$HtaccessBuffer = str_replace("{{RedirectionType}}","[QSA,NU,PT,L]",$HtaccessBuffer);
-	}else{//Others
-		$HtaccessBuffer = str_replace("{{RedirectionType}}","[L]",$HtaccessBuffer);
+	if (isset($_SERVER['HTTP_X_REWRITE_URL'])) { //IIS(ISAPI_Rewrite)
+		$HtaccessBuffer = str_replace("{{RedirectionType}}", "[QSA,NU,PT,L]", $HtaccessBuffer);
+	} else { //Others
+		$HtaccessBuffer = str_replace("{{RedirectionType}}", "[L]", $HtaccessBuffer);
 	}
 	fclose($HtaccessPointer);
-	$Htaccess = fopen("../.htaccess","w+");       
-	fwrite($Htaccess, $HtaccessBuffer );
+	$Htaccess = fopen("../.htaccess", "w+");
+	fwrite($Htaccess, $HtaccessBuffer);
 	fclose($Htaccess);
 	
 	//当前版本低于3.3.0，需要进行的升级到3.3.0的升级操作
-	if(VersionCompare('3.3.0' ,$OldVersion)){
+	if (VersionCompare('3.3.0', $OldVersion)) {
 		require("../includes/MaterialDesign.Avatars.class.php");
-		$UserIDArray = $DB->query('SELECT UserName, ID FROM '.$Prefix.'users');
+		$UserIDArray = $DB->query('SELECT UserName, ID FROM ' . DATABASE_PREFIX . 'users');
 		foreach ($UserIDArray as $UserInfo) {
-			if(!is_file('../upload/avatar/small/' . $UserInfo['ID'] . '.png')){
+			if (!is_file('../upload/avatar/small/' . $UserInfo['ID'] . '.png')) {
 				//echo $UserInfo['UserName'].'<br />';
-				if(extension_loaded('gd')){
+				if (extension_loaded('gd')) {
 					$Avatar = new MDAvtars(mb_substr($UserInfo['UserName'], 0, 1, "UTF-8"), 256);
 					$Avatar->Save('../upload/avatar/large/' . $UserInfo['ID'] . '.png', 256);
 					$Avatar->Save('../upload/avatar/middle/' . $UserInfo['ID'] . '.png', 48);
@@ -83,16 +83,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		}
 	}
 	//当前版本低于3.5.0，需要进行的升级到3.5.0的升级操作
-	if(VersionCompare('3.5.0' ,$OldVersion)){
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('PushConnectionTimeoutPeriod', '22')");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPHost', 'smtp1.example.com')");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPort', '587')");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPAuth', 'true')");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPUsername', 'user@example.com')");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('SMTPPassword', 'secret')");
-
-		$DB->query("DROP TABLE IF EXISTS `".$Prefix."app_user`");
-		$DB->query("CREATE TABLE `".$Prefix."app_users` (
+	if (VersionCompare('3.5.0', $OldVersion)) {
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PushConnectionTimeoutPeriod', '22')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPHost', 'smtp1.example.com')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPPort', '587')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPAuth', 'true')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPUsername', 'user@example.com')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPPassword', 'secret')");
+		
+		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "app_user`");
+		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "app_users` (
 			  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
 			  `AppID` int(10) unsigned NOT NULL,
 			  `OpenID` varchar(64) NOT NULL,
@@ -105,33 +105,33 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			) DEFAULT CHARSET=utf8;");
 	}
 	//当前版本低于3.6.0，需要进行的升级到3.6.0的升级操作
-	if(VersionCompare('3.6.0' ,$OldVersion)){
-		$DB->query("ALTER TABLE `".$Prefix."tags` CHANGE `IsEnabled` `IsEnabled` TINYINT(1) UNSIGNED NULL DEFAULT '1'");
-		$DB->query("ALTER TABLE `".$Prefix."tags` ADD INDEX `TotalPosts` (`IsEnabled`, `TotalPosts`)");
-		$DB->query("ALTER TABLE `".$Prefix."tags` CHANGE `Description` `Description` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;");
-		$DB->query("INSERT INTO `".$Prefix."config` VALUES ('CacheHotTags', '')");
+	if (VersionCompare('3.6.0', $OldVersion)) {
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `IsEnabled` `IsEnabled` TINYINT(1) UNSIGNED NULL DEFAULT '1'");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` ADD INDEX `TotalPosts` (`IsEnabled`, `TotalPosts`)");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `Description` `Description` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CacheHotTags', '')");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
-	$DB->query("UPDATE `".$Prefix."config` SET `ConfigValue`='".$Version."' WHERE `ConfigName`='Version'");
+	$DB->query("UPDATE `" . DATABASE_PREFIX . "config` SET `ConfigValue`='" . $Version . "' WHERE `ConfigName`='Version'");
 	//关闭数据库连接
 	$DB->CloseConnection();
-	if (!file_exists('update.lock')) {  
+	if (!file_exists('update.lock')) {
 		touch('update.lock');
 	}
-	if (file_exists('../install/install.lock')) {  
+	if (file_exists('../install/install.lock')) {
 		touch("../install/install.lock");
 	}
-}else{
+} else {
 	if (version_compare(PHP_VERSION, '5.3.0') < 0) {
 		$Message = '你的PHP版本过低，可能会无法正常使用！<br />Your PHP version is too low, it may not work properly!';
 	}
-	if (! extension_loaded('pdo_mysql')) {
+	if (!extension_loaded('pdo_mysql')) {
 		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
 	}
-	if(is_file('../config.php')){
+	if (is_file('../config.php')) {
 		require("../config.php");
-	}else{
+	} else {
 		define('ForumLanguage', 'zh-cn');
 		define('DBHost', 'localhost');
 		define('DBName', 'carbon');
@@ -142,12 +142,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 function VersionCompare($Version, $OldVersion)
 {
-	$VersionArray = array_map("intval", explode('.', $Version));;
+	$VersionArray = array_map("intval", explode('.', $Version));
+	;
 	$OldVersionArray = array_map("intval", explode('.', $OldVersion));
-	$NeedToUpdate = false;
+	$NeedToUpdate    = false;
 	foreach ($VersionArray as $Key => $Value) {
-		if($VersionArray[$Key] != $OldVersionArray[$Key]){
-			if($VersionArray[$Key] > $OldVersionArray[$Key]){
+		if ($VersionArray[$Key] != $OldVersionArray[$Key]) {
+			if ($VersionArray[$Key] > $OldVersionArray[$Key]) {
 				$NeedToUpdate = true;
 			}
 			break;
@@ -180,14 +181,22 @@ function VersionCompare($Version, $OldVersion)
 			<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
 				<tbody>
 					<tr>
-						<td width="auto" align="center" colspan="2"><span class="red"><?php echo $Message; ?></span></td>
+						<td width="auto" align="center" colspan="2"><span class="red"><?php
+echo $Message;
+?></span></td>
 					</tr>
-					<?php if(!$Message) {?>
+					<?php
+if (!$Message) {
+?>
 					<tr>
 						<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 						<td width="auto" align="left">
 							<select name="Language">
-								<option value="<?php echo ForumLanguage; ?>">Current Language: <?php echo ForumLanguage; ?></option>
+								<option value="<?php
+	echo ForumLanguage;
+?>">Current Language: <?php
+	echo ForumLanguage;
+?></option>
 								<option value="zh-cn">简体中文</option>
 								<option value="zh-tw">繁體中文</option>
 								<option value="en">English</option>
@@ -198,15 +207,21 @@ function VersionCompare($Version, $OldVersion)
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库地址&nbsp;&nbsp;/&nbsp;&nbsp;Database Host</td>
-						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="<?php echo DBHost; ?>" /></td>
+						<td width="auto" align="left"><input type="text" name="DBHost" class="sl w200" value="<?php
+	echo DBHost;
+?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库名&nbsp;&nbsp;/&nbsp;&nbsp;Database Name</td>
-						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="<?php echo DBName; ?>" /></td>
+						<td width="auto" align="left"><input type="text" name="DBName" class="sl w200" value="<?php
+	echo DBName;
+?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库登陆账号&nbsp;&nbsp;/&nbsp;&nbsp;Database Account</td>
-						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="<?php echo DBUser; ?>" /></td>
+						<td width="auto" align="left"><input type="text" name="DBUser" class="sl w200" value="<?php
+	echo DBUser;
+?>" /></td>
 					</tr>
 					<tr>
 						<td width="280" align="right">数据库密码&nbsp;&nbsp;/&nbsp;&nbsp;Database Password</td>
@@ -241,7 +256,9 @@ function VersionCompare($Version, $OldVersion)
 						<td width="280" align="right"></td>
 						<td width="auto" align="left"><input type="submit" value="升 级 / Update" name="submit" class="textbtn" /></td>
 					</tr>
-					<?php } ?>
+					<?php
+}
+?>
 				</tbody>
 			</table>
 		</form>
@@ -277,7 +294,9 @@ function VersionCompare($Version, $OldVersion)
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum <?php echo $Version; ?></a> © 2006-2015
+			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum <?php
+echo $Version;
+?></a> © 2006-2015
 			</p>
 		</div>
 		<!-- footer end -->

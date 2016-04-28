@@ -5,7 +5,7 @@ $TagName = htmlspecialchars(trim(Request('Get', 'name')));
 $Page    = Request('Get', 'page');
 $TagInfo = array();
 if ($TagName)
-	$TagInfo = $DB->row('SELECT * FROM ' . $Prefix . 'tags FORCE INDEX(TagName) 
+	$TagInfo = $DB->row('SELECT * FROM ' . PREFIX . 'tags FORCE INDEX(TagName) 
 		WHERE Name=:Name', 
 		array(
 			'Name' => $TagName
@@ -21,7 +21,7 @@ if ($Page > $TotalPage)
 if ($Page == 0)
 	$Page = 1;
 if ($Page <= 10)
-	$TagIDArray = $DB->column('SELECT TopicID FROM ' . $Prefix . 'posttags FORCE INDEX(TagsIndex) 
+	$TagIDArray = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
 		WHERE TagID=:TagID 
 		ORDER BY TopicID DESC 
 		LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], 
@@ -30,9 +30,9 @@ if ($Page <= 10)
 		)
 	);
 else
-	$TagIDArray = $DB->column('SELECT TopicID FROM ' . $Prefix . 'posttags FORCE INDEX(TagsIndex) 
+	$TagIDArray = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
 		WHERE TagID=:TagID 
-		AND TopicID<=(SELECT TopicID FROM ' . $Prefix . 'posttags FORCE INDEX(TagsIndex) 
+		AND TopicID<=(SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
 			WHERE TagID=:TagID2 
 			ORDER BY TopicID DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',1) 
@@ -44,13 +44,13 @@ else
 		)
 	);
 $TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
-	FROM ' . $Prefix . 'topics FORCE INDEX(PRI) 
+	FROM ' . PREFIX . 'topics FORCE INDEX(PRI) 
 	WHERE ID in (?) AND IsDel=0 
 	ORDER BY LastTime DESC', 
 	$TagIDArray
 );
 if ($CurUserID)
-	$IsFavorite = $DB->single("SELECT ID FROM " . $Prefix . "favorites 
+	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites 
 		WHERE UserID=:UserID AND Type=2 AND FavoriteID=:FavoriteID", 
 		array(
 			'UserID' => $CurUserID,
