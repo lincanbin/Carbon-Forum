@@ -33,6 +33,7 @@ class DB
 	{
 		$this->log        = new Log();
 		$this->Host       = $Host;
+		$this->DBPort       = $DBPort;
 		$this->DBName     = $DBName;
 		$this->DBUser     = $DBUser;
 		$this->DBPassword = $DBPassword;

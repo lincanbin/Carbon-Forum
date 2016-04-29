@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	//初始化数据库操作类
 	require('../includes/PDO.class.php');
-	$DB = new Db($DBHost, $DBName, $DBUser, $DBPassword);
+	$DB = new Db($DBHost, 3306, $DBName, $DBUser, $DBPassword);
 	//数据库安装
 	while($SQL=GetNextSQL()){
 		$DB->query($SQL);
