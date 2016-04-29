@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	//初始化数据库操作类
 	require('../includes/PDO.class.php');
-	$DB         = new Db($DBHost, $DBName, $DBUser, $DBPassword);
+	$DB         = new Db($DBHost, 3306, $DBName, $DBUser, $DBPassword);
 	$OldVersion = $DB->single("SELECT ConfigValue FROM `" . DATABASE_PREFIX . "config` WHERE `ConfigName`='Version'");
 	//数据处理
 	$DB->query("UPDATE `" . DATABASE_PREFIX . "config` SET `ConfigValue`='" . $WebsitePath . "' WHERE `ConfigName`='WebsitePath'");
