@@ -15,6 +15,7 @@ require(__DIR__ . "/PDO.Log.class.php");
 class DB
 {
 	private $Host;
+	private $DBPort;
 	private $DBName;
 	private $DBUser;
 	private $DBPassword;
@@ -28,7 +29,7 @@ class DB
 	public $querycount = 0;
 	
 	
-	public function __construct($Host, $DBName, $DBUser, $DBPassword)
+	public function __construct($Host, $DBPort, $DBName, $DBUser, $DBPassword)
 	{
 		$this->log        = new Log();
 		$this->Host       = $Host;
@@ -43,7 +44,7 @@ class DB
 	private function Connect()
 	{
 		try {
-			$this->pdo = new PDO('mysql:dbname=' . $this->DBName . ';host=' . $this->Host . ';charset=utf8', 
+			$this->pdo = new PDO('mysql:host=' . $this->Host . ';port=' . $this->DBPort . ';dbname=' . $this->DBName . ';charset=utf8', 
 				$this->DBUser, 
 				$this->DBPassword,
 				array(

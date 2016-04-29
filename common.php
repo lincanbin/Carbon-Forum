@@ -29,7 +29,7 @@ if ((include __DIR__ . '/config.php') != 1) {
 require(__DIR__ . '/language/' . ForumLanguage . '/common.php');
 //Initialize PHP Data Object(Database)
 require(__DIR__ . '/includes/PDO.class.php');
-$DB     = new Db(DBHost, DBName, DBUser, DBPassword);
+$DB     = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 //Initialize MemCache(d) / Redis
 $MCache = false;
 if (EnableMemcache) {
