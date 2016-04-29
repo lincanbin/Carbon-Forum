@@ -182,5 +182,8 @@ PageAjaxLoad("<?php echo $PageTitle; ?>", "//<?php echo $_SERVER['HTTP_HOST'].$_
 </script>
 <?php
 }
+$MicroTime = explode(' ', microtime());
+$TotalTime = number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
+header("X-Response-Time: " . $TotalTime . "ms");
 ob_end_flush();
 ?>
