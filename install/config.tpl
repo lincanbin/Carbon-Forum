@@ -26,6 +26,7 @@ define('MemCachePort', 11211);//Memcache: 11211, Redis: 6379
 define('MemCachePrefix', '{{MemCachePrefix}}');
 //Database
 define('DBHost', '{{DBHost}}');
+define('DBPort', '3306');
 define('DBName', '{{DBName}}');
 define('DBUser', '{{DBUser}}');
 define('DBPassword', '{{DBPassword}}');
