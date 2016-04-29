@@ -1,13 +1,8 @@
 <?php
-//Enable error report
-//error_reporting(E_ALL); 
-//ini_set('display_errors', 'On');
-
-//Disable error report
-ini_set('display_errors', 'Off');
-
 // set automatically the time zone
 date_default_timezone_set('Asia/Shanghai');
+
+define('DEBUG_MODE', false);
 
 // Salt for Cookie and Form
 // Free to modify
@@ -38,3 +33,12 @@ define('SearchPort', '{{SearchPort}}');
 // Free to modify
 $APISignature = array();
 $APISignature['12450'] = 'b40484df0ad979d8ba7708d24c301c38';
+
+if (DEBUG_MODE) {
+	//Enable error report
+	error_reporting(E_ALL); 
+	ini_set('display_errors', 'On');
+} else {
+	//Disable error report
+	ini_set('display_errors', 'Off');
+}
