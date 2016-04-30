@@ -443,7 +443,7 @@ function LogOut()
 	global $CurUserID;
 	SetCookies(array(
 		'UserID' => '',
-		'CurUserExpirationTime' => '',
+		'UserExpirationTime' => '',
 		'UserCode' => ''
 	), 1);
 	$CurUserID = 0;
