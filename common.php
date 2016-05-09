@@ -892,7 +892,7 @@ if ($Config['DaysDate'] != $CurrentDate) {
 		'DaysPosts' => 0,
 		'DaysUsers' => 0,
 		'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . PREFIX . 'tags 
-			WHERE IsEnabled=1 
+			WHERE IsEnabled=1 AND TotalPosts>0
 			ORDER BY TotalPosts DESC 
 			LIMIT ' . $Config['TopicsPerPage']))
 	));

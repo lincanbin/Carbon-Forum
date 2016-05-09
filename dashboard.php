@@ -23,7 +23,7 @@ switch ($Action) {
 			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'users')),
 			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'tags WHERE IsEnabled=1')),
 			'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . PREFIX . 'tags 
-				WHERE IsEnabled=1 
+				WHERE IsEnabled=1 AND TotalPosts>0
 				ORDER BY TotalPosts DESC 
 				LIMIT ' . $Config['TopicsPerPage']))
 		));
