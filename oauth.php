@@ -4,7 +4,7 @@ require(__DIR__ . '/language/' . ForumLanguage . '/oauth.php');
 
 function CheckOpenID()
 {
-	global $DB, $AppID, $OauthObject, $TimeStamp, SALT, $Config, $CurUserID, $Lang;
+	global $DB, $AppID, $OauthObject, $TimeStamp, $Config, $CurUserID, $Lang;
 	$OauthUserID = $DB->single("SELECT UserID FROM " . PREFIX . "app_users 
 		WHERE AppID=:AppID AND OpenID = :OpenID", array(
 		'AppID' => $AppID,
