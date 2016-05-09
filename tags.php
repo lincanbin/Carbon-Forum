@@ -15,7 +15,7 @@ $IsFavoriteArray = array();
 
 $TagsArray = $DB->query('SELECT * 
 	FROM ' . PREFIX . 'tags 
-	WHERE IsEnabled=1 
+	WHERE IsEnabled=1 AND TotalPosts>0
 	ORDER BY TotalPosts DESC 
 	LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
 

@@ -32,7 +32,7 @@ unset($TotalForumStatisticsData);
 //话题统计的treemap
 $TagsStatisticsData = array();
 foreach ($DB->query('SELECT ID,Name,TotalPosts FROM ' . PREFIX . 'tags 
-		WHERE IsEnabled=1 
+		WHERE IsEnabled=1 AND TotalPosts>0
 		ORDER BY TotalPosts DESC 
 		LIMIT ' . $Config['TopicsPerPage'] * 10) as $Key => $Value) {
 	$TagsStatisticsData[] = array(
