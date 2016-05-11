@@ -113,13 +113,13 @@ switch (Request('Get', 'action')) {
 	
 	case 'get_post':
 		$PostId = intval(Request('Post', 'PostId'));
-		$row    = $DB->row("SELECT UserName, Content, TopicID FROM {PREFIX}posts WHERE ID = :PostId AND IsDel = 0", array(
+		$row    = $DB->row("SELECT UserName, Content, TopicID FROM " . PREFIX . "posts WHERE ID = :PostId AND IsDel = 0", array(
 			'PostId' => $PostId
 		));
 		if ($CurUserRole < 4) {
 			// 对超级管理员以下的用户需要检查整个主题是否被删除了
 			$TopicID  = $row['TopicID'];
-			$TopicRow = $DB->single("SELECT COUNT(*) FROM {PREFIX}topics WHERE ID = :TopicID AND IsDel = 0", array(
+			$TopicRow = $DB->single("SELECT COUNT(*) FROM " . PREFIX . "topics WHERE ID = :TopicID AND IsDel = 0", array(
 				'TopicID' => $TopicID
 			));
 			if ($TopicRow < 1) {
