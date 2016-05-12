@@ -10,13 +10,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * A high performance open-source forum software written in PHP. 
+ * Some Code Written by Tecflare Corporation
+ * Special Thanks to Tecflare Corporation
  */
 /*
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
 define('CARBON_FORUM_VERSION', '5.6.1');
-
+error_reporting(E_ERROR); //errors only
 //Initialize timer
 $MicroTime = explode(' ', microtime());
 $StartTime = $MicroTime[1] + $MicroTime[0];
@@ -155,26 +157,32 @@ function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 			case 404:
 				header("HTTP/1.1 404 Not Found");
 				header("Status: 404 Not Found");
+				exit(); //Browser does not have to follow headers
 				break;
 			case 401:
 				header("HTTP/1.1 401 Unauthorized");
 				header("Status: 401 Unauthorized");
+				exit(); //Browser does not have to follow headers
 				break;
 			case 403:
 				header("HTTP/1.1 403 Forbidden");
 				header("Status: 403 Forbidden");
+				exit(); //Browser does not have to follow headers
 				break;
 			case 400:
 				header("HTTP/1.1 400 Bad Request");
 				header("Status: 400 Bad Request");
+				exit(); //Browser does not have to follow headers
 				break;
 			case 500:
 				header("HTTP/1.1 500 Internal Server Error");
 				header("Status: 500 Internal Server Error");
+				exit(); //Browser does not have to follow headers
 				break;
 			case 503:
 				header("HTTP/1.1 503 Service Unavailable");
 				header("Status: 503 Service Unavailable");
+				exit(); //Browser does not have to follow headers
 				break;
 			default:
 				break;
@@ -925,8 +933,10 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		$CurUserInfo = $TempUserInfo;
 	} else {
 		LogOut();
+		exit();
 	}
 	unset($TempUserInfo);
 } elseif ($CurUserExpirationTime || $CurUserID || $CurUserCode) {
 	LogOut();
+	exit();
 }
