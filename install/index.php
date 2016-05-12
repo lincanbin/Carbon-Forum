@@ -148,6 +148,7 @@ function GetNextSQL() {
 	<div class="wrapper">
 		<!-- main start -->
 		<div class="main">
+			<center><h1>Carbon Forum</h1></center>
 			<!-- main-content start -->
 			<div class="main-content">
 				<div class="title">
