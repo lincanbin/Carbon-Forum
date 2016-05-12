@@ -10,11 +10,13 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * A high performance open-source forum software written in PHP. 
+ * Sponsored By Tecflare Corporation
  */
 /*
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
+error_reporting(E_ERROR);
 define('CARBON_FORUM_VERSION', '5.6.1');
 
 //Initialize timer
