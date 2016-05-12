@@ -9,7 +9,8 @@ $Lang = array_merge($Lang, array(
 	'Account_Settings' => 'Учетная запись',
 	'Security_Settings' => 'Безопасность',
 	'Reset_Avatar' => 'Сменить аватар',
-	'You_Can_Replace_Your_Avatar_Here' => 'Здесь вы можете сменить свой аватар<br /><br />Поддерживаемые форматы jpg/jpeg/png/gif',
+	'You_Can_Replace_Your_Avatar_Here' => 'Здесь вы можете сменить свой аватар',
+	'Avatar_Image_Format_Support' => 'Поддерживаемые форматы jpg/jpeg/png/gif',
 	'Max_Avatar_Size_Limit' => 'Аватар не может превышать 1Мб',
 	'Upload_Avatar' => 'Загрузить аватар',
 

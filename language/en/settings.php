@@ -9,7 +9,8 @@ $Lang = array_merge($Lang, array(
 	'Account_Settings' => 'Account',
 	'Security_Settings' => 'Security',
 	'Reset_Avatar' => 'Reset Avatar',
-	'You_Can_Replace_Your_Avatar_Here' => 'You can replace your avatar hsere<br /><br />Avatar format supports jpg/jpeg/png/gif',
+	'You_Can_Replace_Your_Avatar_Here' => 'You can replace your avatar hsere',
+	'Avatar_Image_Format_Support' => 'Avatar format supports jpg/jpeg/png/gif',
 	'Max_Avatar_Size_Limit' => 'Avatar can not exceed 1MiB',
 	'Upload_Avatar' => 'Upload avatar',
 
