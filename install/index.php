@@ -149,7 +149,10 @@ function GetNextSQL() {
 	<div class="wrapper">
 		<!-- main start -->
 		<div class="main">
-			<center><h1>Carbon Forum</h1></center>
+			<center>
+			<div class="jumbotron">
+  <h1>Welcome to Carbon Forum Version <?php echo $Version; ?> Installer</h1>
+</div></center>
 			<!-- main-content start -->
 			<div class="main-content">
 				<div class="title">
