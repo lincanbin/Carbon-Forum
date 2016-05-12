@@ -9,7 +9,8 @@ $Lang = array_merge($Lang, array(
 	'Account_Settings' => '帳號設定',
 	'Security_Settings' => '安全設定',
 	'Reset_Avatar' => '重設肖像',
-	'You_Can_Replace_Your_Avatar_Here' => '你可以在這裡更換你的肖像<br /><br />可用的肖像格式為「jpg/jpeg/png/gif」',
+	'You_Can_Replace_Your_Avatar_Here' => '你可以在這裡更換你的肖像',
+	'Avatar_Image_Format_Support' => '可用的肖像格式為「jpg/jpeg/png/gif」',
 	'Max_Avatar_Size_Limit' => '肖像大小不得超過 1MiB',
 	'Upload_Avatar' => '上傳肖像',
 

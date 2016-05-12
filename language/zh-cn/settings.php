@@ -9,8 +9,9 @@ $Lang = array_merge($Lang, array(
 	'Account_Settings' => '账号设置',
 	'Security_Settings' => '安全设置',
 	'Reset_Avatar' => '重置头像',
-	'You_Can_Replace_Your_Avatar_Here' => '你可以在这里修改你的头像<br /><br />头像格式支持jpg/jpeg/png/gif',
-	'Max_Avatar_Size_Limit' => '头像最大不得超过1MiB',
+	'You_Can_Replace_Your_Avatar_Here' => '你可以在这里修改你的头像',
+	'Avatar_Image_Format_Support' => '支持 jpg / jpeg / png / gif',
+	'Max_Avatar_Size_Limit' => '文件大小不得超过1MiB',
 	'Upload_Avatar' => '上传头像',
 
 	'Do_Not_Modify' => '不修改',

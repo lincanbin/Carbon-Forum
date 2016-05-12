@@ -30,8 +30,8 @@ $(document).ready(function(){
 						<p><a href="###" onclick="javascript:Manage(<?php echo $CurUserID; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
 					</div>
 					
-					<div class="float-right w300">
-						<p class="grey">
+					<div class="float-right w300" style="margin-right:20px">
+						<p class="black">
 							<?php echo $Lang['You_Can_Replace_Your_Avatar_Here']; ?>
 						</p>
 						<hr /><br />
@@ -43,6 +43,7 @@ $(document).ready(function(){
 								<br />
 							<hr /><br />
 							<div class="grey"><?php echo $Lang['Max_Avatar_Size_Limit']; ?></div>
+							<div class="grey"><?php echo $Lang['Avatar_Image_Format_Support']; ?></div>
 							<br />
 							<input type="submit" value="<?php echo $Lang['Upload_Avatar']; ?>" name="submit" class="textbtn" />
 						</form>
