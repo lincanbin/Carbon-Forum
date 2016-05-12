@@ -463,6 +463,9 @@ h2.resp-accordion {
 .yl {
 	color: #DDEB3B;
 }
+.black{
+	color: #333333;
+}
 .fs12 {
 	font-size:12px;
 	line-height:1.2em;
@@ -504,6 +507,7 @@ img .avatar {
 	font-size:12px;
 	color:#000;
 	font-weight: bold;
+    box-shadow: 2px 2px 5px #d3d6da;
 }
 .title a {
 	color: #000 !important;
