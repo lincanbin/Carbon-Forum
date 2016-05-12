@@ -42,7 +42,7 @@ if($CurUserID){
 				</div>
 				<div class="c"></div>
 			</div>
-			<p class="fs14"><?php echo ($Tag['Description']?mb_substr($Tag['Description'], 0, 60, 'utf-8').'……':''); ?></p>
+			<p class="fs14"><?php echo ($Tag['Description']? mb_strlen($Tag['Description']) > 60 ? mb_substr($Tag['Description'], 0, 60, 'utf-8').'……' : $DescStr : '' ); ?></p>
 		</div>
 <?php
 }
