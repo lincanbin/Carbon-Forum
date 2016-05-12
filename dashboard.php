@@ -18,37 +18,37 @@ switch ($Action) {
 		set_time_limit(0);
 		UpdateConfig(array(
 			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'upload')),
-			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . PREFIX . 'topics WHERE IsDel=0')),
-			'NumPosts' => intval($DB->single('SELECT sum(Replies) FROM ' . PREFIX . 'topics WHERE IsDel=0')),
+			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . PREFIX . 'topics WHERE IsDel = 0')),
+			'NumPosts' => intval($DB->single('SELECT sum(Replies) FROM ' . PREFIX . 'topics WHERE IsDel = 0')),
 			'NumUsers' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'users')),
-			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'tags WHERE IsEnabled=1')),
+			'NumTags' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'tags WHERE IsEnabled = 1 AND TotalPosts > 0')),
 			'CacheHotTags' => json_encode($DB->query('SELECT ID,Name,Icon,TotalPosts,Followers FROM ' . PREFIX . 'tags 
-				WHERE IsEnabled=1 AND TotalPosts>0
+				WHERE IsEnabled = 1 AND TotalPosts > 0
 				ORDER BY TotalPosts DESC 
 				LIMIT ' . $Config['TopicsPerPage']))
 		));
 		$DB->query('UPDATE ' . PREFIX . 'users u 
 			SET u.Topics=(SELECT count(*) FROM ' . PREFIX . 'topics t 
-				WHERE t.UserName=u.UserName AND IsDel=0),
+				WHERE t.UserName = u.UserName AND IsDel = 0),
 			u.Replies=(SELECT count(*) FROM ' . PREFIX . 'posts p 
-				WHERE p.UserName=u.UserName AND p.IsTopic=0),
+				WHERE p.UserName = u.UserName AND p.IsTopic = 0),
 			u.Followers=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
-				WHERE f.FavoriteID=u.ID AND Type=3)
+				WHERE f.FavoriteID = u.ID AND Type = 3)
 		');
 		$DB->query('UPDATE ' . PREFIX . 'topics t 
 			SET t.Replies=(SELECT count(*) FROM ' . PREFIX . 'posts p 
-				WHERE p.TopicID=t.ID AND p.IsTopic=0 AND p.IsDel=0),
+				WHERE p.TopicID = t.ID AND p.IsTopic = 0 AND p.IsDel = 0),
 			t.Favorites=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
-				WHERE f.FavoriteID=t.ID AND Type=1)
+				WHERE f.FavoriteID = t.ID AND Type = 1)
 		');
 		$DB->query('UPDATE ' . PREFIX . 'tags t 
-			SET t.TotalPosts=(SELECT count(*) FROM ' . PREFIX . 'topics topic 
+			SET t.TotalPosts = (SELECT count(*) FROM ' . PREFIX . 'topics topic 
 				WHERE topic.ID in (
 					SELECT TopicID FROM ' . PREFIX . 'posttags p 
-					WHERE p.TagID=t.ID) 
-				AND topic.IsDel=0),
-			t.Followers=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
-				WHERE f.FavoriteID=t.ID AND f.Type=2)
+					WHERE p.TagID = t.ID) 
+				AND topic.IsDel = 0),
+			t.Followers = (SELECT count(*) FROM ' . PREFIX . 'favorites f 
+				WHERE f.FavoriteID = t.ID AND f.Type = 2)
 		');
 
 
