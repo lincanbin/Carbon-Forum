@@ -161,7 +161,8 @@ function GetNextSQL() {
 								<tr>
 									<td width="auto" align="center" colspan="2"><span class="red"><?php echo $Message; ?></span></td>
 								</tr>
-								<?php if(!$Message) {?><br><p>This area is where you will enter you MySQL details to connect to the MySQL server. </p>
+								<?php if(!$Message) {?><br><center><p>This area is where you will enter you MySQL details to connect to the MySQL server.<br>
+这个区域是在那里你会进入你的MySQL信息连接到MySQL服务器。</p></center>
 								<tr>
 									<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 									<td width="auto" align="left">
