@@ -80,16 +80,6 @@ foreach ($OauthData as $Value) {
 		<div class="c"></div>
 	</div>
 </div>
-<?php }
-if($Config['PageSiderContent']) {
-?>
-<div class="sider-box">
-	<div class="sider-box-title"><?php echo $Lang['Information_Bar']; ?></div>
-	<div class="sider-box-content">
-		<?php echo $Config['PageSiderContent']; ?>
-		<div class="c"></div>
-	</div>
-</div>
 <?php
 }
 if($HotTagsArray) {
@@ -103,6 +93,17 @@ if($HotTagsArray) {
 		<?php foreach ($HotTagsArray as $Tag) {?>
 		<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag['Name']); ?>"><?php echo $Tag['Name']; ?></a>
 		<?php } ?>
+	</div>
+</div>
+<?php
+}
+if($Config['PageSiderContent']) {
+?>
+<div class="sider-box">
+	<div class="sider-box-title"><?php echo $Lang['Information_Bar']; ?></div>
+	<div class="sider-box-content">
+		<?php echo $Config['PageSiderContent']; ?>
+		<div class="c"></div>
 	</div>
 </div>
 <?php
