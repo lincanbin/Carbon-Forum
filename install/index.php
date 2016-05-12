@@ -1,6 +1,11 @@
 <?php
+/*
+Some Code here was created by Tecflare
+http://www.tecflare.com
+Special Thx to Tecflare
+*/
 set_time_limit(0);
-//error_reporting(0); //don't show errors
+error_reporting(E_ERROR); //don't show errors, For Security Purposes only show ERRORS!
 
 $Message = '';
 $Version = '5.6.1';
@@ -25,7 +30,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$EnableMemcache   = $_POST['EnableMemcache'];
 	$MemCachePrefix   = $_POST['MemCachePrefix'];
 	} else {
-		die("An Unexpected Error Occured!");
+		throw new Exception("An Unexpected Error Occured!");
+		exit();
 	}
 	//$WebsitePath = $_POST['WebsitePath'];
 	$WebsitePath = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
@@ -279,7 +285,7 @@ foreach ($SupportedLanguages as $Key => $Value) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-				Power By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
+				Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-<?php echo date("Y");?>
 			</p>
 		</div>
 		<!-- footer end -->
