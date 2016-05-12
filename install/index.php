@@ -1,6 +1,10 @@
 <?php
+/*
+Some Code is powered by Tecflare Corporation
+Special Thanks to Tecflare Corporation
+*/
 set_time_limit(0);
-//error_reporting(0); //don't show errors
+error_reporting(E_ERROR); //don't show errors
 
 $Message = '';
 $Version = '5.6.1';
@@ -279,7 +283,7 @@ foreach ($SupportedLanguages as $Key => $Value) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-				Power By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
+				Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-<?php echo date("Y") ?>
 			</p>
 		</div>
 		<!-- footer end -->
