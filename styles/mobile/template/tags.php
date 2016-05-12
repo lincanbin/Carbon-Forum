@@ -22,7 +22,7 @@ foreach ($TagsArray as $Tag) {
 				<?php echo $Tag['Name']; ?>    (<?php echo $Tag['TotalPosts']; ?>)
 			</a>
 		</h2>
-		<p><?php echo ($Tag['Description']? mb_strlen($Tag['Description']) > 60 ? mb_substr($Tag['Description'], 0, 60, 'utf-8').'……' : $DescStr : '' ); ?>
+		<p><?php echo ($Tag['Description']? mb_strlen($Tag['Description']) > 60 ? mb_substr($Tag['Description'], 0, 60, 'utf-8').'……' : $Tag['Description'] : '' ); ?>
 		</p>
 		</div>
 		
