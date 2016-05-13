@@ -4,7 +4,7 @@ Some Code is powered by Tecflare Corporation
 Special Thanks to Tecflare Corporation
 */
 set_time_limit(0);
-error_reporting(E_ERROR); //don't show errors
+error_reporting(0); //don't show errors
 
 $Message = '';
 $Version = '5.6.1';
