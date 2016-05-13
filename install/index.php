@@ -290,7 +290,7 @@ foreach ($SupportedLanguages as $Key => $Value) {
 		<div class="Copyright">
 			<p>
 				Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-<?php echo date("Y") ?><br>
-				Sponsored By Tecflare - Made with love
+			
 			</p>
 		</div>
 		<!-- footer end -->
