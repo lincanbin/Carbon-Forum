@@ -1,6 +1,10 @@
 <?php
+/*
+Some Code is powered by Tecflare Corporation
+Special Thanks to Tecflare Corporation
+*/
 set_time_limit(0);
-//error_reporting(0); //don't show errors
+error_reporting(0); //don't show errors
 
 $Message = '';
 $Version = '5.6.1';
@@ -138,12 +142,17 @@ function GetNextSQL() {
 	<meta content="True" name="HandheldFriendly" />
 	<title>Install - Carbon Forum</title>
 	<link href="../styles/default/theme/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 </head>
 <body>
 	<!-- content wrapper start -->
 	<div class="wrapper">
 		<!-- main start -->
 		<div class="main">
+			<center>
+			<div class="jumbotron">
+  <h1>Welcome to Carbon Forum Version <?php echo $Version; ?> Installer</h1>
+</div></center>
 			<!-- main-content start -->
 			<div class="main-content">
 				<div class="title">
@@ -156,7 +165,8 @@ function GetNextSQL() {
 								<tr>
 									<td width="auto" align="center" colspan="2"><span class="red"><?php echo $Message; ?></span></td>
 								</tr>
-								<?php if(!$Message) {?>
+								<?php if(!$Message) {?><br><center><p>This area is where you will enter you MySQL details to connect to the MySQL server.<br>
+这个区域是在那里你会进入你的MySQL信息连接到MySQL服务器。</p></center>
 								<tr>
 									<td width="280" align="right">安装语言&nbsp;&nbsp;/&nbsp;&nbsp;Language</td>
 									<td width="auto" align="left">
@@ -279,7 +289,8 @@ foreach ($SupportedLanguages as $Key => $Value) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-				Power By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
+				Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-<?php echo date("Y") ?><br>
+			
 			</p>
 		</div>
 		<!-- footer end -->
