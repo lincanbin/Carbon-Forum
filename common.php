@@ -750,7 +750,8 @@ function XssEscape($html)
 				'script',
 				'eval',
 				'behaviour',
-				'expression'
+				'expression',
+				'data'
 			); //style, class
 			$skipstr  = implode('|', $skipkeys);
 			$value    = preg_replace(array(
