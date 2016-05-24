@@ -47,7 +47,7 @@ class Oauth
 			"code" => $Code
 		);
 		// 构造请求access_token的url
-		$Response         = URL::Get(self::GET_ACCESS_TOKEN_URL, $RequestParameter);
+		$Response         = URL::Get(self::GET_ACCESS_TOKEN_URL . '?' . http_build_query($RequestParameter));
 		$Params           = json_decode($Response, true);
 		// 检测错误是否发生
 		if ($Params === false || empty($Params['access_token'])) {
