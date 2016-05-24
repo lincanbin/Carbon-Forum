@@ -5,7 +5,10 @@ set_time_limit(0);
 $Message = '';
 $Version = '5.6.1';
 define('PREFIX', 'carbon_');
-if(is_file('install.lock')){
+if (function_exists('apache_get_modules') && !in_array('mod_rewrite', apache_get_modules())){
+	die("Apache用户请先开启mod_rewrite！<br>Please enable Apache mod_rewrite! ");
+}
+if (is_file('install.lock')) {
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
 //Exit for more security
 exit();
@@ -279,7 +282,7 @@ foreach ($SupportedLanguages as $Key => $Value) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-				Power By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
+				Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
 			</p>
 		</div>
 		<!-- footer end -->
