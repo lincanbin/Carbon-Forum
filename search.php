@@ -7,9 +7,9 @@ include __DIR__ . '/includes/SearchClient.class.php';
 $Page         = Request('Get', 'page');
 $Keyword      = Request('Get', 'keyword');
 $KeywordArray = explode(" ", $Keyword);
-$KeywordNum   = count($KeywordArray);
 $Error        = '';
-if (!$KeywordNum) {
+
+if (!$KeywordArray) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
 if ($Page < 0 || $Page == 1)
@@ -17,13 +17,31 @@ if ($Page < 0 || $Page == 1)
 if ($Page == 0)
 	$Page = 1;
 
-$limitSize = 30;
+$SQLKeywordArray = array();//查询关键字数组
+//关键词预处理
+foreach ($KeywordArray as $Key => $KeywordToken) {
+	preg_match('/user:(.*)/i', $KeywordToken, $SearchUserName);
+	$UserNameQueryString = '';
+	if (!empty($SearchUserName[1]) && IsName($SearchUserName[1])){
+		$UserNameQueryString = 'UserName = ? AND';
+		$SQLKeywordArray[] = $SearchUserName[1];
+		//var_dump($SearchUserName);
+		unset($KeywordArray[$Key]);
+		break;
+	}
+}
+ksort($KeywordArray);
+//var_dump($KeywordArray);
 
+$KeywordNum   = count($KeywordArray);
+if (!$KeywordNum) {
+	$KeywordArray[] = '';
+}
 //如果定义了搜索服务器，就走搜索服务
 if (defined('SearchServer') && SearchServer) {
 	try {
 		$finds = SearchClient::searchLike($Keyword, 'PostsIndexes' //关键字及索引
-			, ($Page - 1) * $limitSize, $limitSize //页码
+			, ($Page - 1) * $Config['TopicsPerPage'], $Config['TopicsPerPage']
 			, "" //过滤条件
 			, 'PostTime desc' //排序规则
 		);
@@ -61,15 +79,14 @@ if (defined('SearchServer') && SearchServer) {
 	//if($CurUserID && $Config['NumTopics'] <= FullTableScanTopicLimit){
 	if ($Config['NumTopics'] <= FullTableScanTopicLimit) {
 		$QueryString     = str_repeat('or Topic LIKE ? or Tags LIKE ? ', $KeywordNum - 1);
-		$SQLKeywordArray = array();
 		foreach ($KeywordArray as $Value) {
 			$SQLKeywordArray[] = '%' . $Value . '%';
 			$SQLKeywordArray[] = '%' . $Value . '%';
 		}
 		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . PREFIX . 'topics 
-			WHERE Topic LIKE ? or Tags LIKE ? ' . $QueryString . '
+			WHERE ' . $UserNameQueryString . ' (Topic LIKE ? or Tags LIKE ? ' . $QueryString . ')
 			ORDER BY LastTime DESC 
-			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], $SQLKeywordArray);
+			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . $Config['TopicsPerPage'], $SQLKeywordArray);
 	} else {
 		$QueryString     = str_repeat('or Name LIKE ? ', $KeywordNum - 1);
 		$SQLKeywordArray = array();
@@ -83,7 +100,7 @@ if (defined('SearchServer') && SearchServer) {
 		$TagIDArray  = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags 
 			WHERE TagID in (?) 
 			ORDER BY TopicID DESC 
-			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], $TagIDList);
+			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . $Config['TopicsPerPage'], $TagIDList);
 		$TopicsArray = array();
 		if ($TagIDArray) {
 			$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . PREFIX . 'topics 
