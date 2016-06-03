@@ -8,6 +8,14 @@ $Keyword      = Request('Get', 'keyword');
 $KeywordArray = array_unique(explode(" ", $Keyword));
 $Error        = '';
 
+$PostsSearch = false;//是否启用帖子搜索
+$PostsSearchOffset = array_search('post:true', $KeywordArray);
+if ($PostsSearchOffset !== false) {
+	$PostsSearch = true;
+	unset($KeywordArray[$PostsSearchOffset]);
+}
+ksort($KeywordArray);
+
 if (!$KeywordArray) {
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 }
@@ -23,20 +31,42 @@ $AdvancedQuery = array();//高级查询条件，用AND连接
 //关键词预处理
 foreach ($KeywordArray as $Key => $KeywordToken) {
 	//匹配用户名限制条件
-	preg_match('/user:(.*)/i', $KeywordToken, $SearchUserName);
-	if (!empty($SearchUserName[1]) && IsName($SearchUserName[1])){
-		$AdvancedQuery[] = 'UserName = :user';
-		$SQLKeywordArray['user'] = $SearchUserName[1];
-		//var_dump($SearchUserName);
+	preg_match('/user:(.*)/i', $KeywordToken, $SearchUserTopics);
+	if (!empty($SearchUserTopics[1]) && IsName($SearchUserTopics[1])){
 		$AdvancedSearch = true;
+		break;
+	}
+}
+
+// 禁止普通用户使用无索引的全文搜索
+if (!$AdvancedSearch && $CurUserRole < 2) {
+	$PostsSearch = false;
+}
+foreach ($KeywordArray as $Key => $KeywordToken) {
+	//匹配用户名限制条件
+	preg_match('/user:(.*)/i', $KeywordToken, $SearchUserTopics);
+	if (!empty($SearchUserTopics[1]) && IsName($SearchUserTopics[1])){
+		if ($PostsSearch) {
+			$AdvancedQuery[] = 'p.UserName = :PostUser';
+			$SQLKeywordArray['PostUser'] = $SearchUserTopics[1];
+		} else {
+			$AdvancedQuery[] = 't.UserName = :TopicUser';
+			$SQLKeywordArray['TopicUser'] = $SearchUserTopics[1];
+		}
 	} else {
 		$ParamName = substr(md5($KeywordToken), 0, 8);
-		$NormalQuery[] = 'Topic LIKE :topic' . $ParamName . ' or Tags LIKE :tag' . $ParamName . '';
-		$SQLKeywordArray['topic' . $ParamName] = '%' . $KeywordToken . '%';
-		$SQLKeywordArray['tag' . $ParamName] = '%' . $KeywordToken . '%';
+		if ($PostsSearch) {
+			$NormalQuery[] = 'p.Subject LIKE :Subject' . $ParamName . ' or p.Content LIKE :Content' . $ParamName;
+			$SQLKeywordArray['Subject' . $ParamName] = '%' . $KeywordToken . '%';
+			$SQLKeywordArray['Content' . $ParamName] = '%' . $KeywordToken . '%';
+		} else {
+			$NormalQuery[] = 't.Topic LIKE :Topic' . $ParamName . ' or t.Tags LIKE :Tag' . $ParamName;
+			$SQLKeywordArray['Topic' . $ParamName] = '%' . $KeywordToken . '%';
+			$SQLKeywordArray['Tag' . $ParamName] = '%' . $KeywordToken . '%';
+		}
 	}
-
 }
+
 $SearchCondition = array();
 $Temp = implode(' AND ', $AdvancedQuery);
 if (!empty($Temp)) {
@@ -61,8 +91,17 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 			$num     = $finds[1];
 			$PostIdList = isset($finds[0]['id']) ? $finds[0]['id'] : null;
 			if (count($PostIdList) > 0) {
-				$TopicsArray = $DB->query('SELECT t.`ID`, `Topic`, `Tags`, t.`UserID`, t.`UserName`, t.`LastName`, `LastTime`, `Replies` 
-					, p.Content, p.ID as pID, p.PostTime 
+				$TopicsArray = $DB->query('SELECT 				
+						t.`ID`,
+						t.`Topic`,
+						t.`Tags`,
+						t.`LastName`,
+						t.`Replies`,
+						p.`UserID`,
+						p.`UserName`,
+						p.`Content`,
+						p.`ID` AS pID,
+						p.`PostTime` AS LastTime
 					FROM ' . PREFIX . 'topics  t, ' . PREFIX . 'posts p 
 					WHERE t.ID=p.TopicID and p.ID in (?) and t.IsDel=0 
 					ORDER BY p.PostTime DESC', $PostIdList);
@@ -88,10 +127,34 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 		$Error = $e->getMessage();
 	}
 } else {
-		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` FROM ' . PREFIX . 'topics 
+	if ($PostsSearch) {
+		$SearchFields = 'SELECT 
+				t.`ID`,
+				t.`Topic`,
+				t.`Tags`,
+				t.`LastName`,
+				t.`Replies`,
+				p.`UserID`,
+				p.`UserName`,
+				p.`Content`,
+				p.`ID` AS pID,
+				p.`PostTime` AS LastTime
+			FROM ' . PREFIX . 'posts p 
+			LEFT JOIN  ' . PREFIX . 'topics t 
+			ON t.ID=p.TopicID';
+	} else {
+		$SearchFields = 'SELECT t.`ID`, t.`Topic`, t.`Tags`, t.`UserID`, t.`UserName`, t.`LastName`, t.`LastTime`, t.`Replies` 
+			FROM ' . PREFIX . 'topics t ';
+	}
+		$TopicsArray = $DB->query($SearchFields . ' 
 			WHERE ' . $SearchConditionQuery . ' 
 			ORDER BY LastTime DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . $Config['TopicsPerPage'], $SQLKeywordArray);
+		if ($PostsSearch) {
+			foreach ($TopicsArray as &$Topic) {
+				$Topic['MinContent'] = strip_tags(mb_substr($Topic['Content'], 0, 300, 'utf-8'),'<p><br>');
+			}
+		}
 }
 /*
 if($Page == 1 && !$TopicsArray){
