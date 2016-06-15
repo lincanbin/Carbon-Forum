@@ -74,16 +74,13 @@
 		dialog.onok = function(){
 			$G("preview").innerHTML = "";
 			var currentTab =  findFocus("tabHeads","tabSrc");
-			switch(currentTab){
+			switch(currentTab) {
 				case "video":
 					return insertSingle();
-					break;
 				case "videoSearch":
 					return insertSearch("searchList");
-					break;
 				case "upload":
 					return insertUpload();
-					break;
 			}
 		};
 		dialog.oncancel = function(){
@@ -139,8 +136,8 @@
 			if(img.getAttribute("selected")){
 				videoObjs.push({
 					url:img.getAttribute("ue_video_url"),
-					width:420,
-					height:280,
+					width:650,
+					height:380,
 					align:"none"
 				});
 			}
@@ -273,8 +270,8 @@
 		$G("preview").innerHTML = '<div class="previewMsg"><span>'+lang.urlError+'</span></div>'+
 		'<embed class="previewVideo" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
 			' src="' + conUrl + '"' +
-			' width="' + 420  + '"' +
-			' height="' + 280  + '"' +
+			' width="' + 650  + '"' +
+			' height="' + 380  + '"' +
 			' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" >' +
 		'</embed>';
 	}
@@ -284,8 +281,8 @@
 	function insertUpload(){
 		var videoObjs=[],
 			uploadDir = editor.getOpt('videoUrlPrefix'),
-			width = $G('upload_width').value || 420,
-			height = $G('upload_height').value || 280,
+			width = $G('upload_width').value || 650,
+			height = $G('upload_height').value || 380,
 			align = findFocus("upload_alignment","name") || 'none';
 		for(var key in uploadVideoList) {
 			var file = uploadVideoList[key];
