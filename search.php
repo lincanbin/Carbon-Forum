@@ -100,7 +100,7 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 						p.`UserID`,
 						p.`UserName`,
 						p.`Content`,
-						p.`ID` AS pID,
+						p.`ID` AS PostID,
 						p.`PostTime` AS LastTime
 					FROM ' . PREFIX . 'topics  t, ' . PREFIX . 'posts p 
 					WHERE t.ID=p.TopicID and p.ID in (?) and t.IsDel=0 
@@ -137,7 +137,7 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 				p.`UserID`,
 				p.`UserName`,
 				p.`Content`,
-				p.`ID` AS pID,
+				p.`ID` AS PostID,
 				p.`PostTime` AS LastTime
 			FROM ' . PREFIX . 'posts p 
 			LEFT JOIN  ' . PREFIX . 'topics t 
