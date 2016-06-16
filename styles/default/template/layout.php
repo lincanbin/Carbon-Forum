@@ -1,5 +1,8 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
+
+$LayoutPageTitle = ($CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'') . $PageTitle . ($UrlPath=='index'?'':' - '.$Config['SiteName']);
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -32,10 +35,7 @@ if ( IsSSL() ) {
 }
 ?>
 	<meta name="msapplication-TileImage" content="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
-	<title><?php
-echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
-echo $PageTitle;
-echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
+	<title><?php echo $LayoutPageTitle; ?></title>
 	<!--link rel="dns-prefetch" href="//<?php echo $Config['MainDomainName']; ?>" />
 	<link rel="prefetch" href="//<?php echo $Config['MainDomainName']; ?>" /-->  
 	<link rel="apple-touch-icon-precomposed" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-57x57-precomposed.png" />
@@ -63,9 +63,9 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 <body>
 	<!-- content wrapper start -->
 	<div class="wrapper">
-		<div class="navBar">
-			<div class="navPanel">
-				<div class="innerNavPanel">
+		<div class="nav-bar">
+			<div class="nav-panel">
+				<div class="inner-nav-panel">
 					<div class="logo">
 						<a href="<?php echo $Config['WebsitePath']; ?>/">
 							<img src="<?php echo $Config['WebsitePath']; ?>/static/img/logo.png" alt="<?php echo $Lang['Home']; ?>" />
@@ -76,15 +76,9 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 						<input type="text" id="SearchInput" onkeydown="javascript:if((event.keyCode==13)&&(this.value!='')){$('#SearchButton').trigger('click');}" placeholder="<?php echo $Lang['Search']; ?>"<?php echo $UrlPath=='search'&&!empty($Keyword)?' value="'.$Keyword.'"':'';?> />
 						<a href="###" id="SearchButton"><div class="icon icon-search"></div></a>
 					</div>
-					
-					
 	<?php
 	if($CurUserID){
 	?>
-					
-					
-					
-
 					<a href="<?php echo $Config['WebsitePath']; ?>/settings" title="<?php echo $Lang['Settings']; ?>"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?>><div class="icon icon-settings"></div></a>
 					<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> onclick="javascript:ShowNotification(0);"><div class="icon icon-notifications"></div><span class="icon-messages-num" id="MessageNumber">0</span></a>
 	<?php
@@ -123,16 +117,27 @@ echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
 			</div>
 		</div>
 		<!-- main start -->
+		<div class="main-content"></div>
 <?php
 }else{
-	echo '<title>';
-	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
-	echo $PageTitle;
-	echo $UrlPath=='index'?'':' - '.$Config['SiteName'];
-	echo '</title>';
+?>
+		<title><?php echo $LayoutPageTitle; ?></title>
+<?php
 }
 ?>
 		<div class="main" id="main">
+<?php
+			if ($IsMobile && $Config['MobileDomainName']) {
+?>
+			<div class="swtich-to-mobile">
+				<a href="<?php echo $CurProtocol . $Config['MainDomainName']; ?>/view-mobile?callback=<?php echo urlencode($RequestURI); ?>">
+					<?php echo $Lang['Mobile_Version']; ?>
+				</a>
+			</div>
+<?php
+			}
+?>
+			
 			<?php
 			include($ContentFile);
 			?>
@@ -150,13 +155,6 @@ if(!$IsAjax){
 			<p>
 			<?php echo $Config['SiteName']; ?> Powered By © 2006-2016 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/statistics"><?php echo $Lang['Statistics']; ?></a>
-			<?php
-			if ($IsMobile && $Config['MobileDomainName']) {
-			?>
-			&nbsp;&nbsp;<a href="<?php echo $CurProtocol . $Config['MainDomainName']; ?>/view-mobile?callback=<?php echo urlencode($RequestURI); ?>"><?php echo $Lang['Mobile_Version']; ?></a>
-			<?php
-			}
-			?>
 			<br />
 <?php
 $MicroTime = explode(' ', microtime());

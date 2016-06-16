@@ -22,45 +22,45 @@ body {
 	color: #000000;
 	line-height: 1.5;
 	background: #F9F9F9;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 /* title */
 .topic-content h1, .comment-content h1 {
 	color: #555;
 	font-size: 180%;
 	font-weight: bold;
-	padding: 15px 0px 15px 0px;
-	margin: 10px 0px 10px 0px;
+	padding: 15px 0 15px 0;
+	margin: 10px 0 10px 0;
 	border-bottom: 1px dashed #33B5E5;
 }
 .topic-content h2, .comment-content h2 {
 	color: #555;
 	font-size: 160%;
 	font-weight: bold;
-	padding: 15px 0px 15px 10px;
-	margin: 10px 0px 10px 0px;
+	padding: 15px 0 15px 10px;
+	margin: 10px 0 10px 0;
 	border-bottom: 1px dashed #33B5E5;
 }
 .topic-content h3, .comment-content h3 {
 	color: #555;
 	font-size: 140%;
 	font-weight: bold;
-	padding: 5px 0px 5px 20px;
-	margin: 10px 0px 10px 0px;
+	padding: 5px 0 5px 20px;
+	margin: 10px 0 10px 0;
 }
 .topic-content h4, .comment-content h4 {
 	color: #555;
 	font-size: 120%;
 	font-weight: bold;
 	padding: 5px 5px 5px 30px;
-	margin: 10px 0px 5px 0px;
+	margin: 10px 0 5px 0;
 }
 /* text*/
 p {
 	line-height: 1.5;
-	margin: 5px 0px 10px 0px;
-	padding: 0px;
+	margin: 5px 0 10px 0;
+	padding: 0;
 }
 /* links*/
 a, a:link, a:visited, a:active {
@@ -205,8 +205,8 @@ blockquote {
 }
 /* tabs */
 ul.resp-tabs-list {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 .resp-tabs-list li {
 	font-size: 14px;
@@ -280,11 +280,11 @@ h2.resp-accordion {
 /* other*/
 .wrapper {
 	min-width:980px;
-	margin:0px auto;
-	padding: 0px;
+	margin:0 auto;
+	padding: 0;
 }
 /****** Nav Panel ******/
-.navBar{
+.nav-bar{
 	position: fixed;
 	width: 100%;
 	padding: 0 auto;
@@ -296,16 +296,16 @@ h2.resp-accordion {
 	opacity: 0.9;
 	z-index: 9999;
 }
-.navPanel {
+.nav-panel {
 	min-width:960px;
 	background: #f9f9f9;
-	padding: 0px 10px 0px 10px;
+	padding: 0 10px 0 10px;
 	border-bottom: 1px solid #4fc3f7;
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.07);
 }
-.innerNavPanel {
+.inner-nav-panel {
 	width:960px;
-	margin:0px auto;
+	margin:0 auto;
 }
 /* logo */
 .logo {
@@ -320,7 +320,7 @@ h2.resp-accordion {
 	height: 40px;
 }
 .logo img:hover {
-	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 	transition: box-shadow 0.5s ease-in-out;
 	-moz-transition: border-bottom 0.5s; /* Firefox 4 */
 	-webkit-transition: border-bottom 0.5s; /* Safari and Chrome */
@@ -399,7 +399,7 @@ h2.resp-accordion {
 /* sorry for this ie6 hack*/
  * html .buttons img {
 	float: left;
-	margin: 5px 5px 5px 0px;
+	margin: 5px 5px 5px 0;
 }
 .emptyProgressBar{
 	height: 3px;
@@ -412,15 +412,22 @@ h2.resp-accordion {
 }
 
 .progressBar .bar1{
-	width: 0%;
+	width: 0;
 	height: 3px;
 	background-color: #4fc3f7;
+}
+
+.swtich-to-mobile {
+	margin: 10px auto 20px auto;
+	text-align: center;
+	font-size: 60px;
+	box-shadow: 2px 2px 5px #d3d6da;
 }
 
 .Copyright {
 	min-width:960px;
 	margin: auto;
-	padding: 0px;
+	padding: 0;
 	text-align:center;
 }
 .hide {
@@ -433,7 +440,7 @@ h2.resp-accordion {
 	float:left;
 }
 .float-right {
-	float:right !important;
+	float: right !important;
 }
 .text-center {
 	text-align:center;
@@ -499,7 +506,7 @@ img .avatar {
 	font-size:12px;
 	background-color:#000;
 	border-radius:5px;
-	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 .title {
 	background: #ECECEC;
@@ -540,7 +547,7 @@ img .avatar {
 	box-shadow: 2px 2px 5px #d3d6da;
 }
 .without-title {
-	border-top: 0px solid #E2E2E9;
+	border-top: 0 solid #E2E2E9;
 }
 .home-box-list {
 	width:670px;
@@ -608,7 +615,7 @@ img .avatar {
 	font-weight: bold;
 }
 .topic-tags .edittag{
-	vertical-align: center;
+	vertical-align: central;
 	cursor:pointer;
 	font-style: italic;
 	border:none;
@@ -725,6 +732,7 @@ img .avatar {
 	cursor: pointer;
 	transition:background-color 0.2s ease-in-out;
 }
+/* comment */
 .comment-item {
 	border-bottom: 1px solid #EFEFEF;
 	padding:0 10px 0 10px;
@@ -888,23 +896,23 @@ img .avatar {
 	max-width: 250px;
 }
 /* User Pannel*/
-.User-Pannel-Avatar{
+.user-pannel-avatar{
 	width: 128px;
 	padding: 0 61px;
 }
-.User-Pannel-Avatar img{
+.user-pannel-avatar img{
 	margin-top: 10px;
 	max-width: 128px;
 	max-height: 128px;
 	border-radius: 50%;
 }
-.User-Pannel-Name{
+.user-pannel-name{
 	font-size: 16px;
 	text-align: center;
 	font-weight: bold;
 	padding: 8px 0;
 }
-.User-Pannel ul{
+.user-pannel ul{
 	height: 42px !important;
 	overflow: hidden !important;
 	margin: 10px 0 0 0 !important;
@@ -914,7 +922,7 @@ img .avatar {
 	display: block !important;
 	clear: both !important;
 }
-.User-Pannel li{
+.user-pannel li{
 	display: inline !important;
 	float: left;
 	width: 82px !important;
@@ -926,7 +934,7 @@ img .avatar {
 	padding: 0 !important;
 	clear: none !important
 }
-.User-Pannel li strong{
+.user-pannel li strong{
 	color: #333;
 	display: block !important;
 	font-weight: bold !important;
@@ -934,11 +942,11 @@ img .avatar {
 	width: 82px !important;
 	overflow: hidden !important;
 }
-.User-Pannel li span{
+.user-pannel li span{
 	font-size: 12px !important;
 	color:#808080;
 }
-.User-Pannel li strong:hover{
+.user-pannel li strong:hover{
 	color: #4fc3f7;
 }
 /* FORM end*/
