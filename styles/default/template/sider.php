@@ -47,13 +47,13 @@ foreach ($OauthData as $Value) {
 		<span class="float-right"><a href="<?php echo $Config['WebsitePath']; ?>/login?logout=<?php echo $CurUserCode; ?>"><?php echo $Lang['Log_Out']; ?></a></span>
 	</div>
 	<div class="sider-box-content">
-		<div class="User-Pannel-Avatar">
+		<div class="user-pannel-avatar">
 			<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($CurUserName); ?>">
 				<?php echo GetAvatar($CurUserID, $CurUserName, 'large'); ?>
 			</a>
 		</div>
-		<div class="User-Pannel">
-			<div class="User-Pannel-Name">
+		<div class="user-pannel">
+			<div class="user-pannel-name">
 				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($CurUserName); ?>"><?php echo $CurUserName; ?></a>
 			</div>
 			<ul>

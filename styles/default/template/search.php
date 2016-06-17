@@ -7,7 +7,7 @@ function KeywordHighlight($Content)
 	if ($KeywordArray) {
 		$KeywordHighlightArray = array();
 		foreach ($KeywordArray as $Value) {
-			$KeywordHighlightArray[] = '<span class="red">' . $Value . '</span>';
+			$KeywordHighlightArray[] = '<span class="search-keyword">' . $Value . '</span>';
 		}
 		return str_ireplace($KeywordArray, $KeywordHighlightArray, $Content);
 	} else {
@@ -38,11 +38,23 @@ function KeywordHighlight($Content)
 			</div>
 			<div class="item-content">
 				<h2>
-					<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo KeywordHighlight($Topic['Topic']); ?></a>
+<?php
+if (empty($Topic['PostID'])):
+?>
+					<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>">	
+<?php
+else:
+?>
+					<a href="/goto/<?php echo $Topic['ID']; ?>-<?php echo $Topic['PostID']; ?>#Post<?php echo $Topic['PostID']; ?>">
+<?php
+endif
+?>
+						<?php echo KeywordHighlight($Topic['Topic']); ?>
+					</a>
 				</h2>
                 <?php if( isset($Topic['MinContent']) ) { ?>
                 <div class="topic-dec">
-                    <?php echo $Topic['MinContent']; ?>
+                    <?php echo $PostsSearch ? KeywordHighlight($Topic['MinContent']) : $Topic['MinContent']; ?>
                 </div>
                 <?php } ?>
 				<span class="item-tags">
