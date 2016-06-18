@@ -1,0 +1,22 @@
+{
+"QQ":{
+	"Alias":"QQ",
+	"LogoUrl" : "/static/img/oauth/qq_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/qq_icon_label.png"
+	},
+"WeChat":{
+	"Alias":"WeChat",
+	"LogoUrl" : "/static/img/oauth/wechat_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/wechat_icon_label.png"
+	},
+"Weibo":{
+	"Alias":"Weibo",
+	"LogoUrl" : "/static/img/oauth/weibo_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/weibo_icon_label.png"
+	},
+"GitHub":{
+	"Alias":"GitHub",
+	"LogoUrl" : "/static/img/oauth/github_icon.png",
+	"ButtonImageUrl" : "/static/img/oauth/github_icon_label.png"
+	}
+}
