@@ -28,6 +28,10 @@ define('DBPassword', '{{DBPassword}}');
 //Sphinx Server
 define('SearchServer', '{{SearchServer}}');
 define('SearchPort', '{{SearchPort}}');
+
+define('LanguagePath', __DIR__ . '/language/' . ForumLanguage . '/');
+define('LibraryPath', __DIR__ . '/library/');
+
 // API checking data
 // List<Map<String APIKey, String APISecret>>
 // Free to modify

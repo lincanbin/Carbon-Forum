@@ -71,9 +71,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($ConfigPHP);
 
 	//写入htaccess文件
-	$HtaccessPointer=fopen(__DIR__.'/htaccess.tpl','r');
-	$HtaccessBuffer=fread($HtaccessPointer, filesize(__DIR__.'/htaccess.tpl'));
-	$HtaccessBuffer = str_replace("{{WebSitePath}}",$WebsitePath,$HtaccessBuffer);
+	$HtaccessPointer = fopen(__DIR__.'/htaccess.tpl', 'r');
+	$HtaccessBuffer = fread($HtaccessPointer, filesize(__DIR__.'/htaccess.tpl'));
+	$HtaccessBuffer = str_replace("{{WebSitePath}}", $WebsitePath, $HtaccessBuffer);
 	//Server Software Type
 	if(isset($_SERVER['HTTP_X_REWRITE_URL'])){//IIS(ISAPI_Rewrite)
 		$HtaccessBuffer = str_replace("{{RedirectionType}}","[QSA,NU,PT,L]",$HtaccessBuffer);
