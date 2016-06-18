@@ -26,9 +26,9 @@ if ((include __DIR__ . '/config.php') != 1) {
 	header("Location: install/");
 	exit(); //No errors
 }
-require(__DIR__ . '/language/' . ForumLanguage . '/common.php');
+require(LanguagePath . 'common.php');
 //Initialize PHP Data Object(Database)
-require(__DIR__ . '/includes/PDO.class.php');
+require(LibraryPath . 'PDO.class.php');
 $DB     = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 //Initialize MemCache(d) / Redis
 $MCache = false;
@@ -42,7 +42,7 @@ if (EnableMemcache) {
 		}
 	} elseif (extension_loaded('memcache')) {
 		//MemCache
-		require(__DIR__ . "/includes/MemcacheMod.class.php");
+		require(LibraryPath . "MemcacheMod.class.php");
 		$MCache = new MemcacheMod(MemCacheHost, MemCachePort);
 	} elseif (extension_loaded('redis')) {
 		//Redis
@@ -51,7 +51,7 @@ if (EnableMemcache) {
 		$MCache->pconnect(MemCacheHost, MemCachePort);
 	} elseif (extension_loaded('xcache')) {
 		// XCache
-		require(__DIR__ . "/includes/XCache.class.php");
+		require(LibraryPath . "XCache.class.php");
 		$MCache = new XCache();
 	}
 }
@@ -81,9 +81,14 @@ $HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
 $PHPSelf     = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
 $UrlPath     = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
 //For IIS ISAPI_Rewrite
-$RequestURI  = isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI'];
+$RequestURI  = str_ireplace('?' . $_SERVER['QUERY_STRING'], '', (isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI']));
 $IsAjax      = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 $CurProtocol = IsSSL() ? 'https://' : 'http://';
+
+$_PUT = array();
+$_DELETE = array();
+$_OPTIONS = array();
+
 //消除低版本中魔术引号的影响
 if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	function StripslashesDeep($var)
@@ -95,6 +100,7 @@ if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	$_COOKIE  = StripslashesDeep($_COOKIE);
 	$_REQUEST = StripslashesDeep($_REQUEST);
 }
+
 
 // At某人并提醒他，使用时常在其前后加空格或回车，如 “@admin ”
 function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
@@ -273,7 +279,7 @@ function CurIP()
 //关键词过滤
 function Filter($Content)
 {
-	$FilteringWords = require(__DIR__ . "/includes/Filtering.words.config.php");
+	$FilteringWords = require(LibraryPath . "Filtering.words.config.php");
 	$Prohibited     = false;
 	$GagTime        = 0;
 	foreach ($FilteringWords as $SearchRegEx => $Rule) {
@@ -531,12 +537,22 @@ function ReferCheck($UserHash)
 //表单获取
 function Request($Type, $Key, $DefaultValue = '')
 {
+	global $_PUT, $_DELETE, $_OPTIONS;
 	switch ($Type) {
 		case 'Get':
 			return isset($_GET[$Key]) ? trim($_GET[$Key]) : $DefaultValue;
 			break;
 		case 'Post':
 			return isset($_POST[$Key]) ? trim($_POST[$Key]) : $DefaultValue;
+			break;
+		case 'Put':
+			return isset($_PUT[$Key]) ? trim($_PUT[$Key]) : $DefaultValue;
+			break;
+		case 'Delete':
+			return isset($_DELETE[$Key]) ? trim($_DELETE[$Key]) : $DefaultValue;
+			break;
+		case 'Options':
+			return isset($_OPTIONS[$Key]) ? trim($_OPTIONS[$Key]) : $DefaultValue;
 			break;
 		default:
 			return isset($_REQUEST[$Key]) ? trim($_REQUEST[$Key]) : $DefaultValue;
