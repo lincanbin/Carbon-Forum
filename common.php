@@ -571,7 +571,7 @@ function SetStyle($PathName, $StyleName)
 		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: application/json; charset=utf-8');
 	}
-	$TemplatePath = __DIR__ . '/styles/' . $PathName . '/template/';
+	$TemplatePath = __DIR__ . '/view/' . $PathName . '/template/';
 	$Style        = $StyleName;
 }
 
@@ -838,7 +838,7 @@ $IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName'] ? true : false;
  * api: API
  */
 if ($IsApp) {
-	$TemplatePath = __DIR__ . '/styles/api/template/';
+	$TemplatePath = __DIR__ . '/view/api/template/';
 	$Style        = 'API';
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
@@ -850,11 +850,11 @@ if ($IsApp) {
 		AlertMsg('403', 'Forbidden', 403);
 	}
 } elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'] || (!$Config['MobileDomainName'] && $IsMobile)) {
-	$TemplatePath = __DIR__ . '/styles/mobile/template/';
+	$TemplatePath = __DIR__ . '/view/mobile/template/';
 	$Style        = 'Mobile';
 	header('X-Frame-Options: SAMEORIGIN');
 } else {
-	$TemplatePath = __DIR__ . '/styles/default/template/';
+	$TemplatePath = __DIR__ . '/view/default/template/';
 	$Style        = 'Default';
 	header('X-Frame-Options: SAMEORIGIN');
 	//header('X-XSS-Protection: 1; mode=block');
