@@ -1,8 +1,10 @@
 <?php
 require(__DIR__ . '/common.php');
 
-$NotFound = true;
 $HTTPMethod = $_SERVER['REQUEST_METHOD'];
+if (!in_array($HTTPMethod, array('GET', 'POST', 'HEAD', 'PUT', 'DELETE', 'OPTIONS'))) {
+	exit('Unsupport HTTP method');
+}
 if ($Config['WebsitePath']) {
 	$WebsitePathPosition = strpos($RequestURI, $Config['WebsitePath']);
 	if ($WebsitePathPosition !== 1) {
@@ -12,6 +14,11 @@ if ($Config['WebsitePath']) {
 	}
 } else {
 	$ShortRequestURI = $RequestURI;
+}
+$NotFound = true;
+$HTTPParameters = array();
+if (in_array($HTTPMethod, array('PUT', 'DELETE', 'OPTIONS'))) {
+	parse_str(file_get_contents('php://input'), $HTTPParameters);
 }
 $Routes = array();
 
@@ -70,6 +77,7 @@ foreach ($Routes as $Method => $SubRoutes) {
 		foreach ($SubRoutes as $URL => $Controller) {
 			if (preg_match("#^" . $URL . "$#i", $RequestURI, $Parameters)) {
 				$NotFound = false;
+				$Parameters = array_merge($Parameters, $HTTPParameters);
 				//var_dump($Parameters);
 				foreach ($Parameters as $Key => $Value) {
 					if (!is_int($Key)) {
