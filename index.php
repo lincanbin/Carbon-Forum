@@ -1,39 +1,7 @@
 <?php
 require(__DIR__ . '/common.php');
-//var_dump($_SERVER);
-//$MicroTime = explode(' ', microtime());
-//echo number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
-//echo '<br />';
-/*
-RewriteRule ^dashboard$ dashboard.php [L,QSA]
-RewriteRule ^favorites(/page/([0-9]*))?$ favorites.php?page=$2 [L,QSA]
-RewriteRule ^forgot$ forgot.php [L,QSA]
-RewriteRule ^goto/([0-9]+)-([0-9]+)$ goto.php?topic_id=$1&post_id=$2 [L,QSA]
-RewriteRule ^json/([0-9a-z_\-]+)$ json.php?action=$1 [L,QSA]
-RewriteRule ^login$ login.php [L,QSA]
-RewriteRule ^manage$ manage.php [L,QSA]
-RewriteRule ^new$ new.php [L,QSA]
-RewriteRule ^notifications$ notifications.php [L,QSA]
-RewriteRule ^oauth-([0-9]+)$ oauth.php?app_id=$1 [L,QSA]
-RewriteRule ^page/([0-9]+)$ index.php?page=$1 [L,QSA]
-RewriteRule ^register$ register.php [L,QSA]
-RewriteRule ^reply$ reply.php [L,QSA]
-RewriteRule ^reset_password/(.*?)$ reset_password.php?access_token=$1 [L,QSA]
-RewriteRule ^robots.txt$ robots.php [L,QSA]
-RewriteRule ^search.xml$ open_search.php [L,QSA]
-RewriteRule ^search/(.*?)(/page/([0-9]*))?$ search.php?keyword=$1&page=$3 [L]
-RewriteRule ^settings$ settings.php [L,QSA]
-RewriteRule ^sitemap-(topics|pages|tags|users|index)(-([0-9]+))?.xml$ sitemap.php?action=$1&page=$3 [L,QSA]
-RewriteRule ^statistics$ statistics.php [L,QSA]
-RewriteRule ^t/([0-9]+)(-([0-9]*))?$ topic.php?id=$1&page=$3 [L,QSA]
-RewriteRule ^tag/(.*?)(/page/([0-9]*))?$ tag.php?name=$1&page=$3 [L]
-RewriteRule ^tags/following(/page/([0-9]*))?$ favorite_tags.php?page=$2 [L,QSA]
-RewriteRule ^tags(/page/([0-9]*))?$ tags.php?page=$2 [L,QSA]
-RewriteRule ^u/(.*?)$ user.php?username=$1 [L]
-RewriteRule ^users/following(/page/([0-9]*))?$ favorite_users.php?page=$2 [L,QSA]
-RewriteRule ^upload_controller$ upload_controller.php [L,QSA]
-RewriteRule ^view-(desktop|mobile)$ view.php?view=$1 [L,QSA]
-*/
+
+$NotFound = true;
 $HTTPMethod = $_SERVER['REQUEST_METHOD'];
 if ($Config['WebsitePath']) {
 	$WebsitePathPosition = strpos($RequestURI, $Config['WebsitePath']);
@@ -46,9 +14,12 @@ if ($Config['WebsitePath']) {
 	$ShortRequestURI = $RequestURI;
 }
 $Routes = array();
-//var_dump($ShortRequestURI);
+
+//Support HTTP Method: GET / POST / PUT / DELETE / OPTIONS
 //这里是Routes Start
+
 $Routes['GET']['/']                                                                        = 'home';
+$Routes['POST']['/']                                                                       = 'home'; //Delete later
 $Routes['GET']['/dashboard']                                                               = 'dashboard';
 $Routes['POST']['/dashboard']                                                              = 'dashboard';
 $Routes['GET']['/favorites(/page/(?<page>[0-9]+))?']                                       = 'favorites';
@@ -91,15 +62,19 @@ $Routes['POST']['/upload_controller']                                           
 $Routes['GET']['/view-(?<view>desktop|mobile)']                                            = 'view';
 
 //这里是Routes End
+
+
 foreach ($Routes as $Method => $SubRoutes) {
 	if ($Method === $HTTPMethod) {
 		$ParametersVariableName = '_' . $Method;
 		foreach ($SubRoutes as $URL => $Controller) {
 			if (preg_match("#^" . $URL . "$#i", $RequestURI, $Parameters)) {
+				$NotFound = false;
 				//var_dump($Parameters);
 				foreach ($Parameters as $Key => $Value) {
 					if (!is_int($Key)) {
 						$$ParametersVariableName[$Key] = $Value;
+						$_REQUEST[$Key] = $Value;
 					}
 				}
 				//$MicroTime = explode(' ', microtime());
@@ -110,4 +85,8 @@ foreach ($Routes as $Method => $SubRoutes) {
 		}
 		break;
 	}
+}
+
+if ($NotFound === true) {
+	require(__DIR__ . '/404.php');
 }
