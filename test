@@ -1,11 +1,7 @@
 <?php
 require(__DIR__ . '/library/URL.class.php');
-require(__DIR__."/config.php");
-//初始化数据库操作类
-require(__DIR__."/library/PDO.class.php");
-$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
-// 请求参数列表
+// 安装
 $InstallRequestParameter = array(
 	"Language" => "zh-cn",
 	"DBHost" => "127.0.0.1",
@@ -17,8 +13,12 @@ $InstallRequestParameter = array(
 	"SearchServer" => "",
 	"SearchPort" => ""
 );
-// 构造请求access_token的url
 $InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
+
+// 安装完后打印数据库信息
+require(__DIR__."/config.php");
+require(__DIR__."/library/PDO.class.php");
+$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
 foreach ($DB->query("show table status;") as $Table) {
 	echo $Table["Name"] . "	|	" . $Table["Rows"] . "	|	" . $Table["Update_time"] . "\n";
