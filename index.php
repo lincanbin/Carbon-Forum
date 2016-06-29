@@ -88,7 +88,7 @@ foreach ($Routes as $Method => $SubRoutes) {
 				}
 				//$MicroTime = explode(' ', microtime());
 				//echo number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
-				require(__DIR__ . '/controller/' . $Controller . '.php');
+				$UrlPath = $Controller;
 				break 2;
 			}
 		}
@@ -98,4 +98,15 @@ foreach ($Routes as $Method => $SubRoutes) {
 
 if ($NotFound === true) {
 	require(__DIR__ . '/404.php');
+	exit();
 }
+
+if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp && $UrlPath != 'view') {
+	//如果是手机，则跳转到移动版
+	header("HTTP/1.1 302 Moved Temporarily");
+	header("Status: 302 Moved Temporarily");
+	header('Location: ' . $CurProtocol . $Config['MobileDomainName'] . $RequestURI);
+	exit();
+}
+
+require(__DIR__ . '/controller/' . $UrlPath . '.php');
