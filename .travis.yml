@@ -19,7 +19,7 @@ before_script:
   # for Install
   - php -S localhost:8080 &
   # Using a Router Script for Test
-  - php -S localhost:80 index.php &
+  - php -S localhost:8090 index.php &
 
 script:
   - php test

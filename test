@@ -1,5 +1,9 @@
 <?php
 require(__DIR__ . '/library/URL.class.php');
+require(__DIR__."/config.php");
+//初始化数据库操作类
+require(__DIR__."/library/PDO.class.php");
+$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
 // 请求参数列表
 $InstallRequestParameter = array(
@@ -10,9 +14,14 @@ $InstallRequestParameter = array(
 	"DBPassword" => "",
 	"EnableMemcache" => "true",
 	"MemCachePrefix" => "carbon_",
+	"SearchServer" => "",
+	"SearchPort" => ""
 );
 // 构造请求access_token的url
 $InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
 
+foreach ($DB->query("show table status;") as $Table) {
+	echo $Table["Name"] . "	|	" . $Table["Rows"] . "	|	" . $Table["Update_time"] . "\n"
+}
 // TODO
 exit(0);
