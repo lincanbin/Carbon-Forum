@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$WebsitePath = '';
 	}
 	//初始化数据库操作类
-	require('../includes/PDO.class.php');
+	require('../library/PDO.class.php');
 	$DB = new Db($DBHost, 3306, $DBName, $DBUser, $DBPassword);
 	//数据库安装
 	while($SQL=GetNextSQL()){

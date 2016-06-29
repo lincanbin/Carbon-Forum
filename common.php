@@ -79,7 +79,7 @@ $HotTagsArray = json_decode($Config['CacheHotTags'], true);
 $HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
 
 $PHPSelf     = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
-$UrlPath     = $Config['WebsitePath'] ? str_ireplace($Config['WebsitePath'] . '/', '', substr($PHPSelf, 0, -4)) : substr($PHPSelf, 1, -4);
+$UrlPath = '';
 //For IIS ISAPI_Rewrite
 $RequestURI  = str_ireplace('?' . $_SERVER['QUERY_STRING'], '', (isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI']));
 $IsAjax      = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
@@ -580,12 +580,12 @@ function SetStyle($PathName, $StyleName)
 //批量设置Cookie
 function SetCookies($CookiesArray, $Expires = 0)
 {
-	global $Config;
+	global $TimeStamp, $Config;
 	foreach ($CookiesArray as $key => $value) {
 		if (!$Expires)
 			setcookie($Config['CookiePrefix'] . $key, $value, 0, $Config['WebsitePath'] . '/', null, false, true);
 		else
-			setcookie($Config['CookiePrefix'] . $key, $value, time() + 86400 * $Expires, $Config['WebsitePath'] . '/', null, false, true);
+			setcookie($Config['CookiePrefix'] . $key, $value, $TimeStamp + 86400 * $Expires, $Config['WebsitePath'] . '/', null, false, true);
 	}
 }
 
@@ -861,22 +861,14 @@ if ($IsApp) {
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard
 }
-$CurView = GetCookie('View', $IsMobile ? 'mobile' : 'desktop');
-if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp) {
-	//如果是手机，则跳转到移动版，暂时关闭
-	header("HTTP/1.1 302 Moved Temporarily");
-	header("Status: 302 Moved Temporarily");
-	header('Location: ' . $CurProtocol . $Config['MobileDomainName'] . $RequestURI);
-	exit();
-}
 
+$CurView = GetCookie('View', $IsMobile ? 'mobile' : 'desktop');
 $CurIP    = CurIP();
 $FormHash = FormHash();
 // 限制不能打开.php的网址
 if (strpos($RequestURI, '.php')) {
 	AlertMsg('403', 'Forbidden', 403);
 }
-
 
 
 $CurrentDate = date('Y-m-d');

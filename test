@@ -1,18 +1,11 @@
 <?php
-require(__DIR__ . '/library/URL.class.php');
+// 安装完后打印数据库信息
+require(__DIR__."/config.php");
+require(__DIR__."/library/PDO.class.php");
+$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
-// 请求参数列表
-$InstallRequestParameter = array(
-	"Language" => "zh-cn",
-	"DBHost" => "127.0.0.1",
-	"DBName" => "carbon",
-	"DBUser" => "root",
-	"DBPassword" => "",
-	"EnableMemcache" => "true",
-	"MemCachePrefix" => "carbon_",
-);
-// 构造请求access_token的url
-$InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
-
+foreach ($DB->query("show table status;") as $Table) {
+	echo sprintf("%020s | %05d | %32s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
+}
 // TODO
 exit(0);

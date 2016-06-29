@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$WebsitePath = '';
 	}
 	//初始化数据库操作类
-	require('../includes/PDO.class.php');
+	require('../library/PDO.class.php');
 	$DB         = new Db($DBHost, 3306, $DBName, $DBUser, $DBPassword);
 	$OldVersion = $DB->single("SELECT ConfigValue FROM `" . DATABASE_PREFIX . "config` WHERE `ConfigName`='Version'");
 	//数据处理
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
 	//当前版本低于3.3.0，需要进行的升级到3.3.0的升级操作
 	if (VersionCompare('3.3.0', $OldVersion)) {
-		require("../includes/MaterialDesign.Avatars.class.php");
+		require("../library/MaterialDesign.Avatars.class.php");
 		$UserIDArray = $DB->query('SELECT UserName, ID FROM ' . DATABASE_PREFIX . 'users');
 		foreach ($UserIDArray as $UserInfo) {
 			if (!is_file('../upload/avatar/small/' . $UserInfo['ID'] . '.png')) {
