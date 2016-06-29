@@ -15,6 +15,7 @@ services:
   - mysql
 
 before_script:
+  - chmod 777 -R ./
   - mysql -e "create database IF NOT EXISTS carbon;" -uroot
   # for Install
   - php -S localhost:8080 &
