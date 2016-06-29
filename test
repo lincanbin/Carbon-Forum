@@ -21,7 +21,7 @@ $InstallRequestParameter = array(
 $InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
 
 foreach ($DB->query("show table status;") as $Table) {
-	echo $Table["Name"] . "	|	" . $Table["Rows"] . "	|	" . $Table["Update_time"] . "\n"
+	echo $Table["Name"] . "	|	" . $Table["Rows"] . "	|	" . $Table["Update_time"] . "\n";
 }
 // TODO
 exit(0);
