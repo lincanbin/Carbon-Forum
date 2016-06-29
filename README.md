@@ -1,4 +1,4 @@
-# Carbon-Forum
+# Carbon-Forum    [![Build Status](https://travis-ci.org/lincanbin/Carbon-Forum.svg?branch=develop)](https://travis-ci.org/lincanbin/Carbon-Forum)
 
 A high performance open-source forum software written in PHP.
 
