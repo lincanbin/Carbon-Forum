@@ -11,8 +11,11 @@ matrix:
   allow_failures:
     - php: hhvm
 
+services:
+  - mysql
+
 before_script:
-  - "mysql -e 'create database `carbon`;'"
+  ysql -e "create database IF NOT EXISTS carbon;" -uroot
   # for Install
   - php -S localhost:8080
   # Using a Router Script for Test
