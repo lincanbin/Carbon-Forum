@@ -8,7 +8,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule ^(.*)$ https://www.94cb.com/$1 [L,R=301]
 
 	#For SSL 
-	#RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]
+	#RewriteCond %{HTTP_HOST} ^www.94cb.com$ [NC]
 	#RewriteCond %{SERVER_PORT} 80
 	#RewriteRule ^(.*)$ https://www.94cb.com/$1 [L,R=301]
 	#RewriteCond %{HTTP_HOST} ^m.94cb.com$ [NC]
