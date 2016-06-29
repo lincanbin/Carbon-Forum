@@ -1,3 +1,18 @@
 <?php
+require(__DIR__ . '/library/URL.class.php');
+
+// 请求参数列表
+$InstallRequestParameter = array(
+	"Language" => "zh-cn",
+	"DBHost" => "127.0.0.1",
+	"DBName" => "carbon",
+	"DBUser" => "root",
+	"DBPassword" => "",
+	"EnableMemcache" => "true",
+	"MemCachePrefix" => "carbon_",
+);
+// 构造请求access_token的url
+$InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
+
 // TODO
 exit(0);
