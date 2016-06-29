@@ -23,4 +23,5 @@ before_script:
   - php -S localhost:8090 index.php &
 
 script:
+  - php test-install
   - php test

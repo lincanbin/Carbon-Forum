@@ -1,27 +1,11 @@
 <?php
-require(__DIR__ . '/library/URL.class.php');
-
-// 安装
-$InstallRequestParameter = array(
-	"Language" => "zh-cn",
-	"DBHost" => "127.0.0.1",
-	"DBName" => "carbon",
-	"DBUser" => "root",
-	"DBPassword" => "",
-	"EnableMemcache" => "true",
-	"MemCachePrefix" => "carbon_",
-	"SearchServer" => "",
-	"SearchPort" => ""
-);
-$InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
-
 // 安装完后打印数据库信息
 require(__DIR__."/config.php");
 require(__DIR__."/library/PDO.class.php");
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
 foreach ($DB->query("show table status;") as $Table) {
-	echo $Table["Name"] . "	|	" . $Table["Rows"] . "	|	" . $Table["Update_time"] . "\n";
+	echo sprintf("%020s | %05d | %32s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
 }
 // TODO
 exit(0);
