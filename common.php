@@ -85,6 +85,7 @@ $RequestURI  = str_ireplace('?' . $_SERVER['QUERY_STRING'], '', (isset($_SERVER[
 $IsAjax      = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 $CurProtocol = IsSSL() ? 'https://' : 'http://';
 
+$_HEAD = array();
 $_PUT = array();
 $_DELETE = array();
 $_OPTIONS = array();
