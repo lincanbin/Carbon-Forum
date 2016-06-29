@@ -1,11 +1,11 @@
 <?php
 error_reporting(0);
-require(__DIR__ . "/config.php");
+require(__DIR__ . "../config.php");
 session_start();
 //session_register('VerificationCode');
 $_SESSION[PREFIX . 'VerificationCode'] = '';
-$width                                  = '58'; //图片宽
-$height                                 = '27'; //图片高
+$width                                  = '60'; //图片宽
+$height                                 = '30'; //图片高
 $textall = array_merge_recursive(range('0', '9'));
 $code = '';
 for ($i = 0; $i < 4; $i++) {

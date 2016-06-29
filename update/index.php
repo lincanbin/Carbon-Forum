@@ -164,7 +164,7 @@ function VersionCompare($Version, $OldVersion)
 <meta charset="UTF-8" />
 <meta content="True" name="HandheldFriendly" />
 <title>Update - Carbon Forum</title>
-<link href="../styles/default/theme/style.css" rel="stylesheet" type="text/css" />
+<link href="../view/default/theme/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<!-- content wrapper start -->
@@ -294,9 +294,9 @@ if (!$Message) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Power By <a href="http://www.94cb.com" target="_blank">Carbon Forum <?php
+			Powered By <a href="http://www.94cb.com" target="_blank">Carbon Forum <?php
 echo $Version;
-?></a> © 2006-2015
+?></a> © 2006-2016
 			</p>
 		</div>
 		<!-- footer end -->

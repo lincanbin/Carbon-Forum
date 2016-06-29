@@ -1,0 +1,25 @@
+language: php
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+  - '7.0'
+  - hhvm
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: hhvm
+
+services:
+  - mysql
+
+before_script:
+  ysql -e "create database IF NOT EXISTS carbon;" -uroot
+  # for Install
+  - php -S localhost:8080
+  # Using a Router Script for Test
+  - php -S localhost:80 index.php
+
+script:
+  - php test
