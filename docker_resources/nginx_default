@@ -7,44 +7,14 @@ server {
 
     # Make site accessible from http://localhost/
     server_name localhost;
-    ##rewrite rule
-    error_page 404 /404.php;
-    rewrite ^([^\.]*)/dashboard$ $1/dashboard.php;
-    rewrite ^([^\.]*)/favorites(/page/([0-9]*))?$ $1/favorites.php?page=$3 last;
-    rewrite ^([^\.]*)/forgot$ $1/forgot.php;
-    rewrite ^([^\.]*)/goto/([0-9]+)-([0-9]+)$ $1/goto.php?topic_id=$2&post_id=$3 last;
-    rewrite ^([^\.]*)/json/([0-9a-z_-]+)$ $1/json.php?action=$2 last;
-    rewrite ^([^\.]*)/login$ $1/login.php;
-    rewrite ^([^\.]*)/manage$ $1/manage.php;
-    rewrite ^([^\.]*)/new$ $1/new.php;
-    rewrite ^([^\.]*)/notifications$ $1/notifications.php;
-    rewrite ^([^\.]*)/oauth-([0-9]+)$ $1/oauth.php?app_id=$2 last;
-    rewrite ^([^\.]*)/page/([0-9]+)$ $1/index.php?page=$2 last;
-    rewrite ^([^\.]*)/register$ $1/register.php;
-    rewrite ^([^\.]*)/reply$ $1/reply.php;
-    rewrite ^([^\.]*)/reset_password/(.*?)$ $1/reset_password.php?access_token=$2 last;
-    rewrite ^([^\.]*)/robots.txt$ $1/robots.php;
-    rewrite ^([^\.]*)/search.xml$ $1/open_search.php;
-    rewrite ^([^\.]*)/search/(.*?)(/page/([0-9]*))?$ $1/search.php?keyword=$2&page=$4 last;
-    rewrite ^([^\.]*)/settings$ $1/settings.php;
-    rewrite ^([^\.]*)/sitemap-(topics|pages|tags|users|index)(-([0-9]+))?.xml$ $1/sitemap.php?action=$2&page=$4 last;
-    rewrite ^([^\.]*)/statistics$ $1/statistics.php;
-    rewrite ^([^\.]*)/t/([0-9]+)(-([0-9]*))?$ $1/topic.php?id=$2&page=$4 last;
-    rewrite ^([^\.]*)/tag/(.*?)(/page/([0-9]*))?$ $1/tag.php?name=$2&page=$4 last;
-    rewrite ^([^\.]*)/tags/following(/page/([0-9]*))?$ $1/favorite_tags.php?page=$3 last;
-    rewrite ^([^\.]*)/tags(/page/([0-9]*))?$ $1/tags.php?page=$3 last;
-    rewrite ^([^\.]*)/u/(.*?)$ $1/user.php?username=$2 last;
-    rewrite ^([^\.]*)/users/following(/page/([0-9]*))?$ $1/favorite_users.php?page=$3 last;
-    rewrite ^([^\.]*)/upload_controller$ $1/upload_controller.php;
-#QSA is automatic in nginx.
-    rewrite ^([^\.]*)/view-(desktop|mobile)$ $1/view.php?view=$2 last;
-
+    # rewrite
     location / {
-        # First attempt to serve request as file, then
-        # as directory, then fall back to displaying a 404.
-        try_files $uri $uri/ =404;
-        # Uncomment to enable naxsi on this location
-        # include /etc/nginx/naxsi.rules
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # Git folder vulnerability
+    location /.git {
+        deny all;
     }
 
     # Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests
