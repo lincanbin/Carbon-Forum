@@ -20,4 +20,3 @@ if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $RequestURI
 	header("Status: 404 Not Found");
 	echo 'Error: 404 NOT FOUND';
 }
-?>
