@@ -40,7 +40,7 @@ function CheckOpenID()
 		}
 	}
 }
-$AppID   = intval(Request('Get', 'app_id'));
+$AppID   = intval(Request('Request', 'app_id'));
 $AppInfo = $DB->row('SELECT * FROM ' . PREFIX . 'app WHERE ID=:ID', array(
 	'ID' => $AppID
 ));

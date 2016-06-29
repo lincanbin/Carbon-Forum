@@ -1,6 +1,6 @@
 <?php
 require(LanguagePath . 'home.php');
-$Page      = intval(Request('Get', 'page'));
+$Page      = intval(Request('Request', 'page'));
 $TotalPage = ceil($Config['NumTopics'] / $Config['TopicsPerPage']);
 if (($Page < 0 || $Page == 1) && !$IsApp) 
 	Redirect();

@@ -1,7 +1,4 @@
 <?php
-//error_reporting(0);
-require(__DIR__ . "../config.php");
-
 $digit       = 4; //验证码位数
 $digit_width = 55;// 单位验证码宽度
 $height      = 100;// 验证码高度

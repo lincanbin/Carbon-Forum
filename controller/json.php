@@ -1,7 +1,7 @@
 <?php
 SetStyle('api', 'API');
 
-switch (Request('Get', 'action')) {
+switch (Request('Request', 'action')) {
 	case 'get_notifications':
 		Auth(1);
 		header("Cache-Control: no-cache, must-revalidate");

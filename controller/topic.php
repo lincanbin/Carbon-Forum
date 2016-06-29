@@ -1,7 +1,7 @@
 <?php
 require(LanguagePath . 'topic.php');
-$ID   = intval($_GET['id']);
-$Page = intval(Request('Get', 'page'));
+$ID   = intval(Request('Request', 'id'));
+$Page = intval(Request('Request', 'page'));
 if ($MCache) {
 	$Topic = $MCache->get(MemCachePrefix . 'Topic_' . $ID);
 	if (!$Topic) {

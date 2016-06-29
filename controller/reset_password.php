@@ -1,6 +1,6 @@
 <?php
 require(LanguagePath . 'reset_password.php');
-$AccessToken      = base64_decode(Request('Get', 'access_token'));
+$AccessToken      = base64_decode(Request('Request', 'access_token'));
 $AccessTokenArray = $AccessToken ? explode('|', $AccessToken) : false;
 $Message          = '';
 if (count($AccessTokenArray) === 3) {

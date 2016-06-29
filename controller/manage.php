@@ -441,9 +441,9 @@ class Manage
 		if (extension_loaded('gd')) {
 			require(LibraryPath . "MaterialDesign.Avatars.class.php");
 			$Avatar = new MDAvtars(mb_substr($UserInfo['UserName'], 0, 1, "UTF-8"), 256);
-			$Avatar->Save('upload/avatar/large/' . $this->id . '.png', 256);
-			$Avatar->Save('upload/avatar/middle/' . $this->id . '.png', 48);
-			$Avatar->Save('upload/avatar/small/' . $this->id . '.png', 24);
+			$Avatar->Save(__DIR__ . '/../upload/avatar/large/' . $this->id . '.png', 256);
+			$Avatar->Save(__DIR__ . '/../upload/avatar/middle/' . $this->id . '.png', 48);
+			$Avatar->Save(__DIR__ . '/../upload/avatar/small/' . $this->id . '.png', 24);
 			$Avatar->Free();
 			$this->message = $this->lang['Reset_Avatar_Successfully'];
 		} else {

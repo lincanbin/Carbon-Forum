@@ -138,9 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 		if(extension_loaded('gd')){
 			require(LibraryPath . "MaterialDesign.Avatars.class.php");
 			$Avatar = new MDAvtars(mb_substr($UserName, 0, 1, "UTF-8"), 256);
-			$Avatar->Save('upload/avatar/large/' . $CurUserID . '.png', 256);
-			$Avatar->Save('upload/avatar/middle/' . $CurUserID . '.png', 48);
-			$Avatar->Save('upload/avatar/small/' . $CurUserID . '.png', 24);
+			$Avatar->Save(__DIR__ . '/../upload/avatar/large/' . $CurUserID . '.png', 256);
+			$Avatar->Save(__DIR__ . '/../upload/avatar/middle/' . $CurUserID . '.png', 48);
+			$Avatar->Save(__DIR__ . '/../upload/avatar/small/' . $CurUserID . '.png', 24);
 			$Avatar->Free();
 		}
 		if( !$IsApp ){
