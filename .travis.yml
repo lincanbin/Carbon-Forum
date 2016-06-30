@@ -14,13 +14,19 @@ matrix:
 services:
   - mysql
 
+addons:
+  hosts:
+    - local.94cb.com
+    - local-m.94cb.com
+    - local-api.94cb.com
+
 before_script:
   - chmod 777 -R ./
   - mysql -e "create database IF NOT EXISTS carbon;" -uroot
   # for Install
-  - php -S localhost:8080 &
+  - php -S 0.0.0.0:8080 &
   # Using a Router Script for Test
-  - php -S localhost:8090 index.php &
+  - php -S 0.0.0.0:8099 index.php &
 
 script:
   - php test-install

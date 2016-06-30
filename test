@@ -1,11 +1,95 @@
 <?php
-// 安装完后打印数据库信息
+define('TestHTTPPort', '8099');
+define('TestMainDomainName', 'local.94cb.com:' . TestHTTPPort);
+define('TestMobileDomainName', 'local-m.94cb.com:' . TestHTTPPort);
+define('TestAppDomainName', 'local-api.94cb.com:' . TestHTTPPort);
+$Failed = 0;
+
 require(__DIR__."/config.php");
 require(__DIR__."/library/PDO.class.php");
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
-foreach ($DB->query("show table status;") as $Table) {
-	echo sprintf("%020s | %05d | %32s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
+function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 200, $Callback = null)
+{
+	global $APISignature, $Failed;
+	$Pass = true;
+	echo "\n\033[33m --------$Method  $URL expect $ExpectedStatusCode-------- \033[0m\n\n";
+	switch ($View) {
+		case 'api':
+			$URL = "http://" . TestAppDomainName . $URL;
+			$Parameters['SKey'] = array_keys($APISignature)[0];
+			$Parameters['STime'] = time();
+			$Parameters['SValue'] = md5($Parameters['SKey'] . $APISignature[$Parameters['SKey']] . $Parameters['STime']);
+			break;
+		case 'mobile':
+			$URL = "http://" . TestMobileDomainName . $URL;
+			break;
+		default:
+			$URL = "http://" . TestMainDomainName . $URL;
+			break;
+	}
+	
+
+	//echo $URL . "\n";
+	//var_dump($Parameters);
+	if ($Method === 'GET') {
+		$URL .= '?' . http_build_query($Parameters);
+	}
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) CarbonForum/5.0");
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $Method); 
+	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($Parameters)); 
+	curl_setopt($ch, CURLOPT_URL, $URL);
+	$Response = curl_exec($ch);
+	$Info = curl_getinfo($ch);
+	curl_close($ch);
+	//var_dump($Response);
+	if ($Callback == null){
+		$Callback= function($Response, &$Pass) use ($View) {
+			if ($View === 'api') {
+				$Result = json_decode($Response, true);
+				var_dump($Result);
+				if ($Result['Status'] !== 1) {
+					$Pass = false;
+				}
+			}
+		};
+	}
+	$Callback($Response, $Pass);
+
+	if ($Info['http_code'] !== $ExpectedStatusCode){
+		$Pass = false;
+		echo "\n\033[31m expect $ExpectedStatusCode but got {$Info['http_code']}\033[0m\n";
+	}
+	if ($Pass === false) {
+		$Failed += 1;
+	} else {
+		echo "\n\033[32m passed\033[0m\n";
+	}
+	echo "\n\033[33m -------------------------------------------------------- \033[0m\n";
+	echo "\n\n\n\n\n\n\n";
 }
-// TODO
-exit(0);
+// 设置域名
+$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestMainDomainName . "' WHERE `ConfigName`='MainDomainName'");
+$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestMobileDomainName . "' WHERE `ConfigName`='MobileDomainName'");
+$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestAppDomainName . "' WHERE `ConfigName`='AppDomainName'");
+
+// 开始测试
+AutoTest('GET', 'api', '/', [], 200);
+AutoTest('GET', 'api', '/page/1', [], 200);
+// 安装完后打印数据库信息
+foreach ($DB->query("show table status;") as $Table) {
+	echo sprintf("%20s | %10d | %20s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
+}
+
+$DB->CloseConnection();
+
+if ($Failed === 0){
+	echo "\n\n\033[32m All passed \033[0m\n\n";
+	exit(0);
+} else {
+	echo "\n\n\033[31m $Failed failed \033[0m\n\n";
+	exit(1);
+}
