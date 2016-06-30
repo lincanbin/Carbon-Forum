@@ -78,7 +78,7 @@ $DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestAppDomainName .
 
 // 开始测试
 AutoTest('GET', 'api', '/', [], 200);
-AutoTest('GET', 'api', '/page/1', [], 200);
+AutoTest('GET', 'api', '/page/1', [], 302);
 // 安装完后打印数据库信息
 foreach ($DB->query("show table status;") as $Table) {
 	echo sprintf("%20s | %10d | %20s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
