@@ -3,6 +3,7 @@ define('TestHTTPPort', '8099');
 define('TestMainDomainName', 'local.94cb.com:' . TestHTTPPort);
 define('TestMobileDomainName', 'local-m.94cb.com:' . TestHTTPPort);
 define('TestAppDomainName', 'local-api.94cb.com:' . TestHTTPPort);
+$Passed = 0;
 $Failed = 0;
 
 require(__DIR__."/config.php");
@@ -11,7 +12,7 @@ $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
 function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 200, $Callback = null)
 {
-	global $APISignature, $Failed;
+	global $APISignature, $Passed, $Failed;
 	$Pass = true;
 	echo "\n\033[33m --------$Method  $URL expect $ExpectedStatusCode-------- \033[0m\n\n";
 	switch ($View) {
@@ -42,7 +43,12 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $Method); 
 	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($Parameters)); 
 	curl_setopt($ch, CURLOPT_URL, $URL);
+
+	$MicroTime = explode(' ', microtime());
+	$StartTime = $MicroTime[1] + $MicroTime[0];
 	$Response = curl_exec($ch);
+	$EndTime     = explode(' ', microtime());
+
 	$Info = curl_getinfo($ch);
 	curl_close($ch);
 	//var_dump($Response);
@@ -51,9 +57,11 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 			if ($View === 'api') {
 				$Result = json_decode($Response, true);
 				var_dump($Result);
-				if ($Result['Status'] !== 1) {
+				if ($Result === false || (!empty($Result) && $Result['Status'] !== 1)) {
 					$Pass = false;
 				}
+			} else {
+				var_dump(strip_tags($Response));
 			}
 		};
 	}
@@ -66,8 +74,10 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	if ($Pass === false) {
 		$Failed += 1;
 	} else {
+		$Passed += 1;
 		echo "\n\033[32m passed\033[0m\n";
 	}
+	echo "\n\033[36m " . (number_format(($EndTime[1] + $EndTime[0] - $StartTime), 6) * 1000) . "ms \033[0m\n";
 	echo "\n\033[33m -------------------------------------------------------- \033[0m\n";
 	echo "\n\n\n\n\n\n\n";
 }
@@ -77,8 +87,11 @@ $DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestMobileDomainNam
 $DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestAppDomainName . "' WHERE `ConfigName`='AppDomainName'");
 
 // 开始测试
+AutoTest('GET', 'api', '/404', [], 404);
+AutoTest('GET', 'pc', '/', [], 200);
 AutoTest('GET', 'api', '/', [], 200);
 //AutoTest('GET', 'api', '/page/1', [], 302);
+
 // 安装完后打印数据库信息
 foreach ($DB->query("show table status;") as $Table) {
 	echo sprintf("%20s | %10d | %20s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
@@ -86,10 +99,11 @@ foreach ($DB->query("show table status;") as $Table) {
 
 $DB->CloseConnection();
 
+echo "\n\n\033[32m $Passed passed \033[0m\n\n";
+
 if ($Failed === 0){
-	echo "\n\n\033[32m All passed \033[0m\n\n";
 	exit(0);
 } else {
-	echo "\n\n\033[31m $Failed failed \033[0m\n\n";
+	echo "033[31m $Failed failed \033[0m\n\n";
 	exit(1);
 }
