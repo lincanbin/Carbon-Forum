@@ -13,7 +13,7 @@ $InstallRequestParameter = array(
 	"SearchServer" => "",
 	"SearchPort" => ""
 );
-//$InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
+$InstallResponse = URL::Post("http://localhost:8080/install/index.php", $InstallRequestParameter);
 
 if (file_exists(__DIR__ . '/config.php')) {
 	$ConfigContent = file_get_contents(__DIR__ . '/config.php');
