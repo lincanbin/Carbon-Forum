@@ -56,12 +56,13 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 		$Callback= function($Response, &$Pass) use ($View) {
 			if ($View === 'api') {
 				$Result = json_decode($Response, true);
-				var_dump($Result);
-				if ($Result === false || (!empty($Result) && $Result['Status'] !== 1)) {
+				if ($Result === false) {
 					$Pass = false;
+				} else {
+					echo json_encode($Result, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) . "\n";
 				}
 			} else {
-				var_dump(implode("\n", array_filter(explode("\n", strip_tags($Response)), 'trim')));
+				echo implode("\n", array_filter(explode("\n", strip_tags($Response)), 'trim')) . "\n";
 			}
 		};
 	}
