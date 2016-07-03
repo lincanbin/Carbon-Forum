@@ -61,7 +61,7 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 					$Pass = false;
 				}
 			} else {
-				var_dump(strip_tags($Response));
+				var_dump(implode("\n", array_filter(explode("\n", strip_tags($Response)), 'trim')));
 			}
 		};
 	}
