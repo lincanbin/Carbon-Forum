@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		touch("../install/install.lock");
 	}
 } else {
-	if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+	if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 		$Message = '你的PHP版本过低，可能会无法正常使用！<br />Your PHP version is too low, it may not work properly!';
 	}
 	if (!extension_loaded('pdo_mysql')) {
