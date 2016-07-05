@@ -53,8 +53,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	fclose($fp) or die("Can’t close file");
 
 	//写入config文件
-	$ConfigPointer=fopen(__DIR__.'/config.tpl','r');
-	$ConfigBuffer=fread($ConfigPointer, filesize(__DIR__.'/config.tpl'));
+	$ConfigPointer = fopen(__DIR__.'/config.tpl','r');
+	$ConfigBuffer = fread($ConfigPointer, filesize(__DIR__.'/config.tpl'));
 	$ConfigBuffer = str_replace("{{Language}}",$Language,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBHost}}",$DBHost,$ConfigBuffer);
 	$ConfigBuffer = str_replace("{{DBName}}",$DBName,$ConfigBuffer);
@@ -96,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	
 }else{
-	if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+	if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 		$Message = '你的PHP版本过低，可能会无法正常使用！<br />Your PHP version is too low, it may not work properly!';
 
 	}

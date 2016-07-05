@@ -7,7 +7,7 @@ if (!in_array($HTTPMethod, array('GET', 'POST', 'HEAD', 'PUT', 'DELETE', 'OPTION
 }
 if ($Config['WebsitePath']) {
 	$WebsitePathPosition = strpos($RequestURI, $Config['WebsitePath']);
-	if ($WebsitePathPosition !== 1) {
+	if ($WebsitePathPosition !== 0) {
 		exit('WebsitePath Error!');
 	} else {
 		$ShortRequestURI = substr($RequestURI, strlen($Config['WebsitePath']));
