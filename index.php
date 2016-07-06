@@ -76,7 +76,7 @@ foreach ($Routes as $Method => $SubRoutes) {
 	if ($Method === $HTTPMethod) {
 		$ParametersVariableName = '_' . $Method;
 		foreach ($SubRoutes as $URL => $Controller) {
-			if (preg_match("#^" . $URL . "$#i", $RequestURI, $Parameters)) {
+			if (preg_match("#^" . $URL . "$#i", $ShortRequestURI, $Parameters)) {
 				$NotFound = false;
 				$Parameters = array_merge($Parameters, $HTTPParameters);
 				//var_dump($Parameters);
