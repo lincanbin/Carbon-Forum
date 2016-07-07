@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);
-require(__DIR__ . "../config.php");
+require(__DIR__ . "/config.php");
 session_start();
 //session_register('VerificationCode');
 $_SESSION[PREFIX . 'VerificationCode'] = '';
