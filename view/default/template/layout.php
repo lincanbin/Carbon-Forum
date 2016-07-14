@@ -1,7 +1,7 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 
-$LayoutPageTitle = ($CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'') . $PageTitle . ($UrlPath=='index'?'':' - '.$Config['SiteName']);
+$LayoutPageTitle = ($CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'') . $PageTitle . ($UrlPath=='home'?'':' - '.$Config['SiteName']);
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -103,7 +103,7 @@ if ( IsSSL() ) {
 	}
 	?>
 					<!--a href="<?php echo $Config['WebsitePath']; ?>/explore"<?php echo $UrlPath=='explore'?' class="buttons-active"':''; ?>>发现</a-->
-					<a href="<?php echo $Config['WebsitePath']; ?>/"<?php echo $UrlPath=='index'?' class="buttons-active"':''; ?>>
+					<a href="<?php echo $Config['WebsitePath']; ?>/"<?php echo $UrlPath=='home'?' class="buttons-active"':''; ?>>
 						<?php echo $Lang['Home']; ?>
 					</a>
 					</div>
