@@ -8,7 +8,7 @@ if(!$IsAjax){
 	<title><?php
 	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 	echo $PageTitle;
-	echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
+	echo $UrlPath=='home'?'':' - '.$Config['SiteName']; ?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<meta http-equiv="cleartype" content="on" />
@@ -172,7 +172,7 @@ foreach ($OauthData as $Value) {
 <title><?php
 	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
 	echo $PageTitle;
-	echo $UrlPath=='index'?'':' - '.$Config['SiteName']; ?></title>
+	echo $UrlPath=='home'?'':' - '.$Config['SiteName']; ?></title>
 <?php
 	include($ContentFile);
 	//Pjax
