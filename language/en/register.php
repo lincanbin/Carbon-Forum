@@ -10,5 +10,6 @@ $Lang = array_merge($Lang, array(
 	'VerificationCode_Error' => 'Verification Code Error',
 	'Email_Error' => 'E-mail does not comply with the rules, e-mail address in the correct format for abc@domain.com',
 	'UserName_Error' => 'Username does not conform to the rules. User name must be 4 to 20 characters, not all numbers, can include letters, numbers, Chinese, half-size symbol "_", "-"',
-	'Forms_Can_Not_Be_Empty' => 'Forms Can Not Be Empty'
+	'Forms_Can_Not_Be_Empty' => 'Forms Can Not Be Empty',
+	'Register_Closed' => 'Sorry, the site currently does not allow new user to register'
 	));

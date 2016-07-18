@@ -15,6 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 	$Password   = Request('Post', 'Password');
 	$VerifyCode = intval(Request('Post', 'VerifyCode'));
 	do{
+		if($Config['RegisterState'] == 'false') {
+			$Error = $Lang['Register_Closed'];
+			$ErrorCode = 104006;
+			break;
+		}
+		
 		if (!($UserName && $Email && $Password && $VerifyCode)) {
 			$Error = $Lang['Forms_Can_Not_Be_Empty'];
 			$ErrorCode = 104001;
@@ -155,6 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 }
 
 $DB->CloseConnection();
+if($Config['RegisterState'] == 'false') AlertMsg($Lang['Error_Message'], $Lang['Register_Closed'], 200);
 // 页面变量
 $PageTitle   = $Lang['Sign_Up'];
 $ContentFile = $TemplatePath . 'register.php';
