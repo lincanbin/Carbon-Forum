@@ -82,7 +82,7 @@ foreach ($Routes as $Method => $SubRoutes) {
 				//var_dump($Parameters);
 				foreach ($Parameters as $Key => $Value) {
 					if (!is_int($Key)) {
-						$$ParametersVariableName[$Key] = urldecode($Value);
+						${$ParametersVariableName}[$Key] = urldecode($Value);
 						$_REQUEST[$Key] = urldecode($Value);
 					}
 				}
