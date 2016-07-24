@@ -53,7 +53,7 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	curl_close($ch);
 	//var_dump($Response);
 	if ($Callback == null){
-		$Callback= function($Response, &$Pass) use ($View) {
+		$Callback = function($Response, &$Pass) use ($View) {
 			if ($View === 'api') {
 				$Result = json_decode($Response, true);
 				if ($Result === false) {
@@ -85,6 +85,7 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	echo "\n\033[36m " . (number_format(($EndTime[1] + $EndTime[0] - $StartTime), 6) * 1000) . "ms \033[0m\n";
 	echo "\n\033[33m -------------------------------------------------------- \033[0m\n";
 	echo "\n\n\n\n\n\n\n";
+	return json_decode($Response, true);
 }
 // 设置域名
 $DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestMainDomainName . "' WHERE `ConfigName`='MainDomainName'");
@@ -94,7 +95,7 @@ $DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestAppDomainName .
 // 开始测试
 AutoTest('GET', 'api', '/404', [], 404);
 AutoTest('GET', 'pc', '/', [], 200);
-AutoTest('GET', 'api', '/', [], 200);
+
 //Register Test
 $DB->query("DELETE FROM `" . PREFIX . "users` WHERE UserName = ?;", ['lincanbin_test']);
 $RegisterData = [
@@ -104,8 +105,36 @@ $RegisterData = [
 	'VerifyCode' => 1234
 ];
 AutoTest('POST', 'api', '/register', $RegisterData, 200);
-//AutoTest('GET', 'api', '/page/1', [], 302);
 
+//Log in Test
+$LoginData = [
+	'UserName' => 'lincanbin_test',
+	'Password' => md5('password+1s'),
+	'VerifyCode' => 1234
+];
+$UserAuthenticationArray = AutoTest('POST', 'api', '/login', $LoginData, 200);
+$UserAuthenticationParameters = [
+	'AuthUserID' => $UserAuthenticationArray['UserID'],
+	'AuthUserExpirationTime' => $UserAuthenticationArray['UserExpirationTime'],
+	'AuthUserCode' => $UserAuthenticationArray['UserCode']
+];
+
+// Create New Topic Test
+sleep(9);
+$NewData = array_merge($UserAuthenticationParameters, [
+	'Title' => 'The test was carried out by Canbin Lin.',
+	'Tag[]' => 'lincanbin',
+	'Content' => 'aaa<br \>bbb<p>ccc</p><script></script>'
+]);
+$LastestTopicInfo = AutoTest('POST', 'api', '/new', $NewData, 200);
+$LastestTopicID = $LastestTopicInfo['TopicID'];
+
+// Get the Topic Information and Replies Test
+AutoTest('GET', 'api', '/t/' . $LastestTopicID, [], 200);
+
+// Homepage
+AutoTest('GET', 'api', '/', [], 200);
+// AutoTest('GET', 'api', '/page/1', [], 302);
 // 安装完后打印数据库信息
 foreach ($DB->query("show table status;") as $Table) {
 	echo sprintf("%20s | %10d | %20s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
