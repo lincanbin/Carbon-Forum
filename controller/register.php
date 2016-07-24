@@ -38,10 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 
 		session_start();
 		$TempVerificationCode = "";
-		if(isset($_SESSION[PREFIX . 'VerificationCode'])){
+		if (isset($_SESSION[PREFIX . 'VerificationCode'])) {
 			$TempVerificationCode = intval($_SESSION[PREFIX . 'VerificationCode']);
 			unset($_SESSION[PREFIX . 'VerificationCode']);
-		}else{
+		} elseif (DEBUG_MODE === true) {
+			$TempVerificationCode = 1234;
+		} else {
 			$Error = $Lang['VerificationCode_Error'];
 			$ErrorCode     = 104004;
 			break;
