@@ -94,7 +94,6 @@ $DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestAppDomainName .
 
 // 开始测试
 AutoTest('GET', 'api', '/404', [], 404);
-AutoTest('GET', 'pc', '/', [], 200);
 
 //Register Test
 $DB->query("DELETE FROM `" . PREFIX . "users` WHERE UserName = ?;", ['lincanbin_test']);
@@ -142,7 +141,9 @@ AutoTest('GET', 'api', '/t/' . $LastestTopicID, [], 200);
 
 // Homepage
 AutoTest('GET', 'api', '/', [], 200);
+AutoTest('GET', 'pc', '/', [], 200);
 // AutoTest('GET', 'api', '/page/1', [], 302);
+
 // 安装完后打印数据库信息
 foreach ($DB->query("show table status;") as $Table) {
 	echo sprintf("%20s | %10d | %20s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
