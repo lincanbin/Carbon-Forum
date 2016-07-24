@@ -129,6 +129,14 @@ $NewData = array_merge($UserAuthenticationParameters, [
 $LastestTopicInfo = AutoTest('POST', 'api', '/new', $NewData, 200);
 $LastestTopicID = $LastestTopicInfo['TopicID'];
 
+// Reply to topic Test
+sleep(9);
+$ReplyData = array_merge($UserAuthenticationParameters, [
+	'TopicID' => $LastestTopicID,
+	'Content' => 'reply<br />aaa<br \>bbb<p>ccc</p><script></script>'
+]);
+$LastestTopicInfo = AutoTest('POST', 'api', '/reply', $ReplyData, 200);
+
 // Get the Topic Information and Replies Test
 AutoTest('GET', 'api', '/t/' . $LastestTopicID, [], 200);
 
