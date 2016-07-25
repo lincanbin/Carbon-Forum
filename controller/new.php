@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$Content   = Request('Post', 'Content');
 	$TagsArray = isset($_POST['Tag']) ? $_POST['Tag'] : array();
 	do {
-		if (($TimeStamp - $CurUserInfo['LastPostTime']) <= 8) { //发帖至少要间隔8秒
+		if (DEBUG_MODE === false && ($TimeStamp - $CurUserInfo['LastPostTime']) <= 8) { //发帖至少要间隔8秒
 			$Error     = $Lang['Posting_Too_Often'];
 			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
 			break;
