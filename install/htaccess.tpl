@@ -20,10 +20,10 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 
 	RewriteBase {{WebSitePath}}/
 	RewriteRule ^controller - [F,L]
-	RewriteRule ^includes - [F,L]
-	RewriteRule ^styles/default/template - [F,L]
-	RewriteRule ^styles/mobile/template - [F,L]
-	RewriteRule ^styles/api/template - [F,L]
+	RewriteRule ^library - [F,L]
+	RewriteRule ^view/default/template - [F,L]
+	RewriteRule ^view/mobile/template - [F,L]
+	RewriteRule ^view/api/template - [F,L]
 
 	# Redirect Trailing Slashes If Not A Folder...
 	RewriteCond %{REQUEST_FILENAME} !-d
