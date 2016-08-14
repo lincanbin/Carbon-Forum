@@ -103,6 +103,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if (! extension_loaded('pdo_mysql')) {
 		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
 	}
+	if (! extension_loaded('mbstring')) {
+		$Message = '你的PHP未编译mbstring，本程序无法正常工作<br />Your PHP don’t support mbstring extension, this program does not work! ';
+	}
+	if (! extension_loaded('curl')) {
+		$Message = '你的PHP未编译curl，本程序无法正常工作<br />Your PHP don’t support curl extension, this program does not work! ';
+	}
+	if (! extension_loaded('gd')) {
+		$Message = '你的PHP未编译gd，本程序无法正常工作<br />Your PHP don’t support gd extension, this program does not work! ';
+	}
 }
 
 //从文件中逐条取SQL
