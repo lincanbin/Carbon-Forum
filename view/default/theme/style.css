@@ -844,6 +844,7 @@ img .avatar {
 	max-width: 462px;
 }
 .member-detail p {
+	word-break:break-all;
 	color:#666;
 	font-size:15px;
 	line-height:20px;
