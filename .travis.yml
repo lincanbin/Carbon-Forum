@@ -30,5 +30,6 @@ before_script:
   - php -S 0.0.0.0:8099 index.php &
 
 script:
+  - find ./ -type f -print0 | while read -d $'\0' file; do if [ "${file##*.}" = "php" ]; then echo "Check $file"; php -l $file; fi; done
   - php test-install
   - php test
