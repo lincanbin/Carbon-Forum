@@ -41,6 +41,7 @@ $Routes['POST']['/manage']                                                      
 $Routes['GET']['/new']                                                                     = 'new';
 $Routes['POST']['/new']                                                                    = 'new';
 $Routes['GET']['/notifications']                                                           = 'notifications';
+$Routes['POST']['/notifications']                                                           = 'notifications'; //Delete later
 $Routes['GET']['/oauth-(?<app_id>[0-9]+)']                                                 = 'oauth';
 $Routes['POST']['/oauth-(?<app_id>[0-9]+)']                                                = 'oauth';
 $Routes['GET']['/page/(?<page>[0-9]+)']                                                    = 'home';
