@@ -6,7 +6,7 @@ A high performance open-source forum software written in PHP.
 
 ## Related Projects
 
-* [API Documentation](https://github.com/lincanbin/Carbon-Forum-API-Documentation)
+* [API Documentation](https://tflare.atlassian.net/wiki/spaces/CF) or [Backup](https://github.com/lincanbin/Carbon-Forum-API-Documentation)
 * [Android Client for Carbon Forum](https://github.com/lincanbin/Android-Carbon-Forum)
 
 ## Demo/Official Website
