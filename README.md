@@ -47,6 +47,22 @@ A high performance open-source forum software written in PHP.
 * Perfect draft saving mechanism. 
 * The modern Notification Center (currently supported and @ replies).
 
+## Donate for Carbon Forum
+
+* [Donation list](http://www.94cb.com/t/2465)
+
+* Alipay: 
+
+![Alipay](https://www.94cb.com/upload/donate_small.png)
+
+* Wechat: 
+
+![Wechat](https://www.94cb.com/upload/donate_weixin_small.png)
+
+* Paypal: 
+
+  https://www.paypal.me/lincanbin
+
 ## Contributors
 
 [Show all](https://github.com/lincanbin/Carbon-Forum/graphs/contributors)
