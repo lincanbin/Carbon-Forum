@@ -1,0 +1,36 @@
+<?php
+define('InternalAccess', true);
+$LanguageList = [];
+function RefreshLanguageList($input) {
+	global $LanguageList;
+	$language_name = explode("/", $input)[1];
+	if (!empty($language_name) && !in_array($language_name, $LanguageList)) 
+		$LanguageList[] = $language_name;
+}
+
+function ListDir($dir)
+{
+	
+	if (is_dir($dir)) {
+		if ($dh = opendir($dir)) {
+			while (($file = readdir($dh)) !== false) {
+				if ((is_dir($dir . "/" . $file)) && $file != "." && $file != "..") {
+					RefreshLanguageList($dir);
+					ListDir($dir . $file . "/");
+				} else {
+					if ($file != "." && $file != ".." && substr(strrchr($file, '.'), 1) == "php") {
+						$file_name = $dir . $file;
+						echo $file_name . "\n\n\n";
+						require($file_name);
+						// var_export($Lang);
+					}
+				}
+			}
+			closedir($dh);
+		}
+	}
+}
+
+
+ListDir("./");
+var_export($LanguageList);
