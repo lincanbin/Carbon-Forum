@@ -33,3 +33,5 @@ script:
   - find ./ -type f -print0 | while read -d $'\0' file; do if [ "${file##*.}" = "php" ]; then echo "Check $file"; php -l $file; echo "";  echo ""; fi; done
   - php test-install
   - php test
+  - cd language
+  - php auto_translate
