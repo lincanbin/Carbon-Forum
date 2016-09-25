@@ -41,11 +41,12 @@ $Routes['POST']['/manage']                                                      
 $Routes['GET']['/new']                                                                     = 'new';
 $Routes['POST']['/new']                                                                    = 'new';
 $Routes['GET']['/notifications']                                                           = 'notifications';
-$Routes['POST']['/notifications']                                                           = 'notifications'; //Delete later
+$Routes['POST']['/notifications']                                                          = 'notifications'; //Delete later
 $Routes['GET']['/oauth-(?<app_id>[0-9]+)']                                                 = 'oauth';
 $Routes['POST']['/oauth-(?<app_id>[0-9]+)']                                                = 'oauth';
 $Routes['GET']['/page/(?<page>[0-9]+)']                                                    = 'home';
 $Routes['POST']['/page/(?<page>[0-9]+)']                                                   = 'home'; //Delete later
+$Routes['GET']['/recycle-bin(/page/(?<page>[0-9]+))?']                                     = 'recycle_bin';
 $Routes['GET']['/register']                                                                = 'register';
 $Routes['POST']['/register']                                                               = 'register';
 $Routes['GET']['/reply']                                                                   = 'reply';
@@ -66,7 +67,7 @@ $Routes['GET']['/tags/following(/page/(?<page>[0-9]*))?']                       
 $Routes['GET']['/tags(/page/(?<page>[0-9]*))?']                                            = 'tags';
 $Routes['GET']['/u/(?<username>.*?)']                                                      = 'user';
 $Routes['GET']['/users/following(/page/(?<page>[0-9]*))?']                                 = 'favorite_users';
-$Routes['GET']['/upload_controller']                                                      = 'upload_controller';
+$Routes['GET']['/upload_controller']                                                       = 'upload_controller';
 $Routes['POST']['/upload_controller']                                                      = 'upload_controller';
 $Routes['GET']['/view-(?<view>desktop|mobile)']                                            = 'view';
 
