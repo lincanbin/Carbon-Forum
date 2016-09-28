@@ -45,7 +45,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		}
 		?>
 		<div class="pagination">
-			<?php PaginationSimplified('/users/following/page/', $Page, empty($PostsArray)); ?>
+			<?php PaginationSimplified('/users/following/page/', $Page, $IsLastPage); ?>
 			<div class="c"></div>
 		</div>
 	</div>

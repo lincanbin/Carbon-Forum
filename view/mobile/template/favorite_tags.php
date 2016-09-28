@@ -46,8 +46,11 @@ if($Topic['Replies']){
 		<div class="c"></div>
 	</li>
 <?php
-} 
+}
+if (!$IsLastPage) {
 ?>
 	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/tags/following/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
-
+<?php
+}
+?>
 </ul>

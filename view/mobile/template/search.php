@@ -50,7 +50,7 @@ foreach ($TopicsArray as $Topic) {
 	</li>
 <?php
 }
-if(!empty($TopicsArray)){
+if (!$IsLastPage) {
 ?>
 	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode($Keyword).'/page/'.($Page+1); ?>',false,false,'slide');" data-transition="slide" data-persist-ajax="false"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php

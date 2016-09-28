@@ -37,7 +37,11 @@ foreach($PostsArray as $key => $Post) {
 </div>
 <?php
 }
+if (!$IsLastPage) {
 ?>
 <ul class="list topic-list">
 	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
 </ul>
+<?php
+}
+?>

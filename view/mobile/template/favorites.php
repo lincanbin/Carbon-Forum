@@ -19,8 +19,10 @@ foreach ($TopicsArray as $Topic) {
 					
 <?php
 }
-if($Page<$TotalPage){
+if($Page < $TotalPage){
 ?>
 	<li><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/favorites/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
-<?php } ?>
+<?php
+}
+?>
 </ul>

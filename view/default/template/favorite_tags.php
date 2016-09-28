@@ -52,7 +52,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		}
 		?>
 		<div class="pagination">
-			<?php PaginationSimplified('/tags/following/page/', $Page, empty($TopicsArray)); ?>
+			<?php PaginationSimplified('/tags/following/page/', $Page, $IsLastPage); ?>
 			<div class="c"></div>
 		</div>
 	</div>

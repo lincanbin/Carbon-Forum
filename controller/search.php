@@ -82,7 +82,7 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 	require(LibraryPath . 'SearchClient.class.php');
 	try {
 		$finds = SearchClient::searchLike($Keyword, 'PostsIndexes' //关键字及索引
-			, ($Page - 1) * $Config['TopicsPerPage'], $Config['TopicsPerPage']
+			, ($Page - 1) * $Config['TopicsPerPage'], ($Config['TopicsPerPage'] +1)
 			, "" //过滤条件
 			, 'PostTime desc' //排序规则
 		);
@@ -148,19 +148,23 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 		$TopicsArray = $DB->query($SearchFields . ' 
 			WHERE ' . $SearchConditionQuery . ' 
 			ORDER BY LastTime DESC 
-			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . $Config['TopicsPerPage'], $SQLKeywordArray);
+			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . ($Config['TopicsPerPage'] + 1), $SQLKeywordArray);
 		if ($PostsSearch) {
 			foreach ($TopicsArray as &$Topic) {
 				$Topic['MinContent'] = strip_tags(mb_substr($Topic['Content'], 0, 300, 'utf-8'),'<p><br>');
 			}
 		}
 }
-/*
-if($Page == 1 && !$TopicsArray){
-AlertMsg('404 Not Found', '404 Not Found', 404);
-}
-*/
+
 $DB->CloseConnection();
+
+if (count($TopicsArray) > $Config['TopicsPerPage']) {
+    $IsLastPage = false;
+    array_pop($TopicsArray);
+} else {
+    $IsLastPage = true;
+}
+
 $PageTitle = $Lang['Search'] . ' ' . $Keyword . ' ';
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $ContentFile = $TemplatePath . 'search.php';

@@ -29,7 +29,7 @@ if (!$TopicsArray) {
 					FROM ' . PREFIX . 'topics force index(LastTime) 
 					WHERE IsDel=0 
 					ORDER BY LastTime DESC 
-					LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',1) 
+					LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', 1) 
 				and IsDel=0 
 			ORDER BY LastTime DESC 
 			LIMIT ' . $Config['TopicsPerPage']);

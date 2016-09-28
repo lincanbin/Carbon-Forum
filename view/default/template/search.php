@@ -86,7 +86,7 @@ endif
 		}
 		?>
 		<div class="pagination">
-			<?php PaginationSimplified('/search/'.$Keyword.'/page/', $Page, empty($TopicsArray)); ?>
+			<?php PaginationSimplified('/search/'.$Keyword.'/page/', $Page, $IsLastPage); ?>
 			<div class="c"></div>
 		</div>
 	</div>
