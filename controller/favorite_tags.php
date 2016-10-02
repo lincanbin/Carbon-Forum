@@ -17,6 +17,14 @@ if ($TagsFollowing)
             ORDER BY TopicID DESC 
             LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . ($Config['TopicsPerPage'] + 1),
         ArrayColumn($TagsFollowing, 'FavoriteID'));
+
+if (count($TopicIDArray) > $Config['TopicsPerPage']) {
+    $IsLastPage = false;
+    array_pop($TopicIDArray);
+} else {
+    $IsLastPage = true;
+}
+
 array_unique($TopicIDArray);
 $TopicsArray = array();
 if ($TopicIDArray)
@@ -26,14 +34,6 @@ if ($TopicIDArray)
             ORDER BY LastTime DESC',
         $TopicIDArray);
 $DB->CloseConnection();
-
-if (count($TopicsArray) > $Config['TopicsPerPage']) {
-    $IsLastPage = false;
-    array_pop($TopicsArray);
-} else {
-    $IsLastPage = true;
-}
-
 $PageTitle = $Lang['My_Following_Tags'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $ContentFile = $TemplatePath . 'favorite_tags.php';
