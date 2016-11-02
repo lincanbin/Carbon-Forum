@@ -2,7 +2,7 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai'); //设置中国时区
 $Message = '';
-$Version = '5.6.1';
+$Version = '5.8.0';
 define('DATABASE_PREFIX', 'carbon_');
 
 if (is_file('update.lock')) {
@@ -93,16 +93,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "app_user`");
 		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "app_users` (
-			  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			  `AppID` int(10) unsigned NOT NULL,
-			  `OpenID` varchar(64) NOT NULL,
-			  `AppUserName` varchar(50) CHARACTER SET utf8,
-			  `UserID` int(10) unsigned NOT NULL,
-			  `Time` int(10) unsigned NOT NULL,
-			  PRIMARY KEY (`ID`),
-			  KEY `Index` (`AppID`,`OpenID`),
-			  KEY `UserID` (`UserID`)
-			) DEFAULT CHARSET=utf8;");
+					  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+					  `AppID` int(10) unsigned NOT NULL,
+					  `OpenID` varchar(64) NOT NULL,
+					  `AppUserName` varchar(50) CHARACTER SET utf8,
+					  `UserID` int(10) unsigned NOT NULL,
+					  `Time` int(10) unsigned NOT NULL,
+					  PRIMARY KEY (`ID`),
+					  KEY `Index` (`AppID`,`OpenID`),
+					  KEY `UserID` (`UserID`)
+					) DEFAULT CHARSET=utf8;");
 	}
 	//当前版本低于3.6.0，需要进行的升级到3.6.0的升级操作
 	if (VersionCompare('3.6.0', $OldVersion)) {
@@ -110,6 +110,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` ADD INDEX `TotalPosts` (`IsEnabled`, `TotalPosts`)");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `Description` `Description` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;");
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CacheHotTags', '')");
+	}
+	//当前版本低于5.8.0，需要进行的升级到3.6.0的升级操作
+	if (VersionCompare('5.8.0', $OldVersion)) {
+		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "messages`;");
+		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "messages` (
+					  `ID` int(10) UNSIGNED NOT NULL,
+					  `UserID` int(10) UNSIGNED NOT NULL,
+					  `UserName` varchar(50) NOT NULL,
+					  `ReceiverID` int(11) UNSIGNED NOT NULL,
+					  `ReceiverName` varchar(50) NOT NULL,
+					  `Content` longtext NOT NULL,
+					  `Time` int(10) UNSIGNED NOT NULL,
+					  `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
+					  `IsPublish` int(10) UNSIGNED NOT NULL DEFAULT '0'
+					) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
+					  ADD PRIMARY KEY (`ID`),
+					  ADD KEY `ReceiverID` (`ReceiverID`),
+					  ADD KEY `SenderID` (`UserID`) USING BTREE;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
+					  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改

@@ -15,7 +15,7 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
-define('CARBON_FORUM_VERSION', '5.6.1');
+define('CARBON_FORUM_VERSION', '5.8.0');
 
 //Initialize timer
 $MicroTime = explode(' ', microtime());
@@ -458,7 +458,7 @@ function LogOut()
 
 
 //只有上一页下一页的分页
-function PaginationSimplified($PageUrl, $CurrentPage, $IsLastPage)
+function PaginationSimplified($PageUrl, $CurrentPage, $IsLastPage = false)
 {
 	global $Config, $Lang;
 	$PageUrl = $Config['WebsitePath'] . $PageUrl;
@@ -928,7 +928,6 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
 		}
 	}
-	//Using hash_equals() in the future
 	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . SALT), $CurUserCode)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];

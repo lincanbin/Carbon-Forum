@@ -167,17 +167,22 @@ CREATE TABLE `carbon_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `carbon_messages`;
 CREATE TABLE `carbon_messages` (
-  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `UserID` int(10) unsigned NOT NULL,
-  `UserName` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `Incept` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `Content` longtext CHARACTER SET utf8 NOT NULL,
-  `DateCreated` int(10) unsigned NOT NULL,
-  `ParentID` int(10) unsigned NOT NULL DEFAULT '0',
-  `IsPublish` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  KEY `UserMessage` (`UserName`) USING BTREE
-) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  `ID` int(10) UNSIGNED NOT NULL,
+  `UserID` int(10) UNSIGNED NOT NULL,
+  `UserName` varchar(50) NOT NULL,
+  `ReceiverID` int(11) UNSIGNED NOT NULL,
+  `ReceiverName` varchar(50) NOT NULL,
+  `Content` longtext NOT NULL,
+  `Time` int(10) UNSIGNED NOT NULL,
+  `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `IsPublish` int(10) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+ALTER TABLE `carbon_messages`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `ReceiverID` (`ReceiverID`),
+  ADD KEY `SenderID` (`UserID`) USING BTREE;
+ALTER TABLE `carbon_messages`
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 -- ----------------------------
 -- Table structure for carbon_notifications
