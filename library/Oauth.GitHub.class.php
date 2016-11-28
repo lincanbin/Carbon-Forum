@@ -25,12 +25,12 @@ class Oauth
 	
 	public static function AuthorizeURL($WebsitePath, $AppID, $AppKey, $SendState)
 	{
-		// http://open.weibo.com/wiki/Oauth2/authorize
+		// https://developer.github.com/v3/oauth_authorizations/
 		$RequestParameter = array(
 			'client_id' => $AppKey,
 			'redirect_uri' => $WebsitePath . '/oauth-' . $AppID,
 			'state' => $SendState,
-			'scope' => 'user'
+			'scope' => ''
 		);
 		return self::GET_AUTH_CODE_URL . '?' . http_build_query($RequestParameter);
 	}
