@@ -124,7 +124,7 @@ foreach (range(1, 50 + mt_rand(-15, 15)) as $i) {
 	$NewData = array_merge($UserAuthenticationParameters, [
 		'Title' => 'The test was carried out by Canbin Lin.' . $i,
 		'Tag[]' => 'lincanbin',
-		'Content' => $j . 'aaa<br \>bbb<p>ccc</p><script></script>'
+		'Content' => $i . 'aaa<br \>bbb<p>ccc</p><script></script>'
 	]);
 	$LastestTopicInfo = AutoTest('POST', 'api', '/new', $NewData, 200);
 	$LastestTopicID = $LastestTopicInfo['TopicID'];
@@ -144,8 +144,10 @@ AutoTest('GET', 'api', '/t/' . $LastestTopicID, [], 200);
 
 // Homepage
 AutoTest('GET', 'api', '/', [], 200);
-AutoTest('GET', 'pc', '/', [], 200);
 AutoTest('GET', 'api', '/page/2', [], 200);
+AutoTest('GET', 'pc', '/', [], 200);
+AutoTest('GET', 'pc', '/page/2', [], 200);
+
 
 // 安装完后打印数据库信息
 foreach ($DB->query("show table status;") as $Table) {
