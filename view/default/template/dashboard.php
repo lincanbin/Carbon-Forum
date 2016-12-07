@@ -144,6 +144,7 @@ $(document).ready(function(){
 						<select name="LoadJqueryUrl">
 							<option value="<?php echo $Config['LoadJqueryUrl']; ?>"><?php echo $Config['LoadJqueryUrl']; ?>  (Current)</option>
 							<option value="<?php echo $Config['WebsitePath']; ?>/static/js/jquery.js"><?php echo $Config['WebsitePath']; ?>/static/js/jquery.js  (Local)</option>
+							<option value="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js">cdn.bootcss.com/jquery/1.10.2/jquery.min.js  (Bootcss CDN)</option>
 							<option value="//lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js">lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js  (Sina CDN)</option>
 							<option value="//libs.baidu.com/jquery/1.10.2/jquery.min.js">libs.baidu.com/jquery/1.10.2/jquery.min.js  (Baidu CDN)</option>
 							<option value="//libs.useso.com/js/jquery/1.10.2/jquery.min.js">libs.useso.com/js/jquery/1.10.2/jquery.min.js  (Qihoo360 CDN)</option>
