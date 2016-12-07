@@ -15,7 +15,7 @@ foreach ($TagsFollowing as $Tag) {
 <?php
 if($Page>1){
 ?>
-	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/tags/following/page/<?php echo ($Page-1); ?>',false,false,'slide');"><?php echo $Lang['Page_Previous']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/tags/following/page/<?php echo ($Page-1); ?>"><?php echo $Lang['Page_Previous']; ?></a></li>
 <?php
 }
 foreach ($TopicsArray as $Topic) {
@@ -49,7 +49,7 @@ if($Topic['Replies']){
 }
 if (!$IsLastPage) {
 ?>
-	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/tags/following/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/tags/following/page/<?php echo ($Page+1); ?>"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php
 }
 ?>

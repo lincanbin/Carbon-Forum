@@ -14,7 +14,7 @@ foreach ($UsersFollowing as $User){
 if($Page>1){
 ?>
 <ul class="list topic-list">
-<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page-1); ?>',false,false,'slide');"><?php echo $Lang['Page_Previous']; ?></a></li>
+<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page-1); ?>"><?php echo $Lang['Page_Previous']; ?></a></li>
 </ul>
 <?php
 }
@@ -40,7 +40,7 @@ foreach($PostsArray as $key => $Post) {
 if (!$IsLastPage) {
 ?>
 <ul class="list topic-list">
-	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page+1); ?>',false,false,'slide');"><?php echo $Lang['Page_Next']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/users/following/page/<?php echo ($Page+1); ?>"><?php echo $Lang['Page_Next']; ?></a></li>
 </ul>
 <?php
 }

@@ -19,7 +19,7 @@ function KeywordHighlight($Content)
 <?php
 if($Page>1){
 ?>
-	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode($Keyword).'/page/'.($Page-1); ?>',false,false,'slide');" data-transition="slide"><?php echo $Lang['Page_Previous']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode($Keyword).'/page/'.($Page-1); ?>" data-transition="slide"><?php echo $Lang['Page_Previous']; ?></a></li>
 <?php
 }
 ?>
@@ -52,7 +52,7 @@ foreach ($TopicsArray as $Topic) {
 }
 if (!$IsLastPage) {
 ?>
-	<li class="pagination"><a href="JavaScript:$.ui.loadContent('<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode($Keyword).'/page/'.($Page+1); ?>',false,false,'slide');" data-transition="slide" data-persist-ajax="false"><?php echo $Lang['Page_Next']; ?></a></li>
+	<li class="pagination"><a href="<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode($Keyword).'/page/'.($Page+1); ?>" data-transition="slide" data-persist-ajax="false"><?php echo $Lang['Page_Next']; ?></a></li>
 <?php
 }
 ?>
