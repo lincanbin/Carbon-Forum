@@ -6,7 +6,7 @@ if(!$IsAjax){
 <html lang="<?php echo $Lang['Language']; ?>">
 <head>
 	<title><?php
-	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
+	echo $CurUserID && $CurUserInfo['NewNotification']?str_replace('{{NewMessage}}', $CurUserInfo['NewNotification'], $Lang['New_Message']):'';
 	echo $PageTitle;
 	echo $UrlPath=='home'?'':' - '.$Config['SiteName']; ?></title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -170,7 +170,7 @@ foreach ($OauthData as $Value) {
 }else{
 ?>
 <title><?php
-	echo $CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'';
+	echo $CurUserID && $CurUserInfo['NewNotification']?str_replace('{{NewMessage}}', $CurUserInfo['NewNotification'], $Lang['New_Message']):'';
 	echo $PageTitle;
 	echo $UrlPath=='home'?'':' - '.$Config['SiteName']; ?></title>
 <?php

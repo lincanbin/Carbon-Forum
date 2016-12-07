@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$TimeStamp,
 					0
 				));
-				$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMessage` = `NewMessage`+1 WHERE ID = :UserID', array(
+				$DB->query('UPDATE `' . PREFIX . 'users` SET `NewNotification` = `NewNotification`+1 WHERE ID = :UserID', array(
 					'UserID' => $Topic['UserID']
 				));
 				//清理内存缓存

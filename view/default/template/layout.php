@@ -1,7 +1,7 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 
-$LayoutPageTitle = ($CurUserID && $CurUserInfo['NewMessage']?str_replace('{{NewMessage}}', $CurUserInfo['NewMessage'], $Lang['New_Message']):'') . $PageTitle . ($UrlPath=='home'?'':' - '.$Config['SiteName']);
+$LayoutPageTitle = ($CurUserID && $CurUserInfo['NewNotification']?str_replace('{{NewMessage}}', $CurUserInfo['NewNotification'], $Lang['New_Message']):'') . $PageTitle . ($UrlPath=='home'?'':' - '.$Config['SiteName']);
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);

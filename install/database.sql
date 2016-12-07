@@ -383,6 +383,7 @@ CREATE TABLE `carbon_users` (
   `NumFavTags` int(10) unsigned DEFAULT '0',
   `NumFavTopics` int(10) unsigned DEFAULT '0',
   `NewMessage` int(10) unsigned DEFAULT '0',
+  `NewNotification` int(10) unsigned DEFAULT '0',
   `Topics` int(10) unsigned DEFAULT '0',
   `Replies` int(10) unsigned DEFAULT '0',
   `Followers` int(10) unsigned DEFAULT '0',

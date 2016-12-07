@@ -131,6 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					  ADD KEY `SenderID` (`UserID`) USING BTREE;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;");
+		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewNotification` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NewMessage`;");
+		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewNotification = NewMessage;");
+		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewMessage = 0;");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改

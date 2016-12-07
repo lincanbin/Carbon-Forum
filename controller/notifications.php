@@ -18,9 +18,9 @@ $MentionArray = $DB->query('SELECT n.ID as NID, n.Type, n.IsRead, p.ID, p.TopicI
 ));
 //Clear unread marks
 UpdateUserInfo(array(
-	'NewMessage' => 0
+	'NewNotification' => 0
 ));
-$CurUserInfo['NewMessage'] = 0;
+$CurUserInfo['NewNotification'] = 0;
 $DB->CloseConnection();
 // 页面变量
 $PageTitle   = $Lang['Notifications'];

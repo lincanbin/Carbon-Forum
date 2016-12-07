@@ -12,16 +12,16 @@ switch (Request('Request', 'action')) {
 			if ($MCache) {
 				$CurUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 				if ($CurUserInfo) {
-					$CurNewMessage = $CurUserInfo['NewMessage'];
+					$CurNewMessage = $CurUserInfo['NewNotification'];
 				} else {
 					$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 						"UserID" => $CurUserID
 					));
 					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
-					$CurNewMessage = $TempUserInfo['NewMessage'];
+					$CurNewMessage = $TempUserInfo['NewNotification'];
 				}
 			} else {
-				$CurNewMessage = $DB->single("SELECT NewMessage FROM " . PREFIX . "users WHERE ID = :UserID", array(
+				$CurNewMessage = $DB->single("SELECT NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
 					"UserID" => $CurUserID
 				));
 			}
