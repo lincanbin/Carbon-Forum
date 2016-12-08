@@ -21,6 +21,7 @@ $(document).ready(function(){
 		<li><?php echo $Lang['Advanced_Settings']; ?></li>
 		<li><?php echo $Lang['Oauth_Settings']; ?></li>
 		<li><?php echo $Lang['Refresh_Cache']; ?></li>
+		<li><?php echo $Lang['Recycle_Bin']; ?></li>
 	</ul>
 	<div class="resp-tabs-container">
 
@@ -255,6 +256,11 @@ if($OauthDataExist && $Config['MainDomainName']){
 			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard5">
 				<input type="hidden" name="Action" value="Statistics" />
 				<div class="div-align"><input type="submit" value="<?php echo $Lang['Refresh_All_Cache']; ?>(<?php echo $Lang['Statistics']; ?>)" name="submit" class="textbtn" /></div>
+			</form>
+		</div>
+		<div>
+			<form method="get" action="<?php echo $Config['WebsitePath']; ?>/recycle-bin">
+				<div class="div-align"><input type="submit" value="<?php echo $Lang['Recycle_Bin']; ?>" name="submit" class="textbtn" /></div>
 			</form>
 		</div>
 	</div>
