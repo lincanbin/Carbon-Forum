@@ -20,7 +20,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 
 	RewriteBase {{WebSitePath}}/
 	RewriteRule ^controller - [F,L]
-	RewriteRule ^library - [F,L]
+	#RewriteRule ^library - [F,L] #Uploader.config.json
 	RewriteRule ^view/default/template - [F,L]
 	RewriteRule ^view/mobile/template - [F,L]
 	RewriteRule ^view/api/template - [F,L]
