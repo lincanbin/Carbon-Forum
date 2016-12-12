@@ -2,11 +2,21 @@
 require(LanguagePath . 'user.php');
 $UserName = Request('Get', 'username');
 $UserInfo = array();
-$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users Where UserName=:UserName', array(
+if(preg_match('/^[0-9]{1,11}$/', $UserName)) {
+	$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE ID=:ID', array(
+		'ID' => $UserName
+	));
+	if (!empty($UserInfo)) {
+		Redirect('u/' . urlencode($UserInfo['UserName']));
+	}
+}
+
+$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE UserName=:UserName', array(
 	'UserName' => $UserName
 ));
 if (!$UserInfo)
 	AlertMsg('404 Not Found', '404 Not Found', 404);
+
 if ($CurUserID)
 	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites Where UserID=:UserID and Type=3 and FavoriteID=:FavoriteID", array(
 		'UserID' => $CurUserID,
