@@ -127,8 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  ADD PRIMARY KEY (`ID`),
-					  ADD KEY `ReceiverID` (`ReceiverID`),
-					  ADD KEY `SenderID` (`UserID`) USING BTREE;");
+					  ADD KEY `ReceiverID` (`ReceiverID`, `UserID`) USING BTREE;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;");
 		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewNotification` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NewMessage`;");
