@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$NewPassword2     = Request('Post', 'NewPassword2');
 			if (($OriginalPassword || $DoNotNeedOriginalPassword) && $NewPassword && $NewPassword2) {
 				if ($NewPassword == $NewPassword2) {
-					if (md5(md5($OriginalPassword) . $CurUserInfo['Salt']) === $CurUserInfo['Password'] || $DoNotNeedOriginalPassword) {
+					if (md5($OriginalPassword . $CurUserInfo['Salt']) === $CurUserInfo['Password'] || $DoNotNeedOriginalPassword) {
 						if ($OriginalPassword != $NewPassword || $DoNotNeedOriginalPassword) {
 							//$NewSalt = mt_rand(100000,999999);
 							//修改Salt会导致密码问题出错

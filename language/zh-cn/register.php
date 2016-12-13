@@ -10,5 +10,6 @@ $Lang = array_merge($Lang, array(
 	'VerificationCode_Error' => '验证码错误',
 	'Email_Error' => '电子邮箱不符合规则，电子邮箱正确格式为abc@domain.com',
 	'UserName_Error' => '用户名不符合规则。用户名为4-20个字符，不可全为数字，可以包括字母、数字、中文、半角符号“_”、“-”',
-	'Forms_Can_Not_Be_Empty' => '用户名、密码、验证码 必填'
+	'Forms_Can_Not_Be_Empty' => '用户名、密码、验证码 必填',
+	'Register_Closed' => '抱歉，目前站点不允许新用户注册'
 	));

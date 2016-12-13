@@ -464,6 +464,7 @@ INSERT INTO `carbon_config` VALUES ('SMTPPort', '587');
 INSERT INTO `carbon_config` VALUES ('SMTPAuth', 'true');
 INSERT INTO `carbon_config` VALUES ('SMTPUsername', 'user@example.com');
 INSERT INTO `carbon_config` VALUES ('SMTPPassword', 'secret');
+INSERT INTO `carbon_config` VALUES ('RegisterState', 'true');
 -- ----------------------------
 -- Records of carbon_roles
 -- ----------------------------

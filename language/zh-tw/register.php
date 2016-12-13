@@ -10,5 +10,6 @@ $Lang = array_merge($Lang, array(
 	'VerificationCode_Error' => '認證碼錯誤',
 	'Email_Error' => '信箱地址格式分析失敗，請確認其格式為 abc@domain.com',
 	'UserName_Error' => '使用者名稱不符合規則。使用者名稱為 4-20 個字元，不可全為數字，不可含有空白字元，可以包括字母、數字、中文、半形符號“_”、“-”',
-	'Forms_Can_Not_Be_Empty' => '使用者名稱、密碼、認證碼，均為必填欄位'
+	'Forms_Can_Not_Be_Empty' => '使用者名稱、密碼、認證碼，均為必填欄位',
+	'Register_Closed' => '抱歉，目前站點不允許新用戶註冊'
 	));
