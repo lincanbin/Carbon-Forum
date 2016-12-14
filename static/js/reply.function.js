@@ -33,8 +33,8 @@ function RenderTopic(){
 			if(a.host != location.host  || a.href.indexOf("upload/") != -1){
 				a.setAttribute("target","_blank");
 			}
-		};
-	};
+		}
+	}
 	//样式渲染需最后进行
 	uParse('.topic-content',{
 		'rootPath': WebsitePath + '/static/editor/',
@@ -126,7 +126,7 @@ function InitEditor(){
 				ReplyCtrlAndEnter(Event);
 			};
 			//console.log(EditorIframe[i].contentWindow.document);
-		};
+		}
 	}});
 	//编辑器外Ctrl + Enter提交回复
 	document.body.onkeydown = function(Event){
@@ -217,7 +217,7 @@ function DeleteTagCallback(TargetTag, TagName) {
 		} else {
 			$(TargetTag).text(TagName+" ×");
 		}
-	}
+	};
 }
 
 //管理
