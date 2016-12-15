@@ -44,7 +44,7 @@ if ( IsSSL() ) {
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-144x144-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
 	<link rel="shortcut icon" type="image/ico" href="<?php echo $Config['WebsitePath']; ?>/favicon.ico" />
-	<link href="<?php echo $Config['WebsitePath']; ?>/view/default/theme/style.css?version=<?php echo $Config['Version']; ?>" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $Config['WebsitePath']; ?>/static/css/default/style.css?version=<?php echo $Config['Version']; ?>" rel="stylesheet" type="text/css" />
 	<link rel="search" type="application/opensearchdescription+xml" title="<?php echo mb_substr($Config['SiteName'], 0, 15, 'utf-8'); ?>" href="<?php echo $Config['WebsitePath']; ?>/search.xml" />
 	<script type="text/javascript">
 	var Prefix="<?php echo PREFIX; ?>";

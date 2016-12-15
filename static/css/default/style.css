@@ -972,7 +972,7 @@ img .avatar {
 
 .icon {
 	display: inline-block;
-	background-image: url('img/icon.png');
+	background-image: url('../../img/default/icon.png');
 	background-size: 28px 308px;
 	width: 24px;
 	height: 24px;

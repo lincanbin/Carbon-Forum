@@ -149,7 +149,7 @@ function GetNextSQL() {
 	<meta charset="UTF-8" />
 	<meta content="True" name="HandheldFriendly" />
 	<title>Install - Carbon Forum</title>
-	<link href="../view/default/theme/style.css" rel="stylesheet" type="text/css" />
+	<link href="../static/css/default/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<!-- content wrapper start -->
