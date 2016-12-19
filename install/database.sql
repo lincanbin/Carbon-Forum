@@ -175,7 +175,7 @@ CREATE TABLE `carbon_messages` (
   `Content` longtext NOT NULL,
   `Time` int(10) UNSIGNED NOT NULL,
   `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `IsPublish` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `IsPublish` tinyint(3) unsigned NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ALTER TABLE `carbon_messages`
   ADD PRIMARY KEY (`ID`),

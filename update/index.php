@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					  `Content` longtext NOT NULL,
 					  `Time` int(10) UNSIGNED NOT NULL,
 					  `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
-					  `IsPublish` int(10) UNSIGNED NOT NULL DEFAULT '0'
+					  `IsPublish` tinyint(3) unsigned NOT NULL DEFAULT '1'
 					) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  ADD PRIMARY KEY (`ID`),

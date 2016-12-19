@@ -4,7 +4,7 @@ SetStyle('api', 'API');
 Auth(1);
 
 $Type = Request('GET', 'type', false);
-$Page = intval(Request('Request', 'page'));
+$Page = max(intval(Request('Request', 'page', 1)), 1);
 
 $ResultArray = array(
 	"Status" => 1
@@ -47,6 +47,18 @@ if ($Type === false || $Type === 'mention') {
 	}
 }
 
+if ($Type === false || $Type === 'inbox') {
+	$ResultArray['InboxArray'] = $DB->query('
+		SELECT * FROM ' . PREFIX . 'messages
+		WHERE ReceiverID = :ReceiverID AND IsPublish = :IsPublish
+		GROUP BY UserID 
+		ORDER BY Time DESC LIMIT :Offset, :Number', array(
+			'ReceiverID' => $CurUserID,
+			'IsPublish' => 1,
+			'Offset' => ($Page - 1) * $Config['TopicsPerPage'],
+			'Number' => $Config['TopicsPerPage']
+	));
+}
 //Clear unread marks
 UpdateUserInfo(array(
 	'NewNotification' => 0
