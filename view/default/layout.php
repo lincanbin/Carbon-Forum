@@ -51,7 +51,7 @@ if ( IsSSL() ) {
 	var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/global.js?version=<?php echo $Config['Version']; ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/default/global.js?version=<?php echo $Config['Version']; ?>"></script>
 	<script type="text/javascript">
 <?php if ($CurUserID) {
 	echo 'setTimeout(function() {GetNotification();}, 1);'; }

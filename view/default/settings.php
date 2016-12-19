@@ -11,7 +11,7 @@ $(document).ready(function(){
 		closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
 		activate: function() {}  // Callback function, gets called if tab is switched
 	});
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/account.function.js?version=<?php echo $Config['Version']; ?>",function() {});
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.function.js?version=<?php echo $Config['Version']; ?>",function() {});
 });
 </script>
 <div class="main-content">

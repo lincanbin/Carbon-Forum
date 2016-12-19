@@ -5,7 +5,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
 	var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile.new.function.js?version=<?php echo $Config['Version']; ?>", function() {
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/topic.function.js?version=<?php echo $Config['Version']; ?>", function() {
 		$.each(<?php echo json_encode(ArrayColumn($HotTagsArray, 'Name')); ?>,function(Offset,TagName) {
 			TagsListAppend(TagName, Offset);
 		});

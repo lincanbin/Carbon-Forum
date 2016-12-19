@@ -12,13 +12,9 @@ $(document).ready(function(){
 		closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
 		activate: function() {}  // Callback function, gets called if tab is switched
 	});
-/*<?php
-if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime'] > $ReplyArray[0]['PostTime']) ) ) ){
-?>
-	$(".resp-tab-item")[1].click();
-<?php
-}
-?>*/
+// if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime'] > $ReplyArray[0]['PostTime']) ) ) ){
+	//$(".resp-tab-item")[1].click();
+// }
 	loadMoreReply(true);
 	loadMoreMention(true);
 });

@@ -99,7 +99,7 @@ if($CurUserRole >= 3){
 ?>
 <script type="text/javascript">
 loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/jquery.async.uploader.js?version=<?php echo $Config['Version']; ?>",function(){
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/tag.function.js?version=<?php echo $Config['Version']; ?>",function(){
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/tag.function.js?version=<?php echo $Config['Version']; ?>",function(){
 	});
 });
 </script>
