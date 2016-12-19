@@ -97,17 +97,21 @@ AutoTest('GET', 'api', '/404', [], 404);
 
 //Register Test
 $DB->query("DELETE FROM `" . PREFIX . "users` WHERE UserName = ?;", ['lincanbin_test']);
-$RegisterData = [
-	'UserName' => 'lincanbin_test',
-	'Email' => 'lincanbin@hotmail.com',
-	'Password' => md5('password+1s'),
-	'VerifyCode' => 1234
-];
-AutoTest('POST', 'api', '/register', $RegisterData, 200);
+
+foreach (range(1, 15 + mt_rand(-5, 5)) as $i) {
+	$RegisterData = [
+		'UserName' => 'lincanbin_test' . $i,
+		'Email' => 'lincanbin' . $i . '@hotmail.com',
+		'Password' => md5('password+1s'),
+		'VerifyCode' => 1234
+	];
+	AutoTest('POST', 'api', '/register', $RegisterData, 200);
+}
+
 
 //Log in Test
 $LoginData = [
-	'UserName' => 'lincanbin_test',
+	'UserName' => 'lincanbin_test1',
 	'Password' => md5('password+1s'),
 	'VerifyCode' => 1234
 ];
@@ -123,7 +127,7 @@ foreach (range(1, 50 + mt_rand(-15, 15)) as $i) {
 	//sleep(9);
 	$NewData = array_merge($UserAuthenticationParameters, [
 		'Title' => 'The test was carried out by Canbin Lin.' . $i,
-		'Tag[]' => 'lincanbin',
+		'Tag[]' => 'lincanbin' . mt_rand(1, 5),
 		'Content' => $i . 'aaa<br \>bbb<p>ccc</p><script></script>'
 	]);
 	$LastestTopicInfo = AutoTest('POST', 'api', '/new', $NewData, 200);
