@@ -80,7 +80,7 @@ if ( IsSSL() ) {
 	if($CurUserID){
 	?>
 					<a href="<?php echo $Config['WebsitePath']; ?>/settings" title="<?php echo $Lang['Settings']; ?>"<?php echo $UrlPath=='settings'?' class="buttons-active"':''; ?>><div class="icon icon-settings"></div></a>
-					<a href="<?php echo $Config['WebsitePath']; ?>/notifications#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> onclick="javascript:ShowNotification(0);"><div class="icon icon-notifications"></div><span class="icon-messages-num" id="MessageNumber">0</span></a>
+					<a href="<?php echo $Config['WebsitePath']; ?>/notifications/list#notifications1" title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath=='notifications'?' class="buttons-active"':''; ?> onclick="javascript:ShowNotification(0);"><div class="icon icon-notifications"></div><span class="icon-messages-num" id="MessageNumber">0</span></a>
 	<?php
 	if($CurUserRole==5){
 	?>

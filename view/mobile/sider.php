@@ -26,7 +26,7 @@ if($CurUserID){
 		</a>
 	</li>
 	<li>
-		<a class="icon message" href="<?php echo $Config['WebsitePath']; ?>/notifications" data-refresh="true">
+		<a class="icon message" href="<?php echo $Config['WebsitePath']; ?>/notifications/list" data-refresh="true">
 			<?php echo $Lang['Notifications']; ?>
 			<span class="af-badge" id="MessageNumber" style="visibility:hidden;"><?php echo $CurUserInfo['NewNotification']; ?></span>
 		</a>

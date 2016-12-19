@@ -40,8 +40,9 @@ $Routes['POST']['/login']                                                       
 $Routes['POST']['/manage']                                                                 = 'manage';
 $Routes['GET']['/new']                                                                     = 'new';
 $Routes['POST']['/new']                                                                    = 'new';
-$Routes['GET']['/notifications']                                                           = 'notifications';
+$Routes['GET']['/notifications/list']                                                      = 'notifications_list';
 $Routes['POST']['/notifications']                                                          = 'notifications'; //Delete later
+$Routes['GET']['/notifications/(?<type>.*?)(/page/(?<page>[0-9]*))?']                      = 'notifications';
 $Routes['GET']['/oauth-(?<app_id>[0-9]+)']                                                 = 'oauth';
 $Routes['POST']['/oauth-(?<app_id>[0-9]+)']                                                = 'oauth';
 $Routes['GET']['/page/(?<page>[0-9]+)']                                                    = 'home';

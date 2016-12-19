@@ -12,6 +12,88 @@
  */
 
 
+/*
+// 当使用的jQuery CDN爆炸时，切换到当前服务器的jQuery备胎
+if (!window.jQuery) {
+	console.log('Switch to jQuery Backup.');
+	loadScript(WebsitePath + "/static/js/jquery.js",function(){
+		loadScript(WebsitePath + "/static/js/global.js",function(){});
+	});
+}
+*/
+
+
+function renderTemplate(template, list) {
+	var buffer = [];
+	var temp = '';
+	for (var i = 0; i < list.length - 1; i++) {
+		temp = template;
+		$.each(list[i], function(k, v) {
+			temp = temp.replace(new RegExp('{{' + k + '}}', 'g'), v);
+		});
+		buffer.push(temp);
+	}
+	return buffer.join("");
+}
+
+function loadMoreReply(forceToShow) {
+	var RepliedToMeList = $("#RepliedToMeList");
+	var RepliedToMePage = $("#RepliedToMePage");
+	var RepliedToMeLoading = $("#RepliedToMeLoading");
+
+	if (forceToShow || (RepliedToMeList.is(":visible") && RepliedToMeLoading.val() != "1")) {
+		RepliedToMeLoading.val("1");
+		$.ajax({
+			url: WebsitePath + '/notifications/reply/page/' + RepliedToMePage.val(),
+			type: 'GET',
+			dataType: 'json',
+			success: function(Result) {
+				RepliedToMeLoading.val("0");
+				if (Result.Status == 1) {
+					var Template = $("#RepliedToMePostTemplate").html();
+					RepliedToMeList.append(renderTemplate(Template, Result.ReplyArray));
+					RepliedToMePage.val(parseInt(RepliedToMePage.val()) + 1);
+					if (Result.ReplyArray.length === 0) {
+						RepliedToMeLoading.val("1");
+					}
+				}
+			},
+			error: function() {
+				RepliedToMeLoading.val("0");
+			}
+		});
+	}
+}
+
+function loadMoreMention(forceToShow) {
+	var MentionedMeList = $("#MentionedMeList");
+	var MentionedMePage = $("#MentionedMePage");
+	var MentionedMeLoading = $("#MentionedMeLoading");
+
+	if (forceToShow || (MentionedMeList.is(":visible") && MentionedMeLoading.val() != "1")) {
+		MentionedMeLoading.val("1");
+		$.ajax({
+			url: WebsitePath + '/notifications/mention/page/' + MentionedMePage.val(),
+			type: 'GET',
+			dataType: 'json',
+			success: function(Result) {
+				MentionedMeLoading.val("0");
+				if (Result.Status == 1) {
+					var Template = $("#MentionedMePostTemplate").html();
+					MentionedMeList.append(renderTemplate(Template, Result.MentionArray));
+					MentionedMePage.val(parseInt(MentionedMePage.val()) + 1);
+					if (Result.MentionArray.length === 0) {
+						MentionedMeLoading.val("1");
+					}
+				}
+			},
+			error: function() {
+				MentionedMeLoading.val("0");
+			}
+		});
+	}
+}
+
 $(function() {
 	//Button go to top
 	function SetButtonToTop() {
@@ -26,6 +108,23 @@ $(function() {
 			return false;
 		});
 	}
+
+	function loadNotificationsList() {
+		var url = window.document.location.pathname;
+		var endStr = '/notifications/list';
+		var d = url.length - endStr.length;
+		if (d >= 0 && url.lastIndexOf(endStr) == d) {
+			var top = $(this).scrollTop();
+			if (top + $(window).height() + 20 >= $(document).height() && top > 20) {
+				loadMoreReply(false);
+				loadMoreMention(false);
+				// console.log(top + ' ' + $(window).height() + '  ' + $(document).height());
+			}
+		} else {
+			return false;
+		}
+	}
+	
 	//Initialize position of button
 	SetButtonToTop();
 	$(window).scroll(function() {
@@ -36,6 +135,7 @@ $(function() {
 		} else if (top < 500 && g.is(":visible")) {
 			g.fadeOut();
 		}
+		loadNotificationsList();
 	});
 	$(window).resize(function() {
 		$("#go-to-top").css('left', (Math.max(document.body.clientWidth, 960) - 960) / 2 + 690);
@@ -113,6 +213,7 @@ function CheckUserNameExist() {
 	}
 }
 
+
 //获取实时信息通知
 function GetNotification() {
 	var NotificationSettings = {
@@ -168,7 +269,7 @@ function ShowNotification(NewMessageNumber) {
 						body: "",
 					});
 					CarbonNotification.onclick = function() {
-						window.open(document.location.protocol + "//" + location.host + WebsitePath + "/notifications#notifications1");
+						window.open(document.location.protocol + "//" + location.host + WebsitePath + "/notifications/list#notifications1");
 					};
 					//设置通知弹出的Unix时间戳，实现多网页同步，以防止多次弹出窗口。
 					if(window.localStorage){
