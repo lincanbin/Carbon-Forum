@@ -179,7 +179,7 @@ function PageAjaxLoad (Title, URL) {
 		slideout.close();
 		if (document.getElementById("ReturnUrl") != null) {
 			document.getElementById("ReturnUrl").value = URL;
-		};
+		}
 	}, 1);
 }
 
@@ -213,7 +213,7 @@ function GetNotification() {
 				$.ajax(NotificationSettings);
 			},
 			15000);
-		},
+		}
 	};
 	$.ajax(NotificationSettings);
 	console.log('start getting notification at ' + new Date().toLocaleString());
@@ -241,7 +241,7 @@ function ShowNotification(NewMessageNumber) {
 					// 弹出一个通知
 					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
 						icon: WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
-						body: "",
+						body: ""
 					});
 					CarbonNotification.onclick = function() {
 						window.open(document.location.protocol + "//" + location.host + WebsitePath + "/notifications/list#notifications1");

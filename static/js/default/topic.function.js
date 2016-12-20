@@ -83,7 +83,7 @@ function RenderTopic(){
 		};
 		for (var index = 0; index < postA.length; index++) {
 			var $element = $(postA[index]);
-			var postId = $element.attr("href").match(/#Post([0-9]+)/)
+			var postId = $element.attr("href").match(/#Post([0-9]+)/);
 			if (postId) {
 				postId = postId[1];
 				attach($element, postId);
