@@ -2,7 +2,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2006-2016 Canbin Lin (lincanbin@hotmail.com)
+ * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -477,8 +477,8 @@ function TopicParse() {
 					a.setAttribute("target","_blank");
 					a.setAttribute("data-ignore","true");
 				}
-			};
-		};
+			}
+		}
 		//样式渲染需最后进行
 		uParse('.card-content',{
 			'rootPath': WebsitePath + '/static/editor/',
