@@ -98,8 +98,8 @@ if($CurUserID){
 if($CurUserRole >= 3){
 ?>
 <script type="text/javascript">
-loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/jquery.async.uploader.js?version=<?php echo $Config['Version']; ?>",function(){
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/tag.function.js?version=<?php echo $Config['Version']; ?>",function(){
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/jquery.async.uploader.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/tag.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
 	});
 });
 </script>

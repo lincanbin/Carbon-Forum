@@ -193,13 +193,13 @@ if($TotalPage>1){
 if($Topic['IsLocked'] || (!$Topic['IsLocked'] && !$CurUserInfo)){
 ?>
 <script type="text/javascript">
-loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo $Config['Version']; ?>",function() {
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>", function(){
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function() {
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
 		RenderTopic();
 	});
 });
 </script>
-<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo $Config['Version']; ?>"></script>
+<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>"></script>
 <div class="ad">
 	<p><?php echo $Topic['IsLocked']?$Lang['Topic_Has_Been_Locked']:$Lang['Requirements_For_Login'];; ?></p>
 </div>
@@ -210,14 +210,14 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.functi
 <a name="reply"></a> 
 	<script type="text/javascript">
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo $Config['Version']; ?>",function() {
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function() {
 		InitNewTagsEditor();
-		loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>",function() {
-			loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>",function(){
-				loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>",function(){
+		loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function() {
+			loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
+				loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
 					$("#editor").empty();
 					InitEditor();
-					loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo $Config['Version']; ?>", function(){
+					loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
 						RenderTopic();
 					});
 				});

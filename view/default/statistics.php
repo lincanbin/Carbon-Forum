@@ -40,7 +40,7 @@ $(document).ready(function(){
 //预置数据
 var StatisticsData = <?php echo $DataJsonString; ?>;
 
-loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?version=<?php echo $Config['Version']; ?>",function() {
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/echarts/echarts.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function() {
 	//准备好数据
 	var TotalTopicsStatisticsData = [];
 	var DaysTopicsStatisticsData = [];

@@ -44,19 +44,19 @@ if ( IsSSL() ) {
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo $Config['WebsitePath']; ?>/static/img/apple-touch-icon-144x144-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="<?php echo $Config['WebsitePath']; ?>/static/img/retinahd_icon.png" />
 	<link rel="shortcut icon" type="image/ico" href="<?php echo $Config['WebsitePath']; ?>/favicon.ico" />
-	<link href="<?php echo $Config['WebsitePath']; ?>/static/css/default/style.css?version=<?php echo $Config['Version']; ?>" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $Config['WebsitePath']; ?>/static/css/default/style.css?version=<?php echo CARBON_FORUM_VERSION; ?>" rel="stylesheet" type="text/css" />
 	<link rel="search" type="application/opensearchdescription+xml" title="<?php echo mb_substr($Config['SiteName'], 0, 15, 'utf-8'); ?>" href="<?php echo $Config['WebsitePath']; ?>/search.xml" />
 	<script type="text/javascript">
 	var Prefix="<?php echo PREFIX; ?>";
 	var WebsitePath="<?php echo $Config['WebsitePath'];?>";
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
-	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/default/global.js?version=<?php echo $Config['Version']; ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/default/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>"></script>
 	<script type="text/javascript">
 <?php if ($CurUserID) {
 	echo 'setTimeout(function() {GetNotification();}, 1);'; }
 ?>
-	loadScript(WebsitePath + "/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo $Config['Version']; ?>",function(){});
+	loadScript(WebsitePath + "/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){});
 	</script>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
@@ -153,7 +153,7 @@ if(!$IsAjax){
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			<?php echo $Config['SiteName']; ?> Powered By © 2006-2016 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo $Config['Version']; ?>
+			<?php echo $Config['SiteName']; ?> Powered By © 2006-2016 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo CARBON_FORUM_VERSION; ?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/statistics"><?php echo $Lang['Statistics']; ?></a>
 			<br />
 <?php

@@ -2,7 +2,7 @@
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <script type="text/javascript">
-loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.function.js?version=<?php echo $Config['Version']; ?>",function() {});
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function() {});
 </script>
 <!-- main-content start -->
 <div class="main-content">

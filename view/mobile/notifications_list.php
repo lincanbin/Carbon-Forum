@@ -33,7 +33,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div id="RepliedToMeList"></div>
 <div id="MentionedMeList" style="display:none;"></div>
 <script type="text/javascript">
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/notifications.function.js?version=<?php echo $Config['Version']; ?>", function() {
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/notifications.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function() {
 		loadMoreReply(true);
 		loadMoreMention(true);
 		var _target = $(".panel.active[selected=true]");

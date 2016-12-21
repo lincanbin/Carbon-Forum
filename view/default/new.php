@@ -6,10 +6,10 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
 var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
 var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
-loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo $Config['Version']; ?>",function() {
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo $Config['Version']; ?>",function(){
-		loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo $Config['Version']; ?>",function(){
-			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/new.function.js?version=<?php echo $Config['Version']; ?>",function(){
+loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function() {
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
+		loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
+			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/new.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>",function(){
 				$("#editor").empty();
 				InitNewTopicEditor();
 				$.each(<?php echo json_encode(ArrayColumn($HotTagsArray, 'Name')); ?>,function(Offset,TagName) {
