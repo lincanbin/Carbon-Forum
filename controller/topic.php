@@ -2,22 +2,17 @@
 require(LanguagePath . 'topic.php');
 $ID   = intval(Request('Request', 'id'));
 $Page = intval(Request('Request', 'page'));
-if ($MCache) {
-	$Topic = $MCache->get(MemCachePrefix . 'Topic_' . $ID);
-	if (!$Topic) {
-		$Topic = $DB->row("SELECT * FROM " . PREFIX . "topics 
-			FORCE INDEX(PRI) 
-			WHERE ID=:ID", array(
-			'ID' => $ID
-		));
-		$MCache->set(MemCachePrefix . 'Topic_' . $ID, $Topic, 86400);
-	}
-} else {
+
+$Topic = $MCache ? $MCache->get(MemCachePrefix . 'Topic_' . $ID) : array();
+if (empty($Topic)) {
 	$Topic = $DB->row("SELECT * FROM " . PREFIX . "topics 
 		FORCE INDEX(PRI) 
 		WHERE ID=:ID", array(
 		'ID' => $ID
 	));
+	if ($MCache) {
+		$MCache->set(MemCachePrefix . 'Topic_' . $ID, $Topic, 86400);
+	}
 }
 
 if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
@@ -49,8 +44,8 @@ if ($CurUserID) {
 //更新浏览量
 if ($MCache) {
 	$TopicViews = $MCache->get(MemCachePrefix . 'Topic_Views_' . $ID);
-	//十天内攒满100次点击，Update一次数据库数据
-	if ($TopicViews && ($TopicViews - $Topic['Views']) >= 100) {
+	//30天内攒满200次点击，Update一次数据库数据
+	if ($TopicViews && ($TopicViews - $Topic['Views']) >= 200) {
 		$DB->query("UPDATE " . PREFIX . "topics 
 			FORCE INDEX(PRI) 
 			SET Views = :Views,LastViewedTime = :LastViewedTime Where ID=:ID", array(
@@ -62,7 +57,7 @@ if ($MCache) {
 		$MCache->delete(MemCachePrefix . 'Topic_' . $ID);
 	}
 	$Topic['Views'] = (($TopicViews) ? $TopicViews : $Topic['Views']) + 1;
-	$MCache->set(MemCachePrefix . 'Topic_Views_' . $ID, $Topic['Views'], 864000);
+	$MCache->set(MemCachePrefix . 'Topic_Views_' . $ID, $Topic['Views'], 86400 * 30);
 } else {
 	$DB->query("UPDATE " . PREFIX . "topics 
 		FORCE INDEX(PRI) 
