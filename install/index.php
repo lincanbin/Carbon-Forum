@@ -3,7 +3,7 @@ set_time_limit(0);
 //error_reporting(0); //don't show errors
 
 $Message = '';
-$Version = '5.8.0';
+$Version = '5.9.0';
 define('PREFIX', 'carbon_');
 if (function_exists('apache_get_modules') && !in_array('mod_rewrite', apache_get_modules())){
 	die("Apache用户请先开启mod_rewrite！<br>Please enable Apache mod_rewrite! ");

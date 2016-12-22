@@ -2,7 +2,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
+ * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -168,18 +168,18 @@ CREATE TABLE `carbon_log` (
 DROP TABLE IF EXISTS `carbon_messages`;
 CREATE TABLE `carbon_messages` (
   `ID` int(10) UNSIGNED NOT NULL,
-  `UserID` int(10) UNSIGNED NOT NULL,
-  `UserName` varchar(50) NOT NULL,
+  `SenderID` int(10) UNSIGNED NOT NULL,
+  `SenderName` varchar(50) NOT NULL,
   `ReceiverID` int(11) UNSIGNED NOT NULL,
   `ReceiverName` varchar(50) NOT NULL,
   `Content` longtext NOT NULL,
   `Time` int(10) UNSIGNED NOT NULL,
   `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `IsPublish` tinyint(3) unsigned NOT NULL DEFAULT '1'
+  `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ALTER TABLE `carbon_messages`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `ReceiverID` (`ReceiverID`, `UserID`) USING BTREE;
+  ADD KEY `ReceiverID` (`ReceiverID`, `SenderID`) USING BTREE;
 ALTER TABLE `carbon_messages`
   MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 

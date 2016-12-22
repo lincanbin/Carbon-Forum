@@ -50,11 +50,11 @@ if ($Type === false || $Type === 'mention') {
 if ($Type === false || $Type === 'inbox') {
 	$ResultArray['InboxArray'] = $DB->query('
 		SELECT * FROM ' . PREFIX . 'messages
-		WHERE ReceiverID = :ReceiverID AND IsPublish = :IsPublish
-		GROUP BY UserID 
+		WHERE ReceiverID = :ReceiverID AND IsDel = :IsDel
+		GROUP BY Sender
 		ORDER BY Time DESC LIMIT :Offset, :Number', array(
 			'ReceiverID' => $CurUserID,
-			'IsPublish' => 1,
+			'IsDel' => 0,
 			'Offset' => ($Page - 1) * $Config['TopicsPerPage'],
 			'Number' => $Config['TopicsPerPage']
 	));

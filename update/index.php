@@ -2,7 +2,7 @@
 set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai'); //设置中国时区
 $Message = '';
-$Version = '5.8.0';
+$Version = '5.9.0';
 define('DATABASE_PREFIX', 'carbon_');
 
 if (is_file('update.lock')) {
@@ -82,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 		}
 	}
+
 	//当前版本低于3.5.0，需要进行的升级到3.5.0的升级操作
 	if (VersionCompare('3.5.0', $OldVersion)) {
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PushConnectionTimeoutPeriod', '22')");
@@ -104,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					  KEY `UserID` (`UserID`)
 					) DEFAULT CHARSET=utf8;");
 	}
+
 	//当前版本低于3.6.0，需要进行的升级到3.6.0的升级操作
 	if (VersionCompare('3.6.0', $OldVersion)) {
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `IsEnabled` `IsEnabled` TINYINT(1) UNSIGNED NULL DEFAULT '1'");
@@ -111,28 +113,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `Description` `Description` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;");
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CacheHotTags', '')");
 	}
-	//当前版本低于5.8.0，需要进行的升级到3.6.0的升级操作
+
+	//当前版本低于5.8.0，需要进行的升级到5.8.0的升级操作
 	if (VersionCompare('5.8.0', $OldVersion)) {
+		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewNotification` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NewMessage`;");
+		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewNotification = NewMessage;");
+		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewMessage = 0;");
+	}
+
+	//当前版本低于5.9.0，需要进行的升级到5.9.0的升级操作
+	if (VersionCompare('5.9.0', $OldVersion)) {
 		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "messages`;");
 		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "messages` (
 					  `ID` int(10) UNSIGNED NOT NULL,
-					  `UserID` int(10) UNSIGNED NOT NULL,
-					  `UserName` varchar(50) NOT NULL,
+					  `SenderID` int(10) UNSIGNED NOT NULL,
+					  `SenderName` varchar(50) NOT NULL,
 					  `ReceiverID` int(11) UNSIGNED NOT NULL,
 					  `ReceiverName` varchar(50) NOT NULL,
 					  `Content` longtext NOT NULL,
 					  `Time` int(10) UNSIGNED NOT NULL,
 					  `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
-					  `IsPublish` tinyint(3) unsigned NOT NULL DEFAULT '1'
+					  `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0'
 					) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  ADD PRIMARY KEY (`ID`),
-					  ADD KEY `ReceiverID` (`ReceiverID`, `UserID`) USING BTREE;");
+					  ADD KEY `ReceiverID` (`ReceiverID`, `SenderID`) USING BTREE;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;");
-		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewNotification` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NewMessage`;");
-		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewNotification = NewMessage;");
-		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewMessage = 0;");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
