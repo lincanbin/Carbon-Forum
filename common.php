@@ -3,7 +3,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2006-2016 Canbin Lin (lincanbin@hotmail.com)
+ * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -15,7 +15,7 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
-define('CARBON_FORUM_VERSION', '5.8.0');
+define('CARBON_FORUM_VERSION', '5.9.0');
 
 //Initialize timer
 $MicroTime = explode(' ', microtime());
