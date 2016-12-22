@@ -456,7 +456,7 @@ INSERT INTO `carbon_config` VALUES ('PostsPerPage', '25');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');
-INSERT INTO `carbon_config` VALUES ('Version', '3.6.5');
+INSERT INTO `carbon_config` VALUES ('Version', '5.9.0');
 
 INSERT INTO `carbon_config` VALUES ('PushConnectionTimeoutPeriod', '22');
 INSERT INTO `carbon_config` VALUES ('SMTPHost', 'smtp1.example.com');

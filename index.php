@@ -83,6 +83,7 @@ $Routes['POST']['/upload_controller']                                           
 $Routes['GET']['/view-(?<view>desktop|mobile)']                                            = 'view';
 
 //这里是Routes End
+$UrlPath = 'home';
 $ParametersVariableName = '_' . $HTTPMethod;
 foreach ($Routes[$HTTPMethod] as $URL => $Controller) {
 	if (preg_match("#^" . $URL . "$#i", $ShortRequestURI, $Parameters)) {
