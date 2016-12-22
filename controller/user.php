@@ -2,7 +2,7 @@
 require(LanguagePath . 'user.php');
 $UserName = Request('Get', 'username');
 $UserInfo = array();
-if(preg_match('/^[0-9]{1,11}$/', $UserName)) {
+if(preg_match('/^[1-9][0-9]*$/', $UserName)) {
 	$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE ID=:ID', array(
 		'ID' => $UserName
 	));
