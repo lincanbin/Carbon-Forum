@@ -1,7 +1,7 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
-<h2 class="expanded" onclick="showHide(this,'TagDescription<?php echo $TagInfo['ID']; ?>');"><?php echo $TagInfo['Name']; ?></h2>
+<h2 class="expanded"><?php echo $TagInfo['Name']; ?></h2>
 <p id="TagDescription<?php echo $TagInfo['ID']; ?>">
 <?php
 if($CurUserID){
