@@ -20,7 +20,14 @@ $HTTPParameters = array();
 if (in_array($HTTPMethod, array('PUT', 'DELETE', 'OPTIONS'))) {
 	parse_str(file_get_contents('php://input'), $HTTPParameters);
 }
-$Routes = array();
+$Routes = array(
+	'GET' => array(),
+	'POST' => array(),
+	'HEAD' => array(),
+	'PUT' => array(),
+	'DELETE' => array(),
+	'OPTIONS' => array()
+);
 
 //Support HTTP Method: GET / POST / PUT / DELETE / OPTIONS
 //这里是Routes Start
@@ -33,6 +40,9 @@ $Routes['GET']['/favorites(/page/(?<page>[0-9]+))?']                            
 $Routes['GET']['/forgot']                                                                  = 'forgot';
 $Routes['POST']['/forgot']                                                                 = 'forgot';
 $Routes['GET']['/goto/(?<topic_id>[0-9]+)-(?<post_id>[0-9]+)']                             = 'goto';
+$Routes['GET']['/inbox/(?<username>.*?)']                                                  = 'inbox_show';
+$Routes['POST']['/inbox/(?<username>.*?)']                                                 = 'inbox_create';
+$Routes['DELETE']['/inbox/(?<username>.*?)/delete/(?<message_id>[0-9]+)']                  = 'inbox_delete';
 $Routes['POST']['/json/(?<action>[0-9a-z_\-]+)']                                           = 'json';
 $Routes['GET']['/json/(?<action>[0-9a-z_\-]+)']                                            = 'json';
 $Routes['GET']['/login']                                                                   = 'login';
@@ -73,28 +83,21 @@ $Routes['POST']['/upload_controller']                                           
 $Routes['GET']['/view-(?<view>desktop|mobile)']                                            = 'view';
 
 //这里是Routes End
-
-
-foreach ($Routes as $Method => $SubRoutes) {
-	if ($Method === $HTTPMethod) {
-		$ParametersVariableName = '_' . $Method;
-		foreach ($SubRoutes as $URL => $Controller) {
-			if (preg_match("#^" . $URL . "$#i", $ShortRequestURI, $Parameters)) {
-				$NotFound = false;
-				$Parameters = array_merge($Parameters, $HTTPParameters);
-				//var_dump($Parameters);
-				foreach ($Parameters as $Key => $Value) {
-					if (!is_int($Key)) {
-						${$ParametersVariableName}[$Key] = urldecode($Value);
-						$_REQUEST[$Key] = urldecode($Value);
-					}
-				}
-				//$MicroTime = explode(' ', microtime());
-				//echo number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
-				$UrlPath = $Controller;
-				break 2;
+$ParametersVariableName = '_' . $HTTPMethod;
+foreach ($Routes[$HTTPMethod] as $URL => $Controller) {
+	if (preg_match("#^" . $URL . "$#i", $ShortRequestURI, $Parameters)) {
+		$NotFound = false;
+		$Parameters = array_merge($Parameters, $HTTPParameters);
+		//var_dump($Parameters);
+		foreach ($Parameters as $Key => $Value) {
+			if (!is_int($Key)) {
+				${$ParametersVariableName}[$Key] = urldecode($Value);
+				$_REQUEST[$Key] = urldecode($Value);
 			}
 		}
+		//$MicroTime = explode(' ', microtime());
+		//echo number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
+		$UrlPath = $Controller;
 		break;
 	}
 }
