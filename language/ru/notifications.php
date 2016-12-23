@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Notifications_Replied_To_Me' => 'Ответил мне',
 	'Notifications_Mentioned_Me' => 'Напоминания мне',
+	'Inbox' => 'входящие',
 	'Replied_To_Topic' => 'ответил в теме',
 	'Mentioned_Me' => 'напоминания мне',
 	));
