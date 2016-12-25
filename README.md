@@ -72,7 +72,7 @@ A high performance open-source forum software written in PHP.
 ## License
 
 ``` 
-Copyright 2006-2016 Canbin Lin (lincanbin@hotmail.com)
+Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

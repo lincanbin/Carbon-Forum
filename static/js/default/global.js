@@ -2,7 +2,7 @@
  * Carbon-Forum
  * https://github.com/lincanbin/Carbon-Forum
  *
- * Copyright 2006-2015 Canbin Lin (lincanbin@hotmail.com)
+ * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
  * http://www.94cb.com/
  *
  * Licensed under the Apache License, Version 2.0:
@@ -96,7 +96,7 @@ function loadMoreMention(forceToShow) {
 
 $(function() {
 	//Button go to top
-	function SetButtonToTop() {
+	function setButtonToTop() {
 		//Force to refresh under pjax
 		$("#go-to-top").css('left', (Math.max(document.body.clientWidth, 960) - 960) / 2 + 690);
 		$("#go-to-top").unbind('click');
@@ -126,7 +126,7 @@ $(function() {
 	}
 	
 	//Initialize position of button
-	SetButtonToTop();
+	setButtonToTop();
 	$(window).scroll(function() {
 		var top = $(document).scrollTop();
 		var g = $("#go-to-top");
@@ -179,7 +179,7 @@ $(function() {
 	$(document).on('pjax:complete',
 	function() {
 		$('#progressBar').hide();
-		SetButtonToTop();
+		setButtonToTop();
 	});
 	//$(document).pjax('a', 'body');
 	//改变导航栏的点击CSS
