@@ -179,7 +179,8 @@ CREATE TABLE `carbon_messages` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ALTER TABLE `carbon_messages`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `ReceiverID` (`ReceiverID`, `SenderID`) USING BTREE;
+  ADD KEY `ReceiverID` (`ReceiverID`,`SenderID`) USING BTREE,
+  ADD KEY `SenderID` (`SenderID`,`ReceiverID`) USING BTREE;
 ALTER TABLE `carbon_messages`
   MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 

@@ -136,8 +136,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					  `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0'
 					) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
-					  ADD PRIMARY KEY (`ID`),
-					  ADD KEY `ReceiverID` (`ReceiverID`, `SenderID`) USING BTREE;");
+						ADD PRIMARY KEY (`ID`),
+						ADD KEY `ReceiverID` (`ReceiverID`,`SenderID`) USING BTREE,
+						ADD KEY `SenderID` (`SenderID`,`ReceiverID`) USING BTREE;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
 					  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;");
 	}
