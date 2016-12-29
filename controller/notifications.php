@@ -49,17 +49,14 @@ if ($Type === false || $Type === 'mention') {
 
 if ($Type === false || $Type === 'inbox') {
 	$ResultArray['InboxArray'] = $DB->query('
-		SELECT
-			*
-		FROM
+		SELECT * FROM
 			(
 					(SELECT
 						m1.SenderID AS ContactID,
 						m1.SenderName AS ContactName,
 						m1.Content,
 						m1.Time
-					FROM
-						' . PREFIX . 'messages m1
+					FROM ' . PREFIX . 'messages m1
 					WHERE
 						m1.ReceiverID = :ReceiverID
 					AND m1.IsDel = 0)
@@ -69,8 +66,7 @@ if ($Type === false || $Type === 'inbox') {
 						m2.ReceiverName AS ContactName,
 						m2.Content,
 						m2.Time
-					FROM
-						' . PREFIX . 'messages m2
+					FROM ' . PREFIX . 'messages m2
 					WHERE
 						m2.SenderID = :SenderID
 					AND m2.IsDel = 0)
@@ -80,11 +76,16 @@ if ($Type === false || $Type === 'inbox') {
 		ORDER BY
 			Time DESC
 		LIMIT :Offset, :Number', array(
-			'SenderID' => $CurUserID,
 			'ReceiverID' => $CurUserID,
+			'SenderID' => $CurUserID,
 			'Offset' => ($Page - 1) * $Config['TopicsPerPage'],
-			'Number' => $Config['TopicsPerPage']
+			'Number' => intval($Config['TopicsPerPage'])
 	));
+	foreach($ResultArray['InboxArray'] as $Key => $Message)
+	{
+		$ResultArray['InboxArray'][$Key]['FormatPostTime'] = FormatTime($Message['Time']);
+		$ResultArray['InboxArray'][$Key]['Content'] = strip_tags(mb_substr($Message['Content'], 0, 80, 'utf-8'),'<p><br><a>') . '……';
+	}
 }
 //Clear unread marks
 UpdateUserInfo(array(
