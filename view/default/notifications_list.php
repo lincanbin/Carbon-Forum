@@ -17,6 +17,7 @@ $(document).ready(function(){
 // }
 	loadMoreReply(true);
 	loadMoreMention(true);
+	loadMoreInbox(true);
 });
 </script>
 <script type="text/template" id="RepliedToMePostTemplate">
@@ -63,43 +64,25 @@ $(document).ready(function(){
 </div>
 </script>
 
-<script type="text/template" id="MessagetTemplate">
-<div class="comment-item">
+<script type="text/template" id="InboxTemplate">
+<div class="comment-item" style="border-bottom:none;">
 	<div class="comment-avatar">
-		<a href="/u/{{UserName}}">
-		<img src="/upload/avatar/middle/173.png" alt="lincanbin"/>			</a>
+		<a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}">
+		<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>			</a>
 	</div>
 	<div class="comment-data">
 		<div class="comment-content">
 			<div>
-				<div class="float-left text-bold fs14"><a href="/u/lincanbin">lincanbin</a></div>
+				<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}">{{ContactName}}</a></div>
 				<span class="float-right grey fs12">
-					4&nbsp;天前&nbsp;&nbsp;
+					{{FormatPostTime}}&nbsp;&nbsp;
 				</span>
 			</div>
-			<div class="c"></div>
+			<div class="c">
+			</div>
 			<div>
-				<p>回复<a href="/t/3393#Post21316">#12</a> @魅惑乐趣 :<br/></p><p>没什么必要截取内容，反正也要点进去看。<br/></p>				</div>
-		</div>
-		<div class="c"></div>
-	</div>
-	<div class="c"></div>
-</div>
-
-<div class="comment-item">
-	<div class="user-comment-data">
-		<div class="comment-content">
-		<span class="user-activity-title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/u/{{UserName}}">{{UserName}}</a>
-		&nbsp;&nbsp;<?php echo $Lang['Mentioned_Me']; ?>&nbsp;›&nbsp;
-		<a href="<?php echo $Config['WebsitePath']; ?>/goto/{{TopicID}}-{{ID}}#Post{{ID}}">{{Subject}}</a></span>
-			{{Content}}
-		</div>
-		
-		<div class="comment-data-date">
-			<div class="float-right">
-&laquo;&nbsp;&nbsp;{{FormatPostTime}}</div>
-			<div class="c"></div>
+				{{Content}}
+			</div>
 		</div>
 		<div class="c"></div>
 	</div>
