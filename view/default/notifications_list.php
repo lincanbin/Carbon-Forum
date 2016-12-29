@@ -80,9 +80,9 @@ $(document).ready(function(){
 			</div>
 			<div class="c">
 			</div>
-			<div>
+			<p>
 				{{Content}}
-			</div>
+			</p>
 		</div>
 		<div class="c"></div>
 	</div>
