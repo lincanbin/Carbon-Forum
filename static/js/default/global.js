@@ -94,6 +94,34 @@ function loadMoreMention(forceToShow) {
 	}
 }
 
+function loadMoreInbox(forceToShow) {
+	var InboxList = $("#InboxList");
+	var InboxPage = $("#InboxPage");
+	var InboxLoading = $("#InboxLoading");
+
+	if (forceToShow || (InboxList.is(":visible") && InboxLoading.val() != "1")) {
+		InboxLoading.val("1");
+		$.ajax({
+			url: WebsitePath + '/notifications/inbox/page/' + InboxPage.val(),
+			type: 'GET',
+			dataType: 'json',
+			success: function(Result) {
+				InboxLoading.val("0");
+				if (Result.Status == 1) {
+					var Template = $("#InboxTemplate").html();
+					InboxList.append(renderTemplate(Template, Result.InboxArray));
+					InboxPage.val(parseInt(InboxPage.val()) + 1);
+					if (Result.InboxArray.length === 0) {
+						InboxLoading.val("1");
+					}
+				}
+			},
+			error: function() {
+				InboxLoading.val("0");
+			}
+		});
+	}
+}
 $(function() {
 	//Button go to top
 	function setButtonToTop() {
@@ -118,6 +146,7 @@ $(function() {
 			if (top + $(window).height() + 20 >= $(document).height() && top > 20) {
 				loadMoreReply(false);
 				loadMoreMention(false);
+				loadMoreInbox(false);
 				// console.log(top + ' ' + $(window).height() + '  ' + $(document).height());
 			}
 		} else {
