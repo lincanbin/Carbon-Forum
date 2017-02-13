@@ -125,22 +125,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (VersionCompare('5.9.0', $OldVersion)) {
 		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "messages`;");
 		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "messages` (
-					  `ID` int(10) UNSIGNED NOT NULL,
-					  `SenderID` int(10) UNSIGNED NOT NULL,
-					  `SenderName` varchar(50) NOT NULL,
-					  `ReceiverID` int(11) UNSIGNED NOT NULL,
-					  `ReceiverName` varchar(50) NOT NULL,
-					  `Content` longtext NOT NULL,
-					  `Time` int(10) UNSIGNED NOT NULL,
-					  `ParentID` int(10) UNSIGNED NOT NULL DEFAULT '0',
-					  `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0'
-					) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
-						ADD PRIMARY KEY (`ID`),
-						ADD KEY `ReceiverID` (`ReceiverID`,`SenderID`) USING BTREE,
-						ADD KEY `SenderID` (`SenderID`,`ReceiverID`) USING BTREE;");
-		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "messages`
-					  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;");
+			  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+			  `InboxID` int(10) NOT NULL DEFAULT '0',
+			  `Content` longtext NOT NULL,
+			  `Time` int(10) unsigned NOT NULL,
+			  `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0',
+			  PRIMARY KEY (`ID`),
+			  KEY `Index` (`InboxID`,`Time`)
+			) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
