@@ -20,6 +20,9 @@ if ($Type === false || $Type === 'reply') {
 			'Offset' => ($Page - 1) * $Config['TopicsPerPage'],
 			'Number' => $Config['TopicsPerPage']
 	));
+	if (empty($ResultArray['ReplyArray'])) {
+		$ResultArray['ReplyArray'] = array();
+	}
 	foreach($ResultArray['ReplyArray'] as $Key => $Post)
 	{
 		$ResultArray['ReplyArray'][$Key]['PostFloor'] = -1;
@@ -39,6 +42,9 @@ if ($Type === false || $Type === 'mention') {
 			'Offset' => ($Page - 1) * $Config['TopicsPerPage'],
 			'Number' => $Config['TopicsPerPage']
 	));
+	if (empty($ResultArray['MentionArray'])) {
+		$ResultArray['MentionArray'] = array();
+	}
 	foreach($ResultArray['MentionArray'] as $Key => $Post)
 	{
 		$ResultArray['MentionArray'][$Key]['PostFloor'] = -1;
@@ -48,42 +54,24 @@ if ($Type === false || $Type === 'mention') {
 }
 
 if ($Type === false || $Type === 'inbox') {
-	$ResultArray['InboxArray'] = $DB->query('
-		SELECT * FROM
-			(
-					(SELECT
-						m1.SenderID AS ContactID,
-						m1.SenderName AS ContactName,
-						m1.Content,
-						m1.Time
-					FROM ' . PREFIX . 'messages m1
-					WHERE
-						m1.ReceiverID = :ReceiverID
-					AND m1.IsDel = 0)
-				UNION
-					(SELECT
-						m2.ReceiverID AS ContactID,
-						m2.ReceiverName AS ContactName,
-						m2.Content,
-						m2.Time
-					FROM ' . PREFIX . 'messages m2
-					WHERE
-						m2.SenderID = :SenderID
-					AND m2.IsDel = 0)
-			) t
-		GROUP BY
-			ContactID
-		ORDER BY
-			Time DESC
-		LIMIT :Offset, :Number', array(
-			'ReceiverID' => $CurUserID,
+	$ResultArray['InboxArray'] = $DB->query('SELECT ID, ReceiverID as ContactID, ReceiverName as ContactName, LastContent as Content, LastTime FROM carbon_inbox
+			WHERE SenderID = :SenderID
+		UNION
+		(SELECT ID, SenderID as ContactID, SenderName as ContactName, LastContent as Content, LastTime FROM carbon_inbox
+			WHERE ReceiverID = :ReceiverID)
+		ORDER BY LastTime DESC 
+		LIMIT :Offset, :Number;', array(
 			'SenderID' => $CurUserID,
+			'ReceiverID' => $CurUserID,
 			'Offset' => ($Page - 1) * $Config['TopicsPerPage'],
 			'Number' => intval($Config['TopicsPerPage'])
-	));
+		));
+	if (empty($ResultArray['InboxArray'])) {
+		$ResultArray['InboxArray'] = array();
+	}
 	foreach($ResultArray['InboxArray'] as $Key => $Message)
 	{
-		$ResultArray['InboxArray'][$Key]['FormatPostTime'] = FormatTime($Message['Time']);
+		$ResultArray['InboxArray'][$Key]['FormatPostTime'] = FormatTime($Message['LastTime']);
 		$ResultArray['InboxArray'][$Key]['Content'] = strip_tags(mb_substr($Message['Content'], 0, 80, 'utf-8'),'<p><br><a>') . '……';
 	}
 }

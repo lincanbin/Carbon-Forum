@@ -131,8 +131,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  `Time` int(10) unsigned NOT NULL,
 			  `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0',
 			  PRIMARY KEY (`ID`),
-			  KEY `Index` (`InboxID`,`Time`)
-			) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+			  KEY `Index` (`IsDel`,`InboxID`,`Time`) USING BTREE
+			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "inbox` (
+			`ID` int(10) NOT NULL AUTO_INCREMENT,
+			`SenderID` int(10) NOT NULL,
+			`SenderName` varchar(50) NOT NULL,
+			`ReceiverID` int(10) NOT NULL,
+			`ReceiverName` varchar(50) NOT NULL,
+			`LastContent` varchar(255) NOT NULL DEFAULT '',
+			`LastTime` int(10) NOT NULL DEFAULT '0',
+			PRIMARY KEY (`ID`),
+			KEY `DialogueID` (`LastTime`) USING BTREE,
+			KEY `SenderID` (`SenderID`,`ReceiverID`),
+			KEY `ReceiverID` (`ReceiverID`,`SenderID`)
+			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "app ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "app_users ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "blogs ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "blogsettings ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "config ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "dict ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "favorites ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "link ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "log ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "notifications ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "pictures ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "postrating ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "posts ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "posttags ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "roles ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "statistics ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "topics ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "upload ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users ENGINE=InnoDB;");
+		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "vote ENGINE=InnoDB;");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
