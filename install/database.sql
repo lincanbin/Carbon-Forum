@@ -144,7 +144,7 @@ CREATE TABLE `carbon_inbox` (
   KEY `DialogueID` (`LastTime`) USING BTREE,
   KEY `SenderID` (`SenderID`,`ReceiverID`),
   KEY `ReceiverID` (`ReceiverID`,`SenderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;WW
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for carbon_link
