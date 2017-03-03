@@ -65,7 +65,7 @@ $(document).ready(function(){
 </script>
 
 <script type="text/template" id="InboxTemplate">
-<div class="comment-item" style="border-bottom:none;">
+<div class="comment-item">
 	<div class="comment-avatar">
 		<a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}">
 		<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>			</a>
