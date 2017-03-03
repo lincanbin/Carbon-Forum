@@ -1,8 +1,8 @@
 <?php
 header("Content-Type: text/xml");
 $Action = Request('POST','action',false);
-$Page = intval($_GET['page']);
-$CurHost = $CurProtocol . $_SERVER['HTTP_HOST'].$Config['WebsitePath'];
+$Page = intval(Request('POST','page',1));
+$CurHost = $CurProtocol . $_SERVER['HTTP_HOST'] . $Config['WebsitePath'];
 $ItemPerSitemap  = 30000;
 /*
 Google crawlers
@@ -44,7 +44,7 @@ switch ($Action) {
 	case 'topics':
 	?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"<?php echo $XMLNameSpace; ?>>
-	<?php if($Page==1){ ?>
+	<?php if($Page == 1){ ?>
 	<url>
 		<loc><?php echo $CurHost.'/'; ?></loc>
 		<?php echo $MobileTag; ?>
