@@ -31,6 +31,7 @@ define('SearchPort', '{{SearchPort}}');
 
 define('LanguagePath', __DIR__ . '/language/' . ForumLanguage . '/');
 define('LibraryPath', __DIR__ . '/library/');
+define('ServicePath', __DIR__ . '/service/');
 
 // API checking data
 // List<Map<String APIKey, String APISecret>>
