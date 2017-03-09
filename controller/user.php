@@ -8,6 +8,8 @@ if(preg_match('/^[1-9][0-9]*$/', $UserName)) {
 	));
 	if (!empty($UserInfo)) {
 		Redirect('u/' . urlencode($UserInfo['UserName']));
+	} else {
+		AlertMsg('404 Not Found', '404 Not Found', 404);
 	}
 }
 
