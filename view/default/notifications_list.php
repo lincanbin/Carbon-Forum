@@ -81,7 +81,7 @@ $(document).ready(function(){
 			<div class="c">
 			</div>
 			<p>
-				{{Content}}
+				<a href="<?php echo $Config['WebsitePath']; ?>/inbox/{{ID}}">{{Content}}</a>
 			</p>
 		</div>
 		<div class="c"></div>
