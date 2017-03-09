@@ -911,6 +911,7 @@ if ($Config['DaysDate'] != $CurrentDate) {
 $CurUserInfo           = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
 $CurUserRole           = 0;
 $CurUserID             = intval(GetCookie('UserID'));
+$CurUserName           = '';
 $CurUserExpirationTime = intval(GetCookie('UserExpirationTime'));
 $CurUserCode           = GetCookie('UserCode');
 
