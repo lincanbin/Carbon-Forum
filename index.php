@@ -40,8 +40,8 @@ $Routes['GET']['/favorites(/page/(?<page>[0-9]+))?']                            
 $Routes['GET']['/forgot']                                                                  = 'forgot';
 $Routes['POST']['/forgot']                                                                 = 'forgot';
 $Routes['GET']['/goto/(?<topic_id>[0-9]+)-(?<post_id>[0-9]+)']                             = 'goto';
-$Routes['GET']['/inbox/(?<inbox_id>.*?)']                                                  = 'inbox_show';
-$Routes['GET']['/inbox/(?<inbox_id>.*?)/list(/page/(?<page>[0-9]*))?']                     = 'inbox_list';
+$Routes['GET']['/inbox/(?<inbox_id>.*?)/list(/page/(?<page>[0-9]*))?']                     = 'inbox_show';
+$Routes['GET']['/inbox/(?<inbox_id>.*?)']                                                  = 'inbox_view';
 $Routes['POST']['/inbox/(?<inbox_id>.*?)']                                                 = 'inbox_create';
 $Routes['DELETE']['/inbox/(?<inbox_id>.*?)/delete/(?<message_id>[0-9]+)']                  = 'inbox_delete';
 $Routes['POST']['/json/(?<action>[0-9a-z_\-]+)']                                           = 'json';
