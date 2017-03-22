@@ -187,6 +187,7 @@ DROP TABLE IF EXISTS `carbon_messages`;
 CREATE TABLE `carbon_messages` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `InboxID` int(10) NOT NULL DEFAULT '0',
+  `UserID` int(10) NOT NULL DEFAULT '0',
   `Content` longtext NOT NULL,
   `Time` int(10) unsigned NOT NULL,
   `IsDel` tinyint(3) unsigned NOT NULL DEFAULT '0',
