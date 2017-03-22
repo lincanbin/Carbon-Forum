@@ -14,7 +14,7 @@
 function renderTemplate(template, list) {
 	var buffer = [];
 	var temp = '';
-	for (var i = 0; i < list.length - 1; i++) {
+	for (var i = 0; i < list.length; i++) {
 		temp = template;
 		$.each(list[i], function(k, v) {
 			temp = temp.replace(new RegExp('{{' + k + '}}', 'g'), v);

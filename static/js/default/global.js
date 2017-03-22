@@ -24,9 +24,10 @@ if (!window.jQuery) {
 
 
 function renderTemplate(template, list) {
+
 	var buffer = [];
 	var temp = '';
-	for (var i = 0; i < list.length - 1; i++) {
+	for (var i = 0; i < list.length; i++) {
 		temp = template;
 		$.each(list[i], function(k, v) {
 			temp = temp.replace(new RegExp('{{' + k + '}}', 'g'), v);
@@ -122,6 +123,41 @@ function loadMoreInbox(forceToShow) {
 		});
 	}
 }
+
+function loadMoreMessages(forceToShow) {
+	var MessagesList = $("#MessagesList");
+	var InboxID = $("#InboxID").val();
+	var MessagesPage = $("#MessagesPage");
+	var MessagesLoading = $("#MessagesLoading");
+
+	if (forceToShow || MessagesLoading.val() != "1") {
+		MessagesLoading.val("1");
+		$.ajax({
+			url: WebsitePath + '/inbox/' + InboxID + '/list/page/' + MessagesPage.val(),
+			type: 'GET',
+			dataType: 'json',
+			success: function(Result) {
+				MessagesLoading.val("0");
+				if (Result.Status == 1) {
+					var Template = $("#MessageTemplate").html();
+					for (var i = Result.MessagesArray.length - 1; i >= 0; i--) {
+						Result.MessagesArray[i]['Position'] = Result.MessagesArray[i]['IsMe'] ? 'right' : 'left';
+					}
+					MessagesList.append(renderTemplate(Template, Result.MessagesArray));
+					console.log(Result.MessagesArray);
+					MessagesPage.val(parseInt(MessagesPage.val()) + 1);
+					if (Result.MessagesArray.length === 0) {
+						MessagesLoading.val("1");
+					}
+				}
+			},
+			error: function() {
+				MessagesLoading.val("0");
+			}
+		});
+	}
+}
+
 $(function() {
 	//Button go to top
 	function setButtonToTop() {
@@ -135,27 +171,37 @@ $(function() {
 			400);
 			return false;
 		});
+
+		isNotificationPage = isUrlEndWith('/notifications/list');
+		isInboxPage = (new RegExp("/inbox/[0-9]+$")).test(window.document.location.pathname);
+	}
+
+	function isUrlEndWith(endStr) {
+		var url = window.document.location.pathname;
+		var d = url.length - endStr.length;
+		return d >= 0 && url.lastIndexOf(endStr) == d;
 	}
 
 	function loadNotificationsList() {
-		var url = window.document.location.pathname;
-		var endStr = '/notifications/list';
-		var d = url.length - endStr.length;
-		if (d >= 0 && url.lastIndexOf(endStr) == d) {
-			var top = $(this).scrollTop();
-			if (top + $(window).height() + 20 >= $(document).height() && top > 20) {
-				loadMoreReply(false);
-				loadMoreMention(false);
-				loadMoreInbox(false);
-				// console.log(top + ' ' + $(window).height() + '  ' + $(document).height());
-			}
-		} else {
-			return false;
+		var top = $(this).scrollTop();
+		if (top + $(window).height() + 20 >= $(document).height() && top > 20) {
+			loadMoreReply(false);
+			loadMoreMention(false);
+			loadMoreInbox(false);
 		}
 	}
 	
+	function loadMessagesList() {
+		var top = $(this).scrollTop();
+		if (top + $(window).height() + 20 >= $(document).height() && top > 20) {
+			loadMoreMessages(false);
+		}
+	}
+
 	//Initialize position of button
 	setButtonToTop();
+	var isNotificationPage = isUrlEndWith('/notifications/list');
+	var isInboxPage = (new RegExp("/inbox/[0-9]+$")).test(window.document.location.pathname);
 	$(window).scroll(function() {
 		var top = $(document).scrollTop();
 		var g = $("#go-to-top");
@@ -164,7 +210,12 @@ $(function() {
 		} else if (top < 500 && g.is(":visible")) {
 			g.fadeOut();
 		}
-		loadNotificationsList();
+		if (isNotificationPage) {
+			loadNotificationsList();
+		}
+		if (isInboxPage) {
+			loadMessagesList();
+		}
 	});
 	$(window).resize(function() {
 		$("#go-to-top").css('left', (Math.max(document.body.clientWidth, 960) - 960) / 2 + 690);

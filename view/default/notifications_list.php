@@ -12,9 +12,6 @@ $(document).ready(function(){
 		closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
 		activate: function() {}  // Callback function, gets called if tab is switched
 	});
-// if($MentionArray && (!$ReplyArray || ($ReplyArray && ($MentionArray[0]['PostTime'] > $ReplyArray[0]['PostTime']) ) ) ){
-	//$(".resp-tab-item")[1].click();
-// }
 	loadMoreReply(true);
 	loadMoreMention(true);
 	loadMoreInbox(true);
@@ -68,7 +65,8 @@ $(document).ready(function(){
 <div class="comment-item">
 	<div class="comment-avatar">
 		<a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}">
-		<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>			</a>
+			<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>
+		</a>
 	</div>
 	<div class="comment-data">
 		<div class="comment-content">
