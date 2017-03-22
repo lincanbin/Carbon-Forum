@@ -151,7 +151,7 @@ if(!$IsAjax){
 		<div class="c"></div>
 
 		<!-- footer start -->
-		<div class="Copyright">
+		<div class="copyright">
 			<p>
 			<?php echo $Config['SiteName']; ?> Powered By © 2006-2016 <a href="http://www.94cb.com" target="_blank">Carbon Forum</a> V<?php echo CARBON_FORUM_VERSION; ?>
 			<a href="<?php echo $Config['WebsitePath']; ?>/statistics"><?php echo $Lang['Statistics']; ?></a>

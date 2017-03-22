@@ -632,7 +632,7 @@ img .avatar {
 	height:60px;
 	float:left;
 }
-.item-avatar img, .comment-avatar img {
+.item-avatar img, .comment-avatar img, .message-avatar img {
 	max-height:48px;
 	max-width:48px;
 	border-radius: 50%;
@@ -1052,4 +1052,53 @@ img .avatar {
 }
 .topic-dec {
     padding: 2px 6px 15px;
+}
+
+/* inbox */
+.inbox-textarea-wrap {
+	width: 100%;
+	padding: 0 13px 10px 13px;
+}
+
+.message-item {
+	background-color:#EEEEEE;
+	width:400px;
+	min-height: 40px;
+	margin:50px 100px;
+	position:relative;
+	border-radius:5px;
+	padding: 4px 10px;
+}
+
+.message-item .avatar-left {
+	position:absolute;
+	left: -90px;
+	top: 0px;
+}
+
+.message-item .avatar-right {
+	position:absolute;
+	right: -90px;
+	top: 0px;
+}
+
+.message-item .jt {
+	border-color:#EEEEEE #FFFFFF;
+	border-style:solid;
+	width:0;
+	height:0;
+	font-size:0;
+	position:absolute;
+}
+
+.message-item .jt-left {
+	border-width:0 0 15px 30px;
+	left:-30px;
+	top:15px;
+}
+
+.message-item .jt-right {
+	border-width:0 30px 15px 0;
+	right:-30px;
+	top:15px;
 }
