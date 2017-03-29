@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			break;
 		}
 
-
-		if (DEBUG_MODE === false && ($TimeStamp - $CurUserInfo['LastPostTime']) <= 8) { //发帖至少要间隔8秒
+        //发帖至少要间隔8秒
+		if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - $CurUserInfo['LastPostTime']) <= 8)) {
 			$Error     = $Lang['Posting_Too_Often'];
 			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
 			break;
@@ -67,81 +67,90 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		}
 		$Content = $ContentFilterResult['Content'];
 
-		//往Posts表插入数据
-		$PostData      = array(
-			"ID" => null,
-			"TopicID" => $TopicID,
-			"IsTopic" => 0,
-			"UserID" => $CurUserID,
-			"UserName" => $CurUserName,
-			"Subject" => $Topic['Topic'],
-			"Content" => XssEscape($Content),
-			"PostIP" => $CurIP,
-			"PostTime" => $TimeStamp,
-			"IsDel" => 0
-		);
-		$NewPostResult = $DB->query("INSERT INTO `" . PREFIX . "posts`
-			(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`, `IsDel`) 
-			VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime,:IsDel)", $PostData);
+        try {
+            $DB->beginTransaction();
+            //往Posts表插入数据
+            $PostData      = array(
+                "ID" => null,
+                "TopicID" => $TopicID,
+                "IsTopic" => 0,
+                "UserID" => $CurUserID,
+                "UserName" => $CurUserName,
+                "Subject" => $Topic['Topic'],
+                "Content" => XssEscape($Content),
+                "PostIP" => $CurIP,
+                "PostTime" => $TimeStamp,
+                "IsDel" => 0
+            );
+            $NewPostResult = $DB->query("INSERT INTO `" . PREFIX . "posts`
+                (`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`, `IsDel`) 
+                VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime,:IsDel)", $PostData);
 
-		$PostID = $DB->lastInsertId();
+            $PostID = $DB->lastInsertId();
 
-		if ($NewPostResult) {
-			//更新全站统计数据
-			$NewConfig = array(
-				"NumPosts" => $Config["NumPosts"] + 1,
-				"DaysPosts" => $Config["DaysPosts"] + 1
-			);
-			UpdateConfig($NewConfig);
-			//更新主题统计数据
-			$DB->query("UPDATE `" . PREFIX . "topics` SET Replies=Replies+1,LastTime=?,LastName=? WHERE `ID`=?", array(
-				($TimeStamp > $Topic['LastTime']) ? $TimeStamp : $Topic['LastTime'],
-				$CurUserName,
-				$TopicID
-			));
-			//更新用户自身统计数据
-			UpdateUserInfo(array(
-				"Replies" => $CurUserInfo['Replies'] + 1,
-				"LastPostTime" => $TimeStamp + $GagTime
-			));
-			//标记附件所对应的帖子标签
-			$DB->query("UPDATE `" . PREFIX . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
-				$PostID,
-				$CurUserName
-			));
-			//添加提醒消息
-			AddingNotifications($Content, $TopicID, $PostID, $Topic['UserName']);
-			if ($CurUserID != $Topic['UserID']) {
-				$DB->query('INSERT INTO `' . PREFIX . 'notifications`
-				(`ID`, `UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) 
-				VALUES (null,?,?,?,?,?,?,?)', array(
-					$Topic['UserID'],
-					$CurUserName,
-					1,
-					$TopicID,
-					$PostID,
-					$TimeStamp,
-					0
-				));
-				$DB->query('UPDATE `' . PREFIX . 'users` SET `NewNotification` = `NewNotification`+1 WHERE ID = :UserID', array(
-					'UserID' => $Topic['UserID']
-				));
-				//清理内存缓存
-				if ($MCache) {
-					$MCache->delete(MemCachePrefix . 'UserInfo_' . $Topic['UserID']);
-				}
-			}
-			if ($MCache) {
-				//清理首页内存缓存
-				$MCache->delete(MemCachePrefix . 'Homepage');
-				//清理主题缓存
-				$MCache->delete(MemCachePrefix . 'Topic_' . $TopicID);
-			}
-			//跳转到主题页
-			//计算页数，跳转到准确页数
-			$TotalPage = ceil(($Topic['Replies'] + 2) / $Config['PostsPerPage']);
-			//Redirect('t/'.$TopicID);
-		}
+            if ($NewPostResult) {
+                //更新全站统计数据
+                $NewConfig = array(
+                    "NumPosts" => $Config["NumPosts"] + 1,
+                    "DaysPosts" => $Config["DaysPosts"] + 1
+                );
+                UpdateConfig($NewConfig);
+                //更新主题统计数据
+                $DB->query("UPDATE `" . PREFIX . "topics` SET Replies=Replies+1,LastTime=?,LastName=? WHERE `ID`=?", array(
+                    ($TimeStamp > $Topic['LastTime']) ? $TimeStamp : $Topic['LastTime'],
+                    $CurUserName,
+                    $TopicID
+                ));
+                //更新用户自身统计数据
+                UpdateUserInfo(array(
+                    "Replies" => $CurUserInfo['Replies'] + 1,
+                    "LastPostTime" => $TimeStamp + $GagTime
+                ));
+                //标记附件所对应的帖子标签
+                $DB->query("UPDATE `" . PREFIX . "upload` SET PostID=? WHERE `PostID`=0 and `UserName`=?", array(
+                    $PostID,
+                    $CurUserName
+                ));
+                //添加提醒消息
+                AddingNotifications($Content, $TopicID, $PostID, $Topic['UserName']);
+                if ($CurUserID != $Topic['UserID']) {
+                    $DB->query('INSERT INTO `' . PREFIX . 'notifications`
+                    (`ID`, `UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) 
+                    VALUES (null,?,?,?,?,?,?,?)', array(
+                        $Topic['UserID'],
+                        $CurUserName,
+                        1,
+                        $TopicID,
+                        $PostID,
+                        $TimeStamp,
+                        0
+                    ));
+                    $DB->query('UPDATE `' . PREFIX . 'users` SET `NewNotification` = `NewNotification`+1 WHERE ID = :UserID', array(
+                        'UserID' => $Topic['UserID']
+                    ));
+                    //清理内存缓存
+                    if ($MCache) {
+                        $MCache->delete(MemCachePrefix . 'UserInfo_' . $Topic['UserID']);
+                    }
+                }
+                if ($MCache) {
+                    //清理首页内存缓存
+                    $MCache->delete(MemCachePrefix . 'Homepage');
+                    //清理主题缓存
+                    $MCache->delete(MemCachePrefix . 'Topic_' . $TopicID);
+                }
+                //跳转到主题页
+                //计算页数，跳转到准确页数
+                $TotalPage = ceil(($Topic['Replies'] + 2) / $Config['PostsPerPage']);
+                //Redirect('t/'.$TopicID);
+
+            }
+            $DB->commit();
+        } catch(Exception $ex) {
+            $DB->rollBack();
+            $Error     = $Lang['Posting_Too_Often'];
+            $ErrorCode = $ErrorCodeList['Posting_Too_Often'];
+        }
 	} while (false);
 }
 $DB->CloseConnection();

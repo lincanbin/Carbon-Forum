@@ -111,7 +111,8 @@ class DB
 		}
 		catch (PDOException $e) {
 			echo $this->ExceptionLog($e->getMessage(), $this->BuildParams($query));
-			die();
+			//die();
+			throw new Exception("Error Processing Query", 1);
 		}
 		
 		$this->parameters = array();
@@ -129,8 +130,26 @@ class DB
 		}
 		return $query;
 	}
-	
-	
+
+
+	public function beginTransaction()
+	{
+		return $this->pdo->beginTransaction();
+	}
+
+
+	public function commit()
+	{
+		return $this->pdo->commit();
+	}
+
+
+	public function rollBack()
+	{
+		return $this->pdo->rollBack();
+	}
+
+
 	public function query($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
 	{
 		$query        = trim($query);
@@ -193,8 +212,8 @@ class DB
 		}
 		$this->log->write($message, $this->DBName . md5($this->DBPassword));
 		//Prevent search engines to crawl
-		header("HTTP/1.1 500 Internal Server Error");
+/*		header("HTTP/1.1 500 Internal Server Error");
 		header("Status: 500 Internal Server Error");
-		return $exception;
+		return $exception;*/
 	}
 }
