@@ -142,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			`ReceiverName` varchar(50) NOT NULL,
 			`LastContent` varchar(255) NOT NULL DEFAULT '',
 			`LastTime` int(10) NOT NULL DEFAULT '0',
+			`IsDel` tinyint(1) NOT NULL DEFAULT '0',
 			PRIMARY KEY (`ID`),
 			KEY `DialogueID` (`LastTime`) USING BTREE,
 			KEY `SenderID` (`SenderID`,`ReceiverID`),

@@ -22,13 +22,14 @@ function getInboxID($ReceiverID) {
 	}
 	if (empty($InboxID)) {
 		$InboxID = $DB->query('INSERT INTO `carbon`.`carbon_inbox` 
-			(`ID`, `SenderID`, `SenderName`, `ReceiverID`, `ReceiverName`, `LastContent`, `LastTime`) VALUES 
-			(null, :SenderID, :SenderName, :ReceiverID, :ReceiverName, "", :TimeStamp)', array(
+			(`ID`, `SenderID`, `SenderName`, `ReceiverID`, `ReceiverName`, `LastContent`, `LastTime`, `IsDel`) VALUES 
+			(null, :SenderID, :SenderName, :ReceiverID, :ReceiverName, "", :TimeStamp, :IsDel)', array(
 				'SenderID' => $CurUserID,
 				'SenderName' => $CurUserName,
 				'ReceiverID' => $ReceiverID,
 				'ReceiverName' => $TargetUserInfo['UserName'],
-				'TimeStamp' => $TimeStamp
+				'TimeStamp' => $TimeStamp,
+				1
 		));
 	}
 
