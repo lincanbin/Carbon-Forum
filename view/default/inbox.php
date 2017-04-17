@@ -2,6 +2,8 @@
 <script>
 $(document).ready(function(){
 	loadMoreMessages(true);
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/inbox.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
+	});
 });
 </script>
 	<input type="hidden" id="InboxID" value="<?php echo $InboxID; ?>" />
@@ -28,7 +30,7 @@ $(document).ready(function(){
 	<div class="main-box">
 		<div class="inbox-textarea-wrap">
 			<input type="hidden" name="InboxID" id="InboxID" value="<?php echo $InboxID; ?>" />
-			<textarea class="w600 h160" name="MessageContent" placeholder="Content"></textarea>
+			<textarea class="w600 h160" name="MessageContent" id="MessageContent" placeholder="Content"></textarea>
 		</div>
 		<div class="text-center">
 			<input type="button" value="提交(Ctrl+Enter)" class="textbtn" onclick="JavaScript:;" id="SendMessageButton" />

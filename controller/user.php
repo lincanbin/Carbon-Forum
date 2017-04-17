@@ -20,11 +20,11 @@ if (!$UserInfo)
 	AlertMsg('404 Not Found', '404 Not Found', 404);
 
 if ($CurUserID)
-	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites Where UserID=:UserID and Type=3 and FavoriteID=:FavoriteID", array(
+	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites WHERE UserID=:UserID and Type = 3 and FavoriteID=:FavoriteID", array(
 		'UserID' => $CurUserID,
 		'FavoriteID' => $UserInfo['ID']
 	));
-$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts Where UserName=:UserName and IsDel=0 ORDER BY PostTime DESC LIMIT 30', array(
+$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts WHERE UserName=:UserName and IsDel = 0 ORDER BY PostTime DESC LIMIT 30', array(
 	'UserName' => $UserInfo['UserName']
 ));
 $DB->CloseConnection();

@@ -144,7 +144,6 @@ function loadMoreMessages(forceToShow) {
 						Result.MessagesArray[i]['Position'] = Result.MessagesArray[i]['IsMe'] ? 'right' : 'left';
 					}
 					MessagesList.append(renderTemplate(Template, Result.MessagesArray));
-					console.log(Result.MessagesArray);
 					MessagesPage.val(parseInt(MessagesPage.val()) + 1);
 					if (Result.MessagesArray.length === 0) {
 						MessagesLoading.val("1");

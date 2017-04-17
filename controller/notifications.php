@@ -54,10 +54,12 @@ if ($Type === false || $Type === 'mention') {
 }
 
 if ($Type === false || $Type === 'inbox') {
-	$ResultArray['InboxArray'] = $DB->query('SELECT ID, ReceiverID as ContactID, ReceiverName as ContactName, LastContent as Content, LastTime FROM carbon_inbox
+	$ResultArray['InboxArray'] = $DB->query('SELECT ID, ReceiverID as ContactID, ReceiverName as ContactName, LastContent as Content, LastTime 
+            FROM ' . PREFIX . 'inbox
 			WHERE SenderID = :SenderID AND IsDel = :IsDel1
 		UNION
-		(SELECT ID, SenderID as ContactID, SenderName as ContactName, LastContent as Content, LastTime FROM carbon_inbox
+		(SELECT ID, SenderID as ContactID, SenderName as ContactName, LastContent as Content, LastTime 
+		    FROM ' . PREFIX . 'inbox
 			WHERE ReceiverID = :ReceiverID AND IsDel = :IsDel2)
 		ORDER BY LastTime DESC 
 		LIMIT :Offset, :Number;', array(
