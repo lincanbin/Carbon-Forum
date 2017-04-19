@@ -10,7 +10,7 @@ $("#SendMessageButton").click(function(){
         },
         dataType: 'json',
         success: function(Result) {
-            if (Result.Status == 1) {
+            if (Result.Status === 1) {
                 $("#MessagesList").html('');
                 $("#MessagesPage").val('1');
                 loadMoreMessages(true);

@@ -22,7 +22,7 @@ $FavoriteTypeList = array(
 	5 => 'Blog'
 );
 
-$Manage = new Manage($ID, $Action, $DB, $Lang, $Config, $MCache);
+$Manage = new Manage($ID, $Action);
 if (empty($TypeList[$Type]) || ($Type == 4 && empty($FavoriteTypeList[$Action]))) {
 	AlertMsg('Action or Type error. Bad Request', 'Action or Type error. Bad Request');
 }
@@ -46,14 +46,15 @@ class Manage
 	private $mCache;
 	public $message = '';
 
-	public function __construct($id, $action, $db, $lang, $config, $mCache)
+	public function __construct($id, $action)
 	{
+		global $DB, $Lang, $Config, $MCache;
 		$this->id     = $id;
 		$this->action = $action;
-		$this->db     = $db;
-		$this->lang   = $lang;
-		$this->config = $config;
-		$this->mCache = $mCache;
+		$this->db     = $DB;
+		$this->lang   = $Lang;
+		$this->config = $Config;
+		$this->mCache = $MCache;
 	}
 
 	// 获取要管理的项目的信息
@@ -90,6 +91,7 @@ class Manage
 				break;
 			default:
 				AlertMsg('Bad Request', 'Bad Request');
+				return [];
 				break;
 		}
 	}
