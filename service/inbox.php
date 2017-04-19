@@ -47,17 +47,18 @@ function GetInboxID($ReceiverID)
 
 /*
  * Create new message
- * @param integer $InboxID
+ * @param array $DialogInfo
  * @param string $Content
  * @return boolean
  * */
-function CreateMessage($InboxID, $Content)
+function CreateMessage($DialogInfo, $Content)
 {
 	global $DB, $CurUserID, $TimeStamp;
-	if (empty($CurUserID) || empty($InboxID) || empty($Content)) {
-		var_dump($Content);exit();
+	if (empty($CurUserID) || empty($DialogInfo) || empty($Content)) {
 		return false;
 	}
+	$InboxID = $DialogInfo['ID'];
+	$ReceiverID = $DialogInfo['SenderID'] == $CurUserID ? $DialogInfo['ReceiverID'] : $DialogInfo['SenderID'];
 	$Content = CharCV($Content);
 	try {
 		$DB->beginTransaction();
@@ -97,6 +98,9 @@ function CreateMessage($InboxID, $Content)
 			'LastContent' => mb_substr($Content, 0, 255, 'utf-8'),
 			'LastTime' => $TimeStamp,
 			'IsDel' => 0,
+		));
+		$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMention` = NewMention+1 WHERE ID = :UserID', array(
+			'UserID' => $ReceiverID
 		));
 		$DB->commit();
 		return !empty($MessageID) && !empty($InboxResult);

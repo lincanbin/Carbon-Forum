@@ -18,7 +18,7 @@ $DialogInfo = $DB->row('SELECT * FROM ' . PREFIX . 'inbox WHERE ID = :ID AND (Se
 	'ReceiverID' => $CurUserID,
 ));
 
-$Result = CreateMessage($InboxID, $Content);
+$Result = CreateMessage($DialogInfo, $Content);
 
 if (empty($InboxID) || empty($DialogInfo)){
 	AlertMsg('404 Not Found', '404 Not Found', 404);

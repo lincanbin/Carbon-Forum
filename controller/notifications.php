@@ -81,9 +81,13 @@ if ($Type === false || $Type === 'inbox') {
 }
 //Clear unread marks
 UpdateUserInfo(array(
-	'NewNotification' => 0
+	'NewReply' => 0,
+	'NewMention' => 0,
+	'NewMessage' => 0
 ));
-$CurUserInfo['NewNotification'] = 0;
+$CurUserInfo['NewReply'] = 0;
+$CurUserInfo['NewMention'] = 0;
+$CurUserInfo['NewMessage'] = 0;
 $DB->CloseConnection();
 // 页面变量
 $PageTitle   = $Lang['Notifications'];

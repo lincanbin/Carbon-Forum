@@ -116,8 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	//当前版本低于5.8.0，需要进行的升级到5.8.0的升级操作
 	if (VersionCompare('5.8.0', $OldVersion)) {
-		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewNotification` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NewMessage`;");
-		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewNotification = NewMessage;");
+		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewMention` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NumFavTopics`;");
+		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewReply` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NumFavTopics`;");
+		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewReply = NewMessage;");
 		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewMessage = 0;");
 	}
 

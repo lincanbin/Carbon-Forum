@@ -21,7 +21,7 @@ define('CARBON_FORUM_VERSION', '5.9.0');
 $MicroTime = explode(' ', microtime());
 $StartTime = $MicroTime[1] + $MicroTime[0];
 $TimeStamp = $_SERVER['REQUEST_TIME'];
-if ((include __DIR__ . '/config.php') != 1) {
+if ((@include __DIR__ . '/config.php') != 1) {
 	//Bring user to installation
 	header("Location: install/");
 	exit(); //No errors
@@ -29,7 +29,7 @@ if ((include __DIR__ . '/config.php') != 1) {
 require(LanguagePath . 'common.php');
 //Initialize PHP Data Object(Database)
 require(LibraryPath . 'PDO.class.php');
-$DB     = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
+$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 //Initialize MemCache(d) / Redis
 $MCache = false;
 if (EnableMemcache) {
@@ -78,11 +78,11 @@ if (!$Config) {
 $HotTagsArray = json_decode($Config['CacheHotTags'], true);
 $HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
 
-$PHPSelf     = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
+$PHPSelf = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
 $UrlPath = '';
 //For IIS ISAPI_Rewrite
-$RequestURI  = str_ireplace('?' . (isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : ''), '', (isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI']));
-$IsAjax      = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+$RequestURI = str_ireplace('?' . (isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : ''), '', (isset($_SERVER['HTTP_X_REWRITE_URL']) ? $_SERVER['HTTP_X_REWRITE_URL'] : $_SERVER['REQUEST_URI']));
+$IsAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 $CurProtocol = IsSSL() ? 'https://' : 'http://';
 
 $_HEAD = array();
@@ -96,9 +96,10 @@ if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	{
 		return is_array($var) ? array_map('StripslashesDeep', $var) : stripslashes($var);
 	}
-	$_GET     = StripslashesDeep($_GET);
-	$_POST    = StripslashesDeep($_POST);
-	$_COOKIE  = StripslashesDeep($_COOKIE);
+
+	$_GET = StripslashesDeep($_GET);
+	$_POST = StripslashesDeep($_POST);
+	$_COOKIE = StripslashesDeep($_COOKIE);
 	$_REQUEST = StripslashesDeep($_REQUEST);
 }
 
@@ -127,29 +128,37 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	sort($TemporaryUserList);
 	//var_dump($TemporaryUserList);
 	if ($TemporaryUserList) {
-		$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` in (?)', $TemporaryUserList);
-		if ($UserList && count($UserList) <= 20) {
-			//最多@ 20人，防止骚扰
-			foreach ($UserList as $UserID) {
-				$DB->query('INSERT INTO `' . PREFIX . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (null,?,?,?,?,?,?,?)', array(
-					$UserID,
-					$CurUserName,
-					2,
-					$TopicID,
-					$PostID,
-					$TimeStamp,
-					0
-				));
-				$DB->query('UPDATE `' . PREFIX . 'users` SET `NewNotification` = NewNotification+1 WHERE ID = :UserID', array(
-					'UserID' => $UserID
-				));
-				//清理内存缓存
-				if ($MCache) {
-					$MCache->delete(MemCachePrefix . 'UserInfo_' . $UserID);
+		try {
+			$DB->beginTransaction();
+			$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` IN (?)', $TemporaryUserList);
+			if ($UserList && count($UserList) <= 20) {
+				//最多@ 20人，防止骚扰
+				foreach ($UserList as $UserID) {
+					$DB->query('INSERT INTO `' . PREFIX . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (NULL,?,?,?,?,?,?,?)', array(
+						$UserID,
+						$CurUserName,
+						2,
+						$TopicID,
+						$PostID,
+						$TimeStamp,
+						0
+					));
+					$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMention` = NewMention+1 WHERE ID = :UserID', array(
+						'UserID' => $UserID
+					));
+					//清理内存缓存
+					if ($MCache) {
+						$MCache->delete(MemCachePrefix . 'UserInfo_' . $UserID);
+					}
 				}
 			}
+			$DB->commit();
+		} catch (Exception $ex) {
+			$DB->rollBack();
+			return false;
 		}
 	}
+	return true;
 }
 
 
@@ -157,35 +166,77 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 {
 	global $Lang, $CurProtocol, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
-	if (!$IsAjax) {
-		switch ($StatusCode) {
-			case 404:
-				header("HTTP/1.1 404 Not Found");
-				header("Status: 404 Not Found");
-				break;
-			case 401:
-				header("HTTP/1.1 401 Unauthorized");
-				header("Status: 401 Unauthorized");
-				break;
-			case 403:
-				header("HTTP/1.1 403 Forbidden");
-				header("Status: 403 Forbidden");
-				break;
-			case 400:
-				header("HTTP/1.1 400 Bad Request");
-				header("Status: 400 Bad Request");
-				break;
-			case 500:
-				header("HTTP/1.1 500 Internal Server Error");
-				header("Status: 500 Internal Server Error");
-				break;
-			case 503:
-				header("HTTP/1.1 503 Service Unavailable");
-				header("Status: 503 Service Unavailable");
-				break;
-			default:
-				break;
-		}
+	$HttpStatuses = [
+		100 => 'Continue',
+		101 => 'Switching Protocols',
+		102 => 'Processing',
+		118 => 'Connection timed out',
+		200 => 'OK',
+		201 => 'Created',
+		202 => 'Accepted',
+		203 => 'Non-Authoritative',
+		204 => 'No Content',
+		205 => 'Reset Content',
+		206 => 'Partial Content',
+		207 => 'Multi-Status',
+		208 => 'Already Reported',
+		210 => 'Content Different',
+		226 => 'IM Used',
+		300 => 'Multiple Choices',
+		301 => 'Moved Permanently',
+		302 => 'Found',
+		303 => 'See Other',
+		304 => 'Not Modified',
+		305 => 'Use Proxy',
+		306 => 'Reserved',
+		307 => 'Temporary Redirect',
+		308 => 'Permanent Redirect',
+		310 => 'Too many Redirect',
+		400 => 'Bad Request',
+		401 => 'Unauthorized',
+		402 => 'Payment Required',
+		403 => 'Forbidden',
+		404 => 'Not Found',
+		405 => 'Method Not Allowed',
+		406 => 'Not Acceptable',
+		407 => 'Proxy Authentication Required',
+		408 => 'Request Time-out',
+		409 => 'Conflict',
+		410 => 'Gone',
+		411 => 'Length Required',
+		412 => 'Precondition Failed',
+		413 => 'Request Entity Too Large',
+		414 => 'Request-URI Too Long',
+		415 => 'Unsupported Media Type',
+		416 => 'Requested range unsatisfiable',
+		417 => 'Expectation failed',
+		418 => 'I\'m a teapot',
+		422 => 'Unprocessable entity',
+		423 => 'Locked',
+		424 => 'Method failure',
+		425 => 'Unordered Collection',
+		426 => 'Upgrade Required',
+		428 => 'Precondition Required',
+		429 => 'Too Many Requests',
+		431 => 'Request Header Fields Too Large',
+		449 => 'Retry With',
+		450 => 'Blocked by Windows Parental Controls',
+		500 => 'Internal Server Error',
+		501 => 'Not Implemented',
+		502 => 'Bad Gateway or Proxy Error',
+		503 => 'Service Unavailable',
+		504 => 'Gateway Time-out',
+		505 => 'HTTP Version not supported',
+		507 => 'Insufficient storage',
+		508 => 'Loop Detected',
+		509 => 'Bandwidth Limit Exceeded',
+		510 => 'Not Extended',
+		511 => 'Network Authentication Required',
+	];
+	$Protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1');
+	if (!$IsAjax && !empty($HttpStatuses[$StatusCode])) {
+		// http_response_code($StatusCode);
+		header($Protocol . ' ' . $StatusCode . ' ' . $HttpStatuses[$StatusCode]);
 	}
 	$ContentFile = $TemplatePath . 'alert.php';
 	include($TemplatePath . 'layout.php');
@@ -251,7 +302,7 @@ function CharsFilter($String)
 function CurIP()
 {
 	$IsCDN = false; //未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
-	$IP    = false;
+	$IP = false;
 	if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
 		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
 	}
@@ -267,7 +318,7 @@ function CurIP()
 			Fails validation for the following private IPv4 ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.
 			Fails validation for the IPv6 addresses starting with FD or FC.
 			*/
-			if (filter_var($Value, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)){
+			if (filter_var($Value, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)) {
 				$IP = $Value;
 				break;
 			}
@@ -281,8 +332,8 @@ function CurIP()
 function Filter($Content)
 {
 	$FilteringWords = require(LibraryPath . "Filtering.words.config.php");
-	$Prohibited     = false;
-	$GagTime        = 0;
+	$Prohibited = false;
+	$GagTime = 0;
 	foreach ($FilteringWords as $SearchRegEx => $Rule) {
 
 		if (preg_match_all("/" . $SearchRegEx . "/i", $Content, $SearchWordsList)) {
@@ -322,7 +373,7 @@ function FormHash()
 function FormatBytes($size, $precision = 2)
 {
 	// https://www.zhihu.com/question/21578998/answer/86401223
-	// According to Metric prefix, IEEE 1541-2002. 
+	// According to Metric prefix, IEEE 1541-2002.
 	$units = array(
 		' Bytes',
 		' KiB',
@@ -476,7 +527,7 @@ function Pagination($PageUrl, $CurrentPage, $TotalPage)
 	if ($TotalPage <= 1)
 		return false;
 	global $Config, $Lang;
-	$PageUrl  = $Config['WebsitePath'] . $PageUrl;
+	$PageUrl = $Config['WebsitePath'] . $PageUrl;
 	$PageLast = $CurrentPage - 1;
 	$PageNext = $CurrentPage + 1;
 	//echo '<span id="pagenum"><span class="currentpage">' . $CurrentPage . '/' . $TotalPage . '</span>';
@@ -489,7 +540,7 @@ function Pagination($PageUrl, $CurrentPage, $TotalPage)
 	} else {
 		$PageiStart = $CurrentPage - 3;
 	}
-	
+
 	if ($CurrentPage + 3 >= $TotalPage) {
 		$PageiEnd = $TotalPage;
 	} else if ($CurrentPage <= 3 && $TotalPage >= 8) {
@@ -573,7 +624,7 @@ function SetStyle($PathName, $StyleName)
 		header('Content-Type: application/json; charset=utf-8');
 	}
 	$TemplatePath = __DIR__ . '/view/' . $PathName . '/';
-	$Style        = $StyleName;
+	$Style = $StyleName;
 }
 
 
@@ -626,7 +677,7 @@ function UpdateConfig($NewConfig)
 	} else {
 		return false;
 	}
-	
+
 }
 
 
@@ -643,7 +694,7 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 			$StringBindParam .= $Key . ' = :' . $Key . ',';
 		}
 		$StringBindParam = substr($StringBindParam, 0, -1);
-		$Result          = $DB->query('UPDATE `' . PREFIX . 'users` SET ' . $StringBindParam . ' WHERE ID = :UserID', array_merge($NewUserInfo, array(
+		$Result = $DB->query('UPDATE `' . PREFIX . 'users` SET ' . $StringBindParam . ' WHERE ID = :UserID', array_merge($NewUserInfo, array(
 			'UserID' => $UserID
 		)));
 		if ($MCache) {
@@ -655,29 +706,29 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 	} else {
 		return false;
 	}
-	
+
 }
 
 //跨站脚本白名单过滤
 function XssEscape($html)
 {
 	preg_match_all("/\<([^\<]+)\>/is", $html, $ms);
-	
-	$searchs[]  = '<';
+
+	$searchs[] = '<';
 	$replaces[] = '&lt;';
-	$searchs[]  = '>';
+	$searchs[] = '>';
 	$replaces[] = '&gt;';
-	
+
 	if ($ms[1]) {
 		$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|br\/|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre|hr|h1|h2|h3|h4|h5|h6|video|source|audio';
-		$ms[1]     = array_unique($ms[1]);
+		$ms[1] = array_unique($ms[1]);
 		foreach ($ms[1] as $value) {
 			$searchs[] = "&lt;" . $value . "&gt;";
-			
-			$value    = str_replace('&', '_uch_tmp_str_', $value);
-			$value    = dhtmlspecialchars($value);
-			$value    = str_replace('_uch_tmp_str_', '&', $value);
-			$value    = str_replace(array(
+
+			$value = str_replace('&', '_uch_tmp_str_', $value);
+			$value = dhtmlspecialchars($value);
+			$value = str_replace('_uch_tmp_str_', '&', $value);
+			$value = str_replace(array(
 				'\\',
 				'/*'
 			), array(
@@ -770,8 +821,8 @@ function XssEscape($html)
 				'expression',
 				'data'
 			); //style, class
-			$skipstr  = implode('|', $skipkeys);
-			$value    = preg_replace(array(
+			$skipstr = implode('|', $skipkeys);
+			$value = preg_replace(array(
 				"/($skipstr)/i"
 			), '.', $value);
 			if (!preg_match("/^[\/|\s]?($allowtags)(\s+|$)/is", $value)) {
@@ -840,30 +891,30 @@ $IsApp = $_SERVER['HTTP_HOST'] == $Config['AppDomainName'] ? true : false;
  */
 if ($IsApp) {
 	$TemplatePath = __DIR__ . '/view/api/';
-	$Style        = 'API';
+	$Style = 'API';
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
 	//API鉴权
-	$SignatureKey   = Request("Request", "SKey");
+	$SignatureKey = Request("Request", "SKey");
 	$SignatureValue = Request("Request", "SValue");
-	$SignatureTime  = intval(Request("Request", "STime"));
+	$SignatureTime = intval(Request("Request", "STime"));
 	if (!$SignatureTime || !$SignatureKey || !$SignatureValue || empty($APISignature[$SignatureKey]) || abs($SignatureTime - $TimeStamp) > 600 || !HashEquals($SignatureValue, md5($SignatureKey . $APISignature[$SignatureKey] . $SignatureTime))) {
 		AlertMsg('403', 'Forbidden', 403);
 	}
 } elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'] || (!$Config['MobileDomainName'] && $IsMobile)) {
 	$TemplatePath = __DIR__ . '/view/mobile/';
-	$Style        = 'Mobile';
+	$Style = 'Mobile';
 	header('X-Frame-Options: SAMEORIGIN');
 } else {
 	$TemplatePath = __DIR__ . '/view/default/';
-	$Style        = 'Default';
+	$Style = 'Default';
 	header('X-Frame-Options: SAMEORIGIN');
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard
 }
 
 $CurView = GetCookie('View', $IsMobile ? 'mobile' : 'desktop');
-$CurIP    = CurIP();
+$CurIP = CurIP();
 $FormHash = FormHash();
 // 限制不能打开.php的网址
 if (strpos($RequestURI, '.php')) {
@@ -908,12 +959,12 @@ if ($Config['DaysDate'] != $CurrentDate) {
 	));
 }
 // Get the infomation of current user
-$CurUserInfo           = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
-$CurUserRole           = 0;
-$CurUserID             = intval(GetCookie('UserID'));
-$CurUserName           = '';
+$CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
+$CurUserRole = 0;
+$CurUserID = intval(GetCookie('UserID'));
+$CurUserName = '';
 $CurUserExpirationTime = intval(GetCookie('UserExpirationTime'));
-$CurUserCode           = GetCookie('UserCode');
+$CurUserCode = GetCookie('UserCode');
 
 if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp + 2678400) && $CurUserID && $CurUserCode) {
 	$TempUserInfo = array();
@@ -924,7 +975,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 			"UserID" => $CurUserID
 		));
-		
+
 		if ($MCache && $TempUserInfo) {
 			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
 		}
@@ -933,6 +984,7 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;
+		$CurUserInfo['NewNotification'] = $CurUserInfo['NewReply'] + $CurUserInfo['NewMention'] + $CurUserInfo['NewMessage'];
 	} else {
 		LogOut();
 	}

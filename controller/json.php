@@ -12,28 +12,28 @@ switch (Request('Request', 'action')) {
 			if ($MCache) {
 				$CurUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 				if ($CurUserInfo) {
-					$CurNewMessage = $CurUserInfo['NewNotification'];
+					$CurNewNotification = $CurUserInfo['NewNotification'];
 				} else {
 					$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 						"UserID" => $CurUserID
 					));
 					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
-					$CurNewMessage = $TempUserInfo['NewNotification'];
+					$CurNewNotification = $TempUserInfo['NewReply'] + $TempUserInfo['NewMention'] + $TempUserInfo['NewMessage'];
 				}
 			} else {
-				$CurNewMessage = $DB->single("SELECT NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
+				$CurNewNotification = $DB->single("SELECT (NewReply + NewMention + NewMessage) AS NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
 					"UserID" => $CurUserID
 				));
 			}
 			
-			if ($CurNewMessage > 0) {
+			if ($CurNewNotification > 0) {
 				break;
 			}
 			sleep(3);
 		}
 		echo json_encode(array(
 			'Status' => 1,
-			'NewMessage' => $CurNewMessage
+			'NewMessage' => $CurNewNotification
 		));
 		break;
 	
