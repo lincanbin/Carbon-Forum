@@ -33,6 +33,9 @@ class DB
 	public $columnCount   = 0;
 	public $querycount = 0;
 
+	private $retryAttempt = 0; // 失败重试次数
+	const RETRY_ATTEMPTS = 3; // 最大失败重试次数
+
 	public function __construct($Host, $DBPort, $DBName, $DBUser, $DBPassword)
 	{
 		$this->logObject  = new PDOLog();
@@ -67,23 +70,21 @@ class DB
 			$this->connectionStatus = true;
 		}
 		catch (PDOException $e) {
-			$this->ExceptionLog($e->getMessage());
+			$this->ExceptionLog($e, '', 'Connect');
 		}
 	}
 
-	private function ReConnect()
+	private function SetFailureFlag()
 	{
 		$this->pdo = null;
 		$this->connectionStatus = false;
-		$this->Connect();
 	}
 	
 	public function CloseConnection()
 	{
 		$this->pdo = null;
 	}
-	
-	
+
 	private function Init($query, $parameters = null)
 	{
 		if (!$this->connectionStatus) {
@@ -110,8 +111,8 @@ class DB
 			$this->querycount++;
 		}
 		catch (PDOException $e) {
-			$this->ExceptionLog($e->getMessage(), $this->BuildParams($query));
-			throw new Exception("Error Processing Query", 1);
+			$this->ExceptionLog($e, $this->BuildParams($query), 'Init', array('query' => $query, 'parameters' => $parameters));
+
 		}
 		
 		$this->parameters = array();
@@ -200,8 +201,9 @@ class DB
 	}
 	
 	
-	private function ExceptionLog($message, $sql = "")
+	private function ExceptionLog(PDOException $e, $sql = "", $method = '', $parameters = array())
 	{
+		$message = $e->getMessage();
 		$exception = 'Unhandled Exception. <br />';
 		$exception .= $message;
 		$exception .= "<br /> You can find the error back in the log.";
@@ -210,13 +212,24 @@ class DB
 			$message .= "\r\nRaw SQL : " . $sql;
 		}
 		$this->logObject->write($message, $this->DBName . md5($this->DBPassword));
-		if (!$this->inTransaction()) {
-			//Prevent search engines to crawl
-			header("HTTP/1.1 500 Internal Server Error");
-			header("Status: 500 Internal Server Error");
-			echo $exception;
-			exit();
+		if (
+			$this->retryAttempt < self::RETRY_ATTEMPTS
+			&& strpos($message, 'server has gone away') !== false
+			&& !empty($method)
+		) {
+			$this->SetFailureFlag();
+			call_user_func_array(array($this, $method), $parameters);
+			$this->retryAttempt ++;
+		} else {
+			if (!$this->inTransaction()) {
+				//Prevent search engines to crawl
+				header("HTTP/1.1 500 Internal Server Error");
+				header("Status: 500 Internal Server Error");
+				echo $exception;
+				exit();
+			} else {
+				throw $e;
+			}
 		}
-
 	}
 }
