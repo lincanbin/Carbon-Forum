@@ -1,5 +1,5 @@
 <?php
-class Log
+class PDOLog
 {
 	private $path = '/logs/';
 	public function __construct()

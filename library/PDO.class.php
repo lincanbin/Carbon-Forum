@@ -12,6 +12,11 @@
  * A PHP MySQL PDO class similar to the the Python MySQLdb. 
  */
 require(__DIR__ . "/PDO.Log.class.php");
+/** Class DB
+ * @property PDO pdo PDO object
+ * @property PDOStatement sQuery PDOStatement
+ * @property logObject PDOLog logObject
+ */
 class DB
 {
 	private $Host;
@@ -21,24 +26,23 @@ class DB
 	private $DBPassword;
 	private $pdo;
 	private $sQuery;
-	private $bConnected = false;
-	private $log;
+	private $connectionStatus = false;
+	private $logObject;
 	private $parameters;
 	public $rowCount   = 0;
 	public $columnCount   = 0;
 	public $querycount = 0;
-	
-	
+
 	public function __construct($Host, $DBPort, $DBName, $DBUser, $DBPassword)
 	{
-		$this->log        = new Log();
+		$this->logObject  = new PDOLog();
 		$this->Host       = $Host;
-		$this->DBPort       = $DBPort;
+		$this->DBPort     = $DBPort;
 		$this->DBName     = $DBName;
 		$this->DBUser     = $DBUser;
 		$this->DBPassword = $DBPassword;
-		$this->Connect();
 		$this->parameters = array();
+		$this->Connect();
 	}
 	
 	
@@ -60,23 +64,19 @@ class DB
 					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 				)
 			);
-			/*
-			//For PHP 5.3.6 or lower
-			$this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
-			$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			//$this->pdo->setAttribute(PDO::ATTR_PERSISTENT, true);//长连接
-			$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-			*/
-			$this->bConnected = true;
-			
+			$this->connectionStatus = true;
 		}
 		catch (PDOException $e) {
-			echo $this->ExceptionLog($e->getMessage());
-			die();
+			$this->ExceptionLog($e->getMessage());
 		}
 	}
-	
+
+	private function ReConnect()
+	{
+		$this->pdo = null;
+		$this->connectionStatus = false;
+		$this->Connect();
+	}
 	
 	public function CloseConnection()
 	{
@@ -84,9 +84,9 @@ class DB
 	}
 	
 	
-	private function Init($query, $parameters = "")
+	private function Init($query, $parameters = null)
 	{
-		if (!$this->bConnected) {
+		if (!$this->connectionStatus) {
 			$this->Connect();
 		}
 		try {
@@ -105,13 +105,12 @@ class DB
 					$this->sQuery->bindParam($parametersType ? intval($column) : ":" . $column, $this->parameters[$column]); //It would be query after loop end(before 'sQuery->execute()').It is wrong to use $value.
 				}
 			}
-			
-			$this->succes = $this->sQuery->execute();
+
+			$this->sQuery->execute();
 			$this->querycount++;
 		}
 		catch (PDOException $e) {
-			echo $this->ExceptionLog($e->getMessage(), $this->BuildParams($query));
-			//die();
+			$this->ExceptionLog($e->getMessage(), $this->BuildParams($query));
 			throw new Exception("Error Processing Query", 1);
 		}
 		
@@ -149,6 +148,10 @@ class DB
 		return $this->pdo->rollBack();
 	}
 
+	public function inTransaction()
+	{
+		return $this->pdo->inTransaction();
+	}
 
 	public function query($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
 	{
@@ -176,8 +179,6 @@ class DB
 	{
 		$this->Init($query, $params);
 		$resultColumn = $this->sQuery->fetchAll(PDO::FETCH_COLUMN);
-		//$this->rowCount = $this->sQuery->rowCount();
-		//$this->columnCount = $this->sQuery->columnCount();
 		$this->sQuery->closeCursor();
 		return $resultColumn;
 	}
@@ -187,8 +188,6 @@ class DB
 	{
 		$this->Init($query, $params);
 		$resultRow = $this->sQuery->fetch($fetchmode);
-		//$this->rowCount = $this->sQuery->rowCount();
-		//$this->columnCount = $this->sQuery->columnCount();
 		$this->sQuery->closeCursor();
 		return $resultRow;
 	}
@@ -210,10 +209,14 @@ class DB
 		if (!empty($sql)) {
 			$message .= "\r\nRaw SQL : " . $sql;
 		}
-		$this->log->write($message, $this->DBName . md5($this->DBPassword));
-		//Prevent search engines to crawl
-/*		header("HTTP/1.1 500 Internal Server Error");
-		header("Status: 500 Internal Server Error");
-		return $exception;*/
+		$this->logObject->write($message, $this->DBName . md5($this->DBPassword));
+		if (!$this->inTransaction()) {
+			//Prevent search engines to crawl
+			header("HTTP/1.1 500 Internal Server Error");
+			header("Status: 500 Internal Server Error");
+			echo $exception;
+			exit();
+		}
+
 	}
 }
