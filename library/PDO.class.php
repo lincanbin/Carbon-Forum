@@ -33,7 +33,9 @@ class DB
 	public $columnCount   = 0;
 	public $querycount = 0;
 
+
 	private $retryAttempt = 0; // 失败重试次数
+	const AUTO_RECONNECT = true;
 	const RETRY_ATTEMPTS = 3; // 最大失败重试次数
 
 	public function __construct($Host, $DBPort, $DBName, $DBUser, $DBPassword)
@@ -213,15 +215,17 @@ class DB
 		}
 		$this->logObject->write($message, $this->DBName . md5($this->DBPassword));
 		if (
-			$this->retryAttempt < self::RETRY_ATTEMPTS
-			&& strpos($message, 'server has gone away') !== false
+			self::AUTO_RECONNECT
+			&& $this->retryAttempt < self::RETRY_ATTEMPTS
+			&& stripos($message, 'server has gone away') !== false
 			&& !empty($method)
 		) {
 			$this->SetFailureFlag();
-			call_user_func_array(array($this, $method), $parameters);
 			$this->retryAttempt ++;
+			$this->logObject->write('Retry ' . $this->retryAttempt . ' times', $this->DBName . md5($this->DBPassword));
+			call_user_func_array(array($this, $method), $parameters);
 		} else {
-			if (!$this->inTransaction()) {
+			if ($this->pdo === null || !$this->inTransaction()) {
 				//Prevent search engines to crawl
 				header("HTTP/1.1 500 Internal Server Error");
 				header("Status: 500 Internal Server Error");
