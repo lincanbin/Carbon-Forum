@@ -1,13 +1,12 @@
 <?php
 Auth(1, 0, false);
 require(ServicePath . 'inbox.php');
-$InboxID = intval(Request('Get', 'inbox_id'));
-$UserInfo = array();
+$InboxID = Request('Get', 'inbox_id');
 if(!preg_match('/^[1-9][0-9]*$/', $InboxID)) {
-	$UserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE UserName = :UserName', array(
+	$TargetUserID = $DB->single('SELECT ID FROM ' . PREFIX . 'users WHERE UserName = :UserName', array(
 		'UserName' => $InboxID
 	));
-	$InboxID = !empty($UserInfo) ? GetInboxID($UserInfo['ID']) : 0;
+	$InboxID = !empty($TargetUserID) ? GetInboxID($TargetUserID) : 0;
 }
 
 $DialogInfo = $DB->row('SELECT * FROM ' . PREFIX . 'inbox WHERE ID = :ID AND (SenderID = :SenderID OR ReceiverID = :ReceiverID)', array(

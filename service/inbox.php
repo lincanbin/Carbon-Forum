@@ -10,39 +10,47 @@ function GetInboxID($ReceiverID)
 	if (empty($CurUserID) || empty($ReceiverID)) {
 		return 0;
 	}
-	$InboxID = $DB->single('(SELECT ID FROM ' . PREFIX . 'inbox
-			WHERE SenderID = :SenderID1 AND ReceiverID = :ReceiverID1
-			LIMIT 1)
-		UNION
-		(SELECT ID FROM ' . PREFIX . 'inbox
-			WHERE SenderID = :ReceiverID2 AND ReceiverID = :SenderID2
-			LIMIT 1)
-		LIMIT 1;', array(
-		'SenderID1' => $CurUserID,
-		'SenderID2' => $CurUserID,
-		'ReceiverID1' => $ReceiverID,
-		'ReceiverID2' => $ReceiverID
-	));
-	$TargetUserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE ID=:ID', array(
-		'ID' => $ReceiverID
-	));
-	if (empty($TargetUserInfo)) {
+	try {
+		$DB->beginTransaction();
+		$TargetUserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE ID=:ID', array(
+			'ID' => $ReceiverID
+		));
+		if (empty($TargetUserInfo)) {
+			return 0;
+		}
+
+		$InboxID = $DB->single('(SELECT ID FROM ' . PREFIX . 'inbox
+				WHERE SenderID = :SenderID1 AND ReceiverID = :ReceiverID1
+				LIMIT 1)
+			UNION
+			(SELECT ID FROM ' . PREFIX . 'inbox
+				WHERE SenderID = :ReceiverID2 AND ReceiverID = :SenderID2
+				LIMIT 1)
+			LIMIT 1;', array(
+			'SenderID1' => $CurUserID,
+			'SenderID2' => $CurUserID,
+			'ReceiverID1' => $ReceiverID,
+			'ReceiverID2' => $ReceiverID
+		));
+		if (empty($InboxID)) {
+			$DB->query('INSERT INTO ' . PREFIX . 'inbox 
+				(`ID`, `SenderID`, `SenderName`, `ReceiverID`, `ReceiverName`, `LastContent`, `LastTime`, `IsDel`) VALUES 
+				(NULL, :SenderID, :SenderName, :ReceiverID, :ReceiverName, "", :TimeStamp, :IsDel)', array(
+				'SenderID' => $CurUserID,
+				'SenderName' => $CurUserName,
+				'ReceiverID' => $ReceiverID,
+				'ReceiverName' => $TargetUserInfo['UserName'],
+				'TimeStamp' => $TimeStamp,
+				'IsDel' => 1
+			));
+			$InboxID = $DB->lastInsertId();
+		}
+		$DB->commit();
+		return $InboxID;
+	} catch (Exception $ex) {
+		$DB->rollBack();
 		return 0;
 	}
-	if (empty($InboxID)) {
-		$InboxID = $DB->query('INSERT INTO ' . PREFIX . 'inbox 
-			(`ID`, `SenderID`, `SenderName`, `ReceiverID`, `ReceiverName`, `LastContent`, `LastTime`, `IsDel`) VALUES 
-			(NULL, :SenderID, :SenderName, :ReceiverID, :ReceiverName, "", :TimeStamp, :IsDel)', array(
-			'SenderID' => $CurUserID,
-			'SenderName' => $CurUserName,
-			'ReceiverID' => $ReceiverID,
-			'ReceiverName' => $TargetUserInfo['UserName'],
-			'TimeStamp' => $TimeStamp,
-			'IsDel' => 1
-		));
-	}
-
-	return $InboxID;
 }
 
 /*
@@ -82,7 +90,7 @@ function CreateMessage($DialogInfo, $Content)
 			);', array(
 			'InboxID' => $InboxID,
 			'UserID' => $CurUserID,
-			'Content' => $Content,
+			'Content' => nl2br($Content),
 			'Time' => $TimeStamp,
 			'IsDel' => 0,
 		));
