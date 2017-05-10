@@ -4,20 +4,21 @@
  * @param integer $ReceiverID
  * @return integer
  * */
-function GetInboxID($ReceiverID)
+function GetInboxID($ReceiverName)
 {
 	global $DB, $CurUserID, $CurUserName, $TimeStamp;
-	if (empty($CurUserID) || empty($ReceiverID)) {
+	if (empty($CurUserID) || empty($ReceiverName)) {
 		return 0;
 	}
 	try {
 		$DB->beginTransaction();
-		$TargetUserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE ID=:ID', array(
-			'ID' => $ReceiverID
+		$TargetUserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE UserName = :UserName', array(
+			'UserName' => $ReceiverName
 		));
 		if (empty($TargetUserInfo)) {
 			return 0;
 		}
+		$ReceiverID = $TargetUserInfo['ID'];
 
 		$InboxID = $DB->single('(SELECT ID FROM ' . PREFIX . 'inbox
 				WHERE SenderID = :SenderID1 AND ReceiverID = :ReceiverID1

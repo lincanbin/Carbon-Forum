@@ -1,5 +1,5 @@
 <?php
-set_time_limit(0);
+@set_time_limit(0);
 include(LibraryPath . 'Uploader.class.php');
 
 SetStyle('api', 'API');

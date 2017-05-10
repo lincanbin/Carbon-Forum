@@ -9,7 +9,7 @@ $UserInfo = array();
 $DialogInfo = $DB->row('SELECT * FROM ' . PREFIX . 'inbox WHERE ID=:ID AND (SenderID = :SenderID OR ReceiverID = :ReceiverID)', array(
 	'ID' => $InboxID,
 	'SenderID' => $CurUserID,
-	'ReceiverID' => $CurUserID,
+	'ReceiverID' => $CurUserID
 ));
 
 if ($Page <= 0 || empty($DialogInfo)){
@@ -30,8 +30,7 @@ foreach ($MessagesArray as &$Value) {
 	$Value['FormatTime'] = FormatTime($Value['Time']);
 }
 $DB->CloseConnection();
-
 // 页面变量
-$PageTitle   = 'Inbox';
+$PageTitle   = 'Show message list of some inbox';
 $ContentFile = $TemplatePath . 'inbox.php';
 include($TemplatePath . 'layout.php');

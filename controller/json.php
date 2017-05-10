@@ -5,7 +5,7 @@ switch (Request('Request', 'action')) {
 	case 'get_notifications':
 		Auth(1);
 		header("Cache-Control: no-cache, must-revalidate");
-		set_time_limit(0);
+		@set_time_limit(0);
 		//如果是自己的服务器，建议调大超时时间，然后把长连接时长调大，以节约服务器资源
 		$Config['PushConnectionTimeoutPeriod'] = intval((intval($Config['PushConnectionTimeoutPeriod']) < 22) ? 22 : $Config['PushConnectionTimeoutPeriod']);
 		while ((time() - $TimeStamp) < $Config['PushConnectionTimeoutPeriod']) {

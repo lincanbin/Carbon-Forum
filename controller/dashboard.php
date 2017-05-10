@@ -14,7 +14,7 @@ $OauthConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_conte
 
 switch ($Action) {
 	case 'Cache':
-		set_time_limit(0);
+		@set_time_limit(0);
 		UpdateConfig(array(
 			'NumFiles' => intval($DB->single('SELECT count(ID) FROM ' . PREFIX . 'upload')),
 			'NumTopics' => intval($DB->single('SELECT count(*) FROM ' . PREFIX . 'topics WHERE IsDel = 0')),
@@ -66,7 +66,7 @@ switch ($Action) {
 		break;
 
 	case 'Statistics':
-		set_time_limit(0);
+		@set_time_limit(0);
 		$DB->query('DELETE FROM ' . PREFIX . 'statistics');
 		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT UserRegTime FROM ' . PREFIX . 'users ORDER BY ID ASC LIMIT 1')));
 		while ($StatisticsTime < ($TimeStamp - 86400)) {
