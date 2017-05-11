@@ -26,6 +26,7 @@ before_script:
   - php -m
   - cd library
   - composer install
+  - cd ../
   # for Install
   - php -S 0.0.0.0:8080 &
   # Using a Router Script for Test
