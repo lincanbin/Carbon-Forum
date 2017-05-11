@@ -1,15 +1,18 @@
 #Dict
 /includes/dict/readme.txt
+
 #Debug Files
 /includes/PHPAnalysis.dict_build.php
 /includes/PHPAnalysis.demo.php
 /includes/PDO.Example.php
+
 #Duplicate Files
 /static/js/MD5.js
 /static/js/jquery.autocomplete.js
 /static/editor/ueditor.all.js
 /static/editor/ueditor.parse.js
 /static/editor/themes/default/css/ueditor.css
+
 #Echarts
 /static/echarts/.DS_Store
 /static/echarts/echarts-all.js
@@ -28,10 +31,13 @@
 /static/echarts/chart/treemap.js
 /static/echarts/chart/venn.js
 /static/echarts/chart/wordCloud.js
+
 #Server related files and data files
 *.lock
+*.log
 /includes/logs
 /upload
+
 #These files will be created automatically after install
 /.htaccess
 /config.php

@@ -25,15 +25,17 @@ $(document).ready(function(){
 	</script>
 
 	<div class="title">
-		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <a href="<?php echo $Config['WebsitePath']; ?>/notifications/list#notifications3">Inbox</a> &raquo; Chat with <a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo $ContactUserName; ?>"><?php echo $ContactUserName; ?></a>
+		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo;
+        <a href="<?php echo $Config['WebsitePath']; ?>/notifications/list#notifications3">Inbox</a> &raquo;
+        <?php echo str_replace('{{UserName}}', '<a href="' . $Config['WebsitePath']  . '/u/' . $ContactUserName . '">' . $ContactUserName . '</a>', $Lang['Chat_With_SB']) ?>
 	</div>
 	<div class="main-box">
 		<div class="inbox-textarea-wrap">
 			<input type="hidden" name="InboxID" id="InboxID" value="<?php echo $InboxID; ?>" />
-			<textarea class="w600 h160" name="MessageContent" id="MessageContent" placeholder="Content"></textarea>
+			<textarea class="w600 h160" name="MessageContent" id="MessageContent" placeholder="<?php echo $Lang['Message_Content']; ?>"></textarea>
 		</div>
 		<div class="text-center">
-			<input type="button" value="提交(Ctrl+Enter)" class="textbtn" onclick="JavaScript:;" id="SendMessageButton" />
+			<input type="button" value="<?php echo $Lang['Send_Message']; ?>" class="textbtn" onclick="JavaScript:;" id="SendMessageButton" />
 		</div>
 		<div class="c"></div>
 		<div id="MessagesList"></div>
