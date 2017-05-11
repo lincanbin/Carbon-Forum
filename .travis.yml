@@ -4,6 +4,7 @@ php:
   - '5.5'
   - '5.6'
   - '7.0'
+  - '7.1'
   - nightly
 #  - hhvm
 
@@ -25,7 +26,7 @@ before_script:
   - mysql -e "create database IF NOT EXISTS carbon;" -uroot
   - php -m
   - cd library
-  - composer install
+  - if [ $(phpenv version-name) != "5.4" ]; then composer install; fi
   - cd ../
   # for Install
   - php -S 0.0.0.0:8080 &
@@ -37,4 +38,6 @@ script:
   - php test-install
   - php test
   - cd language
-  - php auto_translate
+  - php -l auto_translate
+  - php -l language_template
+  - if [ $(phpenv version-name) != "5.4" ]; then php auto_translate; fi
