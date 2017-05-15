@@ -36,8 +36,6 @@ before_script:
 script:
   - find ./ -type f -print0 | while read -d $'\0' file; do if [ "${file##*.}" = "php" ]; then echo "Check $file"; php -l $file; echo "";  echo ""; fi; done
   - php test-install
-  - php test
   - cd language
-  - php -l auto_translate
-  - php -l language_template
-  - if [ $(phpenv version-name) != "5.4" ]; then php auto_translate; fi
+  - if [ $(phpenv version-name) != "5.4" ]; then php auto_translate.php; fi
+  - php test
