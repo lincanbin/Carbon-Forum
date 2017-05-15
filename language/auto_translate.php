@@ -45,6 +45,7 @@ function ListDir($dir)
 						echo $file_path . "\n\n\n";
 
 						switch ($file_extension) {
+							// PHP语言文件翻译
 							case "php":
 								$template = __DIR__ . '/language_template.php';
 
@@ -70,6 +71,7 @@ function ListDir($dir)
 									}
 								}
 								break;
+							// JS语言文件翻译
 							case "js":
 								switch ($file) {
 									case CURRENT_LANGUAGE . ".js":
@@ -124,7 +126,17 @@ function ListDir($dir)
 									}
 								}
 								break;
+							// 图片等其他语言文件无法翻译，直接复制
 							default:
+								foreach ($LanguageList as $language_name) {
+									if ($language_name !== CURRENT_LANGUAGE) {
+										$language_path = str_ireplace('/' . CURRENT_LANGUAGE . '/', '/' . $language_name . '/', $file_path);
+										if (!file_exists($language_path)) {
+											echo "\n\n\033[32m ---- Copy language file to $language_name ---- \033[0m\n\n";
+											copy($file_path, $language_path);
+										}
+									}
+								}
 								break;
 						}
 
