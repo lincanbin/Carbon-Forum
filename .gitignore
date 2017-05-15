@@ -41,3 +41,6 @@
 #These files will be created automatically after install
 /.htaccess
 /config.php
+
+#Composer
+/library/vendor
