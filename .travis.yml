@@ -38,4 +38,5 @@ script:
   - php test-install
   - cd language
   - if [ $(phpenv version-name) != "5.4" ]; then php auto_translate.php; fi
+  - cd ../
   - php test
