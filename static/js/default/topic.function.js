@@ -344,6 +344,7 @@ function ReplyToTopic() {
 				} else {
 					alert(data.ErrorMessage);
 					UE.getEditor('editor').setEnabled();
+                    $("#ReplyButton").val(Lang['Submit_Again']);
 				}
 			},
 			error: function() {
