@@ -31,7 +31,7 @@ RUN \
 ADD docker_resources/sphinx.conf /etc/sphinxsearch/sphinx.conf
 
 
-COPY docker_resources/nginx_default /etc/nginx/sites-enabled/default
+COPY docker_resources/nginx_default.conf /etc/nginx/sites-enabled/default
 COPY docker_resources/start.sh /
 RUN chmod +x /start.sh
 
