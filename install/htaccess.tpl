@@ -19,11 +19,12 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	RewriteRule .* - [F]
 
 	RewriteBase {{WebSitePath}}/
+	RewriteRule ^.git - [F,L]
 	RewriteRule ^controller - [F,L]
+	RewriteRule ^docker_resources - [F,L]
 	RewriteRule ^library - [F,L]
-	RewriteRule ^view/default/template - [F,L]
-	RewriteRule ^view/mobile/template - [F,L]
-	RewriteRule ^view/api/template - [F,L]
+	RewriteRule ^service - [F,L]
+	RewriteRule ^view - [F,L]
 
 	# Redirect Trailing Slashes If Not A Folder...
 	RewriteCond %{REQUEST_FILENAME} !-d
