@@ -22,7 +22,7 @@ UE.I18N['zh-tw'] = {
     "labelMap": {
         "anchor": "錨點",
         "undo": "復原",
-        "redo": "重做",
+		"redo": "重做",
         "bold": "粗體",
         "indent": "縮排",
         "snapscreen": "截圖",
