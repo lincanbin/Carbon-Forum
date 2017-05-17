@@ -1,4 +1,13 @@
 <?php
+if (PHP_SAPI !== "cli") {
+	header('HTTP/1.1 403 Forbidden');
+	exit('error: 403 Access Denied');
+}
+
+if (PHP_OS === "WINNT") {
+	exec('chcp 65001');
+}
+
 define('TestHTTPPort', '8099');
 define('TestMainDomainName', 'local.94cb.com:' . TestHTTPPort);
 define('TestMobileDomainName', 'local-m.94cb.com:' . TestHTTPPort);
