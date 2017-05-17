@@ -42,6 +42,7 @@ function ListDir($dir)
 					if ($file != "." && $file != "..") {
 						$file_path = $dir . $file;
 						$file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
+						echo "\n\n\n\n\033[33m -------------------------------------------------------- \033[0m\n";
 						echo $file_path . "\n\n\n";
 
 						switch ($file_extension) {
@@ -53,6 +54,8 @@ function ListDir($dir)
 								$ChineseLang = $Lang;
 								unset($Lang);
 
+								//var_export($ChineseLang);
+								//echo "\n\n";
 								foreach ($LanguageList as $language_name) {
 									if ($language_name !== CURRENT_LANGUAGE) {
 										$language_path = str_ireplace('/' . CURRENT_LANGUAGE . '/', '/' . $language_name . '/', $file_path);
@@ -73,39 +76,41 @@ function ListDir($dir)
 								break;
 							// JS语言文件翻译
 							case "js":
-								switch ($file) {
-									case CURRENT_LANGUAGE . ".js":
-										$template = __DIR__ . '/ue_template.js';
-										break;
-									default:
-										$template = __DIR__ . '/language_template.js';
-										break;
-								}
-
-								preg_match('/\{(?:[^{}]|(?R))*\}/x', file_get_contents($file_path), $matches);
+								preg_match('/\{(.*)\}/s', file_get_contents($file_path), $matches);
 								if (empty($matches)) {
-									echo 'Resolve failed.';
+									echo "\033[31m   Source language file resolve failed. \033[0m\n";
 									break;
 								}
 								$ChineseLang = json_decode($matches[0], true);
-								if ($ChineseLang === false) {
-									echo 'Resolve failed.';
+								if ($ChineseLang === false || $ChineseLang === null) {
+									echo "\033[31m   Source language file json decode failed. \033[0m\n";
 									break;
 								}
-
+								//var_export($ChineseLang);
+								//echo "\n\n";
 								foreach ($LanguageList as $language_name) {
 									if ($language_name !== CURRENT_LANGUAGE) {
-										$language_path = str_ireplace('/' . CURRENT_LANGUAGE . '/', '/' . $language_name . '/', $file_path);
+										switch ($file) {
+											case CURRENT_LANGUAGE . ".js":
+												$language_path = str_ireplace('/' . CURRENT_LANGUAGE . '/' . CURRENT_LANGUAGE . ".js", '/' . $language_name . '/' . $language_name . '.js', $file_path);
+												$template = __DIR__ . '/ue_template.js';
+												break;
+											default:
+												$language_path = str_ireplace('/' . CURRENT_LANGUAGE . '/', '/' . $language_name . '/', $file_path);
+												$template = __DIR__ . '/language_template.js';
+												break;
+										}
+
 										if (!file_exists($language_path)) {
 											copy($template, $language_path);
 											$matches2 = [[]];
 										} else {
-											preg_match('/\{(?:[^{}]|(?R))*\}/x', file_get_contents($language_path), $matches2);
+											preg_match('/\{(.*)\}/s', file_get_contents($language_path), $matches2);
 										}
 										$CurrentLang = json_decode($matches2[0], true);
-										if ($CurrentLang === false) {
-											echo 'Resolve failed.';
-											break;
+										if ($CurrentLang === false || $CurrentLang === null) {
+											echo "\e[31m     Target ". $language_name . " file resolve failed. \033[0m\n";
+											continue;
 										}
 
 										$CompareFlag = false;
@@ -128,6 +133,7 @@ function ListDir($dir)
 								break;
 							// 图片等其他语言文件无法翻译，直接复制
 							default:
+								echo "Static file\n\n";
 								foreach ($LanguageList as $language_name) {
 									if ($language_name !== CURRENT_LANGUAGE) {
 										$language_path = str_ireplace('/' . CURRENT_LANGUAGE . '/', '/' . $language_name . '/', $file_path);
@@ -155,7 +161,7 @@ function translate(&$ChineseLang, &$CurrentLang, &$CompareFlag, $language_name)
 		if ($CompareFlag === false) {
 			echo "\n\n\033[32m ---- Translating to $language_name ---- \033[0m\n\n";
 		}
-		$tr = new TranslateClient('zh-cn', $language_name);
+		$tr = new TranslateClient(CURRENT_LANGUAGE, $language_name);
 		foreach ($diff as $key => $value) {
 			if (is_string($value)) {
 				$pre_translated_string = $tr->translate($value);
@@ -163,7 +169,7 @@ function translate(&$ChineseLang, &$CurrentLang, &$CompareFlag, $language_name)
 				preg_match_all("/{{[^}]+}}/", $pre_translated_string, $matches2);
 				$translated_string = str_replace($matches2[0], $matches[0], $pre_translated_string);
 				echo "\n";
-				echo $translated_string;
+				echo $value . "		=>		" . $translated_string;
 				echo "\n\n";
 				$CurrentLang[$key] = $translated_string;
 				$CompareFlag = true; //有差异标志位，要写入文件
@@ -182,4 +188,6 @@ function translate(&$ChineseLang, &$CurrentLang, &$CompareFlag, $language_name)
 }
 
 ListDir("./" . CURRENT_LANGUAGE . "/");
+echo "\n\n\n";
+echo "\n\n\033[32m -------------------------------------------------------- \033[0m\n\n";
 var_export($LanguageList);
