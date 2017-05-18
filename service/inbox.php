@@ -12,7 +12,7 @@ function GetInboxID($ReceiverName)
 	}
 	try {
 		$DB->beginTransaction();
-		$TargetUserInfo = $DB->row('SELECT * FROM ' . PREFIX . 'users WHERE UserName = :UserName', array(
+		$TargetUserInfo = $DB->row('SELECT `ID`, `UserName` FROM ' . PREFIX . 'users WHERE UserName = :UserName', array(
 			'UserName' => $ReceiverName
 		));
 		if (empty($TargetUserInfo)) {
@@ -25,13 +25,13 @@ function GetInboxID($ReceiverName)
 				LIMIT 1)
 			UNION
 			(SELECT ID FROM ' . PREFIX . 'inbox
-				WHERE SenderID = :ReceiverID2 AND ReceiverID = :SenderID2
+				WHERE SenderID = :SenderID2 AND ReceiverID = :ReceiverID2
 				LIMIT 1)
 			LIMIT 1;', array(
 			'SenderID1' => $CurUserID,
-			'SenderID2' => $CurUserID,
 			'ReceiverID1' => $ReceiverID,
-			'ReceiverID2' => $ReceiverID
+			'SenderID2' => $ReceiverID,
+			'ReceiverID2' => $CurUserID
 		));
 		if (empty($InboxID)) {
 			$DB->query('INSERT INTO ' . PREFIX . 'inbox 

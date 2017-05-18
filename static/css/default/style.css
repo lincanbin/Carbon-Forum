@@ -850,6 +850,13 @@ img .avatar {
 	line-height:20px;
 	margin-bottom:5px;
 }
+.member-btn {
+	float: right;
+	position:relative;
+	margin: 10px;
+	top: 0;
+	right: 0;
+}
 .user-list {
 	margin:20px;
 }

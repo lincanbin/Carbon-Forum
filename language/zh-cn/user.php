@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Unfollow' => '取消关注',
 	'Follow' => '关注他',
+	'Send_Message' => '发送私信',
 	'Block_User' => '封禁用户',
 	'Unblock_User' => '解禁用户',
 	'Reset_Avatar' => '重置头像',
