@@ -90,8 +90,8 @@ if($CurUserRole>=4){
 }
 ?>
 <?php
-//if($CurUserRole>=4 || $Topic['UserID']==$CurUserID){
-if($CurUserRole>=4){
+if($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Topic['UserID'] == $CurUserID)){
+//if($CurUserRole>=4){
 ?>
 <a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;"><?php echo $Lang['Edit']; ?></a>
 <?php

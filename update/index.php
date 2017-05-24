@@ -170,6 +170,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "upload ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "vote ENGINE=InnoDB;");
+
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowEditing', 'true');");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowEmptyTags', 'false');");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowNewTopic', 'true');");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CloseRegistration', 'false');");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('FreezingTime', '0');");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PostingInterval', '8');");
 	}
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
@@ -354,7 +361,7 @@ if (!$Message) {
 		<!-- footer start -->
 		<div class="Copyright">
 			<p>
-			Powered By <a href="http://www.94cb.com" target="_blank">Carbon Forum <?php
+			Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum <?php
 echo $Version;
 ?></a> © 2006-2016
 			</p>

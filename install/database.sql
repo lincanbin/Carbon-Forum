@@ -439,6 +439,9 @@ CREATE TABLE `carbon_vote` (
 -- ----------------------------
 -- Records of carbon_config
 -- ----------------------------
+INSERT INTO `carbon_config` VALUES ('AllowEditing', 'true');
+INSERT INTO `carbon_config` VALUES ('AllowEmptyTags', 'false');
+INSERT INTO `carbon_config` VALUES ('AllowNewTopic', 'true');
 INSERT INTO `carbon_config` VALUES ('AppDomainName', 'app.94cb.com');
 INSERT INTO `carbon_config` VALUES ('CacheAnnouncements', '');
 INSERT INTO `carbon_config` VALUES ('CacheHotTags', '');
@@ -447,11 +450,13 @@ INSERT INTO `carbon_config` VALUES ('CacheLinks', '');
 INSERT INTO `carbon_config` VALUES ('CacheOauth', '');
 INSERT INTO `carbon_config` VALUES ('CacheRolesDict', '');
 INSERT INTO `carbon_config` VALUES ('CacheTime', '');
+INSERT INTO `carbon_config` VALUES ('CloseRegistration', 'false');
 INSERT INTO `carbon_config` VALUES ('CookiePrefix', 'CarbonBBS_');
 INSERT INTO `carbon_config` VALUES ('DaysDate', '2014-11-01');
 INSERT INTO `carbon_config` VALUES ('DaysPosts', '0');
 INSERT INTO `carbon_config` VALUES ('DaysTopics', '0');
 INSERT INTO `carbon_config` VALUES ('DaysUsers', '0');
+INSERT INTO `carbon_config` VALUES ('FreezingTime', '0');
 INSERT INTO `carbon_config` VALUES ('MainDomainName', '');
 INSERT INTO `carbon_config` VALUES ('MaxPostChars', '60000');
 INSERT INTO `carbon_config` VALUES ('MaxTagChars', '128');
@@ -467,6 +472,7 @@ INSERT INTO `carbon_config` VALUES ('PageBottomContent', '');
 INSERT INTO `carbon_config` VALUES ('PageHeadContent', '');
 INSERT INTO `carbon_config` VALUES ('PageSiderContent', 'Hello World');
 INSERT INTO `carbon_config` VALUES ('PostsPerPage', '25');
+INSERT INTO `carbon_config` VALUES ('PostingInterval', '8');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');

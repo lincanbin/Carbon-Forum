@@ -27,6 +27,16 @@ $Lang = array_merge($Lang, array(
 	'Post_Max' => '每个帖子最多',
 	'Post_Max_Chars' => '个字符',
 
+	'Allow_Ordinary_Users_To_Edit_Their_Own_Posts' => '允许普通用户编辑自己的帖子',
+	'Allow_Empty_Tags' => '允许不输入标签',
+	'Allow_Ordinary_Users_To_Create_New_Topics' => '允许普通用户发布新主题',
+	'Close_Registration' => '禁止注册',
+	'New_User_Freeze_Time' => '新用户冻结时间',
+	'Posting_Interval' => '发帖间隔',
+
+	'Yes' => '是',
+	'No' => '否',
+
 	'Save' => '保存设置',
 
 	'Html_Between_Head' => '&lt;Head&gt;标签之间的内容',

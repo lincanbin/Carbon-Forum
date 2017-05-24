@@ -381,8 +381,11 @@ class Manage
 	public function postEdit($PostInfo)
 	{
 		global $CurUserRole, $CurUserName, $TimeStamp;
-		//Auth(4, $PostInfo['UserID'], true);
-		Auth(4);
+		if ($this->config['AllowEditing'] === 'true') {
+			Auth(4, $PostInfo['UserID'], true);
+		} else {
+			Auth(4);
+		}
 		$Content             = XssEscape(Request('Post', 'Content', $PostInfo['Content']));
 		// 内容过滤系统
 		$ContentFilterResult = Filter($Content);
