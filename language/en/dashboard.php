@@ -4,9 +4,9 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array (
-  'Basic_Settings' => 'Basic Settings',
-  'Page_Settings' => 'Page Settings',
-  'Advanced_Settings' => 'Advanced Settings',
+  'Basic_Settings' => 'Basic',
+  'Page_Settings' => 'Page',
+  'Advanced_Settings' => 'Advanced',
   'Refresh_Cache' => 'Refresh Cache',
   'Forum_Name' => 'Forum Name',
   'Forum_Descriptions' => 'Forum Descriptions<br /><br />Which are shown to the Search Engine.<br />Less than 150 characters. ',
@@ -34,7 +34,7 @@ $Lang = array_merge($Lang, array (
   'SMTP_Auth' => 'SMTP Auth',
   'SMTP_Username' => 'Email Address',
   'SMTP_Password' => 'Email Password',
-  'Oauth_Settings' => 'oAuth Settings',
+  'Oauth_Settings' => 'oAuth',
   'App_Key' => 'App Key',
   'App_Secret' => 'App Secret',
   'Callback_URL' => 'Callback URL',
@@ -53,4 +53,8 @@ $Lang = array_merge($Lang, array (
   'Posting_Interval' => 'Posting interval',
   'Yes' => 'Yes',
   'No' => 'no',
+  'Parameter_Settings' => 'Parameter',
+  'Upload_Parameters' => 'Upload parameters',
+  'Text_Filter_Parameter' => 'Text filtering parameters',
+  'Parameter_Settings_Successfully_Saved' => 'The parameter settings were changed successfully and the {{NewConfig}} item was modified',
 ));

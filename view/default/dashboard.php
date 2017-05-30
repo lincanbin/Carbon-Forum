@@ -45,6 +45,7 @@ function GenerateSelect($Options, $Name)
 		<li><?php echo $Lang['Basic_Settings']; ?></li>
 		<li><?php echo $Lang['Page_Settings']; ?></li>
 		<li><?php echo $Lang['Advanced_Settings']; ?></li>
+		<li><?php echo $Lang['Parameter_Settings']; ?></li>
 		<li><?php echo $Lang['Oauth_Settings']; ?></li>
 		<li><?php echo $Lang['Refresh_Cache']; ?></li>
 		<li><?php echo $Lang['Recycle_Bin']; ?></li>
@@ -210,19 +211,19 @@ function GenerateSelect($Options, $Name)
 					<tr>
 						<td width="200" align="right"><?php echo $Lang['Html_Between_Head']; ?> </td>
 						<td width="auto" align="left">
-							<textarea class="w600 h160" name="PageHeadContent"><?php echo $Config['PageHeadContent']; ?></textarea>
+							<textarea class="w600 h160" name="PageHeadContent"><?php echo CharCV($Config['PageHeadContent']); ?></textarea>
 						</td>
 					</tr>
 					<tr>
 						<td width="200" align="right"><?php echo $Lang['Html_Before_Body']; ?></td>
 						<td width="auto" align="left">
-							<textarea class="w600 h160" name="PageBottomContent"><?php echo $Config['PageBottomContent']; ?></textarea>
+							<textarea class="w600 h160" name="PageBottomContent"><?php echo CharCV($Config['PageBottomContent']); ?></textarea>
 						</td>
 					</tr>
 					<tr>
 						<td width="200" align="right"> <?php echo $Lang['Html_SiderBar']; ?><br/></td>
 						<td width="auto" align="left">
-							<textarea class="w600 h160" name="PageSiderContent"><?php echo $Config['PageSiderContent']; ?></textarea>
+							<textarea class="w600 h160" name="PageSiderContent"><?php echo CharCV($Config['PageSiderContent']); ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -244,32 +245,15 @@ function GenerateSelect($Options, $Name)
 					<tr>
 						<td width="200" align="right"><?php echo $Lang['jQuery_CDN']; ?></td>
 						<td width="auto" align="left">
-							<select name="LoadJqueryUrl">
-								<option value="<?php echo $Config['LoadJqueryUrl']; ?>"><?php echo $Config['LoadJqueryUrl']; ?>
-									(Current)
-								</option>
-								<option value="<?php echo $Config['WebsitePath']; ?>/static/js/jquery.js"><?php echo $Config['WebsitePath']; ?>
-									/static/js/jquery.js (Local)
-								</option>
-								<option value="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js">
-									cdn.bootcss.com/jquery/1.10.2/jquery.min.js (Bootcss CDN)
-								</option>
-								<option value="//lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js">
-									lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js (Sina CDN)
-								</option>
-								<option value="//libs.baidu.com/jquery/1.10.2/jquery.min.js">
-									libs.baidu.com/jquery/1.10.2/jquery.min.js (Baidu CDN)
-								</option>
-								<option value="//libs.useso.com/js/jquery/1.10.2/jquery.min.js">
-									libs.useso.com/js/jquery/1.10.2/jquery.min.js (Qihoo360 CDN)
-								</option>
-								<option value="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js">
-									ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js (Microsoft CDN)
-								</option>
-								<option value="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-									ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js (Google CDN)
-								</option>
-							</select>
+							<?php echo GenerateSelect(array(
+								'No CDN (Default)' => $Config['WebsitePath'] . '/static/js/jquery.js',
+								'Bootcss CDN' => '//cdn.bootcss.com/jquery/1.10.2/jquery.min.js',
+								'Sina CDN' => '//lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js',
+								'Baidu CDN' => '//libs.baidu.com/jquery/1.10.2/jquery.min.js',
+								'Qihoo360 CDN' => '//libs.useso.com/js/jquery/1.10.2/jquery.min.js',
+								'Microsoft CDN' => '//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js',
+								'Google CDN' => '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'
+							), 'LoadJqueryUrl'); ?>
 						</td>
 					</tr>
 					<tr>
@@ -300,7 +284,7 @@ function GenerateSelect($Options, $Name)
 								'110 seconds' => '110',
 								'170 seconds' => '170',
 								'235 seconds' => '235',
-								'280 seconds' => '280',
+								'280 seconds' => '280'
 							), 'PushConnectionTimeoutPeriod'); ?>
 						</td>
 					</tr>
@@ -321,7 +305,7 @@ function GenerateSelect($Options, $Name)
 						<td width="auto" align="left">
 							<?php echo GenerateSelect(array(
 								$Lang['Yes'] => 'true',
-								$Lang['No'] => 'false',
+								$Lang['No'] => 'false'
 							), 'SMTPAuth'); ?>
 						</td>
 					</tr>
@@ -348,8 +332,48 @@ function GenerateSelect($Options, $Name)
 			</form>
 		</div>
 		<div>
-			<p class="red text-center"><?php echo $OauthMessage; ?></p>
+			<p class="red text-center"><?php echo $ParameterMessage; ?></p>
 			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard4">
+				<input type="hidden" name="Action" value="Parameter"/>
+				<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs14">
+					<tbody>
+					<tr>
+						<td width="200" align="right"><?php echo $Lang['Upload_Parameters']; ?> </td>
+						<td width="auto" align="left">
+							<textarea class="w600 h320" name="UploadParameters"><?php
+								if (is_file(LibraryPath . 'Uploader.config.json')) {
+									echo CharCV(file_get_contents(LibraryPath . 'Uploader.config.json'));
+								} else {
+									echo CharCV(file_get_contents(LibraryPath . 'Uploader.config.template.json'));
+								}
+								?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td width="200" align="right"><?php echo $Lang['Text_Filter_Parameter']; ?></td>
+						<td width="auto" align="left">
+							<textarea class="w600 h320" name="TextFilterParameter"><?php
+								if (is_file(LibraryPath . 'Filtering.words.config.json')) {
+									echo CharCV(file_get_contents(LibraryPath . 'Filtering.words.config.json'));
+								} else {
+									echo CharCV(file_get_contents(LibraryPath . 'Filtering.words.config.template.json'));
+								}
+								?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td width="200" align="right"></td>
+						<td width="auto" align="left">
+							<input type="submit" value="<?php echo $Lang['Save']; ?>" name="submit" class="textbtn"/>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<div>
+			<p class="red text-center"><?php echo $OauthMessage; ?></p>
+			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard5">
 				<input type="hidden" name="Action" value="AddOauth"/>
 				<?php
 				foreach ($OauthConfig as $Key => $Value) {
@@ -387,13 +411,13 @@ function GenerateSelect($Options, $Name)
 		<div>
 			<p class="red text-center"><?php echo $CacheMessage; ?></p>
 			<p class="grey text-center"><?php echo $Lang['Refresh_Cache_Notice']; ?></p>
-			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard5">
+			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard6">
 				<input type="hidden" name="Action" value="Cache"/>
 				<div class="div-align"><input type="submit" value="<?php echo $Lang['Refresh_All_Cache']; ?>"
 											  name="submit" class="textbtn"/></div>
 			</form>
 			<p></p>
-			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard5">
+			<form method="post" action="<?php echo $Config['WebsitePath']; ?>/dashboard#dashboard6">
 				<input type="hidden" name="Action" value="Statistics"/>
 				<div class="div-align">
 					<input type="submit" value="<?php echo $Lang['Refresh_All_Cache']; ?>(<?php echo $Lang['Statistics']; ?>)" name="submit" class="textbtn"/>

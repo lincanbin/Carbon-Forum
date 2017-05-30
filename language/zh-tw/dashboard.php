@@ -53,4 +53,8 @@ $Lang = array_merge($Lang, array (
   'Posting_Interval' => '發帖間隔',
   'Yes' => '是',
   'No' => '否',
+  'Parameter_Settings' => '參數設置',
+  'Upload_Parameters' => '上傳參數',
+  'Text_Filter_Parameter' => '文本過濾參數',
+  'Parameter_Settings_Successfully_Saved' => '參數設置修改成功，{{NewConfig}}項已修改',
 ));

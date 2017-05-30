@@ -53,4 +53,8 @@ $Lang = array_merge($Lang, array (
   'Posting_Interval' => 'interwał wpis',
   'Yes' => 'jest',
   'No' => 'nie',
+  'Parameter_Settings' => 'Parametrów',
+  'Upload_Parameters' => 'Dodaj parametry',
+  'Text_Filter_Parameter' => 'parametry filtrowania tekst',
+  'Parameter_Settings_Successfully_Saved' => 'Parametr modyfikacja jest skuteczne, {{}} NewConfig elementy zostały zmodyfikowane',
 ));

@@ -7,6 +7,7 @@ $Lang = array_merge($Lang, array(
 	'Basic_Settings' => '基本设置',
 	'Page_Settings' => '页面设置',
 	'Advanced_Settings' => '高级设置',
+	'Parameter_Settings' => '参数设置',
 	'Refresh_Cache' => '更新缓存',
 
 	'Forum_Name' => '论坛名称',
@@ -55,6 +56,9 @@ $Lang = array_merge($Lang, array(
 	'SMTP_Username' => '邮箱地址',
 	'SMTP_Password' => '邮箱密码',
 
+	'Upload_Parameters' => '上传参数',
+	'Text_Filter_Parameter' => '文本过滤参数',
+
 	'Oauth_Settings' => 'oAuth设置',
 	'App_Key' => 'App Key',
 	'App_Secret' => 'App Secret',
@@ -66,6 +70,7 @@ $Lang = array_merge($Lang, array(
 	'Successfully_Refreshed' => '缓存更新成功',
 	'Basic_Settings_Successfully_Saved' => '基本设置修改成功，{{NewConfig}}项已修改',
 	'Page_Settings_Successfully_Saved' => '页面设置修改成功，{{NewConfig}}项已修改',
+	'Parameter_Settings_Successfully_Saved' => '参数设置修改成功，{{NewConfig}}项已修改',
 	'Oauth_Settings_Successfully_Saved' => 'oAuth设置修改成功',
 	'Advanced_Settings_Successfully_Saved' => '高级设置修改成功，{{NewConfig}}项已修改',
 	));

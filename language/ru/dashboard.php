@@ -4,9 +4,9 @@ if (empty($Lang) || !is_array($Lang))
 	$Lang = array();
 
 $Lang = array_merge($Lang, array (
-  'Basic_Settings' => 'Основные настройки',
+  'Basic_Settings' => 'Основные',
   'Page_Settings' => 'Реклама',
-  'Advanced_Settings' => 'Доп. настройки',
+  'Advanced_Settings' => 'Доп.',
   'Refresh_Cache' => 'Обновить кэш',
   'Forum_Name' => 'Название форума',
   'Forum_Descriptions' => 'Описание форума<br /><br />Для поисковых систем.<br />Не менее чем 150 символов. ',
@@ -34,7 +34,7 @@ $Lang = array_merge($Lang, array (
   'SMTP_Auth' => 'SMTP Auth',
   'SMTP_Username' => 'Email адрес',
   'SMTP_Password' => 'Email пароль',
-  'Oauth_Settings' => 'oAuth настройки',
+  'Oauth_Settings' => 'oAuth',
   'App_Key' => 'App ключ',
   'App_Secret' => 'App секрет',
   'Callback_URL' => 'Ссылка обратной связи',
@@ -53,4 +53,8 @@ $Lang = array_merge($Lang, array (
   'Posting_Interval' => 'интервал проводок',
   'Yes' => 'Здесь',
   'No' => 'нет',
+  'Parameter_Settings' => 'параметров',
+  'Upload_Parameters' => 'Загрузить параметры',
+  'Text_Filter_Parameter' => 'Параметры фильтрации текста',
+  'Parameter_Settings_Successfully_Saved' => 'Параметр модификации успешно, {{NewConfig}} элементы были изменены',
 ));

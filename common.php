@@ -331,7 +331,11 @@ function CurIP()
 //关键词过滤
 function Filter($Content)
 {
-	$FilteringWords = require(LibraryPath . "Filtering.words.config.php");
+	if (is_file(LibraryPath . 'Filtering.words.config.json')) {
+		$FilteringWords = JsonDecode(file_get_contents(LibraryPath . 'Filtering.words.config.json'));
+	} else {
+		$FilteringWords = JsonDecode(file_get_contents(LibraryPath . 'Filtering.words.config.template.json'));
+	}
 	$Prohibited = false;
 	$GagTime = 0;
 	foreach ($FilteringWords as $SearchRegEx => $Rule) {
@@ -471,6 +475,11 @@ function IsEmail($email)
 	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
 }
 
+function IsJson($String)
+{
+	JsonDecode($String);
+	return (json_last_error() === JSON_ERROR_NONE);
+}
 
 //判断是否为合法用户名
 function IsName($string)
@@ -494,6 +503,11 @@ function IsSSL()
 	return false;
 }
 
+// 去除注释的JsonDecode
+function JsonDecode($Json)
+{
+	return json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", $Json), true);
+}
 
 //登出
 function LogOut()
@@ -505,66 +519,6 @@ function LogOut()
 		'UserCode' => ''
 	), 1);
 	$CurUserID = 0;
-}
-
-
-//只有上一页下一页的分页
-function PaginationSimplified($PageUrl, $CurrentPage, $IsLastPage = false)
-{
-	global $Config, $Lang;
-	$PageUrl = $Config['WebsitePath'] . $PageUrl;
-	if ($CurrentPage != 1)
-		echo '<div class="float-left"><a class="previous-next" href="' . $PageUrl . ($CurrentPage - 1) . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
-	echo '<span class="currentpage">' . $CurrentPage . '</span>';
-	if (!$IsLastPage)
-		echo '<div class="float-right"><a href="' . $PageUrl . ($CurrentPage + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
-}
-
-
-//分页
-function Pagination($PageUrl, $CurrentPage, $TotalPage)
-{
-	if ($TotalPage <= 1)
-		return false;
-	global $Config, $Lang;
-	$PageUrl = $Config['WebsitePath'] . $PageUrl;
-	$PageLast = $CurrentPage - 1;
-	$PageNext = $CurrentPage + 1;
-	//echo '<span id="pagenum"><span class="currentpage">' . $CurrentPage . '/' . $TotalPage . '</span>';
-	if ($CurrentPage != 1)
-		echo '<div class="float-left"><a href="' . $PageUrl . $PageLast . '">&lsaquo;&lsaquo;' . $Lang['Page_Previous'] . '</a></div>';
-	if ($CurrentPage <= 4) {
-		$PageiStart = 1;
-	} else if ($CurrentPage >= ($TotalPage - 3)) {
-		$PageiStart = $TotalPage - 7;
-	} else {
-		$PageiStart = $CurrentPage - 3;
-	}
-
-	if ($CurrentPage + 3 >= $TotalPage) {
-		$PageiEnd = $TotalPage;
-	} else if ($CurrentPage <= 3 && $TotalPage >= 8) {
-		$PageiEnd = 8;
-	} else {
-		$PageiEnd = $CurrentPage + 3;
-	}
-	if ($CurrentPage >= 5 && $PageiStart > 1)
-		echo '<a href="' . $PageUrl . '1">1</a>';
-	for ($Pagei = $PageiStart; $Pagei <= $PageiEnd; $Pagei++) {
-		if ($CurrentPage == $Pagei) {
-			echo '<span class="currentpage">' . $Pagei . '</span>';
-		} elseif ($Pagei > 0 && $Pagei <= $TotalPage) {
-			echo '<a href="' . $PageUrl . $Pagei . '">' . $Pagei . '</a>';
-		}
-	}
-	if ($CurrentPage + 3 < $TotalPage && $PageiEnd < $TotalPage) {
-		echo '<a href="' . $PageUrl . $TotalPage . '">' . $TotalPage . '</a>';
-	}
-	if ($CurrentPage != $TotalPage) {
-		echo '<div class="float-right"><a href="' . $PageUrl . $PageNext . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
-	}
-	//echo '&nbsp;&nbsp;&nbsp;<input type="text" onkeydown="JavaScript:if((event.keyCode==13)&&(this.value!=\'\')){window.location=\''.$PageUrl.'\'+this.value;}" onkeyup="JavaScript:if(isNaN(this.value)){this.value=\'\';}" size=4 title="请输入要跳转到第几页,然后按下回车键">';
-	//echo '</span>';
 }
 
 

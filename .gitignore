@@ -35,7 +35,9 @@
 #Server related files and data files
 *.lock
 *.log
-/includes/logs
+/library/logs
+/library/Uploader.config.json
+/library/Filtering.words.config.json
 /upload
 
 #These files will be created automatically after install

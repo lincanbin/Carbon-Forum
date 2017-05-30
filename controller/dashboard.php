@@ -4,6 +4,7 @@ Auth(5);
 $BasicMessage    = '';
 $PageMessage     = '';
 $AdvancedMessage = '';
+$ParameterMessage = '';
 $OauthMessage = '';
 $CacheMessage    = '';
 $Action          = Request('Post', 'Action', false);
@@ -13,6 +14,19 @@ $OauthData = $OauthData?$OauthData:array();
 $OauthConfig = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents(LibraryPath . 'Oauth.config.json')), true);
 
 switch ($Action) {
+	case 'Parameter':
+		$SuccessNumber = 0;
+		$UploadParameters = Request('Post', 'UploadParameters', '');
+		if (IsJson($UploadParameters)) {
+			$SuccessNumber += file_put_contents(LibraryPath . 'Uploader.config.json', $UploadParameters) === false ? 0 : 1;
+		}
+
+		$TextFilterParameter = Request('Post', 'TextFilterParameter', '');
+		if (IsJson($TextFilterParameter)) {
+			$SuccessNumber += file_put_contents(LibraryPath . 'Filtering.words.config.json', $TextFilterParameter) === false ? 0 : 1;
+		}
+		$ParameterMessage = str_replace('{{NewConfig}}', $SuccessNumber, $Lang['Parameter_Settings_Successfully_Saved']);
+		break;
 	case 'Cache':
 		@set_time_limit(0);
 		UpdateConfig(array(

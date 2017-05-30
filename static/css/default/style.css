@@ -977,6 +977,10 @@ img .avatar {
 	height:160px;
 }
 
+.h320 {
+	height:320px;
+}
+
 .icon {
 	display: inline-block;
 	background-image: url('../../img/default/icon.png');
