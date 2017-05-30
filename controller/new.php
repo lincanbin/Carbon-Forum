@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$TagsArray = isset($_POST['Tag']) ? $_POST['Tag'] : array();
 	do {
         //发帖至少要间隔8秒
-        if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - $CurUserInfo['LastPostTime']) <= 8)) {
+        if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - intval($CurUserInfo['LastPostTime'])) <= intval($Config['PostingInterval']))) {
 			$Error     = $Lang['Posting_Too_Often'];
 			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
 			break;
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 		
 		$TagsArray = TagsDiff($TagsArray, array());
-		if (empty($TagsArray) || in_array('', $TagsArray) || count($TagsArray) > $Config["MaxTagsNum"]) {
+		if ($Config['AllowEmptyTags'] !== 'true' && (empty($TagsArray) || in_array('', $TagsArray) || count($TagsArray) > $Config["MaxTagsNum"])) {
 			$Error     = $Lang['Tags_Empty'];
 			$ErrorCode = $ErrorCodeList['Tags_Empty'];
 			break;
@@ -70,7 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		try {
             $DB->beginTransaction();
             //获取已存在的标签
-			$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . PREFIX . "tags` WHERE `Name` IN (?)", $TagsArray);
+			if (!empty($TagsArray)) {
+				$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . PREFIX . "tags` WHERE `Name` IN (?)", $TagsArray);
+			} else {
+				$TagsExistArray = array();
+			}
 			$TagsExist      = ArrayColumn($TagsExistArray, 'Name');
 			$TagsID         = ArrayColumn($TagsExistArray, 'ID');
 			$NewTags        = TagsDiff($TagsArray, $TagsExist);

@@ -134,7 +134,7 @@ function CreateNewTopic() {
 		alert(Lang['Title_Too_Long'].replace("{{MaxTitleChars}}", MaxTitleChars).replace("{{Current_Title_Length}}", document.NewForm.Title.value.replace(/[^\x00-\xff]/g, "***").length));
 		document.NewForm.Title.focus();
 		return false;
-	} else if (!$("#SelectTags").html()) {
+	} else if (AllowEmptyTags === false && !$("#SelectTags").html()) {
 		if ($("#AlternativeTag").val().length != 0) {
 			AddTag($("#AlternativeTag").val(), Math.round(new Date().getTime() / 1000));
 		}else{

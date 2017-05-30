@@ -2,6 +2,7 @@
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <script type="text/javascript">
+	var AllowEmptyTags = <?php echo $Config["AllowEmptyTags"]; ?>;//允许空话题
 	var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
 	var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
 	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数

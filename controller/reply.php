@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		}
 
 		//发帖至少要间隔8秒
-		if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - $CurUserInfo['LastPostTime']) <= 8)) {
+		if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - intval($CurUserInfo['LastPostTime'])) <= intval($Config['PostingInterval']))) {
 			$Error = $Lang['Posting_Too_Often'];
 			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
 			break;

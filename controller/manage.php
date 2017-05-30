@@ -35,7 +35,10 @@ if (method_exists($Manage, $ManageMethod)) {
 	$Manage->$ManageMethod($ManageInfo);
 	$Message = $Manage->message;
 }
-
+/**
+ * @property MemcacheMod mCache
+ * @property DB db
+ */
 class Manage
 {
 	private $id;

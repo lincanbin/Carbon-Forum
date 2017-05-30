@@ -27,7 +27,7 @@ function CreateNewTopic() {
 		CarbonAlert(Lang['Title_Too_Long'].replace("{{MaxTitleChars}}", MaxTitleChars).replace("{{Current_Title_Length}}", document.NewForm.Title.value.replace(/[^\x00-\xff]/g, "***").length));
 		document.NewForm.Title.focus();
 		return false;
-	} else if ($("#SelectTags li").length <= 1) {
+	} else if (AllowEmptyTags === false && $("#SelectTags li").length <= 1) {
 		if ($("#AlternativeTag").val().length != 0) {
 			AddTag($("#AlternativeTag").val(), Math.round(new Date().getTime() / 1000));
 		}else{
