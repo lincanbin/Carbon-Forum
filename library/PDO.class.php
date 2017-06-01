@@ -219,6 +219,7 @@ class DB
 			&& $this->retryAttempt < self::RETRY_ATTEMPTS
 			&& stripos($message, 'server has gone away') !== false
 			&& !empty($method)
+			&& !$this->inTransaction()
 		) {
 			$this->SetFailureFlag();
 			$this->retryAttempt ++;
