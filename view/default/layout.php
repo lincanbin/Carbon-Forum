@@ -166,7 +166,8 @@ if(!$IsAjax){
 						   title="<?php echo $Lang['Notifications']; ?>"<?php echo $UrlPath == 'notifications' ? ' class="buttons-active"' : ''; ?>
 						   onclick="javascript:ShowNotification(0);">
 							<div class="icon icon-notifications"></div>
-							<span class="icon-messages-num" id="MessageNumber">0</span></a>
+							<span class="icon-messages-num" id="MessageNumber">0</span>
+						</a>
 						<?php
 						if ($CurUserRole == 5) {
 							?>

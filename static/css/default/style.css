@@ -992,7 +992,7 @@ img .avatar {
 	visibility:hidden;
 	color:#FFFFFF;
 	position: absolute;
-	left: 60%;
+	right: 4px;
 	margin-left: 1px;
 	top: 5px;
 	font-size: 10px;
@@ -1063,6 +1063,14 @@ img .avatar {
 }
 .topic-dec {
     padding: 2px 6px 15px;
+}
+
+.notification-tab li {
+	position: relative;
+}
+
+.notification-tab span {
+	visibility: inherit;
 }
 
 /* inbox */

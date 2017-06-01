@@ -15,6 +15,17 @@ $(document).ready(function(){
 	loadMoreReply(true);
 	loadMoreMention(true);
 	loadMoreInbox(true);
+	<?php
+	if ($CurUserInfo['NewMention'] > 0) {
+	?>
+	$(".resp-tab-item")[1].click();
+	<?php
+	} else if ($CurUserInfo['NewMessage'] > 0) {
+	?>
+	$(".resp-tab-item")[2].click();
+	<?php
+	}
+	?>
 });
 </script>
 <script type="text/template" id="RepliedToMePostTemplate">
@@ -94,10 +105,37 @@ $(document).ready(function(){
 		<input type="hidden" id="MentionedMeLoading" value="0" />
 		<input type="hidden" id="InboxPage" value="1" />
 		<input type="hidden" id="InboxLoading" value="0" />
-		<ul class="resp-tabs-list">
-			<li><?php echo $Lang['Notifications_Replied_To_Me']; ?></li>
-			<li><?php echo $Lang['Notifications_Mentioned_Me']; ?></li>
-			<li><?php echo $Lang['Inbox']; ?></li>
+		<ul class="resp-tabs-list notification-tab">
+			<li>
+				<?php echo $Lang['Notifications_Replied_To_Me']; ?>
+				<?php
+				if ($CurUserInfo['NewReply'] > 0) {
+					?>
+					<span class="icon-messages-num"><?php echo $CurUserInfo['NewReply']; ?></span>
+					<?php
+				}
+				?>
+			</li>
+			<li>
+				<?php echo $Lang['Notifications_Mentioned_Me']; ?>
+				<?php
+				if ($CurUserInfo['NewMention'] > 0) {
+					?>
+					<span class="icon-messages-num"><?php echo $CurUserInfo['NewMention']; ?></span>
+					<?php
+				}
+				?>
+			</li>
+			<li>
+				<?php echo $Lang['Inbox']; ?>
+				<?php
+				if ($CurUserInfo['NewMessage'] > 0) {
+					?>
+					<span class="icon-messages-num"><?php echo $CurUserInfo['NewMessage']; ?></span>
+					<?php
+				}
+				?>
+			</li>
 		</ul>
 		<div class="resp-tabs-container main-box home-box-list">
 			<div id="RepliedToMeList"></div>
