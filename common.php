@@ -933,20 +933,21 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 	if ($MCache) {
 		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 	}
-	if (!$TempUserInfo) {
+	if (empty($TempUserInfo)) {
 		$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
 			"UserID" => $CurUserID
 		));
-
-		if ($MCache && $TempUserInfo) {
-			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
+		if ($TempUserInfo) {
+			$TempUserInfo['NewNotification'] = $TempUserInfo['NewReply'] + $TempUserInfo['NewMention'] + $TempUserInfo['NewMessage'];
+			if ($MCache) {
+				$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
+			}
 		}
 	}
 	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . SALT), $CurUserCode)) {
 		$CurUserName = $TempUserInfo['UserName'];
 		$CurUserRole = $TempUserInfo['UserRoleID'];
 		$CurUserInfo = $TempUserInfo;
-		$CurUserInfo['NewNotification'] = $CurUserInfo['NewReply'] + $CurUserInfo['NewMention'] + $CurUserInfo['NewMessage'];
 	} else {
 		LogOut();
 	}
