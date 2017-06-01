@@ -108,7 +108,7 @@ function CreateMessage($DialogInfo, $Content)
 			'LastTime' => $TimeStamp,
 			'IsDel' => 0,
 		));
-		$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMention` = NewMention+1 WHERE ID = :UserID', array(
+		$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMessage` = NewMessage+1 WHERE ID = :UserID', array(
 			'UserID' => $ReceiverID
 		));
 		$DB->commit();
