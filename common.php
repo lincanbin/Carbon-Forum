@@ -660,7 +660,7 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 			'UserID' => $UserID
 		)));
 		if ($MCache) {
-			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserID, $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserID, $DB->row("SELECT *, (NewReply + NewMention + NewMessage) as NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
 				"UserID" => $UserID
 			)), 86400);
 		}
