@@ -934,14 +934,11 @@ if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp 
 		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
 	}
 	if (empty($TempUserInfo)) {
-		$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
+		$TempUserInfo = $DB->row("SELECT *, (NewReply + NewMention + NewMessage) as NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
 			"UserID" => $CurUserID
 		));
-		if ($TempUserInfo) {
-			$TempUserInfo['NewNotification'] = $TempUserInfo['NewReply'] + $TempUserInfo['NewMention'] + $TempUserInfo['NewMessage'];
-			if ($MCache) {
-				$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
-			}
+		if ($MCache && $TempUserInfo) {
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
 		}
 	}
 	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . SALT), $CurUserCode)) {
