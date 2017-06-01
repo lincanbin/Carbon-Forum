@@ -14,11 +14,11 @@ switch (Request('Request', 'action')) {
 				if ($CurUserInfo) {
 					$CurNewNotification = $CurUserInfo['NewNotification'];
 				} else {
-					$TempUserInfo = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
+					$TempUserInfo = $DB->row("SELECT *, (NewReply + NewMention + NewMessage) as NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
 						"UserID" => $CurUserID
 					));
 					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
-					$CurNewNotification = $TempUserInfo['NewReply'] + $TempUserInfo['NewMention'] + $TempUserInfo['NewMessage'];
+					$CurNewNotification = $TempUserInfo['NewNotification'];
 				}
 			} else {
 				$CurNewNotification = $DB->single("SELECT (NewReply + NewMention + NewMessage) AS NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
