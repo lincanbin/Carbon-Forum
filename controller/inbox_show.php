@@ -26,7 +26,7 @@ $MessagesArray = $DB->query('SELECT UserID as ContactID, Content, Time FROM ' . 
 ));
 foreach ($MessagesArray as &$Value) {
 	$Value['IsMe'] = ($Value['ContactID'] == $CurUserID);
-	$Value['ContactName'] = $DialogInfo['SenderID'] == $Value['UserID'] ? $DialogInfo['SenderName'] : $DialogInfo['ReceiverName'];
+	$Value['ContactName'] = $DialogInfo['SenderID'] == $Value['ContactID'] ? $DialogInfo['SenderName'] : $DialogInfo['ReceiverName'];
 	$Value['FormatTime'] = FormatTime($Value['Time']);
 }
 $DB->CloseConnection();
