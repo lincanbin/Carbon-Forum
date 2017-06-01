@@ -113,6 +113,7 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	2:@ 到我的
 	*/
 	global $DB, $MCache, $TimeStamp, $CurUserName;
+	$InTransaction = $DB->inTransaction();//是否处于其他事务之中
 	//例外列表
 	$ExceptionUser = array(
 		$CurUserName
@@ -126,10 +127,11 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
 	//对数组重新分配下标
 	sort($TemporaryUserList);
-	//var_dump($TemporaryUserList);
 	if ($TemporaryUserList) {
 		try {
-			$DB->beginTransaction();
+			if (!$InTransaction) {
+				$DB->beginTransaction();
+			}
 			$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` IN (?)', $TemporaryUserList);
 			if ($UserList && count($UserList) <= 20) {
 				//最多@ 20人，防止骚扰
@@ -152,9 +154,15 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 					}
 				}
 			}
-			$DB->commit();
+			if (!$InTransaction) {
+				$DB->commit();
+			}
 		} catch (Exception $ex) {
-			$DB->rollBack();
+			if (!$InTransaction) {
+				$DB->rollBack();
+			} else {
+				throw $ex;
+			}
 			return false;
 		}
 	}
