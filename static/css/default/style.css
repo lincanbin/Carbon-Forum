@@ -371,7 +371,7 @@ h2.resp-accordion {
 /* searchbox */
 .buttons .searchbox{
 	float: left;
-	width: 219px;
+	width: 360px;
 	margin: 0 4px;
 }
 .buttons .searchbox input{
@@ -379,7 +379,7 @@ h2.resp-accordion {
 	background-color: #F9F9F9;
 	margin: 14px 0 13px 0;
 	padding: 2px 0 2px 16px;
-	width: 123px;/*219-(56+4*2)-16*2*/
+	width: 264px;/*360-(56+4*2)-16*2*/
 	border-bottom-color: #F9F9F9;
 	border-bottom-width: 1px;
 }
