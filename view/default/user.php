@@ -15,8 +15,17 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<div class="member-detail">
 			<p><?php echo $Lang['UserName']; ?>：<strong><?php echo $UserInfo['UserName']; ?></strong></p>
 			<p><?php echo $Lang['Registered_In']; ?>：<?php echo FormatTime($UserInfo['UserRegTime']); ?></p>
-			<p><?php echo $Lang['Topics_Number']; ?>： <?php echo $UserInfo['Topics']; ?>
-				&nbsp;&nbsp;&nbsp; <?php echo $Lang['Posts_Number']; ?>： <?php echo $UserInfo['Replies']; ?></p>
+			<p>
+				<?php echo $Lang['Topics_Number']; ?>：
+				<a href="<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode('user:' . $UserInfo['UserName']); ?>">
+					<?php echo $UserInfo['Topics']; ?>
+				</a>
+				&nbsp;&nbsp;&nbsp;
+				<?php echo $Lang['Posts_Number']; ?>：
+				<a href="<?php echo $Config['WebsitePath']; ?>/search/<?php echo urlencode('user:' . $UserInfo['UserName'] . ' post:true'); ?>">
+					<?php echo $UserInfo['Replies']; ?>
+				</a>
+			</p>
 			<p><?php echo $Lang['Homepage']; ?>： <a href="<?php echo $UserInfo['UserHomepage']; ?>" target="_blank"
 													rel="nofollow"><?php echo $UserInfo['UserHomepage']; ?></a></p>
 			<p><?php echo $Lang['Introduction']; ?>：
