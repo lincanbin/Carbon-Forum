@@ -7,4 +7,5 @@ $Lang = array_merge($Lang, array (
   'Chat_With_SB' => '與 {{UserName}} 對話',
   'Message_Content' => '消息內容',
   'Send_Message' => '發送',
+  'Inbox' => '私信箱',
 ));

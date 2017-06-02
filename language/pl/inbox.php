@@ -7,4 +7,5 @@ $Lang = array_merge($Lang, array (
   'Chat_With_SB' => 'Dialog z {{UserName}}',
   'Message_Content' => 'treść wiadomości',
   'Send_Message' => 'wysłać',
+  'Inbox' => 'Prywatna poczta',
 ));

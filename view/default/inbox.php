@@ -26,7 +26,7 @@ $(document).ready(function(){
 
 	<div class="title">
 		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo;
-        <a href="<?php echo $Config['WebsitePath']; ?>/notifications/list#notifications3">Inbox</a> &raquo;
+        <a href="<?php echo $Config['WebsitePath']; ?>/notifications/list#notifications3"><?php echo $Lang['Inbox']; ?></a> &raquo;
         <?php echo str_replace('{{UserName}}', '<a href="' . $Config['WebsitePath']  . '/u/' . $ContactUserName . '">' . $ContactUserName . '</a>', $Lang['Chat_With_SB']) ?>
 	</div>
 	<div class="main-box">
