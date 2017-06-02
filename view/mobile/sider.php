@@ -66,7 +66,7 @@ if($CurUserID){
 if( $Config['MobileDomainName'] ){
 ?>
 	<li>
-		<a class="icon tv" href="<?php echo $CurProtocol . $Config['MainDomainName'].$Config['WebsitePath']; ?>/view-desktop?callback=<?php echo urlencode($RequestURI); ?>" data-ignore="True">
+		<a class="icon tv" href="<?php echo $CurProtocol . $Config['MainDomainName'].$Config['WebsitePath']; ?>/redirect-desktop?callback=<?php echo urlencode($RequestURI); ?>" data-ignore="True">
 			<?php echo $Lang['Desktop_Version']; ?>
 		</a>
 	</li>

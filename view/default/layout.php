@@ -220,7 +220,7 @@ if(!$IsAjax){
 		if ($IsMobile && $Config['MobileDomainName']) {
 			?>
 			<div class="swtich-to-mobile">
-				<a href="<?php echo $CurProtocol . $Config['MainDomainName']; ?>/view-mobile?callback=<?php echo urlencode($RequestURI); ?>">
+				<a href="<?php echo $CurProtocol . $Config['MainDomainName']; ?>/redirect-mobile?callback=<?php echo urlencode($RequestURI); ?>">
 					<?php echo $Lang['Mobile_Version']; ?>
 				</a>
 			</div>

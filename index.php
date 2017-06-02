@@ -81,7 +81,7 @@ $Routes['GET']['/u/(?<username>.*?)']                                           
 $Routes['GET']['/users/following(/page/(?<page>[0-9]*))?']                                 = 'favorite_users';
 $Routes['GET']['/upload_controller']                                                       = 'upload';
 $Routes['POST']['/upload_controller']                                                      = 'upload';
-$Routes['GET']['/view-(?<view>desktop|mobile)']                                            = 'view';
+$Routes['GET']['/redirect-(?<view>desktop|mobile)']                                        = 'redirect';
 
 //这里是Routes End
 $UrlPath = 'home';
