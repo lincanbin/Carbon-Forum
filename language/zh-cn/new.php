@@ -7,6 +7,7 @@ $Lang = array_merge($Lang, array(
 	'Title' => '标题',
 	'Add_Tags' => '添加话题(按Enter添加)',
 	'Submit' => ' 发 布 ',
+	'Prohibited_New_Topic' => '管理员禁止普通用户发布新主题',
 	'Posting_Too_Often' => '您发帖过于频繁，请稍后再尝试',
 	'Tags_Empty' => '标签不能为空',
 	'Prohibited_Content' => '你发表的主题含有被禁止发表的内容',

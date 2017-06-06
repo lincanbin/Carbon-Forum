@@ -18,6 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$Content   = Request('Post', 'Content');
 	$TagsArray = isset($_POST['Tag']) ? $_POST['Tag'] : array();
 	do {
+		if ($Config['AllowNewTopic'] === 'false' && $CurUserRole < 3) {
+			$Error     = $Lang['Prohibited_New_Topic'];
+			$ErrorCode = $ErrorCodeList['Prohibited_New_Topic'];
+			break;
+		}
+
         //发帖至少要间隔8秒
         if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - intval($CurUserInfo['LastPostTime'])) <= intval($Config['PostingInterval']))) {
 			$Error     = $Lang['Posting_Too_Often'];

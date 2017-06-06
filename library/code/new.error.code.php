@@ -6,4 +6,5 @@ return array(
 	'Tags_Empty' => 103003,
 	'Posting_Too_Often' => 103004,
 	'Prohibited_Content' => 103005,
+	'Prohibited_New_Topic' => 103006,
 );
