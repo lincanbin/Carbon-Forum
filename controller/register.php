@@ -15,6 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 	$Password   = Request('Post', 'Password');
 	$VerifyCode = intval(Request('Post', 'VerifyCode'));
 	do{
+		if ($Config['CloseRegistration'] === 'true') {
+			$Error     = $Lang['Prohibit_Registration'];
+			$ErrorCode = 104006;
+			break;
+		}
+
+
 		if (!($UserName && $Email && $Password && $VerifyCode)) {
 			$Error = $Lang['Forms_Can_Not_Be_Empty'];
 			$ErrorCode = 104001;
@@ -93,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 			'UserLastIP' => $CurIP,
 			'UserRegTime' => $TimeStamp,
 			'LastLoginTime' => $TimeStamp,
-			'LastPostTime' => $TimeStamp,
+			'LastPostTime' => $TimeStamp + intval($Config['FreezingTime']),
 			'BlackLists' => '',
 			'UserFriend' => '',
 			'UserInfo' => '',

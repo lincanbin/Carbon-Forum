@@ -6,6 +6,7 @@ if (empty($Lang) || !is_array($Lang))
 $Lang = array_merge($Lang, array(
 	'Email' => '电子邮箱',
 	'Confirm_Password' => '再次输入密码',
+	'Prohibit_Registration' => '管理员已经禁止注册',
 	'This_User_Name_Already_Exists' => '这名字太火了，已经被抢注了，换一个吧！',
 	'VerificationCode_Error' => '验证码错误',
 	'Email_Error' => '电子邮箱不符合规则，电子邮箱正确格式为abc@domain.com',

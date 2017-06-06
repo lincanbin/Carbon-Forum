@@ -20,7 +20,7 @@ define('CARBON_FORUM_VERSION', '5.9.0');
 //Initialize timer
 $MicroTime = explode(' ', microtime());
 $StartTime = $MicroTime[1] + $MicroTime[0];
-$TimeStamp = $_SERVER['REQUEST_TIME'];
+$TimeStamp = intval($_SERVER['REQUEST_TIME']);
 if ((@include __DIR__ . '/config.php') != 1) {
 	//Bring user to installation
 	header("Location: install/");
