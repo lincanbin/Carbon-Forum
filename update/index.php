@@ -114,16 +114,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CacheHotTags', '')");
 	}
 
-	//当前版本低于5.8.0，需要进行的升级到5.8.0的升级操作
-	if (VersionCompare('5.8.0', $OldVersion)) {
+	//当前版本低于5.9.0，需要进行的升级到5.9.0的升级操作
+	if (VersionCompare('5.9.0', $OldVersion)) {
+		if (!empty($DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewNotification'"))) {
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewNotification`;");
+
+		}
 		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewMention` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NumFavTopics`;");
 		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewReply` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NumFavTopics`;");
 		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewReply = NewMessage;");
 		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewMessage = 0;");
-	}
-
-	//当前版本低于5.9.0，需要进行的升级到5.9.0的升级操作
-	if (VersionCompare('5.9.0', $OldVersion)) {
 		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "messages`;");
 		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "messages` (
 			  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
