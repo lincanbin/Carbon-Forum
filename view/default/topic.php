@@ -196,7 +196,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							<div class="comment-button">
 								<div class="float-left">
 									<?php
-									if ($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Topic['UserID'] == $CurUserID)) {
+									if ($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Post['UserID'] == $CurUserID)) {
 										?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);"
 											 title="<?php echo $Lang['Edit']; ?>">
 											<div class="icon icon-edit"></div>
