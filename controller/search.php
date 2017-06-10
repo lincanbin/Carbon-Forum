@@ -2,7 +2,7 @@
 require(LanguagePath . 'home.php');
 
 $Page         = Request('Get', 'page');
-$Keyword      = Request('Get', 'keyword');
+$Keyword      = CharCV(Request('Get', 'keyword'));
 $KeywordArray = array_unique(explode(" ", $Keyword));
 $Error        = '';
 
