@@ -120,6 +120,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewNotification`;");
 
 		}
+		if (!empty($DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewMention'"))) {
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewMention`;");
+
+		}
+		if (!empty($DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewReply'"))) {
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewReply`;");
+
+		}
 		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewMention` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NumFavTopics`;");
 		$DB->query("ALTER TABLE " . DATABASE_PREFIX . "users ADD COLUMN `NewReply` INT (10) UNSIGNED NOT NULL DEFAULT 0 AFTER `NumFavTopics`;");
 		$DB->query("UPDATE " . DATABASE_PREFIX . "users SET NewReply = NewMessage;");
