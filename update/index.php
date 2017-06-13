@@ -143,6 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			  PRIMARY KEY (`ID`),
 			  KEY `Index` (`IsDel`,`InboxID`,`Time`) USING BTREE
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+
+		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "inbox`;");
 		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "inbox` (
 			`ID` int(10) NOT NULL AUTO_INCREMENT,
 			`SenderID` int(10) NOT NULL,
@@ -157,6 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			KEY `SenderID` (`SenderID`,`ReceiverID`),
 			KEY `ReceiverID` (`ReceiverID`,`SenderID`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
+		
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "app` ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "app_users` ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "blogs` ENGINE=InnoDB;");
