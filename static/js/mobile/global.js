@@ -177,11 +177,26 @@ function PageAjaxLoad (Title, URL) {
 		document.title = Title;
 		$.afui.setTitle(Title);
 		slideout.close();
-		if (document.getElementById("ReturnUrl") != null) {
+		if (document.getElementById("ReturnUrl") !== null) {
 			document.getElementById("ReturnUrl").value = URL;
 		}
 	}, 1);
 }
+
+
+function renderTemplate(template, list) {
+	var buffer = [];
+	var temp = '';
+	for (var i = 0; i < list.length; i++) {
+		temp = template;
+		$.each(list[i], function(k, v) {
+			temp = temp.replace(new RegExp('{{' + k + '}}', 'g'), v);
+		});
+		buffer.push(temp);
+	}
+	return buffer.join("");
+}
+
 
 //非阻塞的带样式的Alert
 function CarbonAlert(Message) {

@@ -31,8 +31,7 @@ $(document).ready(function(){
 	</div>
 	<div class="main-box">
 		<div class="inbox-textarea-wrap">
-			<input type="hidden" name="InboxID" id="InboxID" value="<?php echo $InboxID; ?>" />
-			<textarea class="w600 h160" name="MessageContent" id="MessageContent" placeholder="<?php echo $Lang['Message_Content']; ?>"></textarea>
+			<textarea class="h160" name="MessageContent" id="MessageContent" placeholder="<?php echo $Lang['Message_Content']; ?>"></textarea>
 		</div>
 		<div class="text-center">
 			<input type="button" value="<?php echo $Lang['Send_Message']; ?>" class="textbtn" onclick="JavaScript:;" id="SendMessageButton" />

@@ -42,7 +42,7 @@ function loadMoreReply(forceToShow) {
 	var RepliedToMePage = $("#RepliedToMePage");
 	var RepliedToMeLoading = $("#RepliedToMeLoading");
 
-	if (forceToShow || (RepliedToMeList.is(":visible") && RepliedToMeLoading.val() != "1")) {
+	if (forceToShow || (RepliedToMeList.is(":visible") && RepliedToMeLoading.val() !== "1")) {
 		RepliedToMeLoading.val("1");
 		$.ajax({
 			url: WebsitePath + '/notifications/reply/page/' + RepliedToMePage.val(),
@@ -50,7 +50,7 @@ function loadMoreReply(forceToShow) {
 			dataType: 'json',
 			success: function(Result) {
 				RepliedToMeLoading.val("0");
-				if (Result.Status == 1) {
+				if (Result.Status === 1) {
 					var Template = $("#RepliedToMePostTemplate").html();
 					RepliedToMeList.append(renderTemplate(Template, Result.ReplyArray));
 					RepliedToMePage.val(parseInt(RepliedToMePage.val()) + 1);
@@ -71,7 +71,7 @@ function loadMoreMention(forceToShow) {
 	var MentionedMePage = $("#MentionedMePage");
 	var MentionedMeLoading = $("#MentionedMeLoading");
 
-	if (forceToShow || (MentionedMeList.is(":visible") && MentionedMeLoading.val() != "1")) {
+	if (forceToShow || (MentionedMeList.is(":visible") && MentionedMeLoading.val() !== "1")) {
 		MentionedMeLoading.val("1");
 		$.ajax({
 			url: WebsitePath + '/notifications/mention/page/' + MentionedMePage.val(),
@@ -79,7 +79,7 @@ function loadMoreMention(forceToShow) {
 			dataType: 'json',
 			success: function(Result) {
 				MentionedMeLoading.val("0");
-				if (Result.Status == 1) {
+				if (Result.Status === 1) {
 					var Template = $("#MentionedMePostTemplate").html();
 					MentionedMeList.append(renderTemplate(Template, Result.MentionArray));
 					MentionedMePage.val(parseInt(MentionedMePage.val()) + 1);
@@ -100,7 +100,7 @@ function loadMoreInbox(forceToShow) {
 	var InboxPage = $("#InboxPage");
 	var InboxLoading = $("#InboxLoading");
 
-	if (forceToShow || (InboxList.is(":visible") && InboxLoading.val() != "1")) {
+	if (forceToShow || (InboxList.is(":visible") && InboxLoading.val() !== "1")) {
 		InboxLoading.val("1");
 		$.ajax({
 			url: WebsitePath + '/notifications/inbox/page/' + InboxPage.val(),
@@ -108,7 +108,7 @@ function loadMoreInbox(forceToShow) {
 			dataType: 'json',
 			success: function(Result) {
 				InboxLoading.val("0");
-				if (Result.Status == 1) {
+				if (Result.Status === 1) {
 					var Template = $("#InboxTemplate").html();
 					InboxList.append(renderTemplate(Template, Result.InboxArray));
 					InboxPage.val(parseInt(InboxPage.val()) + 1);
@@ -130,7 +130,7 @@ function loadMoreMessages(forceToShow) {
 	var MessagesPage = $("#MessagesPage");
 	var MessagesLoading = $("#MessagesLoading");
 
-	if (forceToShow || MessagesLoading.val() != "1") {
+	if (forceToShow || MessagesLoading.val() !== "1") {
 		MessagesLoading.val("1");
 		$.ajax({
 			url: WebsitePath + '/inbox/' + InboxID + '/list/page/' + MessagesPage.val(),
@@ -138,7 +138,7 @@ function loadMoreMessages(forceToShow) {
 			dataType: 'json',
 			success: function(Result) {
 				MessagesLoading.val("0");
-				if (Result.Status == 1) {
+				if (Result.Status === 1) {
 					var Template = $("#MessageTemplate").html();
 					for (var i = Result.MessagesArray.length - 1; i >= 0; i--) {
 						Result.MessagesArray[i]['Position'] = Result.MessagesArray[i]['IsMe'] ? 'right' : 'left';
@@ -178,7 +178,7 @@ $(function() {
 	function isUrlEndWith(endStr) {
 		var url = window.document.location.pathname;
 		var d = url.length - endStr.length;
-		return d >= 0 && url.lastIndexOf(endStr) == d;
+		return d >= 0 && url.lastIndexOf(endStr) === d;
 	}
 
 	function loadNotificationsList() {
@@ -302,7 +302,7 @@ function GetNotification() {
 		dataType: 'json',
 		async: true,
 		success: function(Data) {
-			if (Data.Status != 0) {
+			if (Data.Status !== 0) {
 				ShowNotification(Data.NewMessage);
 			}
 			//获取到新消息，30秒后再请求
@@ -379,7 +379,7 @@ function loadScript(url, callback) {
 	script.type = "text/javascript";
 	if (script.readyState) { //IE
 		script.onreadystatechange = function() {
-			if (script.readyState == "loaded" || script.readyState == "complete") {
+			if (script.readyState === "loaded" || script.readyState === "complete") {
 				script.onreadystatechange = null;
 				callback();
 			}
@@ -390,7 +390,7 @@ function loadScript(url, callback) {
 		};
 	}
 	script.src = url;
-	if (document.getElementById(script.id) == undefined) {
+	if (document.getElementById(script.id) === undefined) {
 		document.getElementsByTagName("head")[0].appendChild(script);
 	} else {
 		callback();
@@ -401,7 +401,7 @@ function loadScript(url, callback) {
 //管理函数的完成回调
 function ManageCallback(TargetTag) {
 	this.Success = function(Json) {
-		if (Json.Status == 1) {
+		if (Json.Status === 1) {
 			//alert(Json.Message);
 			$(TargetTag).text(Json.Message);
 			//window.location.reload();

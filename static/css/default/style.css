@@ -1042,7 +1042,6 @@ img .avatar {
 	text-shadow: 0 0 1px #DDD;
 	vertical-align: baseline;
 	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
@@ -1093,13 +1092,13 @@ img .avatar {
 .message-item .avatar-left {
 	position:absolute;
 	left: -90px;
-	top: 0px;
+	top: 0;
 }
 
 .message-item .avatar-right {
 	position:absolute;
 	right: -90px;
-	top: 0px;
+	top: 0;
 }
 
 .message-item .jt {

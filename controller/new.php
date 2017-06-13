@@ -199,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"IsTopic" => 1,
 				"UserID" => $CurUserID,
 				"UserName" => $CurUserName,
-				"Subject" => htmlspecialchars($Title),
+				"Subject" => CharCV($Title),
 				"Content" => XssEscape($Content),
 				"PostIP" => $CurIP,
 				"PostTime" => $TimeStamp
