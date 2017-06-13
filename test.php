@@ -15,8 +15,8 @@ define('TestAppDomainName', 'local-api.94cb.com:' . TestHTTPPort);
 $Passed = 0;
 $Failed = 0;
 
-require(__DIR__."/config.php");
-require(__DIR__."/library/PDO.class.php");
+require(__DIR__ . "/config.php");
+require(__DIR__ . "/library/PDO.class.php");
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
 function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 200, $Callback = null)
@@ -38,7 +38,7 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 			$URL = "http://" . TestMainDomainName . $URL;
 			break;
 	}
-	
+
 
 	//echo $URL . "\n";
 	//var_dump($Parameters);
@@ -47,22 +47,20 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	}
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) CarbonForum/5.0");
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $Method); 
-	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($Parameters)); 
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $Method);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($Parameters));
 	curl_setopt($ch, CURLOPT_URL, $URL);
 
-	$MicroTime = explode(' ', microtime());
-	$StartTime = $MicroTime[1] + $MicroTime[0];
+	$StartTime = microtime(true);
 	$Response = curl_exec($ch);
-	$EndTime     = explode(' ', microtime());
 
 	$Info = curl_getinfo($ch);
 	curl_close($ch);
 	//var_dump($Response);
-	if ($Callback == null){
-		$Callback = function($Response, &$Pass) use ($View) {
+	if ($Callback == null) {
+		$Callback = function ($Response, &$Pass) use ($View) {
 			if ($View === 'api') {
 				$Result = json_decode($Response, true);
 				if ($Result === false) {
@@ -71,7 +69,7 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 					if (isset($Result['Status']) && $Result['Status'] === 0) {
 						$Pass = false;
 					}
-					echo json_encode($Result, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) . "\n";
+					echo json_encode($Result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n";
 				}
 			} else {
 				echo implode("\n", array_filter(explode("\n", strip_tags($Response)), 'trim')) . "\n";
@@ -80,7 +78,7 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	}
 	$Callback($Response, $Pass);
 
-	if ($Info['http_code'] !== $ExpectedStatusCode){
+	if ($Info['http_code'] !== $ExpectedStatusCode) {
 		$Pass = false;
 		echo "\n\033[31m expect $ExpectedStatusCode but got {$Info['http_code']}\033[0m\n";
 	}
@@ -91,15 +89,16 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 		$Passed += 1;
 		echo "\n\033[32m passed\033[0m\n";
 	}
-	echo "\n\033[36m " . (number_format(($EndTime[1] + $EndTime[0] - $StartTime), 6) * 1000) . "ms \033[0m\n";
+	echo "\n\033[36m " . number_format((microtime(true) - $StartTime) * 1000, 3) . "ms \033[0m\n";
 	echo "\n\033[33m -------------------------------------------------------- \033[0m\n";
 	echo "\n\n\n\n\n\n\n";
 	return json_decode($Response, true);
 }
+
 // 设置域名
-$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestMainDomainName . "' WHERE `ConfigName`='MainDomainName'");
-$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestMobileDomainName . "' WHERE `ConfigName`='MobileDomainName'");
-$DB->query("UPDATE `".PREFIX."config` SET `ConfigValue`='" . TestAppDomainName . "' WHERE `ConfigName`='AppDomainName'");
+$DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . TestMainDomainName . "' WHERE `ConfigName`='MainDomainName'");
+$DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . TestMobileDomainName . "' WHERE `ConfigName`='MobileDomainName'");
+$DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . TestAppDomainName . "' WHERE `ConfigName`='AppDomainName'");
 
 // 开始测试
 AutoTest('GET', 'api', '/404', [], 404);
@@ -131,13 +130,14 @@ $UserAuthenticationParameters = [
 	'AuthUserCode' => $UserAuthenticationArray['UserCode']
 ];
 
+$LastestTopicID = '1';
 // Create New Topic Test
 foreach (range(1, 50 + mt_rand(-15, 15)) as $i) {
 	//sleep(9);
 	$NewData = array_merge($UserAuthenticationParameters, [
 		'Title' => 'The test was carried out by Canbin Lin.' . $i,
 		'Tag[]' => 'lincanbin' . mt_rand(1, 5),
-		'Content' => $i . 'aaa<br \>bbb<p>ccc</p><script></script>'
+		'Content' => $i . 'aaa<br />bbb<p>ccc</p><script></script>'
 	]);
 	$LastestTopicInfo = AutoTest('POST', 'api', '/new', $NewData, 200);
 	$LastestTopicID = $LastestTopicInfo['TopicID'];
@@ -147,10 +147,10 @@ foreach (range(1, 50 + mt_rand(-15, 15)) as $i) {
 		//sleep(9);
 		$ReplyData = array_merge($UserAuthenticationParameters, [
 			'TopicID' => $LastestTopicID,
-			'Content' => $j . 'reply<br />aaa<br \>bbb<p>ccc</p><script></script>'
+			'Content' => $j . 'reply<br />aaa<br />bbb<p>ccc</p><script></script>'
 		]);
 		$LastestTopicInfo = AutoTest('POST', 'api', '/reply', $ReplyData, 200);
-		}
+	}
 }
 // Get the Topic Information and Replies Test
 AutoTest('GET', 'api', '/t/' . $LastestTopicID, [], 200);
@@ -171,7 +171,7 @@ $DB->CloseConnection();
 
 echo "\n\n\033[32m $Passed passed \033[0m\n\n";
 
-if ($Failed === 0){
+if ($Failed === 0) {
 	exit(0);
 } else {
 	echo "\033[31m $Failed failed \033[0m\n\n";

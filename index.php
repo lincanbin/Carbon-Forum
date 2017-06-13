@@ -97,8 +97,6 @@ foreach ($Routes[$HTTPMethod] as $URL => $Controller) {
 				$_REQUEST[$Key] = urldecode($Value);
 			}
 		}
-		//$MicroTime = explode(' ', microtime());
-		//echo number_format(($MicroTime[1] + $MicroTime[0] - $StartTime), 6) * 1000;
 		$UrlPath = $Controller;
 		break;
 	}

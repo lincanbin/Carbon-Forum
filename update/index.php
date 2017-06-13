@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			KEY `SenderID` (`SenderID`,`ReceiverID`),
 			KEY `ReceiverID` (`ReceiverID`,`SenderID`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
-		
+
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "app` ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "app_users` ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "blogs` ENGINE=InnoDB;");
