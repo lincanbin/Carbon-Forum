@@ -390,7 +390,7 @@ function loadScript(url, callback) {
 		};
 	}
 	script.src = url;
-	if (document.getElementById(script.id) === null) {
+	if ($("#" + script.id).length === 0) {
 		document.getElementsByTagName("head")[0].appendChild(script);
 	} else {
 		callback();
