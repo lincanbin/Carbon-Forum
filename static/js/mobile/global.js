@@ -212,7 +212,7 @@ function GetNotification() {
 		dataType: 'json',
 		async: true,
 		success: function(Data) {
-			if (Data.Status != 0) {
+			if (Data.Status !== 0) {
 				ShowNotification(Data.NewMessage);
 			}
 			//获取到新消息，30秒后再请求
@@ -296,7 +296,7 @@ function loadScript(url, callback) {
 	script.type = "text/javascript";
 	if (script.readyState) { //IE
 		script.onreadystatechange = function() {
-			if (script.readyState == "loaded" || script.readyState == "complete") {
+			if (script.readyState === "loaded" || script.readyState === "complete") {
 				script.onreadystatechange = null;
 				callback();
 			}
@@ -307,7 +307,7 @@ function loadScript(url, callback) {
 		};
 	}
 	script.src = url;
-	if (document.getElementById(script.id) == undefined) {
+	if (document.getElementById(script.id) === null) {
 		document.getElementsByTagName("head")[0].appendChild(script);
 	} else {
 		callback();
@@ -318,7 +318,7 @@ function loadScript(url, callback) {
 //管理函数的完成回调
 function ManageCallback(TargetTag) {
 	this.Success = function(Json) {
-		if (Json.Status == 1) {
+		if (Json.Status === 1) {
 			TargetTag.innerText = Json.Message;
 		} else {
 			TargetTag.innerText = Json.ErrorMessage;
@@ -408,7 +408,7 @@ function Reply(UserName, PostFloor, PostID, FormHash, TopicID) {
 				dataType: "json",
 				success: function(Result) {
 					//TODO：删除Toast
-					if (Result.Status == 1) {
+					if (Result.Status === 1) {
 						console.log(Result);
 						$.afui.goBack();
 						$.afui.loadContent(
@@ -488,7 +488,7 @@ function TopicParse() {
 			{
 				var a = AllLinks[i];
 				//console.log(a);
-				if(a.host != location.host || a.href.indexOf("upload/") != -1){
+				if(a.host !== location.host || a.href.indexOf("upload/") !== -1){
 					a.setAttribute("target","_blank");
 					a.setAttribute("data-ignore","true");
 				}

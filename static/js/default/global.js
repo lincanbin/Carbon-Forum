@@ -280,7 +280,7 @@ function CheckUserNameExist() {
 			type: 'post',
 			dataType: 'json',
 			success: function(Json) {
-				if (Json.Status == 0) {
+				if (Json.Status === 0) {
 					$("#UserName").addClass("inputnotice");
 				} else {
 					$("#UserName").removeClass("inputnotice");
@@ -390,7 +390,7 @@ function loadScript(url, callback) {
 		};
 	}
 	script.src = url;
-	if (document.getElementById(script.id) === undefined) {
+	if (document.getElementById(script.id) === null) {
 		document.getElementsByTagName("head")[0].appendChild(script);
 	} else {
 		callback();
