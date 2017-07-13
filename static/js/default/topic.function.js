@@ -13,36 +13,35 @@
  */
 
 
-function RenderTopic(){
+function RenderTopic() {
 	//强制所有链接在新窗口中打开
-	var AllPosts = document.getElementsByClassName("comment-content");
+	var AllPosts = document.getElementsByClassName("comment-content");
 	PostContentLists = {};//Global
-	AllPosts[AllPosts.length]=document.getElementsByClassName("topic-content")[0];
-	if(document.getElementsByClassName("topic-content").length>0){
+	AllPosts[AllPosts.length] = document.getElementsByClassName("topic-content")[0];
+	if (document.getElementsByClassName("topic-content").length > 0) {
 		PostContentLists[document.getElementsByClassName("topic-content")[0].childNodes[1].id] = trim3(document.getElementsByClassName("topic-content")[0].childNodes[1].innerHTML);
 	}
 	//console.log(PostContentLists);
-	for (var j=0; j<AllPosts.length; j++) {
+	for (var j = 0; j < AllPosts.length; j++) {
 		PostContentLists[document.getElementsByClassName("comment-content")[j].childNodes[5].id] = trim3(document.getElementsByClassName("comment-content")[j].childNodes[5].innerHTML);
 		//console.log(PostContentLists);
-		var AllLinks = AllPosts[j].getElementsByTagName("a");
-		for(var i=0; i<AllLinks.length; i++)
-		{
+		var AllLinks = AllPosts[j].getElementsByTagName("a");
+		for (var i = 0; i < AllLinks.length; i++) {
 			var a = AllLinks[i];
 			//console.log(a);
-			if(a.host != location.host  || a.href.indexOf("upload/") != -1){
-				a.setAttribute("target","_blank");
+			if (a.host !== location.host || a.href.indexOf("upload/") !== -1) {
+				a.setAttribute("target", "_blank");
 			}
 		}
 	}
 	//样式渲染需最后进行
-	uParse('.topic-content',{
+	uParse('.topic-content', {
 		'rootPath': WebsitePath + '/static/editor/',
-		'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 	});
-	uParse('.comment-content',{
+	uParse('.comment-content', {
 		'rootPath': WebsitePath + '/static/editor/',
-		'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 	});
 
 	// 回帖内容鼠标提示
@@ -71,14 +70,14 @@ function RenderTopic(){
 				if (postId in posts) {
 					showTip(ele, posts[postId]);
 				} else {
-					$.post(WebsitePath + "/json/get_post", { PostId: postId })
+					$.post(WebsitePath + "/json/get_post", {PostId: postId})
 						.success(function (data) {
-						posts[postId] = data;
-						showTip(ele, data);
-					});
+							posts[postId] = data;
+							showTip(ele, data);
+						});
 				}
 			}, function () {
-					$("#reply-mouse-tip").hide();
+				$("#reply-mouse-tip").hide();
 			});
 		};
 		for (var index = 0; index < postA.length; index++) {
@@ -92,55 +91,106 @@ function RenderTopic(){
 	}
 }
 
-function InitEditor(){
+function InitEditor() {
 	//Initialize editor
 	UE.delEditor('editor');
 	window.UEDITOR_CONFIG['textarea'] = 'Content';
 	window.UEDITOR_CONFIG['elementPathEnabled'] = false;
-	window.UEDITOR_CONFIG['toolbars'] = [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|' , 'blockquote', 'insertcode', 'insertorderedlist', 'insertunorderedlist', '|', 'emotion', 'simpleupload', 'insertimage', 'scrawl', 'insertvideo', 'music', 'attachment', '|', 'removeformat', 'autotypeset']];
-	UE.getEditor('editor',{onready:function(){
-		if(window.localStorage){
-			if( typeof SaveDraftTimer != "undefined" ){
-				clearInterval(SaveDraftTimer);
-				console.log('StopTopicAutoSave');
+	window.UEDITOR_CONFIG['toolbars'] = [
+		[
+			'fullscreen',
+			'source',
+			'|',
+			'undo',
+			'redo',
+			'|',
+			'bold',
+			'italic',
+			'underline',
+			'strikethrough', //删除线
+			'forecolor', //字体颜色
+			'backcolor', //背景色
+			'paragraph',
+			'fontsize',
+			'fontfamily',
+			'|',
+			'justifyleft',
+			'justifycenter',
+			'justifyright',
+			'justifyjustify',
+			'|'
+		],
+		[
+			'insertcode',
+			'link',
+			'blockquote',
+			'insertorderedlist',
+			'insertunorderedlist',
+			'|',
+			'emotion',
+			'simpleupload',
+			'insertimage',
+			'scrawl',
+			'insertvideo',
+			//'music',
+			'attachment',
+			'map', //Baidu地图
+			'gmap', //Google地图
+			'|',
+			'inserttable',
+			'insertrow', //前插入行
+			'insertcol', //前插入列
+			'|',
+			'searchreplace', //查询替换
+			'template', //模板
+			'removeformat',
+			'autotypeset'
+		]
+	];
+	UE.getEditor('editor', {
+		onready: function () {
+			if (window.localStorage) {
+				if (typeof SaveDraftTimer !== "undefined") {
+					clearInterval(SaveDraftTimer);
+					console.log('StopTopicAutoSave');
+				}
+				if (typeof SavePostDraftTimer !== "undefined") {
+					clearInterval(SavePostDraftTimer);
+					console.log('StopAutoSave');
+				}
+				//Try to recover previous article from draft
+				//先恢复现场
+				RecoverContents();
+				//再保存草稿
+				SavePostDraftTimer = setInterval(function () {//Global
+						SavePostDraft();
+					},
+					1000); //每隔N秒保存一次
+
 			}
-			if( typeof SavePostDraftTimer != "undefined"){
-				clearInterval(SavePostDraftTimer);
-				console.log('StopAutoSave');
+			//Press Ctrl + Enter to submit in editor
+			var EditorIframe = document.getElementsByTagName("iframe");
+			//console.log(EditorIframe);
+			for (var i = EditorIframe.length - 1; i >= 0; i--) {
+				EditorIframe[i].contentWindow.document.body.onkeydown = function (Event) {
+					ReplyCtrlAndEnter(Event);
+				};
+				//console.log(EditorIframe[i].contentWindow.document);
 			}
-			//Try to recover previous article from draft
-			//先恢复现场
-			RecoverContents();
-			//再保存草稿
-			SavePostDraftTimer = setInterval(function() {//Global
-				SavePostDraft();
-			},
-			1000); //每隔N秒保存一次
-			
 		}
-		//Press Ctrl + Enter to submit in editor
-		var EditorIframe = document.getElementsByTagName("iframe");
-		//console.log(EditorIframe);
-		for (var i = EditorIframe.length - 1; i >= 0; i--) {
-			EditorIframe[i].contentWindow.document.body.onkeydown = function(Event){
-				ReplyCtrlAndEnter(Event);
-			};
-			//console.log(EditorIframe[i].contentWindow.document);
-		}
-	}});
+	});
 	//编辑器外Ctrl + Enter提交回复
-	document.body.onkeydown = function(Event){
+	document.body.onkeydown = function (Event) {
 		ReplyCtrlAndEnter(Event);
 	};
 	console.log('editor loaded.');
 }
 
 
-
 //Ctrl + Enter操作接收函数
 function ReplyCtrlAndEnter(Event) {
 	//console.log("keydown");
-	if (Event.ctrlKey && Event.keyCode == 13) {
+	if (Event.ctrlKey && Event.keyCode === 13) {
 		$("#ReplyButton").click();
 		Event.preventDefault ? Event.preventDefault() : Event.returnValue = false;//阻止回车的默认操作
 	}
@@ -149,7 +199,7 @@ function ReplyCtrlAndEnter(Event) {
 
 //可以去除tab的trim
 function trim3(str) {
-	if(str){
+	if (str) {
 		str = str.replace(/^(\s|\u00A0)+/, '');
 		for (var i = str.length - 1; i >= 0; i--) {
 			if (/\S/.test(str.charAt(i))) {
@@ -162,12 +212,12 @@ function trim3(str) {
 }
 
 //标签编辑
-function InitNewTagsEditor(){
-	$("#AlternativeTag").keydown(function(e) {
+function InitNewTagsEditor() {
+	$("#AlternativeTag").keydown(function (e) {
 		var e = e || event;
 		switch (e.keyCode) {
-		case 13:
-			if ($("#AlternativeTag").val().length != 0) {
+			case 13:
+				if ($("#AlternativeTag").val().length !== 0) {
 					$.ajax({
 						url: WebsitePath + "/manage",
 						data: {
@@ -179,18 +229,18 @@ function InitNewTagsEditor(){
 						cache: false,
 						dataType: "json",
 						type: "POST",
-						success: function(Data){
-							if(Data.Status == 1){
-								$("#TagsElements").append('<a href="'+ WebsitePath + '/tag/' + $("#AlternativeTag").val() + '" id="Tag' + md5($("#AlternativeTag").val()) + '">' + $("#AlternativeTag").val() + '</a>');
-								$("#EditTagsElements").append('<a href="###"  onclick="javascript:DeleteTag('+ TopicID +', this, \'' + $("#AlternativeTag").val() + '\');">' + $("#AlternativeTag").val() + ' ×</a>');
+						success: function (Data) {
+							if (Data.Status === 1) {
+								$("#TagsElements").append('<a href="' + WebsitePath + '/tag/' + $("#AlternativeTag").val() + '" id="Tag' + md5($("#AlternativeTag").val()) + '">' + $("#AlternativeTag").val() + '</a>');
+								$("#EditTagsElements").append('<a href="###"  onclick="javascript:DeleteTag(' + TopicID + ', this, \'' + $("#AlternativeTag").val() + '\');">' + $("#AlternativeTag").val() + ' ×</a>');
 							}
 							$("#AlternativeTag").val("");
 						}
 					});
-			}
-			break;
-		default:
-			return true;
+				}
+				break;
+			default:
+				return true;
 		}
 	});
 }
@@ -210,12 +260,12 @@ function CompletedEditingTags() {
 
 //管理函数的完成回调
 function DeleteTagCallback(TargetTag, TagName) {
-	this.Success = function(Json) {
-		if (Json.Status == 1) {
+	this.Success = function (Json) {
+		if (Json.Status === 1) {
 			$(TargetTag).remove();
-			$("#Tag"+md5(TagName)).remove();
+			$("#Tag" + md5(TagName)).remove();
 		} else {
-			$(TargetTag).text(TagName+" ×");
+			$(TargetTag).text(TagName + " ×");
 		}
 	};
 }
@@ -248,13 +298,13 @@ function EditPost(PostID) {
 	$("#p" + PostID).hide();
 	window.UEDITOR_CONFIG['textarea'] = 'PostContent' + PostID;
 	UE.getEditor('edit' + PostID, {
-		onready: function() {
+		onready: function () {
 			UE.getEditor('edit' + PostID).setContent(PostContentLists['p' + PostID]); //将帖子内容放到编辑器里
 		}
 	});
 	$("#edit" + PostID).show();
-	if( $("#edit_button" + PostID) && $("#edit_button" + PostID).length == 0){
-		$("#edit" + PostID).append('<div id="edit_button'+ PostID +'"><p></p><p><input type="button" value=" ' + Lang['Edit'] + ' " class="textbtn" id="EditButton' + PostID + '" onclick="JavaScript:SubmitEdit(' + PostID + ');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" ' + Lang['Cancel'] + ' " class="textbtn" onclick="JavaScript:DestoryEditor(' + PostID + ');"></p>');
+	if ($("#edit_button" + PostID) && $("#edit_button" + PostID).length == 0) {
+		$("#edit" + PostID).append('<div id="edit_button' + PostID + '"><p></p><p><input type="button" value=" ' + Lang['Edit'] + ' " class="textbtn" id="EditButton' + PostID + '" onclick="JavaScript:SubmitEdit(' + PostID + ');">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value=" ' + Lang['Cancel'] + ' " class="textbtn" onclick="JavaScript:DestoryEditor(' + PostID + ');"></p>');
 	}
 	//document.getElementById('edit' + PostID).style.visibility = "visible";
 }
@@ -293,8 +343,8 @@ function SubmitEdit(PostID) {
 
 //编辑帖子的回调函数
 function EditPostCallback(PostID) {
-	this.Success = function(Json) {
-		if (Json.Status == 1) {
+	this.Success = function (Json) {
+		if (Json.Status === 1) {
 			document.getElementById('p' + PostID).innerHTML = UE.getEditor('edit' + PostID).getContent();
 			PostContentLists['p' + PostID] = UE.getEditor('edit' + PostID).getContent();
 			DestoryEditor(PostID);
@@ -324,8 +374,8 @@ function ReplyToTopic() {
 			cache: false,
 			dataType: 'json',
 			async: true,
-			success: function(data) {
-				if (data.Status == 1) {
+			success: function (data) {
+				if (data.Status === 1) {
 					console.log(SavePostDraftTimer);
 					$("#ReplyButton").val(Lang['Reply_Success']);
 					if (window.localStorage) {
@@ -336,7 +386,7 @@ function ReplyToTopic() {
 					//UE.getEditor('editor').execCommand('cleardoc');
 					console.log(SavePostDraftTimer);
 					$.pjax({
-						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page: "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID, 
+						url: WebsitePath + "/t/" + data.TopicID + (data.Page > 1 ? "-" + data.Page : "") + "?cache=" + Math.round(new Date().getTime() / 1000) + "#Post" + data.PostID,
 						container: '#main',
 						scrollTo: false
 					});
@@ -344,10 +394,10 @@ function ReplyToTopic() {
 				} else {
 					alert(data.ErrorMessage);
 					UE.getEditor('editor').setEnabled();
-                    $("#ReplyButton").val(Lang['Submit_Again']);
+					$("#ReplyButton").val(Lang['Submit_Again']);
 				}
 			},
-			error: function() {
+			error: function () {
 				alert(Lang['Submit_Failure']);
 				UE.getEditor('editor').setEnabled();
 				$("#ReplyButton").val(Lang['Submit_Again']);
@@ -366,18 +416,18 @@ function Reply(UserName, PostFloor, PostID) {
 
 //引用某人
 function Quote(UserName, PostFloor, PostID) {
-	UE.getEditor('editor').setContent('<p></p><blockquote><a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br />'+PostContentLists['p' + PostID] + '<blockquote>');
+	UE.getEditor('editor').setContent('<p></p><blockquote><a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br />' + PostContentLists['p' + PostID] + '<blockquote>');
 	UE.getEditor('editor').focus(false);
 }
 
 //Save Draft
 function SavePostDraft() {
-	try{
+	try {
 		if (UE.getEditor('editor').getContent().length >= 10) {
 			localStorage.setItem(Prefix + "PostContent" + TopicID, UE.getEditor('editor').getContent());
 		}
-	}catch(oException){
-		if(oException.name == 'QuotaExceededError'){
+	} catch (oException) {
+		if (oException.name === 'QuotaExceededError') {
 			console.log('Draft Overflow! ');
 			localStorage.clear();//Clear all draft
 			SavePostDraft();//Save draft again
@@ -395,7 +445,7 @@ function RecoverContents() {
 	var DraftContent = localStorage.getItem(Prefix + "PostContent" + TopicID);
 	if (DraftContent) {
 		UE.getEditor('editor').setContent(DraftContent);
-	}else{
+	} else {
 		UE.getEditor('editor').execCommand('cleardoc');
 	}
 }
