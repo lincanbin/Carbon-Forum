@@ -28,6 +28,9 @@ if ((@include __DIR__ . '/config.php') != 1) {
 require(LanguagePath . 'common.php');
 //Initialize PHP Data Object(Database)
 require(LibraryPath . 'PDO.class.php');
+require(LibraryPath . 'WhiteHTMLFilterConfig.php');
+require(LibraryPath . 'WhiteHTMLFilter.php');
+
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 //Initialize MemCache(d) / Redis
 $MCache = false;
@@ -673,166 +676,46 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 //跨站脚本白名单过滤
 function XssEscape($html)
 {
-	preg_match_all("/\<([^\<]+)\>/is", $html, $ms);
-
-	$searchs[] = '<';
-	$replaces[] = '&lt;';
-	$searchs[] = '>';
-	$replaces[] = '&gt;';
-
-	if ($ms[1]) {
-		$allowtags = 'img|a|font|div|table|tbody|caption|tr|td|th|br|br\/|p|b|strong|i|u|em|span|ol|ul|li|blockquote|object|param|embed|pre|hr|h1|h2|h3|h4|h5|h6|video|source|audio';
-		$ms[1] = array_unique($ms[1]);
-		foreach ($ms[1] as $value) {
-			$searchs[] = "&lt;" . $value . "&gt;";
-
-			$value = str_replace('&', '_uch_tmp_str_', $value);
-			$value = dhtmlspecialchars($value);
-			$value = str_replace('_uch_tmp_str_', '&', $value);
-			$value = str_replace(array(
-				'\\',
-				'/*'
-			), array(
-				'.',
-				'/.'
-			), $value);
-			$skipkeys = array(
-				'onabort',
-				'onactivate',
-				'onafterprint',
-				'onafterupdate',
-				'onbeforeactivate',
-				'onbeforecopy',
-				'onbeforecut',
-				'onbeforedeactivate',
-				'onbeforeeditfocus',
-				'onbeforepaste',
-				'onbeforeprint',
-				'onbeforeunload',
-				'onbeforeupdate',
-				'onblur',
-				'onbounce',
-				'oncellchange',
-				'onchange',
-				'onclick',
-				'oncontextmenu',
-				'oncontrolselect',
-				'oncopy',
-				'oncut',
-				'ondataavailable',
-				'ondatasetchanged',
-				'ondatasetcomplete',
-				'ondblclick',
-				'ondeactivate',
-				'ondrag',
-				'ondragend',
-				'ondragenter',
-				'ondragleave',
-				'ondragover',
-				'ondragstart',
-				'ondrop',
-				'onerror',
-				'onerrorupdate',
-				'onfilterchange',
-				'onfinish',
-				'onfocus',
-				'onfocusin',
-				'onfocusout',
-				'onhelp',
-				'onkeydown',
-				'onkeypress',
-				'onkeyup',
-				'onlayoutcomplete',
-				'onload',
-				'onlosecapture',
-				'onmousedown',
-				'onmouseenter',
-				'onmouseleave',
-				'onmousemove',
-				'onmouseout',
-				'onmouseover',
-				'onmouseup',
-				'onmousewheel',
-				'onmove',
-				'onmoveend',
-				'onmovestart',
-				'onpaste',
-				'onpropertychange',
-				'onreadystatechange',
-				'onreset',
-				'onresize',
-				'onresizeend',
-				'onresizestart',
-				'onrowenter',
-				'onrowexit',
-				'onrowsdelete',
-				'onrowsinserted',
-				'onscroll',
-				'onselect',
-				'onselectionchange',
-				'onselectstart',
-				'onstart',
-				'onstop',
-				'onsubmit',
-				'onunload',
-				'javascript',
-				'script',
-				'eval',
-				'behaviour',
-				'expression',
-				'data'
-			); //style, class
-			$skipstr = implode('|', $skipkeys);
-			$value = preg_replace(array(
-				"/($skipstr)/i"
-			), '.', $value);
-			if (!preg_match("/^[\/|\s]?($allowtags)(\s+|$)/is", $value)) {
-				$value = '';
-			}
-			$replaces[] = empty($value) ? '' : "<" . str_replace('&quot;', '"', $value) . ">";
+	$filter = new WhiteHTMLFilter();
+	$urlFilter = function($url) {
+		$token = parse_url($url);
+		if (empty($token['scheme']) || in_array($token['scheme'], array('http', 'https')) === false) {
+			return '';
 		}
-	}
-	$html = str_replace($searchs, $replaces, $html);
-	return $html;
-}
-
-
-function dhtmlspecialchars($string, $flags = null)
-{
-	if (is_array($string)) {
-		foreach ($string as $key => $val) {
-			$string[$key] = dhtmlspecialchars($val, $flags);
+		$hostWhiteList = array(
+			'www.youtube.com', 'youtube.com', 'www.youtu.be', 'youtu.be',
+			'player.youku.com', 'v.youku.com',
+			'video.tudou.com', 'www.tudou.com',
+			'player.video.qiyi.com', 'open.iqiyi.com',
+			'imgcache.qq.com', 'v.qq.com',
+			'static.hdslb.com',
+			//'www.le.com',
+			'share.vrs.sohu.com', 'tv.sohu.com',
+			'player.pptv.com',
+			'cdn.aixifan.com',
+			'v.ifeng.com',
+			'video.sina.com.cn',
+			'galaxy.bjcathay.com'//CNTV
+		);
+		if (empty($token['host']) || in_array($token['host'], $hostWhiteList) === false) {
+			return '';
 		}
-	} else {
-		if ($flags === null) {
-			$string = str_replace(array(
-				'&',
-				'"',
-				'<',
-				'>'
-			), array(
-				'&amp;',
-				'&quot;',
-				'&lt;',
-				'&gt;'
-			), $string);
-			if (strpos($string, '&amp;#') !== false) {
-				$string = preg_replace('/&amp;((#(\d{3,5}|x[a-fA-F0-9]{4}));)/', '&\\1', $string);
-			}
-		} else {
-			if (version_compare(PHP_VERSION, '5.4.0') < 0) {
-				$string = htmlspecialchars($string, $flags);
-			} else {
-				if (strtolower(CHARSET) == 'utf-8') {
-					$charset = 'UTF-8';
-				} else {
-					$charset = 'ISO-8859-1';
-				}
-				$string = htmlspecialchars($string, $flags, $charset);
-			}
-		}
-	}
-	return $string;
+		return $url;
+	};
+
+	$iframeRule = array(
+		'iframe' => array(
+			'src' => $urlFilter,
+			'width',
+			'height',
+			'frameborder',
+			'allowfullscreen'
+		)
+	);
+	$filter->config->modifyTagWhiteList($iframeRule);
+	$filter->loadHTML($html);
+	$filter->clean();
+	return $filter->outputHtml();
 }
 
 $UserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
