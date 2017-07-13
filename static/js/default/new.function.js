@@ -38,8 +38,7 @@ function InitNewTopicEditor() {
 			'justifyleft',
 			'justifycenter',
 			'justifyright',
-			'justifyjustify',
-			'|'
+			'justifyjustify'
 		],
 		[
 			'insertcode',

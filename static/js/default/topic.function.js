@@ -115,10 +115,7 @@ function InitEditor() {
 			'fontfamily',
 			'|',
 			'justifyleft',
-			'justifycenter',
-			'justifyright',
-			'justifyjustify',
-			'|'
+			'justifycenter'
 		],
 		[
 			'insertcode',
@@ -143,7 +140,6 @@ function InitEditor() {
 			'|',
 			'searchreplace', //查询替换
 			'template', //模板
-			'removeformat',
 			'autotypeset'
 		]
 	];
