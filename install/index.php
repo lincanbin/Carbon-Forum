@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+
 <?php
 @set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');
@@ -14,6 +16,10 @@ if (is_file('install.lock')) {
 //Exit for more security
 	exit();
 }
+
+//检查config是否可写
+if (!is_writeable(__DIR__ . '/config.tpl')) die("Config文件不可写。  The Config File is not writeable ");
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$fp = fopen(__DIR__ . '/database.sql', "r") or die("SQL文件无法打开。  The SQL File could not be opened.");
 	//dobefore
