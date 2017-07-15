@@ -17,8 +17,10 @@ if (is_file('install.lock')) {
 	exit();
 }
 
-//检查config是否可写
-if (!is_writeable(__DIR__ . '/config.tpl')) die("Config文件不可写。  The Config File is not writeable ");
+//检查config.php是否可以写入
+if (is_writable(dirname(dirname(__FILE__))) === false) {
+	die("根目录不可写，无法写入配置文件。  The root directory can not be written. This causes the configuration file to not be generated. ");
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$fp = fopen(__DIR__ . '/database.sql', "r") or die("SQL文件无法打开。  The SQL File could not be opened.");
