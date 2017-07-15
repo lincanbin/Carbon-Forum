@@ -112,10 +112,7 @@ function InitEditor() {
 			'backcolor', //背景色
 			'paragraph',
 			'fontsize',
-			'fontfamily',
-			'|',
-			'justifyleft',
-			'justifycenter'
+			'fontfamily'
 		],
 		[
 			'insertcode',
