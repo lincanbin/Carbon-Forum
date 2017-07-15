@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+
 <?php
 @set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai');
@@ -14,6 +16,12 @@ if (is_file('install.lock')) {
 //Exit for more security
 	exit();
 }
+
+//检查config.php是否可以写入
+if (is_writable(dirname(dirname(__FILE__))) === false) {
+	die("根目录不可写，无法写入配置文件。  The root directory can not be written. This causes the configuration file to not be generated. ");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$fp = fopen(__DIR__ . '/database.sql', "r") or die("SQL文件无法打开。  The SQL File could not be opened.");
 	//dobefore

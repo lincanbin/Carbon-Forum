@@ -8,6 +8,12 @@ define('DATABASE_PREFIX', 'carbon_');
 if (is_file('update.lock')) {
 	die("请删除 update/update.lock 文件后再进行操作！<br>Please Remove update/update.lock before update!");
 }
+
+//检查config.php是否可以写入
+if (is_writable(dirname(dirname(__FILE__))) === false) {
+	die("根目录不可写，无法写入配置文件。  The root directory can not be written. This causes the configuration file to not be generated. ");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$Language       = $_POST['Language'];
 	$DBHost         = $_POST['DBHost'];
