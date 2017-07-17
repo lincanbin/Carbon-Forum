@@ -21,9 +21,11 @@
 class WhiteHTMLFilter
 {
 	public $config;
-	private $dom = NULL;
-	private $tempContent;
 	public $removedTags;
+	private $dom = NULL;
+	private $TEMP_CONTENT;
+	private $PARENT_TAG_NAME;
+
 	/**
 	 * The empty elements in HTML
 	 * https://developer.mozilla.org/en-US/docs/Glossary/Empty_element
@@ -33,6 +35,10 @@ class WhiteHTMLFilter
 		'link', 'meta', 'param', 'source', 'track', 'wbr'
 	);
 
+	/**
+	 * WhiteHTMLFilter constructor.
+	 * @throws Exception
+	 */
 	public function __construct()
 	{
 		if (extension_loaded("dom") === false) {
@@ -41,12 +47,12 @@ class WhiteHTMLFilter
 		$this->config = new WhiteHTMLFilterConfig();
 
 		if (!$this->dom) {
-			$this->dom = new DOMDocument();
+			$this->dom = new DOMDocument('1.0', 'UTF-8');
 		}
 		$this->dom->preserveWhiteSpace = true;
 		$this->dom->formatOutput = false;
-		$this->dom->encoding = 'UTF-8';
-		$this->tempContent = 'a7c598c8-fcb7-4bde-af9c-91c6515fbf7a-lincanbin-' . md5(mt_rand());
+		$this->TEMP_CONTENT = 'a7c598c8-fcb7-4bde-af9c-91c6515fbf7a-lincanbin-' . md5(mt_rand());
+		$this->PARENT_TAG_NAME = substr('tag' . md5(mt_rand()), 0, 8);
 		//Disable libxml errors
 		libxml_use_internal_errors(true);
 	}
@@ -67,12 +73,12 @@ class WhiteHTMLFilter
 	 */
 	public function loadHTML($html)
 	{
-		//$html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
 		$html = str_replace(chr(13), '', $html);
+		$html = '<?xml version="1.0" encoding="utf-8" ?><' . $this->PARENT_TAG_NAME . '>' . $html . '</' . $this->PARENT_TAG_NAME . '>';
 		if (version_compare(PHP_VERSION, '5.4.0') < 0) {
 			return $this->dom->loadHTML($html);
 		} else {
-			return $this->dom->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NODEFDTD);
+			return $this->dom->loadHTML($html, LIBXML_HTML_NODEFDTD);
 		}
 
 	}
@@ -85,16 +91,12 @@ class WhiteHTMLFilter
 	{
 		$result = '';
 		if (!is_null($this->dom)) {
-			$generateTag = function ($tagName) {
-				return '<' . $tagName . '>';
-			};
-			$allowTagsString = implode('', array_map($generateTag, array_keys($this->config->WhiteListTag)));
 			//SaveXML : <br/><img/>
 			//SaveHTML: <br><img>
-			$result = trim($this->dom->saveXML());
-			//$result = mb_convert_encoding($result, "UTF-8", 'HTML-ENTITIES');
-			$result = strip_tags($result, $allowTagsString);
-			$result = str_replace($this->tempContent, '', $result);
+			$result = trim($this->dom->saveXML($this->getRealElement()));
+			$result = str_replace($this->TEMP_CONTENT, '', $result);
+			$parentTagNameLength = strlen($this->PARENT_TAG_NAME);
+			$result = substr($result, $parentTagNameLength + 2, -($parentTagNameLength + 3));
 		}
 		return $result;
 	}
@@ -140,7 +142,7 @@ class WhiteHTMLFilter
 				}
 			} else {
 				if (!in_array($nodeName, $this->emptyElementList) && !$this->isValidText($textContent)) {
-					$elem->nodeValue = $this->tempContent;
+					$elem->nodeValue = $this->TEMP_CONTENT;
 				}
 			}
 		} else {
@@ -236,11 +238,20 @@ class WhiteHTMLFilter
 	public function clean()
 	{
 		$this->removedTags = array();
-		$elem = $this->dom->getElementsByTagName('body')->item(0);
+		$elem = $this->getRealElement();
 		if (is_null($elem)) {
 			return array();
 		}
 		$this->cleanNodes($elem, true);
 		return $this->removedTags;
+	}
+
+	/**
+	 * Get Element without doc type.
+	 * @return DOMElement
+	 */
+	public function getRealElement()
+	{
+		return $this->dom->getElementsByTagName($this->PARENT_TAG_NAME)->item(0);
 	}
 }
