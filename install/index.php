@@ -47,6 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	//初始化数据库操作类
 	require('../library/PDO.class.php');
+	$DB = new Db($DBHost, 3306, '', $DBUser, $DBPassword);
+	$DatabaseExist = $DB->single("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :DBName", array('DBName' => $DBName));
+	if (empty($DatabaseExist)) {
+		$DB->query("CREATE DATABASE IF NOT EXISTS " . $DBName . ";");
+	}
+
 	$DB = new Db($DBHost, 3306, $DBName, $DBUser, $DBPassword);
 	//数据库安装
 	while ($SQL = GetNextSQL()) {
@@ -118,6 +124,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	if (!extension_loaded('gd')) {
 		$Message = '你的PHP未编译gd，本程序无法正常工作<br />Your PHP don’t support gd extension, this program does not work! ';
+	}
+	if (!extension_loaded('dom')) {
+		$Message = 'dom，本程序无法正常工作<br />Your PHP don’t support dom extension, this program does not work! ';
 	}
 }
 
