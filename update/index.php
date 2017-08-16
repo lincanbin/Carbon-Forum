@@ -122,15 +122,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	//当前版本低于5.9.0，需要进行的升级到5.9.0的升级操作
 	if (VersionCompare('5.9.0', $OldVersion)) {
-		if (!empty($DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewNotification'"))) {
+		$IsExistNewNotification = $DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewNotification'");
+		if (!empty($IsExistNewNotification)) {
 			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewNotification`;");
 
 		}
-		if (!empty($DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewMention'"))) {
+
+		$IsExistNewMention = $DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewMention'");
+		if (!empty($IsExistNewMention)) {
 			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewMention`;");
 
 		}
-		if (!empty($DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewReply'"))) {
+
+		$IsExistNewReply = $DB->query("SHOW COLUMNS FROM `" . DATABASE_PREFIX . "users` LIKE 'NewReply'");
+		if (!empty($IsExistNewReply)) {
 			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` DROP COLUMN `NewReply`;");
 
 		}
