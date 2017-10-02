@@ -13,8 +13,6 @@ if (function_exists('apache_get_modules') && !in_array('mod_rewrite', apache_get
 }
 if (is_file('install.lock')) {
 	die("请删除 install/install.lock 文件后再进行操作！<br>Please Remove install/install.lock before install!");
-//Exit for more security
-	exit();
 }
 
 //检查config.php是否可以写入
