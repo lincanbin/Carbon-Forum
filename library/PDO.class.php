@@ -15,7 +15,7 @@ require(__DIR__ . "/PDO.Log.class.php");
 /** Class DB
  * @property PDO pdo PDO object
  * @property PDOStatement sQuery PDOStatement
- * @property logObject PDOLog logObject
+ * @property PDOLog PDOLog logObject
  */
 class DB
 {
@@ -54,7 +54,14 @@ class DB
 	private function Connect()
 	{
 		try {
-			$this->pdo = new PDO('mysql:host=' . $this->Host . ';port=' . $this->DBPort . ';dbname=' . $this->DBName . ';charset=utf8', 
+			$dsn = 'mysql:';
+			$dsn .= 'host=' . $this->Host . ';';
+			$dsn .= 'port=' . $this->DBPort . ';';
+			if (!empty($this->DBName)) {
+				$dsn .= 'dbname=' . $this->DBName . ';';
+			}
+			$dsn .= 'charset=utf8;';
+			$this->pdo = new PDO($dsn,
 				$this->DBUser, 
 				$this->DBPassword,
 				array(
