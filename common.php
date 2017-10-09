@@ -33,6 +33,9 @@ require(LibraryPath . 'WhiteHTMLFilter.php');
 
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 //Initialize MemCache(d) / Redis
+/**
+ * @var $MCache MemcacheMod
+ */
 $MCache = false;
 if (EnableMemcache) {
 	if (extension_loaded('memcached')) {
@@ -320,7 +323,7 @@ function CurIP()
 		$IPs = array_map("trim", explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']));
 		if ($IP) {
 			array_unshift($IPs, $IP);//插入头部而不是尾部，提升性能
-			$IP = FALSE;
+			$IP = false;
 		}
 		//支持使用CDN后获取IP，理论上令 $IP = $IPs[0]; 即可，安全起见遍历过滤一次
 		foreach ($IPs as $Key => $Value) {
@@ -328,13 +331,13 @@ function CurIP()
 			Fails validation for the following private IPv4 ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.
 			Fails validation for the IPv6 addresses starting with FD or FC.
 			*/
-			if (filter_var($Value, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)) {
+			if (filter_var($Value, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
 				$IP = $Value;
 				break;
 			}
 		}
 	}
-	return htmlspecialchars($IP ? $IP : $_SERVER['REMOTE_ADDR']);
+	return CharCV($IP ? $IP : $_SERVER['REMOTE_ADDR']);
 }
 
 

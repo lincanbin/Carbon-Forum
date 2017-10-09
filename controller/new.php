@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			break;
 		}
 
-		if (!$Title) {
+		if ($Title === '') {
 			$Error     = $Lang['Title_Empty'];
 			$ErrorCode = $ErrorCodeList['Title_Empty'];
 			break;
