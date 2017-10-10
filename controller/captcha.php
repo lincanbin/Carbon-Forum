@@ -1,20 +1,23 @@
 <?php
-$digit       = 4; //验证码位数
-$digit_width = 55;// 单位验证码宽度
-$height      = 100;// 验证码高度
-$letter_list = str_split("123456789"); // 预设字符，0容易跟O混淆，就不要了，字母和符号也是支持的，汉字支持需要更换字体包。
+$digit             = 4; //验证码位数
+$digit_width       = 60;// 单位验证码宽度
+$height            = 120;// 验证码高度
+$random_background = true;//启用随机背景色
+$letter_list       = str_split("123456789"); // 预设字符，0容易跟O混淆，就不要了，字母和符号也是支持的，汉字支持需要更换字体包。
 //$letter_list = str_split("abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789");
 
-$width       = $digit_width * $digit;
+$width = $digit_width * ($digit + 1);
 
-$code_list   = array(); // 验证码字符数组
-$block_list  = array(); // 背景色块数组
+$code_list  = array(); // 验证码字符数组
+$block_list = array(); // 背景色块数组
 for ($i = 0; $i < $digit; $i++) {
 	$code_list[$i]          = $letter_list[mt_rand(0, count($letter_list) - 1)];
 	$block_list[$i * 2]     = $i * 2;
 	$block_list[$i * 2 + 1] = $i * 2 + 1;
 }
-$verification_code = implode('', $code_list); // 最终的验证码
+$block_list[$digit * 2]     = $digit * 2;
+$block_list[$digit * 2 + 1] = $digit * 2 + 1;
+$verification_code          = implode('', $code_list); // 最终的验证码
 // for debug only
 //header("X-Verification-Code: " . $verification_code);
 session_start();
@@ -1313,30 +1316,44 @@ $material_design_color = array(
 		56
 	)
 );
+
+$material_design_color_index = count($material_design_color) - 1;
 // 填充背景方块，防止基于灰度的简易二值化算法
+
 $background_color = array();
+// 从色库中取出一个颜色
+if ($random_background === true) {
+	shuffle($material_design_color);
+	$selected_color = array_pop($material_design_color);
+} else {
+	$selected_color = array(255, 255, 255);
+}
 foreach ($block_list as $offset => $code) {
-	$material_design_color_index = count($material_design_color) - 1;
-	$background_color_index      = mt_rand(0, $material_design_color_index);
-	$background_color[$offset]   = imagecolorallocate($background, $material_design_color[$background_color_index][0], $material_design_color[$background_color_index][1], $material_design_color[$background_color_index][2]);
+	$background_color[$offset] = imagecolorallocate($background, $selected_color[0], $selected_color[1], $selected_color[2]);
 	//画一个背景色块
 	imagefilledrectangle($background, $digit_width * $offset / 2, 0, $digit_width * ($offset / 2 + 0.5), $height, $background_color[$offset]);
 	//var_dump($font_color);
 }
 
+// 从色库中取出一个颜色
+shuffle($material_design_color);
+$selected_color = array_pop($material_design_color);
 // 填充验证码，加入随机的字体大小和旋转和位移，以实现大概率字符重叠，防止被轻易切割
+$x_position = mt_rand(0, $digit_width * 0.1) - $digit_width;
 foreach ($code_list as $offset => $code) {
-	$font_height      = $height * mt_rand(7, 11) / 10;
-	$font_color_index = mt_rand(0, $material_design_color_index);
-	$font_color       = imagecolorallocate($background, $material_design_color[$font_color_index][0], $material_design_color[$font_color_index][1], $material_design_color[$font_color_index][2]);
-	imagettftext($background, $font_height, // 字体大小
-		mt_rand(-25, 25), // 扭曲角度
-		$digit_width * $offset + mt_rand(0, $digit_width * 0.5), //x轴位置
+	$proportion = mt_rand(7, 11) / 10;
+	$font_height = $height * $proportion;
+	$x_position  += $digit_width + mt_rand(-$digit_width * 0.1, $digit_width * 0.1);
+	$font_color = imagecolorallocate($background, $selected_color[0], $selected_color[1], $selected_color[2]);
+	imagettftext($background,
+		$font_height, // 字体大小
+		mt_rand(-20, 20), // 扭曲角度
+		$x_position, //x轴位置
 		mt_rand($font_height * 0.9, $font_height * 1.1), //y轴位置
 		$font_color, //颜色
 		LibraryPath . 'fonts/SourceCodePro-Black.ttf', //字体
 		$code //字符
-		);
+	);
 }
 
 // 填充噪点和线
@@ -1344,6 +1361,11 @@ $noise_number = 0.3 * $digit_width * $height / 2; //噪点比例
 $line_number  = min(0.1 * $height, 3); //线段比例，最多出现三条
 $line_width   = 0.03 * $height; //线段宽度
 foreach ($background_color as $offset => $color) {
+	// 先绘制噪点
+	for ($i = 0; $i < $noise_number; $i++) {
+		imagesetpixel($background, mt_rand($offset / 2 * $digit_width, ($offset / 2 + 0.5) * $digit_width), mt_rand(0, $height), $color);
+	}
+
 	//imageellipse($background ,mt_rand($offset * $digit_width, ($offset+1) * $digit_width) , mt_rand(0, $height), mt_rand(0, $height*0.3), $color);
 	for ($i = 0; $i < $line_number; $i++) {
 		$line_x1 = $offset / 2 * $digit_width;
@@ -1354,9 +1376,7 @@ foreach ($background_color as $offset => $color) {
 			imageline($background, $line_x1 + $j, $line_y1, $line_x2 + $j, $line_y2, $color);
 		}
 	}
-	for ($i = 0; $i < $noise_number; $i++) {
-		imagesetpixel($background, mt_rand($offset / 2 * $digit_width, ($offset / 2 + 0.5) * $digit_width), mt_rand(0, $height), $color);
-	}
+
 }
 header('Content-Type: image/png');
 imagepng($background);
