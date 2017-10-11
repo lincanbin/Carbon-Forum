@@ -23,7 +23,7 @@ addons:
 
 before_script:
   - chmod 777 -R ./
-  - mysql -e "create database IF NOT EXISTS carbon;" -uroot
+  #- mysql -e "create database IF NOT EXISTS carbon;" -uroot
   - php -m
   - cd library
   - if [ $(phpenv version-name) != "5.4" ]; then composer install; fi
