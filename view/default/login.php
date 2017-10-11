@@ -39,8 +39,20 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<tr>
 						<td width="180" align="right"><?php echo $Lang['Verification_Code']; ?></td>
 						<td width="auto" align="left">
-							<label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> 
-							<img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" />
+							<label>
+								<input type="text" name="VerifyCode" class="w200"
+									   onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/captcha';document.getElementById('Verification_Code_Img').style.display='inline';"
+									   value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" />
+							</label>
+
+						</td>
+					</tr>
+					<tr>
+						<td width="180" align="right"></td>
+						<td width="auto" align="left">
+							<p>
+								<img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" />
+							</p>
 						</td>
 					</tr>
 					<tr>

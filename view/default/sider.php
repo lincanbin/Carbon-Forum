@@ -12,8 +12,14 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<input type="hidden" name="Expires" value="30" />
 				<p><label><input type="text" name="UserName" id="UserName" class="w200" value="" placeholder="<?php echo $Lang['UserName']; ?>" onblur="CheckUserNameExist()" /></label></p>
 				<p><label><input type="password" name="Password" class="w200" value="" placeholder="<?php echo $Lang['Password']; ?>" /></label></p>
-				<p><label><input type="text" name="VerifyCode" class="w100" onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/seccode.php';document.getElementById('Verification_Code_Img').style.display='inline';" value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" /></label> 
-				<img src="" id="Verification_Code_Img" style="cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" /></p>
+				<p><label>
+						<input type="text" name="VerifyCode" class="w200"
+							   onfocus="document.getElementById('Verification_Code_Img').src='<?php echo $Config['WebsitePath']; ?>/captcha';document.getElementById('Verification_Code_Img').style.display='inline';"
+							   value="" placeholder="<?php echo $Lang['Verification_Code']; ?>" />
+					</label></p>
+				<p>
+					<img class="w200" src="" id="Verification_Code_Img" style="margin: auto 13px;cursor: pointer;display:none;" onclick="this.src+=''" alt="<?php echo $Lang['Verification_Code']; ?>" align="middle" />
+				</p>
 				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" style="margin:0 78px;" /></p>
 				<p class="fs14 text-center">
 					<a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
