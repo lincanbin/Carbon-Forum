@@ -15,17 +15,17 @@ if ($Config['WebsitePath']) {
 } else {
 	$ShortRequestURI = $RequestURI;
 }
-$NotFound = true;
+$NotFound       = true;
 $HTTPParameters = array();
 if (in_array($HTTPMethod, array('PUT', 'DELETE', 'OPTIONS'))) {
 	parse_str(file_get_contents('php://input'), $HTTPParameters);
 }
 $Routes = array(
-	'GET' => array(),
-	'POST' => array(),
-	'HEAD' => array(),
-	'PUT' => array(),
-	'DELETE' => array(),
+	'GET'     => array(),
+	'POST'    => array(),
+	'HEAD'    => array(),
+	'PUT'     => array(),
+	'DELETE'  => array(),
 	'OPTIONS' => array()
 );
 
@@ -34,6 +34,7 @@ $Routes = array(
 
 $Routes['GET']['/']                                                                        = 'home';
 $Routes['POST']['/']                                                                       = 'home'; //Delete later
+$Routes['GET']['/captcha']                                                                 = 'captcha';
 $Routes['GET']['/dashboard']                                                               = 'dashboard';
 $Routes['POST']['/dashboard']                                                              = 'dashboard';
 $Routes['GET']['/favorites(/page/(?<page>[0-9]+))?']                                       = 'favorites';
@@ -83,18 +84,19 @@ $Routes['GET']['/upload_controller']                                            
 $Routes['POST']['/upload_controller']                                                      = 'upload';
 $Routes['GET']['/redirect-(?<view>desktop|mobile)']                                        = 'redirect';
 
+
 //这里是Routes End
-$UrlPath = 'home';
+$UrlPath                = 'home';
 $ParametersVariableName = '_' . $HTTPMethod;
 foreach ($Routes[$HTTPMethod] as $URL => $Controller) {
 	if (preg_match("#^" . $URL . "$#i", $ShortRequestURI, $Parameters)) {
-		$NotFound = false;
+		$NotFound   = false;
 		$Parameters = array_merge($Parameters, $HTTPParameters);
 		//var_dump($Parameters);
 		foreach ($Parameters as $Key => $Value) {
 			if (!is_int($Key)) {
 				${$ParametersVariableName}[$Key] = urldecode($Value);
-				$_REQUEST[$Key] = urldecode($Value);
+				$_REQUEST[$Key]                  = urldecode($Value);
 			}
 		}
 		$UrlPath = $Controller;
@@ -103,8 +105,31 @@ foreach ($Routes[$HTTPMethod] as $URL => $Controller) {
 }
 
 if ($NotFound === true) {
-	require(__DIR__ . '/404.php');
-	exit();
+	$RequestFilePath = '.' . $ShortRequestURI;
+	if (is_file($RequestFilePath)) {
+		// php -S 0.0.0.0:80 index.php
+		$FileResource = fopen($RequestFilePath, "rb");
+		header('Accept-Ranges: bytes');
+		$Extension = pathinfo($RequestFilePath, PATHINFO_EXTENSION);
+		switch ($Extension) {
+			case 'js':
+				header('Content-Type: application/javascript');
+				break;
+			case 'css':
+				header('Content-Type: text/css');
+				break;
+			default:
+				$Finfo = finfo_open(FILEINFO_MIME_TYPE);
+				header('Content-Type: ' . finfo_file($Finfo, $RequestFilePath));
+				finfo_close($Finfo);
+		}
+		echo stream_get_contents($FileResource);
+		fclose($FileResource);
+		exit();
+	} else {
+		require(__DIR__ . '/404.php');
+		exit();
+	}
 }
 
 if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp && $UrlPath != 'view') {
