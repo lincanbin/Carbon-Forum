@@ -1,3 +1,12 @@
+# phpstorm project files
+.idea
+
+# windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
 #Dict
 /includes/dict/readme.txt
 
