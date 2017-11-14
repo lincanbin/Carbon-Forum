@@ -255,7 +255,7 @@ function ShowNotification(NewMessageNumber) {
 				if (Status === 'granted') {
 					// 弹出一个通知
 					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
-						icon: WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
+						icon: StaticPath + 'img/apple-touch-icon-57x57-precomposed.png',
 						body: ""
 					});
 					CarbonNotification.onclick = function() {
@@ -475,7 +475,7 @@ function trim3(str) {
 
 //渲染主题
 function TopicParse() {
-	loadScript(WebsitePath + "/static/editor/ueditor.parse.min.js", function(){
+	loadScript(StaticPath + "editor/ueditor.parse.min.js", function(){
 		//强制所有链接在新窗口中打开
 		var AllPosts = document.getElementsByClassName("card-content");
 		PostContentLists = {};//Global
@@ -496,8 +496,8 @@ function TopicParse() {
 		}
 		//样式渲染需最后进行
 		uParse('.card-content',{
-			'rootPath': WebsitePath + '/static/editor/',
-			'liiconpath':WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+			'rootPath': StaticPath + 'editor/',
+			'liiconpath':StaticPath + 'editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 		});
 	});
 }
@@ -536,7 +536,7 @@ function UploadPicture(TextareaID) {
 /* Init Appframework*/
 if (! ((window.DocumentTouch && document instanceof DocumentTouch) || 'ontouchstart' in window)) {
 	var script = document.createElement("script");
-	script.src = WebsitePath + "/static/js/mobile/appframework.desktopBrowsers.js";
+	script.src = StaticPath + "js/mobile/appframework.desktopBrowsers.js";
 	var tag = $("head").append(script);
 }
 $.afui.overlayStatusbar = false; // for ios7 only to add header padding to overlay the statusbar

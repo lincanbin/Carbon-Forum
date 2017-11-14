@@ -16,8 +16,8 @@
 // 当使用的jQuery CDN爆炸时，切换到当前服务器的jQuery备胎
 if (!window.jQuery) {
 	console.log('Switch to jQuery Backup.');
-	loadScript(WebsitePath + "/static/js/jquery.js",function(){
-		loadScript(WebsitePath + "/static/js/global.js",function(){});
+	loadScript(StaticPath + "js/jquery.js",function(){
+		loadScript(StaticPath + "js/global.js",function(){});
 	});
 }
 */
@@ -344,7 +344,7 @@ function ShowNotification(NewMessageNumber) {
 				if (Status === 'granted') {
 					// 弹出一个通知
 					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
-						icon: WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
+						icon: StaticPath + 'img/apple-touch-icon-57x57-precomposed.png',
 						body: ""
 					});
 					CarbonNotification.onclick = function() {

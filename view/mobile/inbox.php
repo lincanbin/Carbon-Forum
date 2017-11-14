@@ -1,6 +1,6 @@
 <script>
 	$(document).ready(function(){
-		loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/inbox.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
+		loadScript("<?php echo StaticPath; ?>js/mobile/inbox.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
 			loadMoreMessages(true);
 			var _target = $(".panel.active[selected=true]");
 			_target.unbind();

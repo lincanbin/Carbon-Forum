@@ -2,7 +2,7 @@
 <script>
 $(document).ready(function(){
 	loadMoreMessages(true);
-	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/inbox.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
+	loadScript("<?php echo StaticPath; ?>js/default/inbox.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function(){
 	});
 });
 </script>

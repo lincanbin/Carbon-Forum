@@ -36,12 +36,12 @@ function RenderTopic() {
 	}
 	//样式渲染需最后进行
 	uParse('.topic-content', {
-		'rootPath': WebsitePath + '/static/editor/',
-		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		'rootPath': StaticPath + 'editor/',
+		'liiconpath': StaticPath + 'editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 	});
 	uParse('.comment-content', {
-		'rootPath': WebsitePath + '/static/editor/',
-		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		'rootPath': StaticPath + 'editor/',
+		'liiconpath': StaticPath + 'editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
 	});
 
 	// 回帖内容鼠标提示

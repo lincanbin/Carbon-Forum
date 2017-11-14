@@ -79,6 +79,7 @@ if (!$Config) {
 		$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
 	}
 }
+define('StaticPath', (CDNDomain === '' ? '' : '//' . CDNDomain) . $Config['WebsitePath'] . '/static/');
 // 热门标签列表
 $HotTagsArray = json_decode($Config['CacheHotTags'], true);
 $HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
@@ -750,8 +751,11 @@ if ($IsApp) {
 	}
 } elseif ($_SERVER['HTTP_HOST'] == $Config['MobileDomainName'] || (!$Config['MobileDomainName'] && $IsMobile)) {
 	$TemplatePath = __DIR__ . '/view/mobile/';
-	$Style = 'Mobile';
+	$Style        = 'Mobile';
 	header('X-Frame-Options: SAMEORIGIN');
+} elseif($_SERVER['HTTP_HOST'] === CDNDomain) {
+	require(__DIR__ . '/404.php');
+	exit();
 } else {
 	$TemplatePath = __DIR__ . '/view/default/';
 	$Style = 'Default';

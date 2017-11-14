@@ -76,7 +76,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
-		loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/notifications.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function () {
+		loadScript("<?php echo StaticPath; ?>js/mobile/notifications.function.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function () {
 			loadMoreReply(true);
 			loadMoreMention(true);
 			loadMoreInbox(true);

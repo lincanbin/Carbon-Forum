@@ -246,7 +246,7 @@ function GenerateSelect($Options, $Name)
 						<td width="200" align="right"><?php echo $Lang['jQuery_CDN']; ?></td>
 						<td width="auto" align="left">
 							<?php echo GenerateSelect(array(
-								'No CDN (Default)' => $Config['WebsitePath'] . '/static/js/jquery.js',
+								'No CDN (Default)' => StaticPath . 'js/jquery.js',
 								'Bootcss CDN' => '//cdn.bootcss.com/jquery/1.10.2/jquery.min.js',
 								'Sina CDN' => '//lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js',
 								'Baidu CDN' => '//libs.baidu.com/jquery/1.10.2/jquery.min.js',

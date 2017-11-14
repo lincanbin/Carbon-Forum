@@ -14,6 +14,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 来防止模板文件被游客访问
 */
 define('ForumLanguage', '{{Language}}');
+define('CDNDomain', '');
 //MemCache(d) / Redis
 define('EnableMemcache', {{EnableMemcache}});
 define('MemCacheHost', 'localhost');
