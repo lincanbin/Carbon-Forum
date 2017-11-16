@@ -14,7 +14,7 @@
 	<div class="message-item message-{{Position}} ">
 		<div class="message-avatar">
 			<a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}" data-transition="slide">
-				<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>
+				<img src="<?php echo UploadPath; ?>avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>
 			</a>
 		</div>
 		<div class="jt jt-{{Position}}"></div>

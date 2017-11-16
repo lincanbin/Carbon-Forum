@@ -79,7 +79,9 @@ if (!$Config) {
 		$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
 	}
 }
-define('StaticPath', (CDNDomain === '' ? '' : '//' . CDNDomain) . $Config['WebsitePath'] . '/static/');
+define('CDNWebsitePath', (CDNDomain === '' ? '' : '//' . CDNDomain) . $Config['WebsitePath']);
+define('StaticPath', CDNWebsitePath . '/static/');
+define('UploadPath', CDNWebsitePath . '/upload/');
 // 热门标签列表
 $HotTagsArray = json_decode($Config['CacheHotTags'], true);
 $HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
@@ -435,7 +437,7 @@ function FormatTime($UnixTimeStamp)
 function GetAvatar($UserID, $UserName, $Size = 'middle')
 {
 	global $Config;
-	return '<img src="' . $Config['WebsitePath'] . '/upload/avatar/' . $Size . '/' . $UserID . '.png" alt="' . $UserName . '"/>';
+	return '<img src="' . UploadPath . 'avatar/' . $Size . '/' . $UserID . '.png" alt="' . $UserName . '"/>';
 }
 
 
@@ -443,7 +445,7 @@ function GetAvatar($UserID, $UserName, $Size = 'middle')
 function GetTagIcon($TagID, $Icon, $TagName, $Size = 'middle')
 {
 	global $Config;
-	return '<img src="' . $Config['WebsitePath'] . '/upload/tag/' . $Size . '/' . ($Icon ? $TagID : '0') . '.png" alt="' . $TagName . '"/>';
+	return '<img src="' . UploadPath . 'tag/' . $Size . '/' . ($Icon ? $TagID : '0') . '.png" alt="' . $TagName . '"/>';
 }
 
 //获取Cookie

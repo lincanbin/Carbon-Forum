@@ -12,7 +12,7 @@ if($UploadAvatarMessage){
 <form method="post" enctype="multipart/form-data" action="<?php echo $Config['WebsitePath']; ?>/settings">
 	<div class="input-group">
 		<input type="hidden" name="Action" value="UploadAvatar">
-		<img id="CurAvatar" style="width:100%;" src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
+		<img id="CurAvatar" style="width:100%;" src="<?php echo UploadPath; ?>avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
 		<p><?php echo $Lang['You_Can_Replace_Your_Avatar_Here']; ?></p>
 		<p></p>
 		<input type="file" accept="image/*" id="Avatar" name="Avatar">

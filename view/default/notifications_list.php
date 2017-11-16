@@ -76,7 +76,7 @@ $(document).ready(function(){
 <div class="comment-item">
 	<div class="comment-avatar">
 		<a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}">
-			<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>
+			<img src="<?php echo UploadPath; ?>avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>
 		</a>
 	</div>
 	<div class="comment-data">

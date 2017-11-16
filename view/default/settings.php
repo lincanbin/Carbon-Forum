@@ -26,7 +26,7 @@ $(document).ready(function(){
 			<div>
 				<div>
 					<div class="float-left w300 img-center">
-						<img id="CurAvatar" src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
+						<img id="CurAvatar" src="<?php echo UploadPath; ?>avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
 						<p><a href="###" onclick="javascript:Manage(<?php echo $CurUserID; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
 					</div>
 					
