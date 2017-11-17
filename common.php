@@ -761,7 +761,7 @@ if ($IsApp) {
 } else {
 	$TemplatePath = __DIR__ . '/view/default/';
 	$Style = 'Default';
-	header('X-Frame-Options: SAMEORIGIN');
+	//header('X-Frame-Options: SAMEORIGIN');
 	//header('X-XSS-Protection: 1; mode=block');
 	//X-XSS-Protection may cause some issues in dashboard
 }
