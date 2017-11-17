@@ -1,4 +1,6 @@
 (function () {
+	// 用了静态文件二级域名CDN的iframe跨域访问parent对象
+	document.domain = document.domain.split('.').slice(-2).join('.');
 	var parent = window.parent;
 	//dialog对象
 	dialog = parent.$EDITORUI[window.frameElement.id.replace( /_iframe$/, '' )];
