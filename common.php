@@ -314,6 +314,15 @@ function CharsFilter($String)
 }
 
 
+// 检查是否允许跨域请求
+function CheckOrigin()
+{
+	$Origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+	if (GetBaseDomain($Origin) === GetBaseDomain('http://' . $_SERVER['HTTP_HOST'])) {
+		header('Access-Control-Allow-Origin:' . $Origin);
+	}
+}
+
 // 获得IP地址
 function CurIP()
 {
@@ -438,6 +447,17 @@ function GetAvatar($UserID, $UserName, $Size = 'middle')
 {
 	global $Config;
 	return '<img src="' . UploadPath . 'avatar/' . $Size . '/' . $UserID . '.png" alt="' . $UserName . '"/>';
+}
+
+
+// 根据URL获取顶级域名
+function GetBaseDomain($url)
+{
+	$host = parse_url($url, PHP_URL_HOST);
+	if (is_null($host)) {
+		return '';
+	}
+	return implode('.', array_slice(explode(".", $host), -2));
 }
 
 

@@ -80,6 +80,7 @@ $Routes['GET']['/tags/following(/page/(?<page>[0-9]*))?']                       
 $Routes['GET']['/tags(/page/(?<page>[0-9]*))?']                                            = 'tags';
 $Routes['GET']['/u/(?<username>.*?)']                                                      = 'user';
 $Routes['GET']['/users/following(/page/(?<page>[0-9]*))?']                                 = 'favorite_users';
+$Routes['OPTIONS']['/upload_controller']                                                   = 'upload';// Cross-domain requests will check if origin is allowed by options
 $Routes['GET']['/upload_controller']                                                       = 'upload';
 $Routes['POST']['/upload_controller']                                                      = 'upload';
 $Routes['GET']['/redirect-(?<view>desktop|mobile)']                                        = 'redirect';
