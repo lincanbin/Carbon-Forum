@@ -610,7 +610,8 @@ function SetStyle($PathName, $StyleName)
 	global $IsApp, $TemplatePath, $Style;
 	if ($StyleName = 'API') {
 		$IsApp = true;
-		header('Access-Control-Allow-Origin: *');
+		//header('Access-Control-Allow-Origin: *');
+		CheckOrigin();
 		header('Content-Type: application/json; charset=utf-8');
 	}
 	$TemplatePath = __DIR__ . '/view/' . $PathName . '/';
