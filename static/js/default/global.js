@@ -22,7 +22,11 @@ if (!window.jQuery) {
 }
 */
 // 用了静态文件二级域名CDN的iframe跨域访问parent对象
-document.domain = document.domain.split('.').slice(-2).join('.');
+try {
+	document.domain = document.domain.split('.').slice(-2).join('.');
+} catch(err) {
+	console.log('Local debug');
+}
 
 function renderTemplate(template, list) {
 

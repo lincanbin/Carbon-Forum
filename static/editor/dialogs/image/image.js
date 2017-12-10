@@ -385,7 +385,8 @@
 					crop: false,
 					// 是否保留头部meta信息。
 					preserveHeaders: true
-				}:false
+				}:false,
+				withCredentials: true  // 支持CORS跨域带cookie
 			});
 			uploader.addButton({
 				id: '#filePickerBlock'

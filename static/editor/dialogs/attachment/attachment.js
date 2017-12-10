@@ -165,7 +165,8 @@
 				fileVal: editor.getOpt('fileFieldName'),
 				duplicate: true,
 				fileSingleSizeLimit: fileMaxSize,
-				compress: false
+				compress: false,
+				withCredentials: true  // 支持CORS跨域带cookie
 			});
 			uploader.addButton({
 				id: '#filePickerBlock'
