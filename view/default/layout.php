@@ -119,7 +119,7 @@ if(!$IsAjax){
 		  href="<?php echo $Config['WebsitePath']; ?>/search.xml"/>
 	<script type="text/javascript">
 		var Prefix = "<?php echo PREFIX; ?>";
-		var WebsitePath = "<?php echo $Config['WebsitePath']; ?>";
+		var WebsitePath="//" + location.hostname + "<?php echo $Config['WebsitePath']; ?>";
 		var StaticPath = "<?php echo StaticPath; ?>";
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
@@ -130,7 +130,7 @@ if(!$IsAjax){
 			echo 'setTimeout(function() {GetNotification();}, 1);';
 		}
 		?>
-		loadScript(WebsitePath + "/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function () {
+		loadScript("<?php echo CDNWebsitePath; ?>/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function () {
 		});
 	</script>
 	<?php echo $Config['PageHeadContent']; ?>
