@@ -613,6 +613,7 @@ function SetStyle($PathName, $StyleName)
 		//header('Access-Control-Allow-Origin: *');
 		CheckOrigin();
 		header('Content-Type: application/json; charset=utf-8');
+		header('Access-Control-Allow-Credentials: true');
 	}
 	$TemplatePath = __DIR__ . '/view/' . $PathName . '/';
 	$Style = $StyleName;
