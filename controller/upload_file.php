@@ -61,4 +61,9 @@ $up = new Uploader($fieldName, $config, $base64, $CurUserName, $DB);
  */
 
 /* 返回数据 */
-return json_encode($up->getFileInfo());
+$result = '';
+if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] === 'null') {
+	$result .= '<script type="text/javascript">document.domain="' . GetBaseDomain('http://' . $_SERVER['HTTP_HOST']) . '";</script>';
+}
+$result .= json_encode($up->getFileInfo());
+return $result;
