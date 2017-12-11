@@ -624,6 +624,11 @@ class Manage
 				$SetTagIconStatus = $TagInfo['Icon'] == 0 ? $this->db->query('UPDATE ' . PREFIX . 'tags SET Icon = 1 WHERE ID=:TagID', array(
 					'TagID' => $this->id
 				)) : true;
+				if ($SetTagIconStatus) {
+					// Avoid the case of `<pre style="word-wrap: break-word; white-space: pre-wrap;">` when uploading with iframe
+					header("Content-Type: text/html; charset=utf-8");
+					echo '<script type="text/javascript">document.domain="' . GetBaseDomain('http://' . $_SERVER['HTTP_HOST']) . '";</script>';
+				};
 				$this->message    = $SetTagIconStatus ? $this->lang['Icon_Upload_Success'] : $this->lang['Icon_Upload_Failure'];
 			} else {
 				$this->message = $this->lang['Icon_Upload_Failure'];
