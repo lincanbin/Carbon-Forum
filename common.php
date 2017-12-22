@@ -520,7 +520,7 @@ function IsJson($String)
 //判断是否为合法用户名
 function IsName($string)
 {
-	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x80-\xff\-_]{4,20}$/i', $string);
+	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x{4e00}-\x{9fa5}\-_]{4,20}$/ui', $string);
 }
 
 
