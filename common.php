@@ -676,7 +676,7 @@ function UpdateConfig($NewConfig)
 //修改用户资料
 function UpdateUserInfo($NewUserInfo, $UserID = 0)
 {
-	global $DB, $CurUserID, $CurUserInfo, $MCache;
+	global $DB, $CurUserID, $MCache;
 	if ($UserID == 0) {
 		$UserID = $CurUserID;
 	}
@@ -834,34 +834,45 @@ if ($Config['DaysDate'] != $CurrentDate) {
 	));
 }
 // Get the infomation of current user
-$CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
-$CurUserRole = 0;
 $CurUserID = intval(GetCookie('UserID'));
-$CurUserName = '';
 $CurUserExpirationTime = intval(GetCookie('UserExpirationTime'));
 $CurUserCode = GetCookie('UserCode');
 
-if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp + 2678400) && $CurUserID && $CurUserCode) {
+$CurUserInfo = null; //当前用户信息，Array，以后判断是否登录使用if($CurUserID)
+$CurUserRole = 0;
+$CurUserName = '';
+
+function GetUserInfo($UserId){
+	global $MCache, $DB;
 	$TempUserInfo = array();
 	if ($MCache) {
-		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
+		$TempUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $UserId);
 	}
 	if (empty($TempUserInfo)) {
 		$TempUserInfo = $DB->row("SELECT *, (NewReply + NewMention + NewMessage) as NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
-			"UserID" => $CurUserID
+			"UserID" => $UserId
 		));
 		if ($MCache && $TempUserInfo) {
-			$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
+			$MCache->set(MemCachePrefix . 'UserInfo_' . $UserId, $TempUserInfo, 86400);
 		}
 	}
-	if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . SALT), $CurUserCode)) {
-		$CurUserName = $TempUserInfo['UserName'];
-		$CurUserRole = $TempUserInfo['UserRoleID'];
-		$CurUserInfo = $TempUserInfo;
-	} else {
+	return $TempUserInfo;
+}
+
+function CheckCookie($CurUserID, $CurUserExpirationTime, $CurUserCode, &$CurUserInfo, &$CurUserRole, &$CurUserName){
+	global $TimeStamp;
+	if ($CurUserExpirationTime > $TimeStamp && $CurUserExpirationTime < ($TimeStamp + 2678400) && $CurUserID && $CurUserCode) {
+		$TempUserInfo = GetUserInfo($CurUserID);
+		if ($TempUserInfo && HashEquals(md5($TempUserInfo['Password'] . $TempUserInfo['Salt'] . $CurUserExpirationTime . SALT), $CurUserCode)) {
+			$CurUserName = $TempUserInfo['UserName'];
+			$CurUserRole = $TempUserInfo['UserRoleID'];
+			$CurUserInfo = $TempUserInfo;
+		} else {
+			LogOut();
+		}
+		unset($TempUserInfo);
+	} elseif ($CurUserExpirationTime || $CurUserID || $CurUserCode) {
 		LogOut();
 	}
-	unset($TempUserInfo);
-} elseif ($CurUserExpirationTime || $CurUserID || $CurUserCode) {
-	LogOut();
 }
+CheckCookie($CurUserID, $CurUserExpirationTime, $CurUserCode, $CurUserInfo, $CurUserRole, $CurUserName);

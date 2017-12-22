@@ -8,24 +8,12 @@ switch (Request('Request', 'action')) {
 		@set_time_limit(0);
 		//如果是自己的服务器，建议调大超时时间，然后把长连接时长调大，以节约服务器资源
 		$Config['PushConnectionTimeoutPeriod'] = intval((intval($Config['PushConnectionTimeoutPeriod']) < 22) ? 22 : $Config['PushConnectionTimeoutPeriod']);
+		$CurNewNotification = 0;
 		while ((time() - $TimeStamp) < $Config['PushConnectionTimeoutPeriod']) {
-			if ($MCache) {
-				$CurUserInfo = $MCache->get(MemCachePrefix . 'UserInfo_' . $CurUserID);
-				if ($CurUserInfo) {
-					$CurNewNotification = $CurUserInfo['NewNotification'];
-				} else {
-					$TempUserInfo = $DB->row("SELECT *, (NewReply + NewMention + NewMessage) as NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
-						"UserID" => $CurUserID
-					));
-					$MCache->set(MemCachePrefix . 'UserInfo_' . $CurUserID, $TempUserInfo, 86400);
-					$CurNewNotification = $TempUserInfo['NewNotification'];
-				}
-			} else {
-				$CurNewNotification = $DB->single("SELECT (NewReply + NewMention + NewMessage) AS NewNotification FROM " . PREFIX . "users WHERE ID = :UserID", array(
-					"UserID" => $CurUserID
-				));
+			$CurUserInfo = GetUserInfo($CurUserID);
+			if ($CurUserInfo) {
+				$CurNewNotification = $CurUserInfo['NewNotification'];
 			}
-			
 			if ($CurNewNotification > 0) {
 				break;
 			}

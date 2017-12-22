@@ -11,9 +11,7 @@ function CheckOpenID()
 	));
 	// 当前openid已存在，直接登陆
 	if ($OauthUserID) {
-		$OauthUserInfo               = $DB->row("SELECT * FROM " . PREFIX . "users WHERE ID = :UserID", array(
-			"UserID" => $OauthUserID
-		));
+		$OauthUserInfo               = GetUserInfo($OauthUserID);
 		$TemporaryUserExpirationTime = 30 * 86400 + $TimeStamp; //默认保持30天登陆状态
 		SetCookies(array(
 			'UserID' => $OauthUserID,
