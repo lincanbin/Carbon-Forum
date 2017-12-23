@@ -55,7 +55,7 @@ class echoServer extends WebSocketServer
 
 	protected function push()
 	{
-		var_dump($this->userId2IdMap);
+		//var_dump($this->userId2IdMap);
 		$userIds = array_keys($this->userId2IdMap);
 		foreach ($userIds as $userId) {
 			$CurUserInfo = GetUserInfo($userId);
@@ -70,8 +70,11 @@ class echoServer extends WebSocketServer
 				)
 			) {
 				$notificationArray = [
-					'Status' => 1,
-					'NewNotification' => $CurUserInfo['NewNotification']
+					'Status'          => 1,
+					'NewNotification' => $CurUserInfo['NewNotification'],
+					'NewReply'        => $CurUserInfo['NewReply'],
+					'NewMention'      => $CurUserInfo['NewMention'],
+					'NewMessage'      => $CurUserInfo['NewMessage']
 				];
 				foreach ($this->userId2IdMap[$userId] as $userUniqueId){
 					if (isset($this->users[$userUniqueId])) {
@@ -83,8 +86,8 @@ class echoServer extends WebSocketServer
 				$this->userId2NotificationNumberMap[$userId] = $CurUserInfo['NewNotification'];
 			}
 		}
-		var_dump(time());
-		var_dump($this->userId2NotificationNumberMap);
+		//var_dump(time());
+		//var_dump($this->userId2NotificationNumberMap);
 	}
 
 	protected function closed($user)
@@ -102,7 +105,6 @@ class echoServer extends WebSocketServer
 }
 
 $echo = new echoServer("0.0.0.0", "2000");
-
 try {
 	$echo->run();
 } catch (Exception $e) {

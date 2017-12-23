@@ -194,7 +194,7 @@ $(function() {
 			loadMoreInbox(false);
 		}
 	}
-	
+
 	function loadMessagesList() {
 		var top = $(this).scrollTop();
 		if (top + $(window).height() + 20 >= $(document).height() && top > 20) {
@@ -308,47 +308,78 @@ function GetNotification() {
 		async: true,
 		success: function(Data) {
 			if (Data.Status !== 0) {
-				ShowNotification(Data.NewMessage);
+				ShowNotification(Data.NewNotification);
 			}
 			//获取到新消息，30秒后再请求
 			//没有则3秒后再开新线程
 			setTimeout(function() {
 				$.ajax(NotificationSettings);
 			},
-			(Data.NewMessage > 0) ? 30000 : 3000);
+			(Data.NewNotification > 0) ? 30000 : 3000);
 		},
 		error: function() {
 			//遇见错误15秒后重试
 			setTimeout(function() {
 				$.ajax(NotificationSettings);
-			},
-			15000);
+			}, 15000);
 		}
 	};
-	$.ajax(NotificationSettings);
+
+	var WebSocketPush = function () {
+		try {
+			ws = new WebSocket((location.protocol === "https:" ? "wss" : "ws") + "://" + location.hostname + ":" + CarbonForumConfig.WebSocketPort + "/push");//连接服务器
+			ws.onopen = function (event) {
+				console.log("WebSocket connected: " + this.readyState);
+			};
+			ws.onmessage = function (event) {
+				console.log("WebSocket data received: " + event.data);
+				var Data = JSON.parse(event.data);
+				if (Data.Status !== 0) {
+					ShowNotification(Data.NewNotification, true);
+				}
+			};
+			ws.onclose = function (event) {
+				console.log("WebSocket connection closed: " + this.readyState);
+				setTimeout(function () {
+					WebSocketPush();
+				}, 5000);
+			};
+			ws.onerror = function (event) {
+				console.log("WebSocket error");
+			};
+		} catch (ex) {
+			console.log(ex.message);
+		}
+	};
+	if (CarbonForumConfig.WebSocketPort !== "" && typeof WebSocket !== 'undefined') {
+		WebSocketPush();
+	} else {
+		$.ajax(NotificationSettings);
+	}
 	console.log('start getting notification at ' + new Date().toLocaleString());
 }
 
 //HTML5的Notification API，用来进行消息提示
-function ShowNotification(NewMessageNumber) {
-	if (NewMessageNumber > 0) {
-		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewMessageNumber) + ')' + document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
+function ShowNotification(NewNotificationNumber, IsWebSocket) {
+	IsWebSocket = (typeof IsWebSocket === 'undefined') ? false : IsWebSocket;
+	if (NewNotificationNumber > 0) {
+		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewNotificationNumber) + ')' + document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
 		$("#MessageNumber").css("visibility", "visible");
-		$("#MessageNumber").html(NewMessageNumber);
+		$("#MessageNumber").html(NewNotificationNumber);
 		var EnableNotification = true;
 		if(window.localStorage){
 			var NotificationTime = localStorage.getItem(Prefix + "NotificationTime");
 			if(NotificationTime){
 				//如果距离上次弹出时间大于30s，才允许弹出通知
-				EnableNotification = (Math.round(new Date().getTime()/1000)-parseInt(NotificationTime))>30;
-				console.log(EnableNotification);
+				EnableNotification = (Math.round(new Date().getTime()/1000)-parseInt(NotificationTime))>(IsWebSocket?3:30);
+				//console.log(EnableNotification);
 			}
 		}
 		if (EnableNotification && window.Notification && Notification.permission !== "denied") {
 			Notification.requestPermission(function(Status) { // 请求权限
 				if (Status === 'granted') {
 					// 弹出一个通知
-					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
+					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewNotificationNumber), {
 						icon: StaticPath + 'img/apple-touch-icon-57x57-precomposed.png',
 						body: ""
 					});
@@ -373,7 +404,7 @@ function ShowNotification(NewMessageNumber) {
 		$("#MessageNumber").html("0");
 		$("#MessageNumber").css("visibility", "hidden");
 	}
-	return NewMessageNumber;
+	return NewNotificationNumber;
 }
 
 
@@ -448,7 +479,7 @@ function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
- * 
+ *
  * Based on
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
  * Digest Algorithm, as defined in RFC 1321.

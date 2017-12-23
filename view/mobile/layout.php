@@ -37,6 +37,9 @@ if(!$IsAjax){
 		var Prefix="<?php echo PREFIX; ?>";
 		var WebsitePath="//" + location.hostname + "<?php echo $Config['WebsitePath']; ?>";
 		var StaticPath = "<?php echo StaticPath; ?>";
+		var CarbonForumConfig = {
+			WebSocketPort : "<?php echo WebSocketPort; ?>"
+		};
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo StaticPath; ?>js/mobile/appframework.ui.min.js?version=<?php echo CARBON_FORUM_VERSION; ?>"></script>
@@ -108,7 +111,8 @@ if($CurUserID){
 		</div>
 	</div>
 	<script type="text/javascript">
-	GetNotification();
+		ShowNotification(<?php echo $CurUserInfo['NewNotification']; ?>);
+		GetNotification();
 	</script>
 <?php
 }elseif( $UrlPath!='login' ){

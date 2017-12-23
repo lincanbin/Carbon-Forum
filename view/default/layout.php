@@ -121,17 +121,19 @@ if(!$IsAjax){
 		var Prefix = "<?php echo PREFIX; ?>";
 		var WebsitePath="//" + location.hostname + "<?php echo $Config['WebsitePath']; ?>";
 		var StaticPath = "<?php echo StaticPath; ?>";
+		var CarbonForumConfig = {
+			WebSocketPort : "<?php echo WebSocketPort; ?>"
+		};
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
 	<script type="text/javascript" charset="utf-8"
 			src="<?php echo StaticPath; ?>js/default/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>"></script>
+	<script type="text/javascript" charset="utf-8" src="<?php echo CDNWebsitePath; ?>/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>"></script>
 	<script type="text/javascript">
 		<?php if ($CurUserID) {
-			echo 'setTimeout(function() {GetNotification();}, 1);';
+			echo 'setTimeout(function() {ShowNotification(' . $CurUserInfo['NewNotification'] . ');GetNotification();}, 1);';
 		}
 		?>
-		loadScript("<?php echo CDNWebsitePath; ?>/language/<?php echo ForumLanguage; ?>/global.js?version=<?php echo CARBON_FORUM_VERSION; ?>", function () {
-		});
 	</script>
 	<?php echo $Config['PageHeadContent']; ?>
 </head>
