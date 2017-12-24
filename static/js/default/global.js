@@ -394,7 +394,7 @@ function ShowNotification(NewNotificationNumber, IsWebSocket) {
 					setTimeout(function() {
 						CarbonNotification.close();
 					},
-					30000);
+						(IsWebSocket?86400000:30000));
 				}
 			});
 

@@ -17,9 +17,21 @@ if (php_sapi_name() !== "cli") {
 }
 
 require(LibraryPath . 'WebSocket.php');
+require(LibraryPath . 'WebSocketUser.php');
 
+function CheckPortBindable($host, $port)
+{
+	$errno = null;
+	$errstr = null;
+	$socket = stream_socket_server("tcp://$host:$port", $errno, $errstr);
+	if (!$socket) {
+		echo "$errstr ($errno)\n";
+		return false;
+	}
+	return true;
+}
 
-class echoServer extends WebSocketServer
+class pushServer extends WebSocketServer
 {
 	//protected $maxBufferSize = 1048576; //1MB... overkill for an echo server, but potentially plausible for other applications.
 	private $userId2NotificationNumberMap = [];
@@ -104,7 +116,11 @@ class echoServer extends WebSocketServer
 	}
 }
 
-$echo = new echoServer("0.0.0.0", "2000");
+if (checkPortBindable("0.0.0.0", WebSocketPort) === false) {
+	echo "port " . WebSocketPort . " has been used.";
+	exit(1);
+}
+$echo = new pushServer("0.0.0.0", WebSocketPort);
 try {
 	$echo->run();
 } catch (Exception $e) {

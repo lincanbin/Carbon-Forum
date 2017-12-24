@@ -1,8 +1,5 @@
 <?php
-
 //require_once('./daemonize.php');
-require_once(__DIR__ . './WebSocketUser.php');
-
 abstract class WebSocketServer
 {
 
