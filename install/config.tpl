@@ -15,7 +15,8 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 */
 define('ForumLanguage', '{{Language}}');
 define('CDNDomain', '');
-define('WebSocketPort', '');
+define('WebSocketFrontendPort', '');
+define('WebSocketBackendPort', '');
 //MemCache(d) / Redis
 define('EnableMemcache', {{EnableMemcache}});
 define('MemCacheHost', 'localhost');

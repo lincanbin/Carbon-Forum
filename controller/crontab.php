@@ -116,11 +116,11 @@ class pushServer extends WebSocketServer
 	}
 }
 
-if (checkPortBindable("0.0.0.0", WebSocketPort) === false) {
-	echo "port " . WebSocketPort . " has been used.";
+if (checkPortBindable("0.0.0.0", WebSocketBackendPort) === false) {
+	echo "port " . WebSocketBackendPort . " has been used.";
 	exit(1);
 }
-$echo = new pushServer("0.0.0.0", WebSocketPort);
+$echo = new pushServer("0.0.0.0", WebSocketBackendPort);
 try {
 	$echo->run();
 } catch (Exception $e) {

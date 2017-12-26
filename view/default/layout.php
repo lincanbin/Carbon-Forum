@@ -122,7 +122,7 @@ if(!$IsAjax){
 		var WebsitePath="//" + location.hostname + "<?php echo $Config['WebsitePath']; ?>";
 		var StaticPath = "<?php echo StaticPath; ?>";
 		var CarbonForumConfig = {
-			WebSocketPort : "<?php echo WebSocketPort; ?>"
+			WebSocketPort : "<?php echo WebSocketFrontendPort; ?>"
 		};
 	</script>
 	<script type="text/javascript" charset="utf-8" src="<?php echo $Config['LoadJqueryUrl']; ?>"></script>
