@@ -1,2 +1,4 @@
-work_path=$(dirname $(readlink -f $0))
-nohup ${work_path}/controller/console/console_push.sh >> ${work_path}/library/logs/console_push.log 2>&1 &
+CURRENT_PATH=$(dirname $(readlink -f $0))
+SERVICE_PUSH_PATH=${CURRENT_PATH}/controller/console/console_push.sh
+LOG_PATH=${CURRENT_PATH}/library/logs/console_push.log
+nohup ${SERVICE_PUSH_PATH} >> ${LOG_PATH} 2>&1 &
