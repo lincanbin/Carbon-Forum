@@ -125,4 +125,5 @@ try {
 	$echo->run();
 } catch (Exception $e) {
 	$echo->stdout($e->getMessage());
+	exit(1);
 }

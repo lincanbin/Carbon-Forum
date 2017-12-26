@@ -231,7 +231,7 @@ class DB
 			$this->logObject->write('Retry ' . $this->retryAttempt . ' times', $this->DBName . md5($this->DBPassword));
 			call_user_func_array(array($this, $method), $parameters);
 		} else {
-			if ($this->pdo === null || !$this->inTransaction()) {
+			if (($this->pdo === null || !$this->inTransaction()) && php_sapi_name() !== "cli") {
 				//Prevent search engines to crawl
 				header("HTTP/1.1 500 Internal Server Error");
 				header("Status: 500 Internal Server Error");
