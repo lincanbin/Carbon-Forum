@@ -10,7 +10,7 @@ $_SERVER['REQUEST_URI'] = '';
 $_SERVER['REMOTE_ADDR'] = '0.0.0.0';
 $_SERVER['HTTP_HOST']   = 'www.94cb.com';
 
-require(__DIR__ . '/../common.php');
+require(__DIR__ . '/../../common.php');
 
 if (php_sapi_name() !== "cli") {
 	exit(401);
