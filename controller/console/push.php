@@ -54,13 +54,22 @@ class pushServer extends WebSocketServer
 		$CurUserRole           = 0;
 		$CurUserName           = '';
 		CheckCookie($CurUserID, $CurUserExpirationTime, $CurUserCode, $CurUserInfo, $CurUserRole, $CurUserName);
-		if (!empty($CurUserRole)) {
+		if (!empty($CurUserInfo)) {
+			$this->stdout($CurUserID . ' ' . $CurUserName);
 			$user->userId = $CurUserID;
 			if (empty($this->userId2IdMap[$CurUserID])) {
 				$this->userId2IdMap[$CurUserID] = [];
 			}
 			$this->userId2IdMap[$CurUserID][$user->id] = $user->id;
 		}
+		if (!empty($user->headers['x-forwarded-for'])) {
+			$this->stdout($user->headers['x-forwarded-for']);
+		}
+		if (!empty($user->headers['user-agent'])) {
+			$this->stdout($user->headers['user-agent']);
+		}
+
+		$this->stdout(date("Y-m-d H:i:s") . "\n\n");
 		//$this->send($user, var_export($user->headers['cookie'], true));
 		//$this->send($user, var_export($CurUserInfo, true));
 	}
