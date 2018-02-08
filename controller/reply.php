@@ -82,9 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"PostTime" => $TimeStamp,
 				"IsDel" => 0
 			);
-			$NewPostResult = $DB->query("INSERT INTO `" . PREFIX . "posts`
-                (`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`, `IsDel`) 
-                VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime,:IsDel)", $PostData);
+			$NewPostResult = $DB->insert(PREFIX . 'posts', $PostData);
 
 			$PostID = $DB->lastInsertId();
 
@@ -114,16 +112,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				//添加提醒消息
 				AddingNotifications($Content, $TopicID, $PostID, $Topic['UserName']);
 				if ($CurUserID != $Topic['UserID']) {
-					$DB->query('INSERT INTO `' . PREFIX . 'notifications`
-                    (`ID`, `UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) 
-                    VALUES (NULL,?,?,?,?,?,?,?)', array(
-						$Topic['UserID'],
-						$CurUserName,
-						1,
-						$TopicID,
-						$PostID,
-						$TimeStamp,
-						0
+					$DB->insert(PREFIX . 'notifications', array(
+                    	'ID' => null,
+						'UserID' => $Topic['UserID'],
+						'UserName' => $CurUserName,
+						'Type' => 1,
+						'TopicID' => $TopicID,
+						'PostID' => $PostID,
+						'Time' => $TimeStamp,
+						'IsRead' => 0
 					));
 					$DB->query('UPDATE `' . PREFIX . 'users` SET `NewReply` = `NewReply`+1 WHERE ID = :UserID', array(
 						'UserID' => $Topic['UserID']
@@ -148,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$DB->commit();
 		} catch (Exception $ex) {
 			$DB->rollBack();
-			$Error = $Lang['Posting_Too_Often'];
+			$Error = $Lang['Posting_Too_Often'] . DEBUG_MODE ? $ex->getMessage() : '';
 			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
 		}
 	} while (false);

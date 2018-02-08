@@ -87,9 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			//新建不存在的标签
 			if ($NewTags) {
 				foreach ($NewTags as $Name) {
-					$DB->query("INSERT INTO `" . PREFIX . "tags` 
-						(`ID`, `Name`,`Followers`,`Icon`,`Description`, `IsEnabled`, `TotalPosts`, `MostRecentPostTime`, `DateCreated`) 
-						VALUES (?,?,?,?,?,?,?,?,?)", array(
+					$TempTagsID = $DB->insert(PREFIX . "tags", array(
 						null,
 						$Name,
 						0,
@@ -100,7 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						$TimeStamp,
 						$TimeStamp
 					));
-					$TagsID[] = $DB->lastInsertId();
+					if ($TempTagsID !== false) {
+						$TagsID[] = $TempTagsID;
+					}
 				}
 				//更新全站统计数据
 				$NewConfig = array(
@@ -110,107 +110,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			$TagsArray      = array_merge($TagsExist, $NewTags);
 			//往Topics表插入数据
-			$TopicData      = array(
-				"ID" => null,
-				"Topic" => htmlspecialchars($Title),
-				"Tags" => implode("|", $TagsArray), //过滤不合法的标签请求
-				"UserID" => $CurUserID,
-				"UserName" => $CurUserName,
-				"LastName" => "",
-				"PostTime" => $TimeStamp,
-				"LastTime" => $TimeStamp,
-				"IsGood" => 0,
-				"IsTop" => 0,
-				"IsLocked" => 0,
-				"IsDel" => 0,
-				"IsVote" => 0,
-				"Views" => 0,
-				"Replies" => 0,
-				"Favorites" => 0,
-				"RatingSum" => 0,
-				"TotalRatings" => 0,
+			$TopicData = array(
+				"ID"             => null,
+				"Topic"          => htmlspecialchars($Title),
+				"Tags"           => implode("|", $TagsArray), //过滤不合法的标签请求
+				"UserID"         => $CurUserID,
+				"UserName"       => $CurUserName,
+				"LastName"       => "",
+				"PostTime"       => $TimeStamp,
+				"LastTime"       => $TimeStamp,
+				"IsGood"         => 0,
+				"IsTop"          => 0,
+				"IsLocked"       => 0,
+				"IsDel"          => 0,
+				"IsVote"         => 0,
+				"Views"          => 0,
+				"Replies"        => 0,
+				"Favorites"      => 0,
+				"RatingSum"      => 0,
+				"TotalRatings"   => 0,
 				"LastViewedTime" => 0,
 				"PostsTableName" => null,
-				"ThreadStyle" => "",
-				"Lists" => "",
-				"ListsTime" => $TimeStamp,
-				"Log" => ""
+				"ThreadStyle"    => "",
+				"Lists"          => "",
+				"ListsTime"      => $TimeStamp,
+				"Log"            => ""
 			);
-			$NewTopicResult = $DB->query("INSERT INTO `" . PREFIX . "topics` 
-				(
-					`ID`, 
-					`Topic`, 
-					`Tags`, 
-					`UserID`, 
-					`UserName`, 
-					`LastName`, 
-					`PostTime`, 
-					`LastTime`, 
-					`IsGood`, 
-					`IsTop`, 
-					`IsLocked`, 
-					`IsDel`, 
-					`IsVote`, 
-					`Views`, 
-					`Replies`, 
-					`Favorites`, 
-					`RatingSum`, 
-					`TotalRatings`, 
-					`LastViewedTime`, 
-					`PostsTableName`, 
-					`ThreadStyle`, 
-					`Lists`, 
-					`ListsTime`, 
-					`Log`
-				) 
-				VALUES 
-				(
-					:ID,
-					:Topic,
-					:Tags,
-					:UserID,
-					:UserName,
-					:LastName,
-					:PostTime,
-					:LastTime,
-					:IsGood,
-					:IsTop,
-					:IsLocked,
-					:IsDel,
-					:IsVote,
-					:Views,
-					:Replies,
-					:Favorites,
-					:RatingSum,
-					:TotalRatings,
-					:LastViewedTime,
-					:PostsTableName,
-					:ThreadStyle,
-					:Lists,
-					:ListsTime,
-					:Log
-				)", $TopicData);
-			
-			$TopicID       = $DB->lastInsertId();
+			$TopicID = $DB->insert(PREFIX . 'topics', $TopicData);
 			//往Posts表插入数据
-			$PostData      = array(
-				"ID" => null,
-				"TopicID" => $TopicID,
-				"IsTopic" => 1,
-				"UserID" => $CurUserID,
+			$PostData = array(
+				"ID"       => null,
+				"TopicID"  => $TopicID,
+				"IsTopic"  => 1,
+				"UserID"   => $CurUserID,
 				"UserName" => $CurUserName,
-				"Subject" => CharCV($Title),
-				"Content" => XssEscape($Content),
-				"PostIP" => $CurIP,
+				"Subject"  => CharCV($Title),
+				"Content"  => XssEscape($Content),
+				"PostIP"   => $CurIP,
 				"PostTime" => $TimeStamp
 			);
-			$NewPostResult = $DB->query("INSERT INTO `" . PREFIX . "posts` 
-				(`ID`, `TopicID`, `IsTopic`, `UserID`, `UserName`, `Subject`, `Content`, `PostIP`, `PostTime`) 
-				VALUES (:ID,:TopicID,:IsTopic,:UserID,:UserName,:Subject,:Content,:PostIP,:PostTime)", $PostData);
+			$PostID = $DB->insert(PREFIX . 'posts', $PostData);
 			
-			$PostID = $DB->lastInsertId();
-			
-			if ($NewTopicResult && $NewPostResult) {
+			if ($TopicID !== false && $PostID !== false) {
 				//更新全站统计数据
 				$NewConfig = array(
 					"NumTopics" => $Config["NumTopics"] + 1,
@@ -229,12 +170,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				));
 				//记录标签与TopicID的对应关系
 				foreach ($TagsID as $TagID) {
-					$DB->query("INSERT INTO `" . PREFIX . "posttags` 
-						(`TagID`, `TopicID`, `PostID`) 
-						VALUES (?,?,?)", array(
-						$TagID,
-						$TopicID,
-						$PostID
+					$DB->insert(PREFIX . 'posttags', array(
+						'TagID' => $TagID,
+						'TopicID' => $TopicID,
+						'PostID' => $PostID
 					));
 				}
 				//更新标签统计数据
@@ -253,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $DB->commit();
 		} catch(Exception $ex) {
 			$DB->rollBack();
-            $Error     = $Lang['Posting_Too_Often'];
+            $Error     = $Lang['Posting_Too_Often'] . DEBUG_MODE ? $ex->getMessage() : '';
             $ErrorCode = $ErrorCodeList['Posting_Too_Often'];
 		}
 	} while (false);
