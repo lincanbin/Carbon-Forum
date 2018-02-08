@@ -262,7 +262,11 @@ $(function() {
 	});
 	$(document).on('pjax:complete',
 	function() {
+		// 解绑UEditor为了自动伸缩高度绑定的滚动监听事件
+		window.onscroll = function(){};
+		// 隐藏进度条
 		$('#progressBar').hide();
+		// 设置返回顶部按钮
 		setButtonToTop();
 	});
 	//$(document).pjax('a', 'body');
@@ -390,11 +394,12 @@ function ShowNotification(NewNotificationNumber, IsWebSocket) {
 					if(window.localStorage){
 						localStorage.setItem(Prefix + "NotificationTime", Math.round(new Date().getTime()/1000));
 					}
-					// 30秒后关闭通知
-					setTimeout(function() {
-						CarbonNotification.close();
-					},
-						(IsWebSocket?86400000:30000));
+					if (!IsWebSocket) {
+						// 30秒后关闭通知
+						setTimeout(function() {
+							CarbonNotification.close();
+						}, 30000);
+					}
 				}
 			});
 
