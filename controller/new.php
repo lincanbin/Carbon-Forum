@@ -88,15 +88,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if ($NewTags) {
 				foreach ($NewTags as $Name) {
 					$TempTagsID = $DB->insert(PREFIX . "tags", array(
-						null,
-						$Name,
-						0,
-						0,
-						null,
-						1,
-						1,
-						$TimeStamp,
-						$TimeStamp
+						'ID'                 => null,
+						'Name'               => $Name,
+						'Followers'          => 0,
+						'Icon'               => 0,
+						'Description'        => null,
+						'IsEnabled'          => 1,
+						'TotalPosts'         => 1,
+						'MostRecentPostTime' => $TimeStamp,
+						'DateCreated'        => $TimeStamp
 					));
 					if ($TempTagsID !== false) {
 						$TagsID[] = $TempTagsID;
