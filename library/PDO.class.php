@@ -176,7 +176,20 @@ class DB
 		}
 	}
 	
-	
+	public function insert($tableName, $params = null)
+	{
+		$keys = array_keys($params);
+		$rowCount = $this->query(
+			'INSERT INTO `' . $tableName . '` (`' . implode('`,`', $keys) . '`) 
+			VALUES (:' . implode(',:', $keys) . ')',
+			$params
+		);
+		if ($rowCount === 0) {
+				return false;
+		}
+		return $this->lastInsertId();
+	}
+
 	public function lastInsertId()
 	{
 		return $this->pdo->lastInsertId();
