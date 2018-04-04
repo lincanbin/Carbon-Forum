@@ -91,12 +91,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	//当前版本低于3.5.0，需要进行的升级到3.5.0的升级操作
 	if (VersionCompare('3.5.0', $OldVersion)) {
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PushConnectionTimeoutPeriod', '22')");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPHost', 'smtp1.example.com')");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPPort', '587')");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPAuth', 'true')");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPUsername', 'user@example.com')");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPPassword', 'secret')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PushConnectionTimeoutPeriod', '22') ON DUPLICATE KEY UPDATE ConfigValue = '22'");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPHost', 'smtp1.example.com') ON DUPLICATE KEY UPDATE ConfigValue = 'smtp1.example.com'");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPPort', '587') ON DUPLICATE KEY UPDATE ConfigValue = '587'");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPAuth', 'true') ON DUPLICATE KEY UPDATE ConfigValue = 'true'");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPUsername', 'user@example.com') ON DUPLICATE KEY UPDATE ConfigValue = 'user@example.com'");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('SMTPPassword', 'secret') ON DUPLICATE KEY UPDATE ConfigValue = 'secret'");
 		
 		$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "app_user`");
 		$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "app_users` (
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `IsEnabled` `IsEnabled` TINYINT(1) UNSIGNED NULL DEFAULT '1'");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` ADD INDEX `TotalPosts` (`IsEnabled`, `TotalPosts`)");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "tags` CHANGE `Description` `Description` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CacheHotTags', '')");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CacheHotTags', '') ON DUPLICATE KEY UPDATE ConfigValue = ''");
 	}
 
 	//当前版本低于5.9.0，需要进行的升级到5.9.0的升级操作
@@ -193,13 +193,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "users` ENGINE=InnoDB;");
 		$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "vote` ENGINE=InnoDB;");
 
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowEditing', 'true');");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowEmptyTags', 'false');");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowNewTopic', 'true');");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CloseRegistration', 'false');");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('FreezingTime', '0');");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PostingInterval', '8');");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowEditing', 'true') ON DUPLICATE KEY UPDATE ConfigValue = 'true';");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowEmptyTags', 'false') ON DUPLICATE KEY UPDATE ConfigValue = 'false';");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowNewTopic', 'true') ON DUPLICATE KEY UPDATE ConfigValue = 'true';");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CloseRegistration', 'false') ON DUPLICATE KEY UPDATE ConfigValue = 'false';");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('FreezingTime', '0') ON DUPLICATE KEY UPDATE ConfigValue = '0';");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PostingInterval', '8') ON DUPLICATE KEY UPDATE ConfigValue = '8';");
 	}
+
+	//当前版本低于6.0.0，需要进行的升级到6.0.0的升级操作
+	if (VersionCompare('6.0.0', $OldVersion)) {
+		$DB->beginTransaction();
+		try {
+
+			//$DB->query();
+			$DB->commit();
+		} catch (Exception $ex) {
+			$DB->rollBack();
+			echo $ex->getMessage();
+			exit();
+		}
+	}
+
 	$Message = '升级成功。<br />Update successfully! ';
 	//版本修改
 	$DB->query("UPDATE `" . DATABASE_PREFIX . "config` SET `ConfigValue`='" . $Version . "' WHERE `ConfigName`='Version'");
