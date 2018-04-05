@@ -112,7 +112,15 @@ if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 }
 
 
-// At某人并提醒他，使用时常在其前后加空格或回车，如 “@admin ”
+/**
+ * At某人并提醒他，使用时常在其前后加空格或回车，如 “@admin ”
+ * @param $Content
+ * @param $TopicID
+ * @param $PostID
+ * @param string $FilterUser
+ * @return bool
+ * @throws Exception
+ */
 function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 {
 	/*
