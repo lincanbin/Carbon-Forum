@@ -125,14 +125,20 @@ class pushServer extends WebSocketServer
 	}
 }
 
-if (checkPortBindable("0.0.0.0", WebSocketBackendPort) === false) {
+if (!checkPortBindable("0.0.0.0", WebSocketBackendPort)) {
 	echo "port " . WebSocketBackendPort . " has been used.";
-	exit(1);
+	exit(254);
 }
+
+if (!extension_loaded('sockets')) {
+	echo "sockets extension " . WebSocketBackendPort . " is not enabled.";
+	exit(253);
+}
+
 $echo = new pushServer("0.0.0.0", WebSocketBackendPort);
 try {
 	$echo->run();
 } catch (Exception $e) {
 	$echo->stdout($e->getMessage());
-	exit(1);
+	exit(255);
 }
