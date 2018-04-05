@@ -229,7 +229,7 @@ class Manage
 	public function topicSink($TopicInfo)
 	{
 		Auth(4);
-		$this->db->query("UPDATE " . PREFIX . "topics SET LastTime = LastTime-604800 WHERE ID=:ID", array(
+		$this->db->query("UPDATE " . PREFIX . "topics SET LastTime = LEAST(UNIX_TIMESTAMP()-604800, LastTime-604800) WHERE ID=:ID", array(
 			"ID" => $this->id
 		));
 		$this->message = $this->lang['Sunk'];
@@ -240,7 +240,7 @@ class Manage
 	public function topicRise($TopicInfo)
 	{
 		Auth(4);
-		$this->db->query("UPDATE " . PREFIX . "topics SET LastTime = LastTime+604800 WHERE ID=:ID", array(
+		$this->db->query("UPDATE " . PREFIX . "topics SET LastTime = GREATEST(UNIX_TIMESTAMP()+604800, LastTime+604800) WHERE ID=:ID", array(
 			"ID" => $this->id
 		));
 		$this->message = $this->lang['Risen'];
