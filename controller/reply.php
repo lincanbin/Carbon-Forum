@@ -71,16 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$DB->beginTransaction();
 			//往Posts表插入数据
 			$PostData = array(
-				"ID" => null,
-				"TopicID" => $TopicID,
-				"IsTopic" => 0,
-				"UserID" => $CurUserID,
+				"ID"       => null,
+				"TopicID"  => $TopicID,
+				"IsTopic"  => 0,
+				"UserID"   => $CurUserID,
 				"UserName" => $CurUserName,
-				"Subject" => $Topic['Topic'],
-				"Content" => XssEscape($Content),
-				"PostIP" => $CurIP,
+				"Subject"  => $Topic['Topic'],
+				"Content"  => XssEscape($Content),
+				"PostIP"   => $CurIP,
 				"PostTime" => $TimeStamp,
-				"IsDel" => 0
+				"IsDel"    => 0
 			);
 			$NewPostResult = $DB->insert(PREFIX . 'posts', $PostData);
 
@@ -113,14 +113,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				AddingNotifications($Content, $TopicID, $PostID, $Topic['UserName']);
 				if ($CurUserID != $Topic['UserID']) {
 					$DB->insert(PREFIX . 'notifications', array(
-                    	'ID' => null,
-						'UserID' => $Topic['UserID'],
+						'ID'       => null,
+						'UserID'   => $Topic['UserID'],
 						'UserName' => $CurUserName,
-						'Type' => 1,
-						'TopicID' => $TopicID,
-						'PostID' => $PostID,
-						'Time' => $TimeStamp,
-						'IsRead' => 0
+						'Type'     => 1,
+						'TopicID'  => $TopicID,
+						'PostID'   => $PostID,
+						'Time'     => $TimeStamp,
+						'IsRead'   => 0
 					));
 					$DB->query('UPDATE `' . PREFIX . 'users` SET `NewReply` = `NewReply`+1 WHERE ID = :UserID', array(
 						'UserID' => $Topic['UserID']

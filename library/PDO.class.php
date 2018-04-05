@@ -185,7 +185,7 @@ class DB
 			$params
 		);
 		if ($rowCount === 0) {
-				return false;
+			return false;
 		}
 		return $this->lastInsertId();
 	}
