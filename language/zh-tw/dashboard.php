@@ -37,7 +37,6 @@ $Lang = array_merge($Lang, array (
   'Oauth_Settings' => 'oAuth設定',
   'App_Key' => 'App Key',
   'App_Secret' => 'App Secret',
-  'Callback_URL' => '回檔網址',
   'Refresh_Cache_Notice' => '更新快取的操作可能會比較久，請耐心等待<br />倘若資料正確，則無清除快取之必要',
   'Refresh_All_Cache' => '更新全站快取',
   'Successfully_Refreshed' => '快取更新成功',

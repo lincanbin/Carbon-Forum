@@ -62,7 +62,6 @@ $Lang = array_merge($Lang, array(
 	'Oauth_Settings' => 'oAuth设置',
 	'App_Key' => 'App Key',
 	'App_Secret' => 'App Secret',
-	'Callback_URL' => '回调地址',
 
 	'Refresh_Cache_Notice' => '更新缓存的操作可能需要较长时间，请耐心等待。<br />如果数据正确，则没有必要清理缓存。<br />这会消耗服务器大量资源，并导致论坛运行速度下降。<br />所以如果你不知道清理缓存意味着什么，请不要进行此操作。',
 	'Refresh_All_Cache' => '更新全站缓存',

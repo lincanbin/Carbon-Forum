@@ -37,7 +37,6 @@ $Lang = array_merge($Lang, array (
   'Oauth_Settings' => 'oAuth',
   'App_Key' => 'App Key',
   'App_Secret' => 'App Secret',
-  'Callback_URL' => 'Callback URL',
   'Refresh_Cache_Notice' => 'Refreshing cache may take a long time, so please be patient. <br />If the statistics are correct, there is no need to refresh the cache. ',
   'Refresh_All_Cache' => 'Refresh Cache',
   'Successfully_Refreshed' => 'Success! ',

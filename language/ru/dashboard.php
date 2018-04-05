@@ -37,7 +37,6 @@ $Lang = array_merge($Lang, array (
   'Oauth_Settings' => 'oAuth',
   'App_Key' => 'App ключ',
   'App_Secret' => 'App секрет',
-  'Callback_URL' => 'Ссылка обратной связи',
   'Refresh_Cache_Notice' => 'Обновление кэша может занять некоторое время, так что будьте терпеливы. <br />Если статистические данные являются правильными, то не нужно обновлять кэш. ',
   'Refresh_All_Cache' => 'Обновить кэш',
   'Successfully_Refreshed' => 'Успешно! ',

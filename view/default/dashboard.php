@@ -384,22 +384,12 @@ function GenerateSelect($Options, $Name)
 							   readonly="readonly"/>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="text" name="AppKey[]"
-							   value="<?php echo $OauthDataExist ? $OauthData[$Key]['AppKey'] : '';; ?>" class="w100"
+							   value="<?php echo $OauthDataExist ? $OauthData[$Key]['AppKey'] : '';; ?>" class="w200"
 							   placeholder="<?php echo $Lang['App_Key']; ?>"/>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="text" name="AppSecret[]"
-							   value="<?php echo $OauthDataExist ? $OauthData[$Key]['AppSecret'] : ''; ?>" class="w200"
+							   value="<?php echo $OauthDataExist ? $OauthData[$Key]['AppSecret'] : ''; ?>" class="w300"
 							   placeholder="<?php echo $Lang['App_Secret']; ?>"/>
-						<?php
-						if ($OauthDataExist && $Config['MainDomainName']) {
-							?>
-							&nbsp;&nbsp;&nbsp;&nbsp;
-							<?php echo $Lang['Callback_URL']; ?>: <input type="text"
-																		 value="<?php echo $CurProtocol . $Config['MainDomainName'] . $Config['WebsitePath']; ?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>;<?php echo $CurProtocol . $Config['MobileDomainName'] . $Config['WebsitePath']; ?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>"
-																		 class="w200" readonly="readonly"/>
-							<?php
-						}
-						?>
 					</p>
 					<?php
 				}
