@@ -14,7 +14,6 @@ $Lang = array_merge($Lang, array(
 	'Max_Avatar_Size_Limit' => '文件大小不得超过1MiB',
 	'Upload_Avatar' => '上传头像',
 
-	'Do_Not_Modify' => '不修改',
 	'User_Sex' => '用户性别',
 	'Sex_Unknown' => '不明确',
 	'Sex_Male' => '男',

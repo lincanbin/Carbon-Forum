@@ -65,10 +65,15 @@ $(document).ready(function(){
 						<td width="180" align="right"><?php echo $Lang['User_Sex']; ?></td>
 						<td width="auto" align="left">
 							<select name="UserSex">
-								<option value="<?php echo $CurUserInfo['UserSex']; ?>"><?php echo $Lang['Do_Not_Modify']; ?></option>
-								<option value="0"><?php echo $Lang['Sex_Unknown']; ?></option>
-								<option value="1"><?php echo $Lang['Sex_Male']; ?></option>
-								<option value="2"><?php echo $Lang['Sex_Female']; ?></option>
+								<option value="0" <?php echo $CurUserInfo['UserSex'] == 0 ? 'selected="selected"' : ''; ?>>
+									<?php echo $Lang['Sex_Unknown']; ?>
+								</option>
+								<option value="1" <?php echo $CurUserInfo['UserSex'] == 1 ? 'selected="selected"' : ''; ?>>
+									<?php echo $Lang['Sex_Male']; ?>
+								</option>
+								<option value="2" <?php echo $CurUserInfo['UserSex'] == 2 ? 'selected="selected"' : ''; ?>>
+									<?php echo $Lang['Sex_Female']; ?>
+								</option>
 							</select>
 						</td>
 					</tr>

@@ -14,7 +14,6 @@ $Lang = array_merge($Lang, array(
 	'Max_Avatar_Size_Limit' => 'Avatar can not exceed 1MiB',
 	'Upload_Avatar' => 'Upload avatar',
 
-	'Do_Not_Modify' => 'Do not modify',
 	'User_Sex' => 'Sex',
 	'Sex_Unknown' => 'Unknown',
 	'Sex_Male' => 'Male',

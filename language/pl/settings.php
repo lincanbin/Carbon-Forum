@@ -14,7 +14,6 @@ $Lang = array_merge($Lang, array(
 	'Max_Avatar_Size_Limit' => 'Awatar nie może ważyć więcej niż 1MB',
 	'Upload_Avatar' => 'Wrzuć awatar',
 
-	'Do_Not_Modify' => 'Nie wybrano',
 	'User_Sex' => 'Płeć',
 	'Sex_Unknown' => 'Nieznane',
 	'Sex_Male' => 'Mężczyzna',

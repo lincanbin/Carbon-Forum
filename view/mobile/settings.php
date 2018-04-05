@@ -38,10 +38,15 @@ if($UpdateUserInfoMessage){
 		<input type="hidden" name="Action" value="UpdateUserInfo" />
 		<?php echo $Lang['User_Sex']; ?>
 		<select name="UserSex">
-			<option value="<?php echo $CurUserInfo['UserSex']; ?>"><?php echo $Lang['Do_Not_Modify']; ?></option>
-			<option value="0"><?php echo $Lang['Sex_Unknown']; ?></option>
-			<option value="1"><?php echo $Lang['Sex_Male']; ?></option>
-			<option value="2"><?php echo $Lang['Sex_Female']; ?></option>
+			<option value="0" <?php echo $CurUserInfo['UserSex'] == 0 ? 'selected="selected"' : ''; ?>>
+				<?php echo $Lang['Sex_Unknown']; ?>
+			</option>
+			<option value="1" <?php echo $CurUserInfo['UserSex'] == 1 ? 'selected="selected"' : ''; ?>>
+				<?php echo $Lang['Sex_Male']; ?>
+			</option>
+			<option value="2" <?php echo $CurUserInfo['UserSex'] == 2 ? 'selected="selected"' : ''; ?>>
+				<?php echo $Lang['Sex_Female']; ?>
+			</option>
 		</select>
 
 		<input type="text" placeholder="<?php echo $Lang['Email']; ?>" name="UserMail" value="<?php echo $CurUserInfo['UserMail']; ?>" />
