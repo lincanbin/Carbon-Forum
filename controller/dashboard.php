@@ -140,11 +140,11 @@ switch ($Action) {
 		break;
 
 	case 'AddOauth':
-		$AppName          = $_POST['AppName'];
-		$AppKey             = $_POST['AppKey'];	
-		$AppSecret         = $_POST['AppSecret'];
+		$AppName   = $_POST['AppName'];
+		$AppKey    = $_POST['AppKey'];
+		$AppSecret = $_POST['AppSecret'];
 		foreach ($AppName as $Key => $Value) {
-			if($AppName[$Key] && $AppKey[$Key] && $AppSecret[$Key]){
+			if($AppName[$Key]){
 				if(isset($OauthData[$Value])){
 					$DB->query('UPDATE `' . PREFIX . 'app` 
 						SET 

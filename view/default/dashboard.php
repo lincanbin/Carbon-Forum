@@ -390,6 +390,16 @@ function GenerateSelect($Options, $Name)
 						<input type="text" name="AppSecret[]"
 							   value="<?php echo $OauthDataExist ? $OauthData[$Key]['AppSecret'] : ''; ?>" class="w300"
 							   placeholder="<?php echo $Lang['App_Secret']; ?>"/>
+						<?php
+						if ($OauthDataExist && !empty($OauthData[$Key]['AppKey']) && $Config['MainDomainName'] && $Key === 'QQ') {
+							?>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text"
+								 value="<?php echo $CurProtocol . $Config['MainDomainName'] . $Config['WebsitePath']; ?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>;<?php echo $CurProtocol . $Config['MobileDomainName'] . $Config['WebsitePath']; ?>/oauth-<?php echo $OauthData[$Key]['ID']; ?>"
+								 class="w100" readonly="readonly"/>
+							<?php
+						}
+						?>
 					</p>
 					<?php
 				}
