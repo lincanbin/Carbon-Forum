@@ -305,6 +305,17 @@ function Auth($MinRoleRequire, $AuthorizedUserID = 0, $StatusRequire = false)
 }
 
 
+// 大整数十六进制转十进制（字符串）
+function BigIntHex2Dec($hex)
+{
+	$dec = 0;
+	$len = strlen($hex);
+	for ($i = 1; $i <= $len; $i++) {
+		$dec = bcadd($dec, bcmul(strval(hexdec($hex[$i - 1])), bcpow('16', strval($len - $i))));
+	}
+	return $dec;
+}
+
 //转换字符
 function CharCV($string)
 {
