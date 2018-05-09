@@ -172,6 +172,26 @@ CREATE TABLE `carbon_posts` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for carbon_posts_recycle_bin
+-- ----------------------------
+DROP TABLE IF EXISTS `carbon_posts_recycle_bin`;
+CREATE TABLE `carbon_posts_recycle_bin` (
+  `ID` int(10) unsigned NOT NULL,
+  `TopicID` int(10) unsigned DEFAULT '0',
+  `IsTopic` tinyint(1) unsigned DEFAULT '0',
+  `UserID` int(10) unsigned NOT NULL,
+  `UserName` varchar(50) NOT NULL,
+  `Subject` varchar(255) DEFAULT NULL,
+  `Content` longtext,
+  `PostIP` varchar(50) DEFAULT NULL,
+  `PostTime` int(10) unsigned NOT NULL,
+  `PostTimeIndex` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `TopicID` (`TopicID`,`PostTimeIndex`) USING BTREE,
+  KEY `UserPosts` (`UserName`,`PostTimeIndex`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for carbon_posttags
 -- ----------------------------
 DROP TABLE IF EXISTS `carbon_posttags`;
@@ -238,7 +258,6 @@ CREATE TABLE `carbon_topics` (
   `Replies` int(10) unsigned DEFAULT '0',
   `Favorites` int(10) unsigned DEFAULT '0',
   `LastViewedTime` int(10) unsigned NOT NULL,
-  `PostsTableName` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `LastTime` (`LastTimeIndex`,`IsDel`) USING BTREE,
   KEY `UserTopics` (`UserName`,`IsDel`,`LastTimeIndex`) USING BTREE

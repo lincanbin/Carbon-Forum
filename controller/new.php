@@ -134,7 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"Views"          => 0,
 				"Replies"        => 0,
 				"LastViewedTime" => 0,
-				"PostsTableName" => null,
 				"Favorites"      => 0,
 			);
 			$TopicID = $DB->insert(PREFIX . 'topics', $TopicData);

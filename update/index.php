@@ -235,9 +235,25 @@ ADD INDEX `UserTopics` (`UserName`, `IsDel`, `LastTimeIndex`) USING BTREE ;");
 				DROP COLUMN `ThreadStyle`,
 				DROP COLUMN `Lists`,
 				DROP COLUMN `ListsTime`,
-				DROP COLUMN `Log`;");
+				DROP COLUMN `Log`,
+				DROP COLUMN `PostsTableName`;");
 			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "posts`
 				DROP COLUMN `IsDel`;");
+			$DB->query("CREATE TABLE `" . DATABASE_PREFIX . "posts_recycle_bin` (
+			  `ID` int(10) unsigned NOT NULL,
+			  `TopicID` int(10) unsigned DEFAULT '0',
+			  `IsTopic` tinyint(1) unsigned DEFAULT '0',
+			  `UserID` int(10) unsigned NOT NULL,
+			  `UserName` varchar(50) NOT NULL,
+			  `Subject` varchar(255) DEFAULT NULL,
+			  `Content` longtext,
+			  `PostIP` varchar(50) DEFAULT NULL,
+			  `PostTime` int(10) unsigned NOT NULL,
+			  `PostTimeIndex` bigint(20) NOT NULL DEFAULT '0',
+			  PRIMARY KEY (`ID`),
+			  KEY `TopicID` (`TopicID`,`PostTimeIndex`) USING BTREE,
+			  KEY `UserPosts` (`UserName`,`PostTimeIndex`) USING BTREE
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 			$DB->query("UPDATE `carbon`.`" . DATABASE_PREFIX . "posts`
 				SET `PostTimeIndex` = CONV(
 					CONCAT(
