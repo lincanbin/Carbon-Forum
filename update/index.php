@@ -205,8 +205,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (VersionCompare('6.0.0', $OldVersion)) {
 		$DB->beginTransaction();
 		try {
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "blogs`;");
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "blogsettings`;");
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "vote`;");
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "postrating`;");
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "log`;");
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "roles`;");
+			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "pictures`;");
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "posts`
+				ADD COLUMN `PostTimeIndex`  bigint(20) NOT NULL DEFAULT 0 AFTER `PostTime`;");
 
-			//$DB->query();
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "posts`
+				DROP INDEX `TopicID`,
+				DROP INDEX `UserPosts`,
+				ADD INDEX `TopicID` (`TopicID`, `PostTimeIndex`) USING BTREE ,
+				ADD INDEX `UserPosts` (`UserName`, `PostTimeIndex`) USING BTREE ;");
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "topics`
+ADD COLUMN `LastTimeIndex`  bigint(20) UNSIGNED NOT NULL DEFAULT 0 AFTER `LastTime`,
+DROP INDEX `LastTime` ,
+ADD INDEX `LastTime` (`LastTimeIndex`, `IsDel`) USING BTREE ,
+DROP INDEX `UserTopics` ,
+ADD INDEX `UserTopics` (`UserName`, `IsDel`, `LastTimeIndex`) USING BTREE ;");
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "topics`
+				DROP COLUMN `IsGood`,
+				DROP COLUMN `IsTop`,
+				DROP COLUMN `IsVote`,
+				DROP COLUMN `RatingSum`,
+				DROP COLUMN `TotalRatings`,
+				DROP COLUMN `ThreadStyle`,
+				DROP COLUMN `Lists`,
+				DROP COLUMN `ListsTime`,
+				DROP COLUMN `Log`;");
+			$DB->query("ALTER TABLE `" . DATABASE_PREFIX . "posts`
+				DROP COLUMN `IsDel`;");
+			$DB->query("UPDATE `carbon`.`" . DATABASE_PREFIX . "posts`
+				SET `PostTimeIndex` = CONV(
+					CONCAT(
+						HEX(PostTime),
+						RIGHT(MD5(RAND()), 5),
+						LPAD(RIGHT(HEX(ID), 3), 3, 0)
+					),
+					16,
+					10
+				);");
+			$DB->query("UPDATE `carbon`.`" . DATABASE_PREFIX . "topics`
+				SET `LastTimeIndex` = CONV(
+					CONCAT(
+						HEX(LastTime),
+						RIGHT(MD5(RAND()), 5),
+						LPAD(RIGHT(HEX(ID), 3), 3, 0)
+					),
+					16,
+					10
+				);");
 			$DB->commit();
 		} catch (Exception $ex) {
 			$DB->rollBack();
