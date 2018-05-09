@@ -31,7 +31,7 @@ if ($TopicIDArray)
 	$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
             FROM ' . PREFIX . 'topics force index(PRI) 
             WHERE ID in (?) and IsDel=0 
-            ORDER BY LastTime DESC',
+            ORDER BY LastTimeIndex DESC',
         $TopicIDArray);
 $DB->CloseConnection();
 $PageTitle = $Lang['My_Following_Tags'];

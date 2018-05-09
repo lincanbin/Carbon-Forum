@@ -12,8 +12,8 @@ $ResultArray = array(
 if ($Type === false || $Type === 'reply') {
 	$ResultArray['ReplyArray'] = $DB->query('
 		SELECT n.ID as NID, n.Type, n.IsRead, p.ID, p.TopicID, p.IsTopic, p.UserID, p.UserName, p.Subject, p.Content, p.PostTime, p.IsDel 
-		FROM ' . PREFIX . 'notifications n LEFT JOIN ' . PREFIX . 'posts p 
-		on p.ID=n.PostID 
+		FROM ' . PREFIX . 'notifications n 
+		LEFT JOIN ' . PREFIX . 'posts p on p.ID=n.PostID 
 		WHERE n.UserID = :UserID and n.Type=1 
 		ORDER BY n.Time DESC LIMIT :Offset, :Number', array(
 			'UserID' => $CurUserID,
@@ -34,8 +34,7 @@ if ($Type === false || $Type === 'reply') {
 if ($Type === false || $Type === 'mention') {
 	$ResultArray['MentionArray'] = $DB->query('SELECT n.ID as NID, n.Type, n.IsRead, p.ID, p.TopicID, p.IsTopic, p.UserID, p.UserName, p.Subject, p.Content, p.PostTime, p.IsDel 
 		FROM ' . PREFIX . 'notifications n 
-		LEFT JOIN ' . PREFIX . 'posts p 
-		on p.ID=n.PostID 
+		LEFT JOIN ' . PREFIX . 'posts p on p.ID=n.PostID 
 		WHERE n.UserID = :UserID and n.Type=2 
 		ORDER BY n.Time DESC LIMIT :Offset, :Number', array(
 			'UserID' => $CurUserID,

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			break;
 		}
 
-		//发帖至少要间隔8秒
+		//发帖至少要间隔PostingInterval秒
 		if (DEBUG_MODE === false && ($CurUserRole < 3 && ($TimeStamp - intval($CurUserInfo['LastPostTime'])) <= intval($Config['PostingInterval']))) {
 			$Error = $Lang['Posting_Too_Often'];
 			$ErrorCode = $ErrorCodeList['Posting_Too_Often'];
@@ -69,6 +69,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		try {
 			$DB->beginTransaction();
+			$AutoIncrementID = $DB->single('SELECT
+					AUTO_INCREMENT
+				FROM
+					`information_schema`.`TABLES`
+				WHERE
+					table_schema = DATABASE()
+				AND TABLE_NAME = :TableName;', array(
+				'TableName' => PREFIX . "posts"
+			));
 			//往Posts表插入数据
 			$PostData = array(
 				"ID"       => null,
@@ -80,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"Content"  => XssEscape($Content),
 				"PostIP"   => $CurIP,
 				"PostTime" => $TimeStamp,
-				"IsDel"    => 0
+				"PostTimeIndex" => BigIntHex2Dec(uniqid('', false) . str_pad(substr(dechex($AutoIncrementID), -3), 3, '0')),
 			);
 			$NewPostResult = $DB->insert(PREFIX . 'posts', $PostData);
 
@@ -94,8 +103,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				);
 				UpdateConfig($NewConfig);
 				//更新主题统计数据
-				$DB->query("UPDATE `" . PREFIX . "topics` SET Replies=Replies+1,LastTime=?,LastName=? WHERE `ID`=?", array(
-					($TimeStamp > $Topic['LastTime']) ? $TimeStamp : $Topic['LastTime'],
+				$LastTimeIndex = BigIntHex2Dec(uniqid('', false) . str_pad(substr(dechex($TopicID), -3), 3, '0'));
+				$DB->query("UPDATE `" . PREFIX . "topics` SET Replies=Replies+1,LastTime=?,LastTimeIndex=?,LastName=? WHERE `ID`=?", array(
+					$TimeStamp,
+					bccomp($LastTimeIndex, $Topic['LastTimeIndex']) === 1 ? $LastTimeIndex : $Topic['LastTimeIndex'],
 					$CurUserName,
 					$TopicID
 				));

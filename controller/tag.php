@@ -45,7 +45,7 @@ else
 $TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
 	FROM ' . PREFIX . 'topics FORCE INDEX(PRI) 
 	WHERE ID in (?) AND IsDel=0 
-	ORDER BY LastTime DESC', 
+	ORDER BY LastTimeIndex DESC',
 	$TagIDArray
 );
 if ($CurUserID)

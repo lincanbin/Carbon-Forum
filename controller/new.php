@@ -1,6 +1,6 @@
 <?php
 require(LanguagePath . 'new.php');
-Auth(1, 0, true);
+Auth(3, 0, true);
 
 $ErrorCodeList = require(LibraryPath . 'code/new.error.code.php');
 $Error     = '';
@@ -109,6 +109,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				//var_dump($NewTags);
 			}
 			$TagsArray      = array_merge($TagsExist, $NewTags);
+			$AutoIncrementID = $DB->single('SELECT
+					AUTO_INCREMENT
+				FROM
+					`information_schema`.`TABLES`
+				WHERE
+					table_schema = DATABASE()
+				AND TABLE_NAME = :TableName;', array(
+				'TableName' => PREFIX . "topics"
+			));
 			//往Topics表插入数据
 			$TopicData = array(
 				"ID"             => null,
@@ -119,22 +128,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				"LastName"       => "",
 				"PostTime"       => $TimeStamp,
 				"LastTime"       => $TimeStamp,
-				"IsGood"         => 0,
-				"IsTop"          => 0,
+				"LastTimeIndex"  => BigIntHex2Dec(uniqid('', false) . str_pad(substr(dechex($AutoIncrementID), -3), 3, '0')),
 				"IsLocked"       => 0,
 				"IsDel"          => 0,
-				"IsVote"         => 0,
 				"Views"          => 0,
 				"Replies"        => 0,
-				"Favorites"      => 0,
-				"RatingSum"      => 0,
-				"TotalRatings"   => 0,
 				"LastViewedTime" => 0,
 				"PostsTableName" => null,
-				"ThreadStyle"    => "",
-				"Lists"          => "",
-				"ListsTime"      => $TimeStamp,
-				"Log"            => ""
+				"Favorites"      => 0,
 			);
 			$TopicID = $DB->insert(PREFIX . 'topics', $TopicData);
 			//往Posts表插入数据

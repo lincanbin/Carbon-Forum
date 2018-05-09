@@ -25,14 +25,34 @@ if ($Page > $TotalPage)
 	Redirect('t/' . $ID . '-' . $TotalPage);
 if ($Page == 0)
 	$Page = 1;
-$PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`, `IsDel` 
+if ($Page <= 10) {
+	$PostsArray = $DB->query("SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`
 	FROM " . PREFIX . "posts 
 	FORCE INDEX(TopicID) 
 	WHERE TopicID=:id 
-	ORDER BY PostTime ASC 
+	ORDER BY PostTimeIndex ASC 
 	LIMIT " . ($Page - 1) * $Config['PostsPerPage'] . "," . $Config['PostsPerPage'], array(
-	"id" => $ID
-));
+		"id" => $ID
+	));
+} else {
+	//用覆盖索引优化分页
+	$PostsArray = $DB->query('SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`, `IsDel` 
+	FROM ' . PREFIX . 'posts 
+	FORCE INDEX(TopicID) 
+	WHERE TopicID=:id AND PostTimeIndex >= (
+		SELECT PostTimeIndex 
+		FROM ' . PREFIX . 'posts force index(TopicID) 
+		WHERE TopicID = :id2 
+		ORDER BY PostTimeIndex ASC 
+		LIMIT ' . ($Page - 1) * $Config['PostsPerPage'] . ', 1
+	)
+	ORDER BY PostTimeIndex ASC 
+	LIMIT ' . $Config['PostsPerPage'], array(
+		"id" => $ID,
+		"id2" => $ID
+	));
+}
+
 if ($CurUserID) {
 	$IsFavorite = intval($DB->single("SELECT ID 
 		FROM " . PREFIX . "favorites 

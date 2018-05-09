@@ -105,7 +105,7 @@ switch (Request('Request', 'action')) {
 
 	case 'get_post':
 		$PostId = intval(Request('Post', 'PostId'));
-		$row    = $DB->row("SELECT UserName, Content, TopicID FROM " . PREFIX . "posts WHERE ID = :PostId AND IsDel = 0", array(
+		$row    = $DB->row("SELECT UserName, Content, TopicID FROM " . PREFIX . "posts WHERE ID = :PostId", array(
 			'PostId' => $PostId
 		));
 		if ($CurUserRole < 4) {

@@ -17,7 +17,7 @@ if (!$TopicsArray) {
 		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
 			FROM ' . PREFIX . 'topics force index(LastTime) 
 			WHERE IsDel=0 
-			ORDER BY LastTime DESC 
+			ORDER BY LastTimeIndex DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
 		if ($MCache && $Page == 1) {
 			$MCache->set(MemCachePrefix . 'Homepage', $TopicsArray, 600);
@@ -25,13 +25,13 @@ if (!$TopicsArray) {
 	} else {
 		$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
 			FROM ' . PREFIX . 'topics force index(LastTime) 
-			WHERE LastTime<=(SELECT LastTime 
+			WHERE LastTimeIndex<=(SELECT LastTimeIndex 
 					FROM ' . PREFIX . 'topics force index(LastTime) 
 					WHERE IsDel=0 
-					ORDER BY LastTime DESC 
+					ORDER BY LastTimeIndex DESC 
 					LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', 1) 
 				and IsDel=0 
-			ORDER BY LastTime DESC 
+			ORDER BY LastTimeIndex DESC 
 			LIMIT ' . $Config['TopicsPerPage']);
 	}
 }

@@ -16,8 +16,8 @@ $UsersFollowing = $DB->query('SELECT * FROM ' . PREFIX . 'favorites force index(
 $PostsArray     = array();
 if ($UsersFollowing)
 	$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts force index(UserPosts) 
-            WHERE UserName in (?) and IsDel = 0 
-            ORDER BY PostTime DESC 
+            WHERE UserName in (?) 
+            ORDER BY PostTimeIndex DESC 
             LIMIT ' . ($Page - 1) * $Config['PostsPerPage'] . ', ' . ($Config['PostsPerPage'] + 1),
         ArrayColumn($UsersFollowing, 'Title')
     );

@@ -22,7 +22,7 @@ if ($CurUserID)
 		'UserID' => $CurUserID,
 		'FavoriteID' => $UserInfo['ID']
 	));
-$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts WHERE UserName=:UserName and IsDel = 0 ORDER BY PostTime DESC LIMIT 30', array(
+$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts WHERE UserName=:UserName ORDER BY PostTimeIndex DESC LIMIT 30', array(
 	'UserName' => $UserInfo['UserName']
 ));
 $DB->CloseConnection();

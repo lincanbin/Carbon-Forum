@@ -103,7 +103,7 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 						p.`PostTime` AS LastTime
 					FROM ' . PREFIX . 'topics  t, ' . PREFIX . 'posts p 
 					WHERE t.ID=p.TopicID and p.ID in (?) and t.IsDel=0 
-					ORDER BY p.PostTime DESC', $PostIdList);
+					ORDER BY p.PostTimeIndex DESC', $PostIdList);
 				foreach ($TopicsArray as &$row) {
 					$excerpts          = SearchClient::callProxy('buildExcerpts', array(
 						array(
@@ -137,17 +137,19 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 				p.`UserName`,
 				p.`Content`,
 				p.`ID` AS PostID,
-				p.`PostTime` AS LastTime
+				p.`PostTime` AS LastTime,
+				p.`PostTimeIndex` AS LastTimeIndex
 			FROM ' . PREFIX . 'posts p 
 			LEFT JOIN  ' . PREFIX . 'topics t 
 			ON t.ID=p.TopicID';
 	} else {
-		$SearchFields = 'SELECT t.`ID`, t.`Topic`, t.`Tags`, t.`UserID`, t.`UserName`, t.`LastName`, t.`LastTime`, t.`Replies` 
+		$SearchFields = 'SELECT t.`ID`, t.`Topic`, t.`Tags`, t.`UserID`, t.`UserName`, 
+			t.`LastName`, t.`LastTime`, t.`Replies` , t.`LastTimeIndex`
 			FROM ' . PREFIX . 'topics t ';
 	}
 		$TopicsArray = $DB->query($SearchFields . ' 
 			WHERE ' . $SearchConditionQuery . ' 
-			ORDER BY LastTime DESC 
+			ORDER BY LastTimeIndex DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . ($Config['TopicsPerPage'] + 1), $SQLKeywordArray);
 		if ($PostsSearch) {
 			foreach ($TopicsArray as &$Topic) {

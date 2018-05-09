@@ -60,7 +60,7 @@ switch ($Action) {
 	</url>
 	<?php
 	}
-		$TopicsArray = $DB->query('SELECT `ID`, `LastTime`, `Replies` FROM '.PREFIX.'topics force index(LastTime) WHERE IsDel=0 ORDER BY LastTime DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
+		$TopicsArray = $DB->query('SELECT `ID`, `LastTime`, `Replies` FROM '.PREFIX.'topics force index(LastTime) WHERE IsDel=0 ORDER BY LastTimeIndex DESC LIMIT '.($Page-1)*$ItemPerSitemap.','.$ItemPerSitemap);
 		foreach ($TopicsArray as $Topic) {?>
 	<url>
 		<loc><?php echo $CurHost.'/t/'.$Topic['ID']; ?></loc>

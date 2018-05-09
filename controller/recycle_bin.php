@@ -12,18 +12,18 @@ if (!$TopicsArray) {
         $TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
 			FROM ' . PREFIX . 'topics force index(LastTime) 
 			WHERE IsDel=1 
-			ORDER BY LastTime DESC 
+			ORDER BY LastTimeIndex DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . ($Config['TopicsPerPage'] + 1));
     } else {
         $TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
 			FROM ' . PREFIX . 'topics force index(LastTime) 
-			WHERE LastTime<=(SELECT LastTime 
+			WHERE LastTimeIndex <= (SELECT LastTimeIndex 
 					FROM ' . PREFIX . 'topics force index(LastTime) 
 					WHERE IsDel=1 
-					ORDER BY LastTime DESC 
+					ORDER BY LastTimeIndex DESC 
 					LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', 1) 
 				and IsDel=0 
-			ORDER BY LastTime DESC 
+			ORDER BY LastTimeIndex DESC 
 			LIMIT ' . ($Config['TopicsPerPage'] + 1));
     }
 }
