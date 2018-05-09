@@ -15,7 +15,7 @@
 逐渐替换为帕斯卡命名法
 数据库从设计上避免使用Join多表联查
 */
-define('CARBON_FORUM_VERSION', '5.9.0');
+define('CARBON_FORUM_VERSION', '6.0.0');
 
 //Initialize timer
 $StartTime = microtime(true);

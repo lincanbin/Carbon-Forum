@@ -2,7 +2,7 @@
 @set_time_limit(0);
 date_default_timezone_set('Asia/Shanghai'); //设置中国时区
 $Message = '';
-$Version = '5.9.0';
+$Version = '6.0.0';
 define('DATABASE_PREFIX', 'carbon_');
 
 if (is_file('update.lock')) {
