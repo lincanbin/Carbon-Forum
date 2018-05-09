@@ -36,7 +36,7 @@ if ($Page <= 10) {
 	));
 } else {
 	//用覆盖索引优化分页
-	$PostsArray = $DB->query('SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime`, `IsDel` 
+	$PostsArray = $DB->query('SELECT `ID`, `TopicID`,`UserID`, `UserName`, `Content`, `PostTime` 
 	FROM ' . PREFIX . 'posts 
 	FORCE INDEX(TopicID) 
 	WHERE TopicID=:id AND PostTimeIndex >= (
