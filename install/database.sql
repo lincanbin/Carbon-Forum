@@ -44,51 +44,6 @@ CREATE TABLE `carbon_app_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for carbon_blogs
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_blogs`;
-CREATE TABLE `carbon_blogs` (
-  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ParentID` int(10) unsigned NOT NULL DEFAULT '0',
-  `Content` longtext CHARACTER SET utf8 NOT NULL,
-  `UserName` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `Category` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `Subject` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `BlogDate` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `TotalReplies` int(10) unsigned NOT NULL DEFAULT '0',
-  `DateCreated` int(10) unsigned NOT NULL,
-  `DateNew` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `Blogs` (`UserName`,`ParentID`,`DateCreated`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for carbon_blogsettings
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_blogsettings`;
-CREATE TABLE `carbon_blogsettings` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `BlogTitle` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `BlogTagline` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `UserName` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `BlogBgcolor` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `BlogPermissions` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `BlogBackground` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `BlogAudio` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `BlogComments` int(11) NOT NULL DEFAULT '1',
-  `NumBlogs` int(11) NOT NULL DEFAULT '5',
-  `UserSkinID` int(11) DEFAULT '1',
-  `BlogCount` int(11) DEFAULT '0',
-  `BlogReplies` int(11) DEFAULT '0',
-  `BlogViews` int(11) DEFAULT '0',
-  `BlogScore` int(11) DEFAULT '0',
-  `MusicUrl` longtext CHARACTER SET utf8,
-  `MusicName` longtext CHARACTER SET utf8,
-  PRIMARY KEY (`ID`),
-  KEY `BlogSettings` (`UserName`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for carbon_config
 -- ----------------------------
 DROP TABLE IF EXISTS `carbon_config`;
@@ -163,25 +118,6 @@ CREATE TABLE `carbon_link` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for carbon_log
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_log`;
-CREATE TABLE `carbon_log` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `UserName` longtext CHARACTER SET utf8,
-  `IPAddress` longtext CHARACTER SET utf8,
-  `UserAgent` longtext CHARACTER SET utf8,
-  `DateCreated` int(10) unsigned NOT NULL,
-  `HttpVerb` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `PathAndQuery` longtext CHARACTER SET utf8,
-  `Referrer` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `ErrDescription` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `POSTData` longtext CHARACTER SET utf8,
-  `Notes` longtext CHARACTER SET utf8,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for carbon_messages
 -- ----------------------------
 DROP TABLE IF EXISTS `carbon_messages`;
@@ -216,32 +152,6 @@ CREATE TABLE `carbon_notifications` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for carbon_pictures
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_pictures`;
-CREATE TABLE `carbon_pictures` (
-  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `PicUrl` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `UserName` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `PicReadme` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `TopicID` int(10) unsigned DEFAULT '0',
-  `AddTime` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for carbon_postrating
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_postrating`;
-CREATE TABLE `carbon_postrating` (
-  `UserName` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `TopicID` int(10) unsigned NOT NULL DEFAULT '0',
-  `Rating` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `DateCreated` int(10) unsigned NOT NULL,
-  KEY `TopicID` (`TopicID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for carbon_posts
 -- ----------------------------
 DROP TABLE IF EXISTS `carbon_posts`;
@@ -255,10 +165,10 @@ CREATE TABLE `carbon_posts` (
   `Content` longtext CHARACTER SET utf8,
   `PostIP` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `PostTime` int(10) unsigned NOT NULL,
-  `IsDel` tinyint(1) unsigned DEFAULT '0',
+  `PostTimeIndex` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
-  KEY `TopicID` (`TopicID`,`PostTime`,`IsDel`) USING BTREE,
-  KEY `UserPosts` (`UserName`,`IsDel`,`PostTime`) USING BTREE
+  KEY `TopicID` (`TopicID`,`PostTimeIndex`) USING BTREE,
+  KEY `UserPosts` (`UserName`,`PostTimeIndex`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -271,17 +181,6 @@ CREATE TABLE `carbon_posttags` (
   `PostID` int(11) DEFAULT '0',
   KEY `TagsIndex` (`TagID`,`TopicID`),
   KEY `TopicID` (`TopicID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for carbon_roles
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_roles`;
-CREATE TABLE `carbon_roles` (
-  `ID` int(8) unsigned NOT NULL,
-  `Name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `Description` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -332,25 +231,17 @@ CREATE TABLE `carbon_topics` (
   `LastName` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `PostTime` int(10) unsigned NOT NULL,
   `LastTime` int(10) unsigned NOT NULL,
-  `IsGood` tinyint(1) unsigned DEFAULT '0',
-  `IsTop` tinyint(1) unsigned DEFAULT '0',
+  `LastTimeIndex` bigint(20) unsigned NOT NULL DEFAULT '0',
   `IsLocked` tinyint(1) unsigned DEFAULT '0',
   `IsDel` tinyint(1) unsigned DEFAULT '0',
-  `IsVote` tinyint(1) unsigned DEFAULT '0',
   `Views` int(10) unsigned DEFAULT '0',
   `Replies` int(10) unsigned DEFAULT '0',
   `Favorites` int(10) unsigned DEFAULT '0',
-  `RatingSum` int(10) unsigned NOT NULL DEFAULT '0',
-  `TotalRatings` int(10) unsigned NOT NULL DEFAULT '0',
   `LastViewedTime` int(10) unsigned NOT NULL,
   `PostsTableName` int(10) unsigned DEFAULT NULL,
-  `ThreadStyle` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `Lists` longtext CHARACTER SET utf8,
-  `ListsTime` int(10) unsigned NOT NULL,
-  `Log` longtext CHARACTER SET utf8,
   PRIMARY KEY (`ID`),
-  KEY `LastTime` (`LastTime`,`IsDel`),
-  KEY `UserTopics` (`UserName`,`IsDel`,`LastTime`)
+  KEY `LastTime` (`LastTimeIndex`,`IsDel`) USING BTREE,
+  KEY `UserTopics` (`UserName`,`IsDel`,`LastTimeIndex`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -421,22 +312,6 @@ CREATE TABLE `carbon_users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for carbon_vote
--- ----------------------------
-DROP TABLE IF EXISTS `carbon_vote`;
-CREATE TABLE `carbon_vote` (
-  `TopicID` int(10) unsigned NOT NULL DEFAULT '0',
-  `Type` tinyint(1) unsigned DEFAULT '0',
-  `Expiry` int(10) unsigned NOT NULL,
-  `Items` longtext CHARACTER SET utf8,
-  `Result` longtext CHARACTER SET utf8,
-  `BallotUserList` longtext CHARACTER SET utf8,
-  `BallotIPList` longtext CHARACTER SET utf8,
-  `BallotItemsList` longtext CHARACTER SET utf8,
-  PRIMARY KEY (`TopicID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Records of carbon_config
 -- ----------------------------
 INSERT INTO `carbon_config` VALUES ('AllowEditing', 'true');
@@ -484,12 +359,3 @@ INSERT INTO `carbon_config` VALUES ('SMTPPort', '587');
 INSERT INTO `carbon_config` VALUES ('SMTPAuth', 'true');
 INSERT INTO `carbon_config` VALUES ('SMTPUsername', 'user@example.com');
 INSERT INTO `carbon_config` VALUES ('SMTPPassword', 'secret');
--- ----------------------------
--- Records of carbon_roles
--- ----------------------------
-INSERT INTO `carbon_roles` VALUES ('0', '游客', '未登录游客');
-INSERT INTO `carbon_roles` VALUES ('1', '注册会员', '所有注册用户自动属于该角色。');
-INSERT INTO `carbon_roles` VALUES ('2', 'VIP会员', '没有特殊权限，只是一个身份象征');
-INSERT INTO `carbon_roles` VALUES ('3', '版主', '可以管理若干个话题下的帖子');
-INSERT INTO `carbon_roles` VALUES ('4', '超级版主', '可以管理所有话题下的帖子和所有会员');
-INSERT INTO `carbon_roles` VALUES ('5', '管理员', '享有论坛的最高权限，可以管理整个论坛，设置整个论坛的参数。');
