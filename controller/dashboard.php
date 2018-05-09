@@ -50,7 +50,7 @@ switch ($Action) {
 		');
 		$DB->query('UPDATE ' . PREFIX . 'topics t 
 			SET t.Replies=(SELECT count(*) FROM ' . PREFIX . 'posts p 
-				WHERE p.TopicID = t.ID AND p.IsTopic = 0 AND p.IsDel = 0),
+				WHERE p.TopicID = t.ID AND p.IsTopic = 0),
 			t.Favorites=(SELECT count(*) FROM ' . PREFIX . 'favorites f 
 				WHERE f.FavoriteID = t.ID AND Type = 1)
 		');
@@ -81,61 +81,67 @@ switch ($Action) {
 
 	case 'Statistics':
 		@set_time_limit(0);
-		$DB->query('DELETE FROM ' . PREFIX . 'statistics');
-		$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT UserRegTime FROM ' . PREFIX . 'users ORDER BY ID ASC LIMIT 1')));
-		while ($StatisticsTime < ($TimeStamp - 86400)) {
-			$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
-			//echo date('Y-m-d', $StatisticsTime);
-			//echo '<br />';
-			$DB->query('INSERT INTO `' . PREFIX . 'statistics` 
-				(
-					`DaysUsers`, 
-					`DaysPosts`, 
-					`DaysTopics`, 
-					`TotalUsers`, 
-					`TotalPosts`, 
-					`TotalTopics`, 
-					`DaysDate`, 
-					`DateCreated`
-				) 
-				SELECT 
-					(SELECT count(*) FROM ' . PREFIX . 'users u 
-						WHERE u.UserRegTime >= ' . $StatisticsTime . ' 
-							AND u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
-					(SELECT count(*) FROM ' . PREFIX . 'posts p 
-						WHERE p.PostTime >= ' . $StatisticsTime . ' 
-							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-							AND p.IsTopic = 0), 
-					(SELECT count(*) FROM ' . PREFIX . 'topics t 
-						WHERE t.PostTime >= ' . $StatisticsTime . ' 
-							AND t.PostTime < ' . $StatisticsTimeAddOneDay . '  
-							AND t.IsDel = 0), 
-					(SELECT count(*) FROM ' . PREFIX . 'users u 
-						WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
-					 (SELECT count(*) FROM ' . PREFIX . 'posts p 
-						WHERE p.TopicID NOT IN (SELECT ID FROM ' . PREFIX . 'topics t 
+		$DB->beginTransaction();
+		try {
+			$DB->query('DELETE FROM ' . PREFIX . 'statistics');
+			$StatisticsTime = strtotime(date('Y-m-d', $DB->single('SELECT UserRegTime FROM ' . PREFIX . 'users ORDER BY ID ASC LIMIT 1')));
+			while ($StatisticsTime < ($TimeStamp - 86400)) {
+				$StatisticsTimeAddOneDay = $StatisticsTime + 86400;
+				//echo date('Y-m-d', $StatisticsTime);
+				//echo '<br />';
+				$DB->query('INSERT INTO `' . PREFIX . 'statistics` 
+					(
+						`DaysUsers`, 
+						`DaysPosts`, 
+						`DaysTopics`, 
+						`TotalUsers`, 
+						`TotalPosts`, 
+						`TotalTopics`, 
+						`DaysDate`, 
+						`DateCreated`
+					) 
+					SELECT 
+						(SELECT count(*) FROM ' . PREFIX . 'users u 
+							WHERE u.UserRegTime >= ' . $StatisticsTime . ' 
+								AND u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
+						(SELECT count(*) FROM ' . PREFIX . 'posts p 
+							WHERE p.PostTime >= ' . $StatisticsTime . ' 
+								AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+								AND p.IsTopic = 0), 
+						(SELECT count(*) FROM ' . PREFIX . 'topics t 
+							WHERE t.PostTime >= ' . $StatisticsTime . ' 
+								AND t.PostTime < ' . $StatisticsTimeAddOneDay . '  
+								AND t.IsDel = 0), 
+						(SELECT count(*) FROM ' . PREFIX . 'users u 
+							WHERE u.UserRegTime < ' . $StatisticsTimeAddOneDay . ' ), 
+						 (SELECT count(*) FROM ' . PREFIX . 'posts p 
+							WHERE p.TopicID NOT IN (SELECT ID FROM ' . PREFIX . 'topics t 
+								WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+									AND t.IsDel = 1)
+								AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
+								AND p.IsTopic = 0 ), 
+						(SELECT count(*) FROM ' . PREFIX . 'topics t 
 							WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-								AND t.IsDel = 1)
-							AND p.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-							AND p.IsTopic = 0 ), 
-					(SELECT count(*) FROM ' . PREFIX . 'topics t 
-						WHERE t.PostTime < ' . $StatisticsTimeAddOneDay . ' 
-							AND t.IsDel = 0), 
-					:DaysDate,
-					:DateCreated 
-					FROM dual  
-					WHERE NOT EXISTS(  
-						SELECT *  FROM `' . PREFIX . 'statistics`  
-						WHERE DaysDate = :DaysDate2
-					)
-				', array(
-				'DaysDate' => date('Y-m-d', $StatisticsTime),
-				'DaysDate2' => date('Y-m-d', $StatisticsTime),
-				'DateCreated' => $StatisticsTimeAddOneDay - 1
-			));
-			$StatisticsTime = $StatisticsTimeAddOneDay;
+								AND t.IsDel = 0), 
+						:DaysDate,
+						:DateCreated 
+						FROM dual  
+						WHERE NOT EXISTS(  
+							SELECT *  FROM `' . PREFIX . 'statistics`  
+							WHERE DaysDate = :DaysDate2
+						)
+					', array(
+					'DaysDate' => date('Y-m-d', $StatisticsTime),
+					'DaysDate2' => date('Y-m-d', $StatisticsTime),
+					'DateCreated' => $StatisticsTimeAddOneDay - 1
+				));
+				$StatisticsTime = $StatisticsTimeAddOneDay;
+			}
+			$DB->commit();
+		} catch (Exception $ex) {
+			$DB->rollBack();
+			echo $ex->getMessage();
 		}
-
 		$CacheMessage = $Lang['Successfully_Refreshed'];
 		break;
 
