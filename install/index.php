@@ -319,7 +319,7 @@ function GetNextSQL()
 	<!-- footer start -->
 	<div class="Copyright">
 		<p>
-			Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2016
+			Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum</a> © 2006-2018
 		</p>
 	</div>
 	<!-- footer end -->

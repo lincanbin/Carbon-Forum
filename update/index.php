@@ -479,7 +479,7 @@ if (!$Message) {
 			<p>
 			Powered By <a href="https://www.94cb.com" target="_blank">Carbon Forum <?php
 echo $Version;
-?></a> © 2006-2016
+?></a> © 2006-2018
 			</p>
 		</div>
 		<!-- footer end -->
