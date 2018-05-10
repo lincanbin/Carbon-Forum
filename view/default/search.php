@@ -17,6 +17,9 @@ function KeywordHighlight($Content)
 ?>
 <!-- main-content start -->
 <div class="main-content">
+	<script type="text/javascript">
+		$("#SearchInput").val('<?php echo $Keyword; ?>');
+	</script>
 	<div class="title">
 		<a href="<?php echo $Config['WebsitePath']; ?>/">
 			<?php echo $Config['SiteName']; ?>
