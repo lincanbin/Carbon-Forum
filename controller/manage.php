@@ -209,6 +209,9 @@ class Manage
 			$this->db->query('DELETE FROM `' . PREFIX . 'posttags` WHERE TopicID = ?', array(
 				$this->id
 			));
+			$this->db->query('INSERT INTO `' . PREFIX . 'posts_recycle_bin` select * from `' . PREFIX . 'posts` where TopicID = ?;', array(
+				$this->id
+			));
 			$this->db->query('DELETE FROM `' . PREFIX . 'posts` WHERE TopicID = ?', array(
 				$this->id
 			));
@@ -380,6 +383,9 @@ class Manage
 	public function postDelete($PostInfo)
 	{
 		Auth(4);
+		$this->db->query('INSERT INTO `' . PREFIX . 'posts_recycle_bin` select * from `' . PREFIX . 'posts` where ID = ?;', array(
+			$this->id
+		));
 		$this->db->query('DELETE FROM `' . PREFIX . 'posts` WHERE ID=?', array(
 			$this->id
 		));
