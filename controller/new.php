@@ -1,6 +1,6 @@
 <?php
 require(LanguagePath . 'new.php');
-Auth(3, 0, true);
+Auth(1, 0, true);
 
 $ErrorCodeList = require(LibraryPath . 'code/new.error.code.php');
 $Error     = '';
