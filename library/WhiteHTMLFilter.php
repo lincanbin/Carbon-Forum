@@ -182,15 +182,34 @@ class WhiteHTMLFilter
 		}
 		$index = $attributes->length;
 		while (--$index >= 0) {
+		/*
+		foreach会有一个严重的的问题：
+			href="JavaScript:alert("customAttr="xxx"");"
+			这样嵌套的不合法的属性，会被解析出两个属性：
+				1. href="JavaScript:alert("
+				2. customAttr="xxx"
+			但是foreach只能拿到一个。
+		foreach ($elem->attributes->item() as $attrName => $domAttr) {
+		*/
 			/* @var $domAttr DOMAttr */
 			$domAttr = $attributes->item($index);
 			$attrName = strtolower($domAttr->name);
+			$attrValue = $domAttr->value;
 			// 如果不在白名单attr中，而且允许data-*，且不是data-*，则删除
 			if (!in_array($attrName, $attributesWhiteList) && $allowDataAttribute && (stripos($attrName, "data-") !== 0)) {
 				$elem->removeAttribute($attrName);
 			} else {
 				if (isset($attributesFilterMap[$attrName])) {
-					$domAttr->value = $attributesFilterMap[$attrName]($domAttr->value);
+					$filteredAttrValue = $attributesFilterMap[$attrName]($attrValue);
+					if ($filteredAttrValue === false ) {
+						$elem->removeAttribute($attrName);
+					} else {
+						// https://stackoverflow.com/questions/25475936/updating-domattr-value-with-url-results-in-parameters-being-lost-unless-htmlenti
+						// Fix ampersands issue: https://github.com/lincanbin/White-HTML-Filter/issues/1
+						if ($filteredAttrValue !== $attrValue) {
+							$elem->setAttribute($attrName, $filteredAttrValue);
+						}
+					}
 				} else {
 					$this->cleanAttrValue($domAttr);
 				}
@@ -216,17 +235,16 @@ class WhiteHTMLFilter
 			$implodeFunc = function ($styleSheet) {
 				return implode(':', $styleSheet);
 			};
-			$domAttr->value = implode(';', array_map($implodeFunc, $styles)) . ';';
-
+			$domAttr->ownerElement->setAttribute($attrName, implode(';', array_map($implodeFunc, $styles)) . ';');
 		}
 		if ($attrName === 'class' && !empty($this->config->WhiteListCssClass)) {
-			$domAttr->value = implode(' ', array_intersect(preg_split('/\s+/', $domAttr->value), $this->config->WhiteListCssClass));
+			$domAttr->ownerElement->setAttribute($attrName, implode(' ', array_intersect(preg_split('/\s+/', $domAttr->value), $this->config->WhiteListCssClass)));
 		}
 		if ($attrName === 'src' || $attrName === 'href') {
 			if (strtolower(parse_url($domAttr->value, PHP_URL_SCHEME)) === 'javascript') {
-				$domAttr->value = '';
+				$domAttr->ownerElement->removeAttribute($attrName);
 			} else {
-				$domAttr->value = filter_var($domAttr->value, FILTER_SANITIZE_URL);
+				$domAttr->ownerElement->setAttribute($attrName, filter_var($domAttr->value, FILTER_SANITIZE_URL));
 			}
 		}
 	}
