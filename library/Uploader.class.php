@@ -457,7 +457,7 @@ class Uploader
 	{
 		return array(
 			"state" => $this->stateInfo,
-			"url" => $this->fullName,
+			"url" => (CDNDomain === '' ? '' : '//' . CDNDomain) . $this->fullName,
 			"title" => $this->fileName,
 			"original" => $this->oriName,
 			"type" => $this->fileType,
