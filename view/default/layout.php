@@ -242,7 +242,11 @@ if(!$IsAjax){
 	?>
 	<!-- main end -->
 	<div class="c"></div>
-
+<?php
+if ($Config['PageBottomContent']) {
+	echo $Config['PageBottomContent'];
+}
+?>
 	<!-- footer start -->
 	<div class="copyright">
 		<p>
@@ -262,11 +266,6 @@ if(!$IsAjax){
 	<!-- footer end -->
 </div>
 <!-- content wrapper end -->
-<?php
-if ($Config['PageBottomContent']) {
-	echo $Config['PageBottomContent'];
-}
-?>
 </body>
 </html>
 <?php
