@@ -133,7 +133,7 @@ if ($NotFound === true) {
 	}
 }
 
-if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp && $UrlPath != 'view') {
+if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp && $UrlPath != 'redirect') {
 	//如果是手机，则跳转到移动版
 	header("HTTP/1.1 302 Moved Temporarily");
 	header("Status: 302 Moved Temporarily");
