@@ -1,5 +1,6 @@
 <?php
 require(LanguagePath . 'reply.php');
+$ReferCheckResult = ReferCheck(Request('Post', 'FormHash'));
 SetStyle('api', 'API');
 Auth(1, 0, true);
 
@@ -17,7 +18,7 @@ if (!$Topic || ($Topic['IsDel'] && $CurUserRole < 3)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	if (!ReferCheck(Request('Post', 'FormHash'))) {
+	if (!$ReferCheckResult) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	do {

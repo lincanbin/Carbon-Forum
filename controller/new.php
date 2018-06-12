@@ -10,8 +10,9 @@ $Content   = '';
 $TagsArray = array();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$ReferCheckResult = ReferCheck(Request('Post', 'FormHash'));
 	SetStyle('api', 'API');
-	if (!ReferCheck(Request('Post', 'FormHash'))) {
+	if (!$ReferCheckResult) {
 		AlertMsg($Lang['Error_Unknown_Referer'], $Lang['Error_Unknown_Referer'], 403);
 	}
 	$Title     = Request('Post', 'Title');
