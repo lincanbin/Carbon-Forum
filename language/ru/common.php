@@ -41,5 +41,5 @@ $Lang = array_merge($Lang, array(
 	'Desktop_Version' => 'Настольная Версия',
 	'Mobile_Version' => 'Мобильная Версия',
 	'Statistics' => 'Статистика',
-    'Recycle_Bin' => 'Recycle Bin'
+    'Recycle_Bin' => 'Корзина'
 ));
