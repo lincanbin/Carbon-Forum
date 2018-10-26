@@ -14,5 +14,6 @@ if(preg_match('/upload\/avatar\/(large|middle|small)\/[0-9]+.png/i', $_SERVER['R
 
 }else{
 	echo '404 NOT FOUND';
+	echo 'test'
 }
 ?>
