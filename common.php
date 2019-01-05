@@ -190,6 +190,9 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 {
 	global $Lang, $CurProtocol, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
+	if ($FormHash === null) {
+		$FormHash = FormHash();
+	}
 	$HttpStatuses = [
 		100 => 'Continue',
 		101 => 'Switching Protocols',
@@ -407,11 +410,19 @@ function Filter($Content)
 }
 
 // 获得表单校验散列
-function FormHash()
+function FormHash($TopicsIncrement = 0, $RepliesIncrement = 0)
 {
-	global $Config;
-	if (GetCookie('UserCode'))
-		return substr(md5($Config['SiteName'] . GetCookie('UserCode') . SALT), 8, 8);
+	$Interval = 5; // 每发布 $Interval 主题或回帖更换一次 FormHash
+	global $Config, $CurUserInfo;
+	// var_dump($CurUserInfo);
+	if (GetCookie('UserCode') && $CurUserInfo)
+		return substr(md5(
+			$Config['SiteName'] .
+			GetCookie('UserCode') .
+			SALT .
+			max(intval(floor($CurUserInfo['Topics'] / $Interval)) + $TopicsIncrement, 0) .
+			max(intval(floor($CurUserInfo['Replies'] / $Interval)) + $RepliesIncrement, 0)
+		), 8, 8);
 	else
 		return substr(md5($Config['SiteName'] . SALT), 8, 8);
 }
@@ -589,7 +600,17 @@ function Redirect($URI = '', $ExitCode = 0)
 function ReferCheck($UserHash)
 {
 	global $IsApp;
-	if (!$IsApp && (empty($_SERVER['HTTP_REFERER']) || $UserHash != FormHash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))
+	$FormHashAvailable = false;
+	// 在发帖量改变时，对应的上一个FormHash依然不会失效
+	if (
+		$UserHash === FormHash(0, 0)
+		|| $UserHash === FormHash(0, -1)
+		|| $UserHash === FormHash(-1, 0)
+		|| $UserHash === FormHash(-1, -1)
+	) {
+		$FormHashAvailable = true;
+	}
+	if (!$IsApp && (empty($_SERVER['HTTP_REFERER']) || !$FormHashAvailable || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))
 		return false;
 	else
 		return true;
@@ -809,7 +830,7 @@ if ($IsApp) {
 
 $CurView = GetCookie('View', $IsMobile ? 'mobile' : 'desktop');
 $CurIP = CurIP();
-$FormHash = FormHash();
+$FormHash = null;
 // 限制不能打开.php的网址
 if (strpos($RequestURI, '.php')) {
 	AlertMsg('403', 'Forbidden', 403);
@@ -895,3 +916,4 @@ function CheckCookie($CurUserID, $CurUserExpirationTime, $CurUserCode, &$CurUser
 	}
 }
 CheckCookie($CurUserID, $CurUserExpirationTime, $CurUserCode, $CurUserInfo, $CurUserRole, $CurUserName);
+$FormHash = FormHash();
