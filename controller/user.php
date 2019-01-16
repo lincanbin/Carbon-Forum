@@ -22,9 +22,14 @@ if ($CurUserID)
 		'UserID' => $CurUserID,
 		'FavoriteID' => $UserInfo['ID']
 	));
-$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts WHERE UserName=:UserName ORDER BY PostTimeIndex DESC LIMIT 30', array(
-	'UserName' => $UserInfo['UserName']
-));
+if ($UserInfo['UserAccountStatus'] || $CurUserRole >= 4) {
+	$PostsArray = $DB->query('SELECT * FROM ' . PREFIX . 'posts WHERE UserName=:UserName ORDER BY PostTimeIndex DESC LIMIT 30', array(
+		'UserName' => $UserInfo['UserName']
+	));
+} else {
+	$PostsArray = [];
+}
+
 $DB->CloseConnection();
 $PageTitle    = $UserInfo['UserName'];
 $PageMetaDesc = $UserInfo['UserName'] . ' - ' . htmlspecialchars(strip_tags(mb_substr($UserInfo['UserIntro'], 0, 150, 'utf-8')));
