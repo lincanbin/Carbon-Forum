@@ -11,7 +11,8 @@
  * 
  * A PHP MySQL PDO class similar to the the Python MySQLdb. 
  */
-require(__DIR__ . "/PDO.Log.class.php");
+require(__DIR__ . '/PDO.Log.class.php');
+require(__DIR__ . '/PDO.Iterator.class.php');
 /** Class DB
  * @property PDO pdo PDO object
  * @property PDOStatement sQuery PDOStatement
@@ -38,6 +39,14 @@ class DB
 	const AUTO_RECONNECT = true;
 	const RETRY_ATTEMPTS = 3; // 最大失败重试次数
 
+	/**
+	 * DB constructor.
+	 * @param $Host
+	 * @param $DBPort
+	 * @param $DBName
+	 * @param $DBUser
+	 * @param $DBPassword
+	 */
 	public function __construct($Host, $DBPort, $DBName, $DBUser, $DBPassword)
 	{
 		$this->logObject  = new PDOLog();
@@ -49,8 +58,8 @@ class DB
 		$this->parameters = array();
 		$this->Connect();
 	}
-	
-	
+
+
 	private function Connect()
 	{
 		try {
@@ -62,19 +71,30 @@ class DB
 			}
 			$dsn .= 'charset=utf8;';
 			$this->pdo = new PDO($dsn,
-				$this->DBUser, 
+				$this->DBUser,
 				$this->DBPassword,
 				array(
 					//For PHP 5.3.6 or lower
 					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
 					PDO::ATTR_EMULATE_PREPARES => false,
+
 					//长连接
 					//PDO::ATTR_PERSISTENT => true,
+
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 				)
 			);
+			/*
+			//For PHP 5.3.6 or lower
+			$this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
+			$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			//$this->pdo->setAttribute(PDO::ATTR_PERSISTENT, true);//长连接
+			$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+			*/
 			$this->connectionStatus = true;
+
 		}
 		catch (PDOException $e) {
 			$this->ExceptionLog($e, '', 'Connect');
@@ -86,21 +106,24 @@ class DB
 		$this->pdo = null;
 		$this->connectionStatus = false;
 	}
-	
-	public function CloseConnection()
+
+	/**
+	 * close pdo connection
+	 */
+	public function closeConnection()
 	{
 		$this->pdo = null;
 	}
 
-	private function Init($query, $parameters = null)
+	private function Init($query, $parameters = null, $driverOptions = array())
 	{
 		if (!$this->connectionStatus) {
 			$this->Connect();
 		}
 		try {
 			$this->parameters = $parameters;
-			$this->sQuery     = $this->pdo->prepare($this->BuildParams($query, $this->parameters));
-			
+			$this->sQuery     = $this->pdo->prepare($this->BuildParams($query, $this->parameters), $driverOptions);
+
 			if (!empty($this->parameters)) {
 				if (array_key_exists(0, $parameters)) {
 					$parametersType = true;
@@ -114,68 +137,128 @@ class DB
 				}
 			}
 
-			$this->sQuery->execute();
+			if (!isset($driverOptions[PDO::ATTR_CURSOR])) {
+				$this->sQuery->execute();
+			}
 			$this->querycount++;
 		}
 		catch (PDOException $e) {
 			$this->ExceptionLog($e, $this->BuildParams($query), 'Init', array('query' => $query, 'parameters' => $parameters));
 
 		}
-		
+
 		$this->parameters = array();
 	}
-	
+
 	private function BuildParams($query, $params = null)
 	{
 		if (!empty($params)) {
-			$rawStatement = explode(" ", $query);
-			foreach ($rawStatement as $value) {
-				if (strtolower($value) == 'in') {
-					return str_replace("(?)", "(" . implode(",", array_fill(0, count($params), "?")) . ")", $query);
+			$array_parameter_found = false;
+			foreach ($params as $parameter_key => $parameter) {
+				if (is_array($parameter)){
+					$array_parameter_found = true;
+					$in = "";
+					foreach ($parameter as $key => $value){
+						$name_placeholder = $parameter_key."_".$key;
+						// concatenates params as named placeholders
+						$in .= ":".$name_placeholder.", ";
+						// adds each single parameter to $params
+						$params[$name_placeholder] = $value;
+					}
+					$in = rtrim($in, ", ");
+					$query = preg_replace("/:".$parameter_key."/", $in, $query);
+					// removes array form $params
+					unset($params[$parameter_key]);
 				}
 			}
+
+			// updates $this->params if $params and $query have changed
+			if ($array_parameter_found) $this->parameters = $params;
 		}
 		return $query;
 	}
 
-
+	/**
+	 * @return bool
+	 */
 	public function beginTransaction()
 	{
 		return $this->pdo->beginTransaction();
 	}
 
-
+	/**
+	 * @return bool
+	 */
 	public function commit()
 	{
 		return $this->pdo->commit();
 	}
 
-
+	/**
+	 * @return bool
+	 */
 	public function rollBack()
 	{
 		return $this->pdo->rollBack();
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function inTransaction()
 	{
 		return $this->pdo->inTransaction();
 	}
 
-	public function query($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
+	/**
+	 * execute a sql query, returns an result array in the select operation, and returns the number of rows affected in other operations
+	 * @param string $query
+	 * @param null $params
+	 * @param int $fetchMode
+	 * @return array|int|null
+	 */
+	public function query($query, $params = null, $fetchMode = PDO::FETCH_ASSOC)
 	{
 		$query        = trim($query);
 		$rawStatement = explode(" ", $query);
 		$this->Init($query, $params);
 		$statement = strtolower($rawStatement[0]);
 		if ($statement === 'select' || $statement === 'show') {
-			return $this->sQuery->fetchAll($fetchmode);
+			return $this->sQuery->fetchAll($fetchMode);
 		} elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
 			return $this->sQuery->rowCount();
 		} else {
 			return NULL;
 		}
 	}
-	
+
+	/**
+	 * execute a sql query, returns an iterator in the select operation, and returns the number of rows affected in other operations
+	 * @param string $query
+	 * @param null $params
+	 * @param int $fetchMode
+	 * @return int|null|PDOIterator
+	 */
+	public function iterator($query, $params = null, $fetchMode = PDO::FETCH_ASSOC)
+	{
+		$query        = trim($query);
+		$rawStatement = explode(" ", $query);
+		$this->Init($query, $params, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+		$statement = strtolower($rawStatement[0]);
+		if ($statement === 'select' || $statement === 'show') {
+			return new PDOIterator($this->sQuery, $fetchMode);
+		} elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
+			return $this->sQuery->rowCount();
+		} else {
+			return NULL;
+		}
+	}
+
+	/**
+	 * @param $tableName
+	 * @param null $params
+	 * @return bool|string
+	 */
 	public function insert($tableName, $params = null)
 	{
 		$keys = array_keys($params);
@@ -190,44 +273,70 @@ class DB
 		return $this->lastInsertId();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function lastInsertId()
 	{
 		return $this->pdo->lastInsertId();
 	}
-	
-	
+
+
+	/**
+	 * @param $query
+	 * @param null $params
+	 * @return array
+	 */
 	public function column($query, $params = null)
 	{
 		$this->Init($query, $params);
 		$resultColumn = $this->sQuery->fetchAll(PDO::FETCH_COLUMN);
+		$this->rowCount = $this->sQuery->rowCount();
+		$this->columnCount = $this->sQuery->columnCount();
 		$this->sQuery->closeCursor();
 		return $resultColumn;
 	}
 
-
+	/**
+	 * @param $query
+	 * @param null $params
+	 * @param int $fetchmode
+	 * @return mixed
+	 */
 	public function row($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
 	{
 		$this->Init($query, $params);
 		$resultRow = $this->sQuery->fetch($fetchmode);
+		$this->rowCount = $this->sQuery->rowCount();
+		$this->columnCount = $this->sQuery->columnCount();
 		$this->sQuery->closeCursor();
 		return $resultRow;
 	}
-	
-	
+
+	/**
+	 * @param $query
+	 * @param null $params
+	 * @return mixed
+	 */
 	public function single($query, $params = null)
 	{
 		$this->Init($query, $params);
 		return $this->sQuery->fetchColumn();
 	}
-	
-	
+
+	/**
+	 * @param PDOException $e
+	 * @param string $sql
+	 * @param string $method
+	 * @param array $parameters
+	 */
 	private function ExceptionLog(PDOException $e, $sql = "", $method = '', $parameters = array())
 	{
 		$message = $e->getMessage();
 		$exception = 'Unhandled Exception. <br />';
 		$exception .= $message;
 		$exception .= "<br /> You can find the error back in the log.";
-		
+
 		if (!empty($sql)) {
 			$message .= "\r\nRaw SQL : " . $sql;
 		}

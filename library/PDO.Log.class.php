@@ -6,7 +6,7 @@ class PDOLog
 	{
 		$this->path = __DIR__ . $this->path;
 	}
-	
+
 	public function write($message, $fileSalt)
 	{
 		$date = new DateTime();
@@ -26,7 +26,7 @@ class PDOLog
 			}
 		}
 	}
-	private function edit($log, $date, $message)
+	private function edit($log, DateTime $date, $message)
 	{
 		$logcontent = "Time : " . $date->format('H:i:s') . "\r\n" . $message . "\r\n\r\n";
 		$logcontent = $logcontent . file_get_contents($log);
