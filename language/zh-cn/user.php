@@ -17,5 +17,7 @@ $Lang = array_merge($Lang, array(
 	'Introduction' => '介绍',
 	'Last_Activity_In' => '最后活动于',
 	'Created_Topic' => '创建了主题',
-	'Replied_To_Topic' => '回复了主题'
+	'Replied_To_Topic' => '回复了主题',
+	'Delete_All_Topics' => '删除全部主题',
+	'Delete_All_Posts' => '删除全部回帖',
 	));

@@ -18,4 +18,6 @@ $Lang = array_merge($Lang, array (
   'Created_Topic' => 'Stworzył teamt',
   'Replied_To_Topic' => 'Odpowiedział w temacie',
   'Send_Message' => 'Wyślij wiadomość',
+  'Delete_All_Topics' => 'Usuń wszystkie tematy',
+  'Delete_All_Posts' => 'Usuń wszystkie posty',
 ));

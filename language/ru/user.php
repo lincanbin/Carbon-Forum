@@ -18,4 +18,6 @@ $Lang = array_merge($Lang, array (
   'Created_Topic' => 'Создал тему',
   'Replied_To_Topic' => 'Ответил в теме',
   'Send_Message' => 'Отправить сообщение',
+  'Delete_All_Topics' => 'Удалить все темы',
+  'Delete_All_Posts' => 'Удалить все сообщения',
 ));

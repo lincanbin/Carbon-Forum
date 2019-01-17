@@ -18,4 +18,6 @@ $Lang = array_merge($Lang, array (
   'Created_Topic' => 'Created topic',
   'Replied_To_Topic' => 'Replied to topic',
   'Send_Message' => 'Send a private message',
+  'Delete_All_Topics' => 'Delete all topics',
+  'Delete_All_Posts' => 'Delete all posts',
 ));

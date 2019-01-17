@@ -18,4 +18,6 @@ $Lang = array_merge($Lang, array (
   'Created_Topic' => '建立了討論串',
   'Replied_To_Topic' => '回覆了討論串',
   'Send_Message' => '發送私信',
+  'Delete_All_Topics' => '刪除全部主題',
+  'Delete_All_Posts' => '刪除全部回帖',
 ));
