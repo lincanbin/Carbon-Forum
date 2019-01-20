@@ -57,6 +57,14 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'ResetAvatar', true, this);">
 						<?php echo $Lang['Reset_Avatar']; ?>
 					</a>
+					<div class="c"></div>
+					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'DeleteAllTopics', true, this);">
+						<?php echo $Lang['Delete_All_Topics']; ?>
+					</a>
+
+					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'DeleteAllPosts', true, this);">
+						<?php echo $Lang['Delete_All_Posts']; ?>
+					</a>
 					<?php
 				}
 				?>
