@@ -144,8 +144,8 @@ class Manage
 	{
 		Auth(4);
 		if ($TopicInfo['IsDel'] == 0) {
-			$this->db->query("UPDATE " . PREFIX . "topics SET IsDel = 1 WHERE ID=:ID", array(
-				"ID" => $this->id
+			$this->db->query("UPDATE " . PREFIX . "topics SET IsDel = 1 WHERE ID = :ID", array(
+				"ID" => $TopicInfo['ID']
 			));
 			//更新全站统计数据
 			$NewConfig = array(
@@ -384,13 +384,13 @@ class Manage
 	{
 		Auth(4);
 		$this->db->query('INSERT INTO `' . PREFIX . 'posts_recycle_bin` select * from `' . PREFIX . 'posts` where ID = ?;', array(
-			$this->id
+			$PostInfo['ID']
 		));
 		$this->db->query('DELETE FROM `' . PREFIX . 'posts` WHERE ID=?', array(
-			$this->id
+			$PostInfo['ID']
 		));
 		$this->db->query('DELETE FROM `' . PREFIX . 'notifications` WHERE PostID=?', array(
-			$this->id
+			$PostInfo['ID']
 		));
 		//更新全站统计数据
 		$NewConfig = array(
@@ -459,6 +459,32 @@ class Manage
 	public function userDelete($UserInfo)
 	{
 		Auth(4);
+		return;
+	}
+
+	// 删除用户所有主题
+	public function userDeleteAllTopics($UserInfo)
+	{
+		Auth(4);
+		$UserTopics = $this->db->iterator("SELECT * FROM " . PREFIX . "topics WHERE UserName = :UserName AND IsDel = 0", array(
+			"UserName" => $UserInfo['UserName']
+		));
+		foreach ($UserTopics as $TopicInfo) {
+			$this->topicDelete($TopicInfo);
+		}
+		return;
+	}
+
+	// 删除用户所有主题
+	public function userDeleteAllPosts($UserInfo)
+	{
+		Auth(4);
+		$UserPosts = $this->db->iterator("SELECT * FROM " . PREFIX . "posts WHERE UserName = :UserName AND IsTopic = 0", array(
+			"UserName" => $UserInfo['UserName']
+		));
+		foreach ($UserPosts as $PostInfo) {
+			$this->postDelete($PostInfo);
+		}
 		return;
 	}
 
