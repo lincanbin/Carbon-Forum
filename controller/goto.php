@@ -10,7 +10,7 @@ if ($TopicID && $PostID) {
 		$TopicID,
 		$PostID
 	));
-	$DB->CloseConnection();
+	$DB->closeConnection();
 	$AppendURL = ($OlderPosts >= $Config['PostsPerPage']) ? ('-' . ceil(($OlderPosts + 1) / $Config['PostsPerPage'])) : '';
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Status: 301 Moved Permanently");

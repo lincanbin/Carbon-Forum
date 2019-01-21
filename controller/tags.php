@@ -14,7 +14,7 @@ $IsFavoriteArray = array();
 
 $TagsArray = $DB->query('SELECT * 
 	FROM ' . PREFIX . 'tags 
-	WHERE IsEnabled=1 AND TotalPosts>0
+	WHERE IsEnabled = 1 AND TotalPosts > 0
 	ORDER BY TotalPosts DESC 
 	LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage']);
 
@@ -26,7 +26,7 @@ if ($CurUserID && $TagsArray){
 	//var_dump($IsFavoriteArray);
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 
 $PageTitle = $Page > 1 ? ' Page' . $Page . '-' : '';
 $PageTitle .= $Lang['Hot_Tags'];

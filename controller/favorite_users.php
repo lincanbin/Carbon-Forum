@@ -21,7 +21,7 @@ if ($UsersFollowing)
             LIMIT ' . ($Page - 1) * $Config['PostsPerPage'] . ', ' . ($Config['PostsPerPage'] + 1),
         ArrayColumn($UsersFollowing, 'Title')
     );
-$DB->CloseConnection();
+$DB->closeConnection();
 
 if (count($PostsArray) > $Config['PostsPerPage']) {
     $IsLastPage = false;

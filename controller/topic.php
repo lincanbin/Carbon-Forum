@@ -92,7 +92,7 @@ if ($Page != $TotalPage || ($Topic['Replies'] + 1) % $Config['PostsPerPage'] == 
 } else {
 	$EnableQuote = false;
 }
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle = $Topic['Topic'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $PageMetaDesc    = htmlspecialchars(mb_substr(trim(strip_tags($PostsArray[0]['Content'])), 0, 150, 'utf-8'));

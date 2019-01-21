@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || $IsApp) {
 	}while(false);
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = $Lang['Sign_Up'];
 $ContentFile = $TemplatePath . 'register.php';

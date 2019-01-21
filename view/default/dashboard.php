@@ -185,6 +185,7 @@ function GenerateSelect($Options, $Name)
 						<td width="auto" align="left">
 							<?php echo GenerateSelect(array(
 								'0 seconds' => '0',
+								'5 seconds' => '5',
 								'10 seconds' => '10',
 								'30 seconds' => '30',
 								'60 seconds' => '60',

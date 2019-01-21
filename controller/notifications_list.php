@@ -1,7 +1,7 @@
 <?php
 require(LanguagePath . 'notifications.php');
 Auth(1);
-$DB->CloseConnection();
+$DB->closeConnection();
 
 // 页面变量
 $PageTitle   = $Lang['Notifications'];

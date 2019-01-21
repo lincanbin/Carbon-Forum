@@ -158,7 +158,7 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 		}
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 
 if (count($TopicsArray) > $Config['TopicsPerPage']) {
     $IsLastPage = false;

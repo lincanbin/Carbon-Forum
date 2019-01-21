@@ -42,7 +42,7 @@ foreach ($DB->query('SELECT ID,Name,TotalPosts FROM ' . PREFIX . 'tags
 $TagsDataJsonString = json_encode($TagsStatisticsData);
 unset($TagsStatisticsData);
 
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = $Lang['Statistics'];
 $ContentFile = $TemplatePath . 'statistics.php';

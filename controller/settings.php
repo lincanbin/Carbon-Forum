@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			break;
 	}
 }
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = $Lang['Settings'];
 $ContentFile = $TemplatePath . 'settings.php';

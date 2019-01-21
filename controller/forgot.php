@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle   = $Lang['Forgot_Password'];
 $ContentFile = $TemplatePath . 'forgot.php';
 include($TemplatePath . 'layout.php');

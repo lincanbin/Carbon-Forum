@@ -27,7 +27,7 @@ if (!$TopicsArray) {
 			LIMIT ' . ($Config['TopicsPerPage'] + 1));
     }
 }
-$DB->CloseConnection();
+$DB->closeConnection();
 
 if (count($TopicsArray) > $Config['TopicsPerPage']) {
     $IsLastPage = false;

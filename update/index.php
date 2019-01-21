@@ -198,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('AllowNewTopic', 'true') ON DUPLICATE KEY UPDATE ConfigValue = 'true';");
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('CloseRegistration', 'false') ON DUPLICATE KEY UPDATE ConfigValue = 'false';");
 		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('FreezingTime', '0') ON DUPLICATE KEY UPDATE ConfigValue = '0';");
-		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PostingInterval', '8') ON DUPLICATE KEY UPDATE ConfigValue = '8';");
+		$DB->query("INSERT INTO `" . DATABASE_PREFIX . "config` VALUES ('PostingInterval', '5') ON DUPLICATE KEY UPDATE ConfigValue = '5';");
 	}
 
 	//当前版本低于6.0.0，需要进行的升级到6.0.0的升级操作
@@ -299,6 +299,9 @@ ADD INDEX `UserTopics` (`UserName`, `IsDel`, `LastTimeIndex`) USING BTREE ;");
 	}
 	if (!extension_loaded('pdo_mysql')) {
 		$Message = '你的PHP未编译pdo_mysql，本程序无法正常工作<br />Your PHP don’t support pdo_mysql extension, this program does not work! ';
+	}
+	if (!extension_loaded('bcmath')) {
+		$Message = '你的PHP未编译bcmath，本程序无法正常工作<br />Your PHP don’t support bcmath extension, this program does not work! ';
 	}
 	if (!extension_loaded('mbstring')) {
 		$Message = '你的PHP未编译mbstring，本程序无法正常工作<br />Your PHP don’t support mbstring extension, this program does not work! ';

@@ -220,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle   = $Lang['Set_Your_Username'];
 $ContentFile = $TemplatePath . 'oauth.php';
 include($TemplatePath . 'layout.php');

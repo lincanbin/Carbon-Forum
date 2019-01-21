@@ -366,7 +366,7 @@ INSERT INTO `carbon_config` VALUES ('PageBottomContent', '');
 INSERT INTO `carbon_config` VALUES ('PageHeadContent', '');
 INSERT INTO `carbon_config` VALUES ('PageSiderContent', 'Hello World');
 INSERT INTO `carbon_config` VALUES ('PostsPerPage', '25');
-INSERT INTO `carbon_config` VALUES ('PostingInterval', '8');
+INSERT INTO `carbon_config` VALUES ('PostingInterval', '5');
 INSERT INTO `carbon_config` VALUES ('SiteDesc', '一个精简、高速的基于话题的新式论坛');
 INSERT INTO `carbon_config` VALUES ('SiteName', 'Carbon Forum');
 INSERT INTO `carbon_config` VALUES ('TopicsPerPage', '20');

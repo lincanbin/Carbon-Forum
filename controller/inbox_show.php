@@ -29,7 +29,7 @@ foreach ($MessagesArray as &$Value) {
 	$Value['ContactName'] = $DialogInfo['SenderID'] == $Value['ContactID'] ? $DialogInfo['SenderName'] : $DialogInfo['ReceiverName'];
 	$Value['FormatTime'] = FormatTime($Value['Time']);
 }
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = 'Show message list of some inbox';
 $ContentFile = $TemplatePath . 'inbox.php';

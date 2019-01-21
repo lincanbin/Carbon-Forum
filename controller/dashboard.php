@@ -242,7 +242,7 @@ switch ($Action) {
 		break;
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = $Lang['System_Settings'];
 $ContentFile = $TemplatePath . 'dashboard.php';

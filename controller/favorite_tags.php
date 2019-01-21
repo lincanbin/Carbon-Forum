@@ -33,7 +33,7 @@ if ($TopicIDArray)
             WHERE ID in (?) and IsDel=0 
             ORDER BY LastTimeIndex DESC',
         $TopicIDArray);
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle = $Lang['My_Following_Tags'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $ContentFile = $TemplatePath . 'favorite_tags.php';

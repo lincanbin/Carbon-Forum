@@ -30,7 +30,7 @@ if ($UserInfo['UserAccountStatus'] || $CurUserRole >= 4) {
 	$PostsArray = [];
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle    = $UserInfo['UserName'];
 $PageMetaDesc = $UserInfo['UserName'] . ' - ' . htmlspecialchars(strip_tags(mb_substr($UserInfo['UserIntro'], 0, 150, 'utf-8')));
 $ContentFile  = $TemplatePath . 'user.php';

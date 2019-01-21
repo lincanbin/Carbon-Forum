@@ -198,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		}
 	} while (false);
 }
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = $Lang['Create_New_Topic'];
 $ContentFile = $TemplatePath . 'new.php';

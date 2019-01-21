@@ -87,7 +87,7 @@ UpdateUserInfo(array(
 $CurUserInfo['NewReply'] = 0;
 $CurUserInfo['NewMention'] = 0;
 $CurUserInfo['NewMessage'] = 0;
-$DB->CloseConnection();
+$DB->closeConnection();
 // 页面变量
 $PageTitle   = $Lang['Notifications'];
 $ContentFile = $TemplatePath . 'notifications.php';

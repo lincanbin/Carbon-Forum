@@ -31,7 +31,7 @@ if ($Page <= 10)
 else
 	$TagIDArray = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
 		WHERE TagID=:TagID 
-		AND TopicID<=(SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
+		AND TopicID <= (SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
 			WHERE TagID=:TagID2 
 			ORDER BY TopicID DESC 
 			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',1) 
@@ -56,7 +56,7 @@ if ($CurUserID)
 			'FavoriteID' => $TagInfo['ID']
 		)
 	);
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle = $TagInfo['Name'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $PageMetaDesc = $TagInfo['Name'] . ' - ' . htmlspecialchars(mb_substr(trim(strip_tags($TagInfo['Description'])), 0, 150, 'utf-8'));

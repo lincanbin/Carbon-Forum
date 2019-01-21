@@ -69,7 +69,7 @@ if (!$UserInfo) {
 	}
 }
 
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle   = $Lang['Reset_Password'];
 $ContentFile = $TemplatePath . 'reset_password.php';
 include($TemplatePath . 'layout.php');

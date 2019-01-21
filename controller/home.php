@@ -35,7 +35,7 @@ if (!$TopicsArray) {
 			LIMIT ' . $Config['TopicsPerPage']);
 	}
 }
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle = $Page > 1 ? ' Page' . $Page . '-' : '';
 $PageTitle .= $Config['SiteName'];
 $PageMetaDesc = htmlspecialchars(mb_substr($Config['SiteDesc'], 0, 150, 'utf-8'));

@@ -13,7 +13,7 @@ if ($Page <= 10)
 	$TopicsArray = $DB->query('SELECT * FROM ' . PREFIX . 'favorites force index(UsersFavorites) Where UserID=? and Type=1 ORDER BY DateCreated DESC LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], array(
 		$CurUserID
 	));
-$DB->CloseConnection();
+$DB->closeConnection();
 $PageTitle = $Lang['My_Favorites'];
 $PageTitle .= $Page > 1 ? ' Page' . $Page : '';
 $ContentFile = $TemplatePath . 'favorites.php';
