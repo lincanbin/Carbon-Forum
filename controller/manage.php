@@ -466,6 +466,8 @@ class Manage
 	public function userDeleteAllTopics($UserInfo)
 	{
 		Auth(4);
+		header("Cache-Control: no-cache, must-revalidate");
+		@set_time_limit(0);
 		$UserTopics = $this->db->iterator("SELECT * FROM " . PREFIX . "topics WHERE UserName = :UserName AND IsDel = 0", array(
 			"UserName" => $UserInfo['UserName']
 		));
@@ -479,6 +481,8 @@ class Manage
 	public function userDeleteAllPosts($UserInfo)
 	{
 		Auth(4);
+		header("Cache-Control: no-cache, must-revalidate");
+		@set_time_limit(0);
 		$UserPosts = $this->db->iterator("SELECT * FROM " . PREFIX . "posts WHERE UserName = :UserName AND IsTopic = 0", array(
 			"UserName" => $UserInfo['UserName']
 		));
