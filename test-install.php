@@ -31,6 +31,7 @@ if (file_exists(__DIR__ . '/config.php')) {
 	echo "\n\n\033[32m Installation success \033[0m\n\n";
 	exit(0);
 } else {
+	echo $InstallResponse;
 	echo "\n\n\033[31m Installation failed \033[0m\n\n";
 	exit(1);
 }
