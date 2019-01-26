@@ -841,7 +841,7 @@ img .avatar {
 .member-detail {
 	float:left;
 	margin:10px;
-	max-width: 462px;
+	max-width: 302px;
 }
 .member-detail p {
 	word-break:break-all;
