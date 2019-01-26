@@ -20,34 +20,43 @@ if ($Page > $TotalPage)
 if ($Page == 0)
 	$Page = 1;
 if ($Page <= 10)
-	$TagIDArray = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
-		WHERE TagID=:TagID 
-		ORDER BY TopicID DESC 
+	$TopicsArray = $DB->query('SELECT `t`.`ID`, `t`.`Topic`, `t`.`Tags`, `t`.`UserID`, `t`.`UserName`, `t`.`LastName`, `t`.`LastTime`, `t`.`Replies`, 
+`pt`.`TopicID` 
+		FROM ' . PREFIX . 'posttags pt FORCE INDEX(TagsIndex) 
+		LEFT JOIN ' . PREFIX . 'topics t ON `t`.`ID` = `pt`.`TopicID`
+		WHERE pt.TagID = :TagID AND t.IsDel = 0 
+		ORDER BY pt.TopicID DESC 
 		LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',' . $Config['TopicsPerPage'], 
 		array(
 			'TagID' => $TagInfo['ID']
 		)
 	);
 else
-	$TagIDArray = $DB->column('SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
-		WHERE TagID=:TagID 
-		AND TopicID <= (SELECT TopicID FROM ' . PREFIX . 'posttags FORCE INDEX(TagsIndex) 
-			WHERE TagID=:TagID2 
-			ORDER BY TopicID DESC 
-			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ',1) 
-		ORDER BY TopicID DESC 
+	$TopicsArray = $DB->query('SELECT `t`.`ID`, `t`.`Topic`, `t`.`Tags`, `t`.`UserID`, `t`.`UserName`, `t`.`LastName`, `t`.`LastTime`, `t`.`Replies`, 
+`pt`.`TopicID` 
+		FROM ' . PREFIX . 'posttags pt FORCE INDEX(TagsIndex) 
+		LEFT JOIN ' . PREFIX . 'topics t ON `t`.`ID` = `pt`.`TopicID`
+		WHERE pt.TagID = :TagID AND t.IsDel = 0 
+		AND pt.TopicID <= (SELECT `pt`.`TopicID` FROM ' . PREFIX . 'posttags pt FORCE INDEX(TagsIndex) 
+			LEFT JOIN ' . PREFIX . 'topics t ON `t`.`ID` = `pt`.`TopicID`
+			WHERE pt.TagID = :TagID2 AND t.IsDel = 0 
+			ORDER BY pt.TopicID DESC 
+			LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', 1) 
+		ORDER BY pt.TopicID DESC 
 		LIMIT ' . $Config['TopicsPerPage'], 
 		array(
 			'TagID' => $TagInfo['ID'],
 			'TagID2' => $TagInfo['ID']
 		)
 	);
+/*
 $TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
 	FROM ' . PREFIX . 'topics FORCE INDEX(PRI) 
 	WHERE ID in (?) AND IsDel=0 
 	ORDER BY LastTimeIndex DESC',
 	$TagIDArray
 );
+*/
 if ($CurUserID)
 	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites 
 		WHERE UserID=:UserID AND Type=2 AND FavoriteID=:FavoriteID", 
