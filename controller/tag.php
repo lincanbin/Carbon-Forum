@@ -49,14 +49,7 @@ else
 			'TagID2' => $TagInfo['ID']
 		)
 	);
-/*
-$TopicsArray = $DB->query('SELECT `ID`, `Topic`, `Tags`, `UserID`, `UserName`, `LastName`, `LastTime`, `Replies` 
-	FROM ' . PREFIX . 'topics FORCE INDEX(PRI) 
-	WHERE ID in (?) AND IsDel=0 
-	ORDER BY LastTimeIndex DESC',
-	$TagIDArray
-);
-*/
+
 if ($CurUserID)
 	$IsFavorite = $DB->single("SELECT ID FROM " . PREFIX . "favorites 
 		WHERE UserID=:UserID AND Type=2 AND FavoriteID=:FavoriteID", 
