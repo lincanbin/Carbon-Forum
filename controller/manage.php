@@ -293,11 +293,12 @@ class Manage
 	{
 		Auth(4, $TopicInfo['UserID'], true);
 		$TagName = Request('Post', 'TagName');
-		if (($this->config['AllowEmptyTags'] === 'true' || (count(explode('|', $TopicInfo['Tags']))) > 1) && $this->db->query("DELETE FROM `" . PREFIX . "posttags` 
+		if (($this->config['AllowEmptyTags'] === 'true' || (count(explode('|', $TopicInfo['Tags']))) > 1)) {
+			$this->db->query("DELETE FROM `" . PREFIX . "posttags` 
 					WHERE TopicID = ? AND TagID IN (SELECT ID FROM `" . PREFIX . "tags` WHERE Name = ?)", array(
 				$this->id,
 				$TagName
-			))) {
+			));
 			// 更新标签统计数据
 			$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts = IF(TotalPosts > 0, TotalPosts - 1, 0) WHERE `Name`=?", array(
 				$TagName
