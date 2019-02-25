@@ -685,7 +685,7 @@ function TagsDiff($Arr1, $Arr2)
 			$Arr1[$Key] = htmlspecialchars(trim($Arr1[$Key])); //XSS
 		}
 	}
-	sort($Arr1);
+	sort(array_unique($Arr1));
 	return $Arr1;
 }
 
