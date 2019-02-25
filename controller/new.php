@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	$Title     = Request('Post', 'Title');
 	$Content   = Request('Post', 'Content');
-	$TagsArray = isset($_POST['Tag']) ? $_POST['Tag'] : array();
+	$TagsArray = isset($_POST['Tag']) ? array_unique($_POST['Tag']) : array();
 	do {
 		if ($Config['AllowNewTopic'] === 'false' && $CurUserRole < 3) {
 			$Error     = $Lang['Prohibited_New_Topic'];
