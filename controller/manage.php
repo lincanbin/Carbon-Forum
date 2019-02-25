@@ -158,7 +158,7 @@ class Manage
 			));
 			//更新标签统计
 			if ($TopicInfo['Tags']) {
-				$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts =  LEAST(TotalPosts - 1, 0) WHERE `Name` in (?)", explode('|', $TopicInfo['Tags']));
+				$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts =  GREATEST(TotalPosts - 1, 0) WHERE `Name` in (?)", explode('|', $TopicInfo['Tags']));
 			}
 			$this->message = $this->lang['Deleted'];
 		} else {
@@ -299,7 +299,7 @@ class Manage
 				$TagName
 			))) {
 			// 更新标签统计数据
-			$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts = LEAST(TotalPosts - 1, 0) WHERE `Name`=?", array(
+			$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts = GREATEST(TotalPosts - 1, 0) WHERE `Name`=?", array(
 				$TagName
 			));
 			// 更新Topics表里的Tags缓存
