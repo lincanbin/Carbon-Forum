@@ -186,7 +186,7 @@ class Manage
 			));
 			//更新标签统计
 			if ($TopicInfo['Tags']) {
-				$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts = TotalPosts + 1 WHERE `Name` in (?)", array_unique(explode('|', $TopicInfo['Tags'])));
+				$this->db->query("UPDATE `" . PREFIX . "tags` SET TotalPosts = TotalPosts + 1 WHERE `Name` in (?)", explode('|', $TopicInfo['Tags']));
 			}
 			$this->message = $this->lang['Recovered'];
 		} else {
