@@ -294,7 +294,7 @@ class Manage
 		Auth(4, $TopicInfo['UserID'], true);
 		$TagName = Request('Post', 'TagName');
 		if (($this->config['AllowEmptyTags'] === 'true' || (count(explode('|', $TopicInfo['Tags']))) > 1) && $this->db->query("DELETE FROM `" . PREFIX . "posttags` 
-					WHERE TopicID = ? AND TagID = (SELECT ID FROM `" . PREFIX . "tags` WHERE Name = ?)", array(
+					WHERE TopicID = ? AND TagID IN (SELECT ID FROM `" . PREFIX . "tags` WHERE Name = ?)", array(
 				$this->id,
 				$TagName
 			))) {
