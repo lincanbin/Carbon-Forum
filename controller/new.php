@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				);
 				//var_dump($NewTags);
 			}
-			$TagsArray      = array_merge($TagsExist, $NewTags);
+			$TagsArray      = array_unique(array_merge($TagsExist, $NewTags));
 			$AutoIncrementID = $DB->single('SELECT
 					AUTO_INCREMENT
 				FROM
