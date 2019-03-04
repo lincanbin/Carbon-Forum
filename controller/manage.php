@@ -153,7 +153,7 @@ class Manage
 			);
 			UpdateConfig($NewConfig);
 			//更新用户自身统计数据
-			$this->db->query("UPDATE `" . PREFIX . "users` SET Topics=Topics-1 WHERE `ID`=?", array(
+			$this->db->query("UPDATE `" . PREFIX . "users` SET Topics=IF(Topics > 0, Topics - 1, 0) WHERE `ID`=?", array(
 				$TopicInfo['UserID']
 			));
 			//更新标签统计
