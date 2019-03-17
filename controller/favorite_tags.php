@@ -15,10 +15,10 @@ if ($TagsFollowing)
 `pt`.`TopicID`  
             FROM ' . PREFIX . 'posttags pt force index(TagsIndex) 
             LEFT JOIN ' . PREFIX . 'topics t ON `t`.`ID` = `pt`.`TopicID`
-            WHERE pt.TagID in (?) AND t.IsDel = 0  
+            WHERE pt.TagID in (:TagIDList) AND t.IsDel = 0  
             ORDER BY pt.TopicID DESC 
             LIMIT ' . ($Page - 1) * $Config['TopicsPerPage'] . ', ' . ($Config['TopicsPerPage'] + 1),
-        ArrayColumn($TagsFollowing, 'FavoriteID'));
+        array('TagIDList' => ArrayColumn($TagsFollowing, 'FavoriteID')));
 
 if (count($TopicsArray) > $Config['TopicsPerPage']) {
     $IsLastPage = false;

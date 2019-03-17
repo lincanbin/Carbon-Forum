@@ -56,8 +56,8 @@ switch (Request('Request', 'action')) {
 					$SQLParameters[] = $value;
 				}
 			}
-			$TagsLists1 = $DB->column("SELECT Name FROM " . PREFIX . "tags WHERE Name IN (?)", $SQLParameters);
-			$TagsLists2 = $DB->column("SELECT Title FROM " . PREFIX . "dict WHERE Title IN (?) GROUP BY Title", $SQLParameters);
+			$TagsLists1 = $DB->column("SELECT Name FROM " . PREFIX . "tags WHERE Name IN (:TagNameList)", array('TagNameList' => $SQLParameters));
+			$TagsLists2 = $DB->column("SELECT Title FROM " . PREFIX . "dict WHERE Title IN (:DictList) GROUP BY Title", array('DictList' => $SQLParameters));
 			//$TagsLists2 = array();
 			$TagsLists = array_merge($TagsLists1, array_diff($TagsLists2, $TagsLists1));
 			//获取热门话题

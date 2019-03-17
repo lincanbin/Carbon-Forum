@@ -78,7 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $DB->beginTransaction();
             //获取已存在的标签
 			if (!empty($TagsArray)) {
-				$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . PREFIX . "tags` WHERE `Name` IN (?)", $TagsArray);
+				$TagsExistArray = $DB->query("SELECT ID, Name FROM `" . PREFIX . "tags` WHERE `Name` IN (:TagList)", array(
+					'TagList' => $TagsArray
+				));
 			} else {
 				$TagsExistArray = array();
 			}
@@ -179,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				}
 				//更新标签统计数据
 				if ($TagsExist) {
-					$DB->query("UPDATE `" . PREFIX . "tags` SET TotalPosts=TotalPosts+1, MostRecentPostTime=" . $TimeStamp . " WHERE `Name` in (?)", $TagsExist);
+					$DB->query("UPDATE `" . PREFIX . "tags` SET TotalPosts=TotalPosts+1, MostRecentPostTime=" . $TimeStamp . " WHERE `Name` in (:TagsExist)", array('TagsExist' => $TagsExist));
 				}
 				//添加提醒消息
 				AddingNotifications($Content, $TopicID, $PostID);

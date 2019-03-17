@@ -102,8 +102,8 @@ if (defined('SearchServer') && SearchServer && !$AdvancedSearch) {
 						p.`ID` AS PostID,
 						p.`PostTime` AS LastTime
 					FROM ' . PREFIX . 'topics  t, ' . PREFIX . 'posts p 
-					WHERE t.ID=p.TopicID and p.ID in (?) and t.IsDel=0 
-					ORDER BY p.PostTimeIndex DESC', $PostIdList);
+					WHERE t.ID=p.TopicID and p.ID in (:PostIdList) and t.IsDel=0 
+					ORDER BY p.PostTimeIndex DESC', array('PostIdList' => $PostIdList));
 				foreach ($TopicsArray as &$row) {
 					$excerpts          = SearchClient::callProxy('buildExcerpts', array(
 						array(

@@ -20,8 +20,8 @@ $TagsArray = $DB->query('SELECT *
 
 if ($CurUserID && $TagsArray){
 	$IsFavoriteArray = array_flip($DB->column("SELECT FavoriteID FROM " . PREFIX . "favorites 
-		Where UserID=".$CurUserID." and Type=2 and FavoriteID in (?)",
-		ArrayColumn($TagsArray, 'ID')
+		Where UserID=".$CurUserID." and Type=2 and FavoriteID in (:FavoriteID)",
+		array('FavoriteID' => ArrayColumn($TagsArray, 'ID'))
 	));
 	//var_dump($IsFavoriteArray);
 }

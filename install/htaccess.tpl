@@ -33,7 +33,7 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 	# Handle Front Controller...
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^ index.php [L]
+	RewriteRule ^ index.php [L,E=PATH_INFO:$1]
 </IfModule>
 
 # Expire static files after a month in the client's cache

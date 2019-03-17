@@ -148,7 +148,9 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 			if (!$InTransaction) {
 				$DB->beginTransaction();
 			}
-			$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` IN (?)', $TemporaryUserList);
+			$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` IN (:UserList)', array(
+				'UserList' => $TemporaryUserList
+			));
 			if ($UserList && count($UserList) <= 20) {
 				//最多@ 20人，防止骚扰
 				foreach ($UserList as $UserID) {
