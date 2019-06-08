@@ -254,7 +254,7 @@ ADD INDEX `UserTopics` (`UserName`, `IsDel`, `LastTimeIndex`) USING BTREE ;");
 			  KEY `TopicID` (`TopicID`,`PostTimeIndex`) USING BTREE,
 			  KEY `UserPosts` (`UserName`,`PostTimeIndex`) USING BTREE
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-			$DB->query("UPDATE `carbon`.`" . DATABASE_PREFIX . "posts`
+			$DB->query("UPDATE `" . DATABASE_PREFIX . "posts`
 				SET `PostTimeIndex` = CONV(
 					CONCAT(
 						HEX(PostTime),
@@ -264,7 +264,7 @@ ADD INDEX `UserTopics` (`UserName`, `IsDel`, `LastTimeIndex`) USING BTREE ;");
 					16,
 					10
 				);");
-			$DB->query("UPDATE `carbon`.`" . DATABASE_PREFIX . "topics`
+			$DB->query("UPDATE `" . DATABASE_PREFIX . "topics`
 				SET `LastTimeIndex` = CONV(
 					CONCAT(
 						HEX(LastTime),
