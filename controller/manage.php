@@ -148,8 +148,9 @@ class Manage
 				"ID" => $TopicInfo['ID']
 			));
 			//更新全站统计数据
+			$this->config["NumTopics"]--;
 			$NewConfig = array(
-				"NumTopics" => $this->config["NumTopics"] - 1
+				"NumTopics" => $this->config["NumTopics"]
 			);
 			UpdateConfig($NewConfig);
 			//更新用户自身统计数据
@@ -176,8 +177,9 @@ class Manage
 				"ID" => $this->id
 			));
 			//更新全站统计数据
+			$this->config["NumTopics"]++;
 			$NewConfig = array(
-				"NumTopics" => $this->config["NumTopics"] + 1
+				"NumTopics" => $this->config["NumTopics"]
 			);
 			UpdateConfig($NewConfig);
 			//更新用户自身统计数据
@@ -394,8 +396,9 @@ class Manage
 			$PostInfo['ID']
 		));
 		//更新全站统计数据
+		$this->config["NumPosts"]--;
 		$NewConfig = array(
-			"NumPosts" => $this->config["NumPosts"] - 1
+			"NumPosts" => $this->config["NumPosts"]
 		);
 		UpdateConfig($NewConfig);
 		//更新主题统计数据
