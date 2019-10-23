@@ -205,6 +205,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (VersionCompare('6.0.0', $OldVersion)) {
 		$DB->beginTransaction();
 		try {
+			$Mb4MigrationQueries = Db::GetSqlQueriesFromFile(__DIR__ . '/migrate_utf8mb4.sql');
+			foreach ($Mb4MigrationQueries as $Query) {	
+				$DB->query($Query);
+			}
+			
 			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "blogs`;");
 			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "blogsettings`;");
 			$DB->query("DROP TABLE IF EXISTS `" . DATABASE_PREFIX . "vote`;");
@@ -253,7 +258,7 @@ ADD INDEX `UserTopics` (`UserName`, `IsDel`, `LastTimeIndex`) USING BTREE ;");
 			  PRIMARY KEY (`ID`),
 			  KEY `TopicID` (`TopicID`,`PostTimeIndex`) USING BTREE,
 			  KEY `UserPosts` (`UserName`,`PostTimeIndex`) USING BTREE
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 			$DB->query("UPDATE `" . DATABASE_PREFIX . "posts`
 				SET `PostTimeIndex` = CONV(
 					CONCAT(

@@ -69,13 +69,13 @@ class DB
 			if (!empty($this->DBName)) {
 				$dsn .= 'dbname=' . $this->DBName . ';';
 			}
-			$dsn .= 'charset=utf8;';
+			$dsn .= 'charset=utf8mb4;';
 			$this->pdo = new PDO($dsn,
 				$this->DBUser,
 				$this->DBPassword,
 				array(
 					//For PHP 5.3.6 or lower
-					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
 					PDO::ATTR_EMULATE_PREPARES => false,
 
 					//长连接
@@ -87,7 +87,7 @@ class DB
 			);
 			/*
 			//For PHP 5.3.6 or lower
-			$this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
+			$this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8mb4');
 			$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			//$this->pdo->setAttribute(PDO::ATTR_PERSISTENT, true);//长连接
@@ -322,6 +322,49 @@ class DB
 	{
 		$this->Init($query, $params);
 		return $this->sQuery->fetchColumn();
+	}
+	
+	/**
+	 * 从文件中逐条取SQL
+	 *
+	 * @param $filepath
+	 * @return array
+	 */
+	public static function GetSqlQueriesFromFile($filepath)
+	{
+		$fp = fopen($filepath, "r") or die("SQL文件无法打开。  The SQL File could not be opened.");
+		$ret = array();
+		while (true) {
+			$sql = "";
+			while ($line = fgets($fp, 40960)) {
+				$line = trim($line);
+				//以下三句在高版本php中不需要，在部分低版本中也许需要修改
+				/*
+				$line = str_replace("////","//",$line);
+				$line = str_replace("/’","’",$line);
+				$line = str_replace("//r//n",chr(13).chr(10),$line);
+				*/
+				//$line = stripcslashes($line);
+				if (strlen($line) > 1) {
+					if ($line[0] == "-" && $line[1] == "-") {
+						continue;
+					}
+				}
+				$sql .= $line . chr(13) . chr(10);
+				if (strlen($line) > 0) {
+					if ($line[strlen($line) - 1] == ";") {
+						break;
+					}
+				}
+			}
+			if ($sql) {
+				array_push($ret, $sql);
+			} else {
+				break;
+			}
+		}
+		fclose($fp) or die("Can’t close file");
+		return $ret;
 	}
 
 	/**
