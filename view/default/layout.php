@@ -154,7 +154,7 @@ if(!$IsAjax){
 						<input type="text" id="SearchInput"
 							   onkeydown="javascript:if((event.keyCode==13)&&(this.value!='')){$('#SearchButton').trigger('click');}"
 							   placeholder="<?php echo $Lang['Search']; ?>"<?php echo $UrlPath == 'search' && !empty($Keyword) ? ' value="' . $Keyword . '"' : ''; ?> />
-						<a href="###" id="SearchButton">
+						<a href="javascript:;" id="SearchButton">
 							<div class="icon icon-search"></div>
 						</a>
 					</div>

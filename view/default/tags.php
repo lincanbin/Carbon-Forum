@@ -29,7 +29,7 @@ foreach ($TagsArray as $Tag) {
 <?php
 if($CurUserID){
 ?>				<div class="btn float-right">
-					<a href="###" onclick="javascript:Manage(<?php echo $Tag['ID']; ?>, 4, 2, false, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $Tag['ID']; ?>, 4, 2, false, this);">
 						<?php echo isset($IsFavoriteArray[$Tag['ID']])?$Lang['Unfollow']:$Lang['Follow']; ?>
 					</a>
 				</div>

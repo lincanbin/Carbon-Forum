@@ -39,7 +39,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<?php
 				if ($CurUserID != $UserInfo['ID']) {
 					?>
-					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);">
 						<?php echo $IsFavorite ? $Lang['Unfollow'] : $Lang['Follow']; ?>
 					</a>
 					<a href="<?php echo $Config['WebsitePath']; ?>/inbox/<?php echo urlencode($UserInfo['UserName']); ?>">
@@ -50,19 +50,19 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				if ($CurUserRole >= 4) {
 					?>
 					<div class="c"></div>
-					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);">
 						<?php echo $UserInfo['UserAccountStatus'] ? $Lang['Block_User'] : $Lang['Unblock_User']; ?>
 					</a>
 
-					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'ResetAvatar', true, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'ResetAvatar', true, this);">
 						<?php echo $Lang['Reset_Avatar']; ?>
 					</a>
 					<div class="c"></div>
-					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'DeleteAllTopics', true, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'DeleteAllTopics', true, this);">
 						<?php echo $Lang['Delete_All_Topics']; ?>
 					</a>
 
-					<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'DeleteAllPosts', true, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'DeleteAllPosts', true, this);">
 						<?php echo $Lang['Delete_All_Posts']; ?>
 					</a>
 					<?php

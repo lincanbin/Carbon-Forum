@@ -22,7 +22,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						</a>
 					</h2>
 					<span class="item-tags">
-						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
+						<a href="javascript:;" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
 					</span>
 					<span class="item-date float-right">
 						<?php echo $Lang['Collected_In'].FormatTime($Topic['DateCreated']); ?>

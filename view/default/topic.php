@@ -55,7 +55,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					</div>
 					<?php
 					if ($CurUserRole >= 4 || $Topic['UserID'] == $CurUserID) { ?>
-						<a href="###" class="edittag" onclick="javascript:EditTags();">
+						<a href="javascript:;" class="edittag" onclick="javascript:EditTags();">
 							<?php echo $Lang['Edit_Tags']; ?>
 						</a>
 						<?php
@@ -68,7 +68,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						if ($Topic['Tags']) {
 							foreach (explode("|", $Topic['Tags']) as $Tag) {
 								?>
-								<a href="###"
+								<a href="javascript:;"
 								   onclick="javascript:DeleteTag(<?php echo $ID; ?>, this, '<?php echo $Tag; ?>');">
 									<?php echo $Tag; ?>&nbsp;×
 								</a>
@@ -80,7 +80,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<div class="c"></div>
 					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="float-left w200"
 						   placeholder="<?php echo $Lang['Add_Tags']; ?>"/>
-					<a href="###" class="edittag" onclick="javascript:CompletedEditingTags();">
+					<a href="javascript:;" class="edittag" onclick="javascript:CompletedEditingTags();">
 						<?php echo $Lang['Complete_Edit_Tags']; ?>
 					</a>
 				</div>
@@ -91,18 +91,18 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					if ($CurUserRole >= 4) {
 						if ($Topic['IsDel'] == 0) {
 							?>
-							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);"
+							<a href="javascript:;" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);"
 							   style="float:right;">
 								<?php echo $Lang['Delete']; ?>
 							</a>
 							<?php
 						} else {
 							?>
-							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Recover', false, this);"
+							<a href="javascript:;" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Recover', false, this);"
 							   style="float:right;">
 								<?php echo $Lang['Recover']; ?>
 							</a>
-							<a href="###"
+							<a href="javascript:;"
 							   onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'PermanentlyDelete', true, this);"
 							   style="float:right;">
 								<?php echo $Lang['Permanently_Delete']; ?>
@@ -110,15 +110,15 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							<?php
 						}
 						?>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);"
+						<a href="javascript:;" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);"
 						   style="float:right;">
 							<?php echo $Topic['IsLocked'] ? $Lang['Unlock'] : $Lang['Lock']; ?>
 						</a>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Sink', true, this);"
+						<a href="javascript:;" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Sink', true, this);"
 						   style="float:right;">
 							<?php echo $Lang['Sink']; ?>
 						</a>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Rise', true, this);"
+						<a href="javascript:;" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Rise', true, this);"
 						   style="float:right;">
 							<?php echo $Lang['Rise']; ?>
 						</a>
@@ -128,7 +128,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<?php
 					if ($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Topic['UserID'] == $CurUserID)) {
 						?>
-						<a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);"
+						<a href="javascript:;" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);"
 						   style="float:right;">
 							<?php echo $Lang['Edit']; ?>
 						</a>
@@ -136,7 +136,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					}
 					if ($CurUserID) {
 						?>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 4, 1, false, this);"
+						<a href="javascript:;" onclick="javascript:Manage(<?php echo $ID; ?>, 4, 1, false, this);"
 						   style="float:right;">
 							<?php echo $IsFavorite ? $Lang['Unsubscribe'] : $Lang['Collect']; ?>
 						</a>
@@ -197,12 +197,12 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 								<div class="float-left">
 									<?php
 									if ($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Post['UserID'] == $CurUserID)) {
-										?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);"
+										?><a href="javascript:;" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);"
 											 title="<?php echo $Lang['Edit']; ?>">
 											<div class="icon icon-edit"></div>
 										</a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
 									<?php if ($CurUserRole >= 4) { ?>
-										<a href="###"
+										<a href="javascript:;"
 										   onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);"
 										   title="<?php echo $Lang['Delete']; ?>">
 											<div class="icon icon-delete"></div>

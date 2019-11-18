@@ -41,7 +41,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <?php
 if($CurUserID){
 ?>
-	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);" class="link">
+	<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 4, 3, false, this);" class="link">
 		<?php echo $IsFavorite?$Lang['Unfollow']:$Lang['Follow']; ?>
 	</a>
 	<a href="<?php echo $Config['WebsitePath']; ?>/inbox/<?php echo urlencode($UserInfo['UserName']); ?>" class="link">
@@ -50,7 +50,7 @@ if($CurUserID){
 <?php
 	if($CurUserRole>=4){
 ?>
-	<a href="###" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);" class="link">
+	<a href="javascript:;" onclick="javascript:Manage(<?php echo $UserInfo['ID']; ?>, 3, 'Block', true, this);" class="link">
 		<?php echo $UserInfo['UserAccountStatus']?$Lang['Block_User']:$Lang['Unblock_User']; ?>
 	</a>
 <?php

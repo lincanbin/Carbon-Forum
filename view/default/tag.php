@@ -99,7 +99,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				<?php
 				if ($CurUserID) {
 					?>
-					<a href="###" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 4, 2, false, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 4, 2, false, this);">
 						<?php echo $IsFavorite ? $Lang['Unfollow'] : $Lang['Follow']; ?></a>
 					<?php
 				}
@@ -111,18 +111,18 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 							});
 						});
 					</script>
-					<a href="###" class="edittag" onclick="javascript:EditTagDescription();">
+					<a href="javascript:;" class="edittag" onclick="javascript:EditTagDescription();">
 						<?php echo $Lang['Edit_Description']; ?>
 					</a>
 					<div class="c"></div>
-					<a href="###" onclick="javascript:UploadTagIcon(<?php echo $TagInfo['ID']; ?>);">
+					<a href="javascript:;" onclick="javascript:UploadTagIcon(<?php echo $TagInfo['ID']; ?>);">
 						<?php echo $Lang['Upload_A_New_Icon']; ?>
 					</a>
 					<?php
 				}
 				if ($CurUserRole >= 4) {
 					?>
-					<a href="###" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 5, 'SwitchStatus', true, this);">
+					<a href="javascript:;" onclick="javascript:Manage(<?php echo $TagInfo['ID']; ?>, 5, 'SwitchStatus', true, this);">
 						<?php echo $TagInfo['IsEnabled'] ? $Lang['Disable_Tag'] : $Lang['Enable_Tag']; ?>
 					</a>
 					<?php

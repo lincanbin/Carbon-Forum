@@ -27,7 +27,7 @@ $(document).ready(function(){
 				<div>
 					<div class="float-left w300 img-center">
 						<img id="CurAvatar" src="<?php echo UploadPath; ?>avatar/large/<?php echo $CurUserID; ?>.png?cache=<?php echo $TimeStamp; ?>" alt="<?php echo $CurUserName; ?>" />
-						<p><a href="###" onclick="javascript:Manage(<?php echo $CurUserID; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
+						<p><a href="javascript:;" onclick="javascript:Manage(<?php echo $CurUserID; ?>, 3, 'ResetAvatar', true, this);"><?php echo $Lang['Reset_Avatar']; ?></a></p>
 					</div>
 					
 					<div class="float-right w300" style="margin-right:20px">
