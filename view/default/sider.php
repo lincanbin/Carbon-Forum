@@ -22,7 +22,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 				</p>
 				<p><input type="submit" value="<?php echo $Lang['Log_In']; ?>" name="submit" class="textbtn" style="margin:0 78px;" /></p>
 				<p class="fs14 text-center">
-					<a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<?php
+					if ($Config['CloseRegistration'] !== 'false') {
+					?>
+					<a href="<?php echo $Config['WebsitePath']; ?>/register"><?php echo $Lang['Sign_Up']; ?></a>&nbsp;&nbsp;&nbsp;
+					<?php
+					}
+					?>
 					<a href="<?php echo $Config['WebsitePath']; ?>/forgot"><?php echo $Lang['Forgot_Password']; ?></a>
 				</p>
 			</form>

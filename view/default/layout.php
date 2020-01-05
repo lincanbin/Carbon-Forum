@@ -185,10 +185,12 @@ if(!$IsAjax){
 						<a href="<?php echo $Config['WebsitePath']; ?>/new"<?php echo $UrlPath == 'new' ? ' class="buttons-active"' : ''; ?>><?php echo $Lang['Create_New_Topic']; ?></a>
 						<?php
 					} else {
+						if ($Config['CloseRegistration'] !== 'false') {
 						?>
 						<a href="<?php echo $Config['WebsitePath']; ?>/register"<?php echo $UrlPath == 'register' ? ' class="buttons-active"' : ''; ?>>
 							<?php echo $Lang['Sign_Up']; ?>
 						</a>
+						<?php } ?>
 						<a href="<?php echo $Config['WebsitePath']; ?>/login"<?php echo $UrlPath == 'login' ? ' class="buttons-active"' : ''; ?>>
 							<?php echo $Lang['Log_In']; ?>
 						</a>
