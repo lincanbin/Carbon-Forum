@@ -21,7 +21,6 @@ if (is_writable(dirname(dirname(__FILE__))) === false) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$fp = fopen(__DIR__ . '/database.sql', "r") or die("SQL文件无法打开。  The SQL File could not be opened.");
 	//dobefore
 	if (isset($_POST["Language"]) && isset($_POST["DBHost"]) && isset($_POST["DBName"]) && isset($_POST["DBUser"]) && isset($_POST["DBPassword"])) {
 		$Language = $_POST['Language'];
@@ -53,15 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	$DB = new Db($DBHost, 3306, $DBName, $DBUser, $DBPassword);
 	//数据库安装
-	while ($SQL = GetNextSQL()) {
-		$DB->query($SQL);
+	$Queries = Db::GetSqlQueriesFromFile(__DIR__ . '/database.sql');
+	foreach ($Queries as $Query) {	
+		$DB->query($Query);
 	}
 	$DB->query("INSERT INTO `" . PREFIX . "config` VALUES ('WebsitePath', '" . $WebsitePath . "')");
 	$DB->query("INSERT INTO `" . PREFIX . "config` VALUES ('LoadJqueryUrl', '" . $WebsitePath . "/static/js/jquery.js')");
 	$DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . date('Y-m-d') . "' WHERE `ConfigName`='DaysDate'");
 	$DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . $Version . "' WHERE `ConfigName`='Version'");
 	$DB->CloseConnection();
-	fclose($fp) or die("Can’t close file");
 
 	//写入config文件
 	$ConfigPointer = fopen(__DIR__ . '/config.tpl', 'r');
@@ -130,36 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$Message = 'dom，本程序无法正常工作<br />Your PHP don’t support dom extension, this program does not work! ';
 	}
 }
-
-//从文件中逐条取SQL
-function GetNextSQL()
-{
-	global $fp;
-	$sql = "";
-	while ($line = fgets($fp, 40960)) {
-		$line = trim($line);
-		//以下三句在高版本php中不需要，在部分低版本中也许需要修改
-		/*
-		$line = str_replace("////","//",$line);
-		$line = str_replace("/’","’",$line);
-		$line = str_replace("//r//n",chr(13).chr(10),$line);
-		*/
-		//$line = stripcslashes($line);
-		if (strlen($line) > 1) {
-			if ($line[0] == "-" && $line[1] == "-") {
-				continue;
-			}
-		}
-		$sql .= $line . chr(13) . chr(10);
-		if (strlen($line) > 0) {
-			if ($line[strlen($line) - 1] == ";") {
-				break;
-			}
-		}
-	}
-	return $sql;
-}
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
